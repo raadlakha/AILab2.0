@@ -1,0 +1,178 @@
+# 05 — MCP Elastic Integration
+
+> **Release:** Zurich Patch 4+ | **Flow:** Fulfiller Flow — External Tool Integration
+> **Source:** [Enable MCP and A2A for your agentic workflows](https://www.servicenow.com/community/now-assist-articles/enable-mcp-and-a2a-for-your-agentic-workflows-with-faqs-updated/ta-p/3373907) | [AI Agent Studio — Manage MCP servers](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/model-context-protocol-client/concept/add-mcp-client-on-ai-agent-studio.html)
+
+---
+
+## What It Is
+
+**Model Context Protocol (MCP)** is an open standard (created by Anthropic, Nov 2024) that allows AI agents to connect to external tools, databases, and APIs in a consistent and discoverable way. ServiceNow's Zurich Patch 4 release introduces native MCP client support — making ServiceNow AI Agents able to consume external MCP servers as tool providers.
+
+In this lab, ServiceNow acts as the **MCP client** and Elastic (Kibana) acts as the **MCP server**. The Elastic MCP server exposes the Veritas NetBackup log analysis and RCA tools — allowing the `First Responder Operations Analyst Agent` or the Fulfiller Flow agents to query Elastic directly as a named tool, without needing a custom REST integration.
+
+```
+ServiceNow AI Agent (MCP Client)
+        │
+        │  JSON-RPC 2.0 over HTTPS (Streamable HTTP transport)
+        │
+        ▼
+Elastic Kibana MCP Server
+https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp
+        │
+        ▼
+Veritas NetBackup log indices → RCA tools exposed as MCP tool definitions
+```
+
+---
+
+## Prerequisites
+
+| Requirement | Detail |
+|-------------|--------|
+| ServiceNow release | Zurich Patch 4 or later (MCP client support added in Zurich Patch 4) |
+| Plugin | `sn_mcp_client` — must be Active. If **Manage MCP servers** is not visible in AI Agent Studio Settings, log an Incident for "CNS - Application Delivery Controller" to enable it |
+| Role | `sn_aia.admin` or `admin` |
+| Elastic deployment | Kibana endpoint active and MCP agent builder enabled |
+| API key | Elastic API key with access to the MCP endpoint (generated in Kibana → API Keys) |
+
+---
+
+## Step 1: Validate Connectivity Before Configuring
+
+Before registering the MCP server in ServiceNow, verify the Elastic endpoint is reachable and the API key is valid. Run the following curl from a terminal that has network access to the Elastic deployment:
+
+```bash
+curl -X POST \
+  "https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp" \
+  -H "Authorization: <key>" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"test-client","version":"1.0.0"},"capabilities":{},"protocolVersion":"2024-11-05"},"jsonrpc":"2.0"}'
+```
+
+Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`).
+
+**Expected response:** A JSON-RPC 2.0 response containing the MCP server's `serverInfo`, `protocolVersion: "2024-11-05"`, and `capabilities` object — confirming the endpoint is live and the API key is authorised.
+
+> **Protocol version note:** ServiceNow's MCP client supports protocol version `2024-11-05`. If the Elastic MCP server returns a protocol version mismatch error, confirm the Kibana deployment is on a compatible MCP version.
+
+---
+
+## Step 2: Navigate to Manage MCP Servers
+
+Navigate to **All → AI Agent Studio → Settings → Manage MCP servers**.
+
+The **Manage Model Context Protocol servers** page lists all registered MCP server connections. This is the central registry for all external tool providers available to AI Agents in this instance.
+
+> **Navigation:** From AI Agent Studio, click the **Settings** tab in the top nav → select **Manage MCP servers** from the left nav panel (under External AI agents).
+
+---
+
+## Step 3: Add the Elastic MCP Server
+
+Click **Add MCP server**. The **Add MCP server** dialog opens.
+
+![Add MCP server — elasticMCPConn](../screenshots/MCPConnect1.png)
+
+Configure the following fields:
+
+| Field | Value |
+|-------|-------|
+| Name | `elasticMCPConn` |
+| Authentication type | `API Key` |
+| MCP server URL | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
+| API key | *(enter your Elastic API key — leave blank in lab environments without a live key)* |
+
+> **Authentication type — API Key:** ServiceNow's MCP client supports three authentication modes: OAuth 2.1 (recommended for production), API Key, and Authless. API Key is used here because Elastic Kibana's MCP endpoint uses API key authentication. The key is stored securely as a Connection & Credential Alias — it is not stored in plaintext.
+>
+> **MCP server URL:** This is the Kibana agent builder MCP endpoint. It uses Streamable HTTP transport (the successor to SSE transport in the MCP spec). The `/api/agent_builder/mcp` path is Kibana's native MCP server mount point.
+
+Click **Add**.
+
+---
+
+## Step 4: Verify the MCP Server Record
+
+After adding, ServiceNow creates a **Model Context Protocol Server** record and a corresponding **Connection Alias**.
+
+![MCP server record — elasticMCPConn](../screenshots/MCPConnect2.png)
+
+Verify the record:
+
+| Field | Value |
+|-------|-------|
+| Server name | `elasticMCPConn` |
+| Connection Alias | `elasticMCPConn_1774940033699` *(auto-generated)* |
+| Application | `Global` |
+
+> **Connection Alias** is the platform credential record (`sn_cc_alias`) that stores the API key and URL securely. It is referenced by the MCP client when establishing sessions with the Elastic server. The auto-generated suffix (`_<timestamp>`) ensures uniqueness across multiple MCP server registrations.
+>
+> **Third-party data routing warning:** The banner shown in the screenshot references KB2596322 — ServiceNow's advisory that MCP server connections may route data through third-party providers outside your region. Review this with your security and compliance team before using in production. In this lab, data sent to the Elastic MCP server includes Incident context and query strings derived from NADI-extracted fields.
+
+---
+
+## Step 5: Use the MCP Server Tool in an AI Agent
+
+Once registered, the `elasticMCPConn` MCP server's tools are available as **MCP server tool** type in the AI Agent Studio tool picker.
+
+To add an Elastic MCP tool to an AI Agent:
+
+1. Navigate to the AI Agent → **Add tools and information** tab
+2. Click **Add tool ▼** → select **MCP server tool**
+3. Select `elasticMCPConn` as the server
+4. The available tools exposed by the Elastic MCP server will be listed — select the relevant log analysis or RCA tool
+5. Configure the tool inputs and conditions as required
+
+> The tools available from the MCP server are discovered dynamically using the MCP `tools/list` method at connection time. The list reflects whatever tools Kibana's agent builder has configured on the Elastic side — no manual tool definition is needed in ServiceNow.
+
+---
+
+## Key Configuration Summary
+
+| Field | Value |
+|-------|-------|
+| MCP server name | `elasticMCPConn` |
+| Authentication type | API Key |
+| MCP server URL | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
+| API key | *(your Elastic API key)* |
+| Connection Alias | `elasticMCPConn_1774940033699` (auto-generated) |
+| Application scope | Global |
+| Protocol version | `2024-11-05` |
+| Transport | Streamable HTTP |
+| Navigation | All → AI Agent Studio → Settings → Manage MCP servers |
+
+---
+
+## Technical Notes
+
+### MCP Client Architecture in ServiceNow
+
+ServiceNow acts as the MCP **client** in this integration. The platform manages session lifecycle, authentication headers, and JSON-RPC 2.0 message framing. When an AI Agent invokes an MCP server tool during a conversation, the platform:
+
+1. Looks up the Connection Alias for the named MCP server
+2. Sends an `initialize` handshake to establish the session
+3. Calls `tools/list` to discover available tools
+4. Invokes the selected tool via `tools/call` with the provided inputs
+5. Returns the tool response to the agent's context window
+
+### Session Expiry
+
+MCP sessions have a finite lifetime. After a session expires, further requests return a `400` error. ServiceNow refreshes sessions per-user — each user's first request after expiry generates a new session. If you observe consistent 400 errors across all users, check the `sn_mcp_client_server_session_mapping` table for accumulated stale sessions and clear them.
+
+### API Key Security
+
+The API key is stored in the Connection Alias (`sn_cc_alias`) and is never exposed in plaintext after entry. Access to the Connection Alias record is controlled by ACLs — restrict it to the minimum required roles (`sn_aia.admin`) to prevent credential exposure.
+
+### Protocol Version Compatibility
+
+The MCP `initialize` handshake negotiates the protocol version. ServiceNow's client uses `2024-11-05`. Ensure the Elastic Kibana MCP server is on a compatible version. If there is a mismatch, the connection will fail with a protocol version error in the ServiceNow system log (`sn_mcp_client.MCPRequestExecutor: MCP Protocol not supported version`).
+
+---
+
+## Reference
+
+- [Enable MCP and A2A for your agentic workflows — ServiceNow Community](https://www.servicenow.com/community/now-assist-articles/enable-mcp-and-a2a-for-your-agentic-workflows-with-faqs-updated/ta-p/3373907)
+- [Add an MCP server in AI Agent Studio — ServiceNow Docs](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/model-context-protocol-client/concept/add-mcp-client-on-ai-agent-studio.html)
+- [MCP — The Protocol Powering Agentic AI — ServiceNow Community](https://www.servicenow.com/community/ceg-ai-coe-articles/mcp-the-protocol-powering-agentic-ai/ta-p/3508887)
+- [Elastic Kibana — MCP Agent Builder endpoint documentation](https://www.elastic.co/docs)
