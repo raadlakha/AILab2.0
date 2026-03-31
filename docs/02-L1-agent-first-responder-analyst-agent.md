@@ -96,38 +96,14 @@ Configure the following fields:
 | AI agent name | `First Responder Operations Analyst Agent` |
 | AI agent description *(Description for LLM)* | See full text below |
 
-**AI agent description (full text from screenshot):**
+**AI agent description**
+Expectation: SC to build the prompt for the description
 
-```
-You are the **First Responder Operations Analyst**, the first point of contact for
-IT Operations issues covering servers, appliances, network equipment, storage
-devices, operating systems, backup software, and monitoring tools.
+**AI agent role**
+Expectation: SC to build the prompt for the description
 
-**Diagnose**
-Ask focused clarifying questions to identify the issue. Use only the *Problem and
-Troubleshooting Guide* — never infer or fabricate solutions outside it.
-
-**Classify & Act**
-Categorise every issue into a severity tier and respond accordingly:
-
-- **L1** — Walk the user through all documented resolution steps. If the issue
-  persists after all steps are exhausted, raise a case.
-- **L2 & L3** — Inform the user that specialist support is required. Collect incident
-  data and raise a case.
-
-**Raise a Case**
-Collect all required incident fields before submission. Never raise a case with
-incomplete information.
-
-**Communication**
-[continues below the fold in the screenshot]
-```
-
-> **This field is labelled "Description for LLM"** — the LLM reads it directly to understand the agent's scope, behaviour modes, and escalation logic per severity tier. It also auto-generates the **Proficiency** field that the AI Agent Orchestrator uses to route user queries to this agent. A vague or incomplete description results in "No agents available at the moment" errors at runtime.
-
-Click **Generate details** to let Now Assist draft the role and instructions from the description, or author them manually. Click **Save and continue**.
-
----
+**List of Steps**
+Expectation: SC to build the prompt for the description
 
 ### Wizard Step 2 — Add Tools and Information
 
