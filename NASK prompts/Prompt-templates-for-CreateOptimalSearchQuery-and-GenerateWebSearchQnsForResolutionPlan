@@ -1,0 +1,86 @@
+************ Your role here is to fill in the content (in your own words) of what the prompt should be for the CreateOptimalSearchQuery and GenerateWebSearchQnsForResolutionPlan Custom Now Assist Skills that you are building ************
+
+A few things to consider as you start on this exercise:
+1. Prompt templates will be provided for you in each of the Now Assist Custom Skill that you are building.
+2. Consider using LLMs (e.g. Claude) to help you build robust prompts. It is a mix of science and art to experiment and play around with to get the right permutation and combination that fits uniquely for your instance.
+3. Think along the spectrum of being declarative and procedural in how you want to express your commands within the prompt. Being too procedural in how you think lands you in more rigid, deterministic workflows. Being too declarative on the other hand might result in the prompt being overly wide in scope, affecting the overall output.
+4. Think about the edge cases/scenarios that can possibly happen in your flow, and make sure you incorporate them in your prompt as well.
+5. What are the different ways and styles to write effective prompt? Can Chain-of-thought prompting be used? What about field-shot prompting? Consider your alternatives carefully in your scenario.
+
+
+
+########### CreateOptimalSearchQuery Custom Now Assist Skill ###########
+Prompt template:
+1. Describe the AI Agent/LLM's role in this Now Assist Skill
+2. What information about the Incident Extend record is the LLM being provided with?
+3. What is the LLM's goal in this prompt?
+4. Sections that can be useful in your prompt:
+    4a. <Behaviour Guidelines for the LLM>
+    4b. <Formatting Rules for the LLM>
+    4c. <Output template - please specify to the LLM that you want the output to be this way:>
+    4d. <Examples that you want the LLM to learn from (field shot prompting)>
+
+
+### OUTPUT TEMPLATE - under section 4c ###
+ISSUE: {rewrite short_description as a single declarative sentence in operational style}
+SYMPTOMS: {extract observable symptoms from description and work_notes, comma-separated}
+ERROR: {error_code verbatim, plus canonical message text if known}
+SYSTEM: {product — cleaned to core identity} ({cmdb_ci})
+CATEGORY: {category, refined with subcategory from context}
+DESCRIPTION: {2-3 sentence natural language synthesis of description + work_notes + error_code}
+
+
+### FEW-SHOT EXAMPLES
+Below are reference examples showing how to transform incident record fields into optimised search queries. Each example shows the raw input fields followed by the formatted output.
+---
+### Example 1: Matches L1 backup appliance symptom (job failure)
+**Input fields:**
+| Field | Value |
+|---|---|
+| Short Description | Backup job failed for prod DB server |
+| Description | Nightly full backup for production Oracle database server failed at 02:15. Checked the backup console and the job shows failed. Tried restarting the job but same error. The source server agent doesn't seem to be responding. |
+| Error Code | *(empty)* |
+| Work Notes | Checked bpcd service on source server - service is stopped. Port 13724 connection refused. No recent changes to backup policy or source server. Job was fine yesterday. |
+| Configuration Item | NBU-APP-5240-PC01 |
+| Category | Backup Operations |
+| Product Name | Veritas NetBackup Appliance 5240 |
+| Product Bar Code | SYS-VES-NBU5240-222 |
+| Serial Number | NBU5240-SG-2024-0847 |
+
+**Formatted search query:**
+ISSUE: Scheduled backup job shows as failed for the production database server
+SYMPTOMS: Job status shows failed in backup console, source server agent service stopped, port 13724 connection refused, manual job restart produces same failure
+ERROR: Client agent not responding — connection refused on port 13724
+SYSTEM: Veritas NetBackup Appliance 5240 (NBU-APP-5240-PC01)
+CATEGORY: Backup Operations / Job Failure
+DESCRIPTION: The nightly full backup job for the production Oracle database server failed at 02:15 with a client agent connection error. The NetBackup client agent (bpcd) on the source server is not responding on port 13724 and the service is confirmed stopped. The job had been completing successfully until last night with no recent changes to the backup policy or source server. Restarting the job manually produced the same failure.
+---
+
+### Example 2: Matches NetBackup status code 2106
+**Input fields:**
+| Field | Value |
+|---|---|
+| Short Description | Multiple backup jobs failing - storage server down |
+| Description | Since this morning, all backup jobs targeting cloud storage are failing. Activity monitor shows the storage unit as unavailable. We did certificate maintenance on the media servers last week. |
+| Error Code | 2106 |
+| Work Notes | Verified CloudStore Service running on master server. Need to check media server. Cloud tier to AWS S3 is affected. Possible stale certificates on media server after last week's cert work. |
+| Configuration Item | NBU-MS-WIN-PC03 |
+| Category | Storage |
+| Product Name | Veritas NetBackup 10.1.1 Master Server |
+| Product Bar Code | *(empty)* |
+| Serial Number | *(empty)* |
+
+**Formatted search query:**
+ISSUE: Backup jobs failing with status code 2106 indicating disk storage server is down
+SYMPTOMS: Multiple backup jobs failing simultaneously, storage unit unavailable in activity monitor, cloud storage tiering jobs to AWS S3 failing
+ERROR: Status Code 2106 — Disk storage server is down
+SYSTEM: Veritas NetBackup 10.1.1 Master Server (NBU-MS-WIN-PC03)
+CATEGORY: Storage / Disk Failure
+DESCRIPTION: Multiple backup jobs began failing simultaneously with NetBackup status code 2106, indicating the disk storage server has been marked as down. The issue affects all jobs targeting the cloud storage unit backed by AWS S3. The NetBackup CloudStore Service was verified running on the master server but may not be running on the configured media server. Recent certificate maintenance was performed on the media servers last week, which may have left stale or missing NetBackup certificates on one or more media servers.
+
+########################################################################
+
+
+
+
+########### GenerateWebSearchQnsForResolutionPlan Custom Now Assist Skill ###########
