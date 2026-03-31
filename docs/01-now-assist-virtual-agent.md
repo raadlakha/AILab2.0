@@ -169,7 +169,7 @@ The fourth section is **Knowledge Graphs**.
 
 Verify the Knowledge Graph is connected. This enables:
 - User identification via the **User Graph** (role, department, previous interactions)
-- Slot-filling — pre-populating `caller_id`, `cmdb_ci`, `department` from the user's graph context
+- Slot-filling is for pre-populating `caller_id`, `cmdb_ci`, `department` from the user's graph context - however empty/None for today's configuration.
 - Semantic search across KB articles indexed in the Knowledge Graph
 
 > The L1 Requestor Agent uses the Knowledge Graph as **Tool 1** to query user context and identify the affected CI at the start of every conversation.
