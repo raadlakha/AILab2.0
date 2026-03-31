@@ -32,10 +32,13 @@ NAVA receives user message (contact_type = chat stamped)
         │
         ▼
 Step 2: L1 Agent triggered by AI Agent Planner
-        │  Queries User Graph → identifies role, department, CI
+        │  Tool 1 (Knowledge Graph — User Graph)
+        │  → silently identifies user role, department, affected CI
+        │  → no questions asked to the user
         ▼
-Step 3: Agent presents Troubleshooting Guide
-        │  via Conversation Topic tool → steps delivered in chat
+Step 3: Agent guides user through initial troubleshooting
+        │  Tool 2 (File Upload — Troubleshooting Guide)
+        │  → OOTB troubleshooting steps presented to user in chat
         ▼
    ┌────┴──────────────────────────────┐
    │  Decision: Issue resolved?         │
@@ -46,29 +49,34 @@ Step 3: Agent presents Troubleshooting Guide
         NO  → Continue to Step 4
                    │
                    ▼
-Step 4: Agent requests user to upload error screenshots
-        │  and device detail images via File Upload tool
+Step 4: Agent prompts user to upload error screenshots + device images
+        │  Tool 3 (Conversation Topic — OOTB image upload)
+        │  → native in-chat image upload experience triggered
         ▼
-Step 5: Incident created (state = New)
-        │  uploaded images attached to Incident record
+Step 5: Incident created and submitted (state = New, contact_type = chat)
+        │  Tool 4 (Subflow — Incident creation)
+        │  → fires after images are uploaded
+        │  → creates Incident record with images already attached
         ▼
 Now Assist Document Intelligence auto-triggers on attachments
 (see 04-now-assist-document-intelligence.md)
 ```
 
-> **Deflection is the optimal outcome.** If the Troubleshooting Guide resolves the issue, no Incident is created and no downstream automation fires.
+> **Deflection is the optimal outcome.** If troubleshooting resolves the issue in chat, no Incident is created and no downstream automation fires.
+>
+> **Tool 4 (Subflow) fires after Tool 3.** The Incident creation subflow is deliberately sequenced after image upload — the Incident record is only created once images are attached, making it immediately NADI-ready.
 
 ---
 
 ## What the L1 Agent Enables
 
-| Capability | How the L1 Agent Delivers It |
-|-----------|------------------------------|
-| User contextualisation | Knowledge Graph query identifies the user's role and affected CI before any conversation step |
-| Guided troubleshooting | Troubleshooting Guide steps delivered conversationally through the Conversation Topic tool |
-| Deflection | If resolved in chat, no Incident created — reduces ticket volume |
-| Structured image collection | File Upload tool prompts the user to upload error screenshots and device labels in-chat |
-| Enriched Incident creation | Incident created with `state = New`, images attached — arming NADI for downstream extraction |
+| Capability | Tool | How the L1 Agent Delivers It |
+|-----------|------|------------------------------|
+| Silent user contextualisation | Tool 1 — Knowledge Graph | Queries the User Graph to identify the caller's role, department, and affected CI — no questions asked |
+| Guided initial troubleshooting | Tool 2 — File Upload (Troubleshooting Guide) | Walks the user through OOTB troubleshooting steps in chat before escalating |
+| Deflection | — | If troubleshooting resolves the issue, no Incident created — reduces ticket volume |
+| In-chat image upload | Tool 3 — Conversation Topic (OOTB) | Triggers the native in-chat image upload experience for error screenshots and device label images |
+| Enriched Incident creation | Tool 4 — Subflow | Creates and submits the Incident record **after** images are captured — `state = New`, images attached, NADI-ready |
 
 ---
 
@@ -94,7 +102,7 @@ Navigate to **All → AI Agent Studio → Create and manage → AI Agents** → 
 
 ![L1 Agent — New AI Agent form](../screenshots/L1-Agent.png)
 
-> This lands you on the new AI Agent form. The **Create and manage** tab is the entry point for building both Agentic Workflows and AI Agents. Select the **AI Agents** sub-tab, then click **New** on the right-hand side.
+> The **Create and manage** tab is the entry point for both Agentic Workflows and AI Agents. Select the **AI Agents** sub-tab, then click **New** on the right-hand side to open the new agent form.
 
 ---
 
@@ -109,11 +117,11 @@ Fill in the agent's identity fields:
 | Field | Value |
 |-------|-------|
 | Name | `L1 First Responder Analyst` |
-| Description | `Handles user-reported IT infrastructure issues via NAVA. Identifies the user via Knowledge Graph, delivers troubleshooting steps, collects device images, and creates an enriched Incident record.` |
+| Description | `Handles user-reported IT infrastructure issues via NAVA. Identifies the user via Knowledge Graph, guides initial troubleshooting, collects device images, and creates an enriched Incident record.` |
 
 The **AI agent role** and **Instructions** fields are prompt fields for SCs to author based on their specific use case design. Max lengths: Role = 2,000 chars, Instructions = 8,000 chars.
 
-> **Proficiency is auto-generated** from the agent's description and role. It determines which user queries the Orchestrator routes to this agent. If the Proficiency is missing or vague, you will get "No agents available at the moment" errors in NAVA — add it as a column in the AI Agents list view to inspect it.
+> **Proficiency is auto-generated** from the agent's description and role. It determines which user queries the Orchestrator routes to this agent. If missing or vague, you will get "No agents available at the moment" errors in NAVA — add it as a column in the AI Agents list view to inspect it.
 
 Click **Save and continue**.
 
@@ -121,9 +129,11 @@ Click **Save and continue**.
 
 ### Step 3: Add Tools — "Add tools and information" Tab
 
-Click the **Add tools and information** tab to configure tools for this agent.
+Click the **Add tools and information** tab to configure all four tools for this agent.
 
-#### Tool 1 — Knowledge Graph
+---
+
+#### Tool 1 — Knowledge Graph (User Graph)
 
 ![L1 Agent — Tool 1 list view](../screenshots/L1-Agent-Tool1.png)
 
@@ -132,43 +142,45 @@ Click the **Add tools and information** tab to configure tools for this agent.
 | Field | Value |
 |-------|-------|
 | Tool type | **Knowledge Graph** |
-| Name | *User Graph* |
-| Schema | User Schema - role, manager, department* |
-| Description | *This tool is primarily to get user context for the requestor persona* |
+| Schema | User Graph schema — captures user role, department, manager, and affected CI |
+| Description | `Retrieves user context for the requestor — role, department, and affected CI — so the agent can personalise the conversation without asking the user to provide this information.` |
 
-> The Knowledge Graph tool gives the agent access to the User Graph — allowing it to identify the caller's role, department, etc. without asking the user.
+> This tool fires first. The agent silently queries the User Graph at the start of the conversation to build context before responding to the user.
 
 ---
 
-#### Tool 2 — Subflow
+#### Tool 2 — File Upload (Troubleshooting Guide)
 
-![L1 Agent — Tool 2 (Subflow)](../screenshots/L1-agent-tool2.png)
+![L1 Agent — Tool 2 overview](../screenshots/L1-agent-tool2.png)
 
-![L1 Agent — Subflow tool config](../screenshots/L1-agent-tool2-subflow.png)
+![L1 Agent — File Upload tool config](../screenshots/L1-agent-tool2-subflow.png)
 
-![L1 Agent — Subflow tool detail](../screenshots/L1-agent-tool2-subflow2.png)
+![L1 Agent — File Upload tool detail](../screenshots/L1-agent-tool2-subflow2.png)
 
 | Field | Value |
 |-------|-------|
-| Tool type | **Subflow** |
-| Subflow | *(select the Troubleshooting Guide subflow from Flow Designer)* |
-| Description | *(describe what this tool retrieves — guides the LLM on when to invoke it)* |
+| Tool type | **File Upload** |
+| Description | `Presents the Troubleshooting Guide to the user in chat. Walks the user through initial self-service steps for their reported issue type. If the steps resolve the issue, the conversation ends without creating an Incident.` |
+
+> This is the deflection gate. The agent uses this tool to attempt resolution in chat before escalating to image collection and Incident creation.
 
 ---
 
-#### Tool 3 — Conversation Topic
+#### Tool 3 — Conversation Topic (OOTB Image Upload)
 
 ![L1 Agent — Conversation Topic tool](../screenshots/L1-agent-tool-conv-topic.png)
 
 | Field | Value |
 |-------|-------|
 | Tool type | **Conversation Topic** |
-| Topic | *(select the Troubleshooting Guide Conversation Topic)* |
-| Description | *(describe the conversational delivery purpose)* |
+| Topic | OOTB image upload conversation topic |
+| Description | `Triggers the native in-chat image upload experience. Used to collect error screenshots and device label images from the user when the Troubleshooting Guide has not resolved the issue.` |
+
+> This is the OOTB ServiceNow conversation topic that renders an in-chat file picker for the user. The agent invokes this tool only after the user confirms the troubleshooting steps did not resolve their issue.
 
 ---
 
-#### Tool 4 — File Upload
+#### Tool 4 — Subflow (Incident Creation)
 
 ![L1 Agent — File Upload tool](../screenshots/L1-agent-tool4-file-upload.png)
 
@@ -176,10 +188,11 @@ Click the **Add tools and information** tab to configure tools for this agent.
 
 | Field | Value |
 |-------|-------|
-| Tool type | **File Upload** |
-| Description | *(describe the purpose — the agent will use this to collect error screenshots and device images)* |
+| Tool type | **Subflow** |
+| Subflow | Incident creation and submission subflow |
+| Description | `Creates and submits the Incident record after the user has uploaded their images. Sets state = New and contact_type = chat. Attaches the uploaded images to the Incident at creation time so that Now Assist Document Intelligence can immediately trigger on the attachments.` |
 
-> **This tool is the bridge to NADI.** Files uploaded by the user via this tool are attached to the Incident record. NADI (Capability 04) auto-triggers on those attachments and extracts `u_extracted_error_code`.
+> **This tool fires last and only after Tool 3 completes.** The sequencing is intentional — the Incident record is created with images already attached, so NADI has everything it needs to extract `u_extracted_error_code` and arm the downstream Resolution Pathfinder workflow.
 
 ---
 
@@ -208,10 +221,10 @@ Ensure the agent has access to:
 
 | Table | Purpose |
 |-------|---------|
-| `incident` | Create Incident records |
+| `incident` | Create Incident records via Tool 4 (Subflow) |
 | `cmdb_ci` | Resolve affected CI from Knowledge Graph |
 | `sys_user` | Identify caller from logged-in session |
-| Extended Incident table | Write fields populated downstream by NADI |
+| Extended Incident table | Write `u_extracted_error_code` and related fields downstream |
 
 ---
 
@@ -234,12 +247,13 @@ Navigate to the **User Access** section.
 Navigate to **AI Agent Studio → Testing**.
 
 1. Enter a test scenario describing an IT infrastructure issue
-2. Verify the agent invokes the correct tools in sequence
-3. Confirm an Incident is created with `state = New` and `contact_type = chat`
-4. Confirm uploaded images are attached to the Incident record
-5. Verify NADI triggers on the attachments and populates `u_extracted_error_code`
+2. Verify Tool 1 fires first — agent greets user with context already resolved (no "who are you" questions)
+3. Verify Tool 2 presents troubleshooting steps — confirm deflection path if user says resolved
+4. If not resolved — verify Tool 3 triggers the in-chat image upload experience
+5. After images uploaded — verify Tool 4 creates the Incident with `state = New`, `contact_type = chat`, and images attached
+6. Verify NADI triggers on the attachments and populates `u_extracted_error_code`
 
-> If you get **"No agents available at the moment"**: check that AI Search is enabled, the AI Agent is Active, the **Proficiency** is populated, and **Virtual Agent experience** is toggled on.
+> If you get **"No agents available at the moment"**: check that AI Search is enabled, the AI Agent is Active, **Proficiency** is populated, and **Virtual Agent experience** is toggled on.
 
 ---
 
@@ -250,26 +264,31 @@ Navigate to **AI Agent Studio → Testing**.
 | AI Agent name | L1 First Responder Analyst |
 | Role required to configure | `sn_aia.admin` |
 | User role required to invoke | `now_assist_panel_user` |
-| Tool 1 | Knowledge Graph — User Graph |
-| Tool 2 | Subflow — Troubleshooting Guide |
-| Tool 3 | Conversation Topic — Troubleshooting Guide |
-| Tool 4 | File Upload — error screenshots and device images |
+| Tool 1 | Knowledge Graph — User Graph (user contextualisation) |
+| Tool 2 | File Upload — Troubleshooting Guide (initial self-service) |
+| Tool 3 | Conversation Topic — OOTB image upload (in-chat file picker) |
+| Tool 4 | Subflow — Incident creation (fires after images uploaded) |
 | Virtual Agent experience | Toggled on |
 | Incident state on creation | `New` |
 | Incident contact_type | `chat` |
-| Images attached | Yes — triggers NADI |
+| Images attached at creation | Yes — NADI triggers immediately |
 
 ---
 
 ## Technical Notes
 
-### Proficiency Field
+### Tool Execution Order
 
-The Orchestrator uses Proficiency to match incoming user queries to the right agent. It is generated from the agent's description and role content — check it by adding it as a column in the AI Agents list view. If blank or too generic, the Orchestrator will not route queries here and will return "No agents available."
+The four tools are designed to execute in a specific sequence driven by the agent's instructions:
+
+1. **Tool 1 (Knowledge Graph)** — fires immediately to build user context silently
+2. **Tool 2 (File Upload / Troubleshooting Guide)** — presented to the user; deflection gate
+3. **Tool 3 (Conversation Topic)** — triggers only if user confirms issue is unresolved
+4. **Tool 4 (Subflow)** — fires only after Tool 3 completes image upload, ensuring the Incident is created with attachments
 
 ### Why `state = New` (Not `In Progress`)?
 
-The L1 Agent creates the Incident with `state = New` deliberately. The state transitions to `In Progress` only after NADI successfully extracts `u_extracted_error_code`. This ensures the Resolution Pathfinder Agentic Workflow trigger conditions are only met once all enrichment is complete:
+The Subflow creates the Incident with `state = New` deliberately. The state transitions to `In Progress` only after NADI successfully extracts `u_extracted_error_code`. This ensures the Resolution Pathfinder Agentic Workflow trigger conditions are only met once all enrichment is complete:
 
 ```
 Agentic Workflow trigger conditions:
@@ -277,6 +296,10 @@ Agentic Workflow trigger conditions:
   ✓ contact_type = chat            ← stamped by NAVA (Capability 01)
   ✓ u_extracted_error_code ≠ empty ← populated by NADI (Capability 04)
 ```
+
+### Proficiency Field
+
+The Orchestrator uses Proficiency to match incoming user queries to the right agent. It is generated from the agent's description and role content — check it by adding it as a column in the AI Agents list view. If blank or too generic, the Orchestrator will not route queries here and will return "No agents available."
 
 ---
 
