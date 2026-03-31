@@ -132,11 +132,11 @@ Click the **Add tools and information** tab to configure tools for this agent.
 | Field | Value |
 |-------|-------|
 | Tool type | **Knowledge Graph** |
-| Name | *(name the tool)* |
-| Schema | IT Infrastructure schema *(configured in Capability 03)* |
-| Description | *(describe what this tool does for the agent — used by the LLM to decide when to call it)* |
+| Name | *User Graph* |
+| Schema | User Schema - role, manager, department* |
+| Description | *This tool is primarily to get user context for the requestor persona* |
 
-> The Knowledge Graph tool gives the agent access to the User Graph — allowing it to identify the caller's role, department, and affected CI without asking the user.
+> The Knowledge Graph tool gives the agent access to the User Graph — allowing it to identify the caller's role, department, etc. without asking the user.
 
 ---
 
