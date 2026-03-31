@@ -1,17 +1,15 @@
 # 02 — L1 / First Responder Analyst Agent
 
 > **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Steps 2–5)
-> **Source:** [ServiceNow Zurich — Now Assist AI agents](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/ai-agent-studio.html) | [Create an AI agent](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/configure-next-best-action-agent.html) | [Add tools and information](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/add-tool-aia.html)
+> **Source:** [ServiceNow Zurich — AI Agent Studio](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/ai-agent-studio.html) | [Create an AI agent](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/configure-next-best-action-agent.html) | [Add tools and information](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/add-tool-aia.html)
 
 ---
 
 ## What It Is
 
-The **L1 / First Responder Analyst Agent** is an **AI Agent** built in **AI Agent Studio** and connected to an **Agentic Workflow** (Use Case). It is the first automated intelligence that engages after NAVA routes a user message — taking over the conversation and orchestrating the Requestor Flow from user intake through to Incident creation.
+The **L1 / First Responder Analyst Agent** is an **AI Agent** built in **AI Agent Studio**. It is the first automated intelligence that engages after NAVA routes a user message — taking over the conversation and orchestrating the Requestor Flow from user intake through to Incident creation.
 
-### Platform Structure — Zurich
-
-In Zurich, the correct hierarchy is:
+In Zurich, the correct platform hierarchy is:
 
 ```
 Agentic Workflow (Use Case)   ← the business problem / why
@@ -21,9 +19,7 @@ Agentic Workflow (Use Case)   ← the business problem / why
                 └── Tools      ← the actions / how
 ```
 
-The **Agentic Workflow** defines the overall business objective (handle IT infrastructure issues reported via chat). The **AI Agent** is the specialist attached to that workflow. **Tools** are the platform capabilities the agent uses to execute its tasks.
-
-Navigation: **All → AI Agent Studio → Create and manage → Use Cases → New**
+This section covers building the **AI Agent** only. The Agentic Workflow that connects this agent to the NAVA trigger is configured separately.
 
 ---
 
@@ -92,116 +88,59 @@ Now Assist Document Intelligence auto-triggers on attachments
 
 ## Lab Exercise — Steps to Build
 
-### Step 1: Open AI Agent Studio
+### Step 1: Open AI Agent Studio → Create and Manage → AI Agents
 
-Navigate to **All → AI Agent Studio → Overview**
+Navigate to **All → AI Agent Studio → Create and manage → AI Agents** → click **New**
 
-![L1 Agent — AI Agent Studio overview](../screenshots/L1-Agent.png)
+![L1 Agent — New AI Agent form](../screenshots/L1-Agent.png)
 
-> This is the central surface for all agentic AI configuration. From here you access **Agentic Workflows**, **AI Agents**, and the **Testing** console. The **Create and manage** tab gives you the list views.
+> This lands you on the new AI Agent form. The **Create and manage** tab is the entry point for building both Agentic Workflows and AI Agents. Select the **AI Agents** sub-tab, then click **New** on the right-hand side.
 
 ---
 
-### Step 2: Create the Agentic Workflow (Use Case)
+### Step 2: Configure Describe and Instruct
 
-Navigate to **All → AI Agent Studio → Create and manage → Use Cases → New**
+The new agent form opens on the **Describe and instruct** section.
 
-Configure the agentic workflow:
+![L1 Agent — Describe and instruct section](../screenshots/L1-Agent2.png)
+
+Fill in the agent's identity fields:
 
 | Field | Value |
 |-------|-------|
-| Name | `IT Infrastructure Issue — Requestor Flow` |
-| Description | `Handles user-reported IT infrastructure issues via NAVA chat. Delivers troubleshooting guidance, collects supporting images, and creates an enriched Incident record for downstream agentic resolution.` |
-| Goal | `Deflect the issue in chat if possible. If not, create an Incident with uploaded images attached so that Now Assist Document Intelligence can extract the error code and arm the Resolution Pathfinder workflow.` |
+| Name | `L1 First Responder Analyst` |
+| Description | `Handles user-reported IT infrastructure issues via NAVA. Identifies the user via Knowledge Graph, delivers troubleshooting steps, collects device images, and creates an enriched Incident record.` |
 
-Under **Select channel and status**, set:
+The **AI agent role** and **Instructions** fields are prompt fields for SCs to author based on their specific use case design. Max lengths: Role = 2,000 chars, Instructions = 8,000 chars.
 
-| Setting | Value |
-|---------|-------|
-| Display | **Engage via Now Assist Panel** — enables the agentic workflow to surface in NAVA |
-| Status | Active |
+> **Proficiency is auto-generated** from the agent's description and role. It determines which user queries the Orchestrator routes to this agent. If the Proficiency is missing or vague, you will get "No agents available at the moment" errors in NAVA — add it as a column in the AI Agents list view to inspect it.
 
 Click **Save and continue**.
 
 ---
 
-### Step 3: Create the AI Agent — Describe and Instruct
+### Step 3: Add Tools — "Add tools and information" Tab
 
-Within the Agentic Workflow, scroll to **Connect AI Agents** → click **Add AI Agent** → **New**.
+Click the **Add tools and information** tab to configure tools for this agent.
 
-![L1 Agent — Describe and instruct section](../screenshots/L1-Agent2.png)
+#### Tool 1 — Knowledge Graph
 
-Under the **Describe and instruct** section, configure:
-
-| Field | Value |
-|-------|-------|
-| Name | `L1 First Responder Analyst` |
-| Description | `Identifies the user via Knowledge Graph, delivers troubleshooting steps, collects device images, and creates an enriched Incident record.` |
-| Proficiency | `This agent handles IT infrastructure issues reported via the NAVA chat interface. It searches the Knowledge Graph to identify the affected user and CI, presents troubleshooting steps, collects error screenshots and device label images, and creates Incident records when the issue cannot be deflected in chat.` |
-
-> **Proficiency is critical.** The AI Agent Orchestrator uses this field to decide which agent to invoke for a given user query. If the proficiency is missing or vague, you will get "No agents available at the moment" errors in NAVA.
-
-In the **AI agent role** field (max 2,000 characters):
-
-```
-You are the L1 First Responder Analyst, an AI assistant embedded in the IT support chat. Your role is to help users experiencing IT infrastructure issues — such as servers being unreachable, applications being inaccessible, or device failures. Always attempt to resolve the issue in chat before creating a ticket.
-```
-
-In the **Instructions** field (max 8,000 characters):
-
-```
-You are the L1 First Responder Analyst. Follow these steps in order:
-
-Step 1: Use the KnowledgeGraphSearch tool to identify the user's role, department, and the affected CI based on their message. Do not ask the user for information that can be retrieved from the Knowledge Graph.
-
-Step 2: Use the TroubleshootingGuide tool to retrieve the relevant troubleshooting steps for the reported issue type. Present the steps clearly and conversationally to the user.
-
-Step 3: Ask the user: "Have these steps resolved your issue?" Wait for their response.
-- If YES: Thank the user and close the conversation. Do not create an Incident.
-- If NO: Proceed to Step 4.
-
-Step 4: Ask the user to upload a screenshot of the error they are seeing AND a photo of the device label if applicable. Use the UploadImage tool to collect the files.
-
-Step 5: Create an Incident record with:
-  - state = New
-  - contact_type = chat
-  - caller_id = logged-in user
-  - cmdb_ci = affected CI identified in Step 1
-  - short_description = user-reported description
-  - Attach all uploaded images to the Incident record
-  Inform the user: "I have created Incident [number]. Our systems will investigate automatically."
-
-Constraints:
-- Always attempt deflection before creating a ticket.
-- Never ask for information that can be retrieved from the Knowledge Graph.
-- Keep responses concise and jargon-free.
-- If the user does not upload images, still create the Incident. Note: NADI will not auto-trigger without attachments, but the Incident must not be blocked.
-```
-
----
-
-### Step 4: Add Tools — "Add tools and information" Tab
-
-Click the **Add tools and information** tab to configure all tools for this agent.
-
-#### Tool 1 — Knowledge Graph Search
-
-![L1 Agent — Tool 1 overview](../screenshots/L1-Agent-Tool1.png)
+![L1 Agent — Tool 1 list view](../screenshots/L1-Agent-Tool1.png)
 
 ![L1 Agent — Knowledge Graph tool config](../screenshots/L1-agent-tool-kg1.png)
 
 | Field | Value |
 |-------|-------|
-| Tool name | `KnowledgeGraphSearch` |
 | Tool type | **Knowledge Graph** |
+| Name | *(name the tool)* |
 | Schema | IT Infrastructure schema *(configured in Capability 03)* |
-| Description | `Search the Knowledge Graph to identify the user's role, department, and affected CI. Also retrieves relevant KB articles and troubleshooting runbooks.` |
+| Description | *(describe what this tool does for the agent — used by the LLM to decide when to call it)* |
 
-> The Knowledge Graph query at Step 2 of the Requestor Flow provides the user context that pre-populates Incident fields — reducing clarifying questions and improving deflection accuracy.
+> The Knowledge Graph tool gives the agent access to the User Graph — allowing it to identify the caller's role, department, and affected CI without asking the user.
 
 ---
 
-#### Tool 2 — Troubleshooting Guide (Subflow)
+#### Tool 2 — Subflow
 
 ![L1 Agent — Tool 2 (Subflow)](../screenshots/L1-agent-tool2.png)
 
@@ -211,10 +150,9 @@ Click the **Add tools and information** tab to configure all tools for this agen
 
 | Field | Value |
 |-------|-------|
-| Tool name | `TroubleshootingGuide` |
 | Tool type | **Subflow** |
 | Subflow | *(select the Troubleshooting Guide subflow from Flow Designer)* |
-| Description | `Retrieve the troubleshooting guide steps relevant to the user's reported issue type. Returns a structured list of steps to deliver conversationally.` |
+| Description | *(describe what this tool retrieves — guides the LLM on when to invoke it)* |
 
 ---
 
@@ -224,14 +162,13 @@ Click the **Add tools and information** tab to configure all tools for this agen
 
 | Field | Value |
 |-------|-------|
-| Tool name | `ConversationTopicGuide` |
 | Tool type | **Conversation Topic** |
 | Topic | *(select the Troubleshooting Guide Conversation Topic)* |
-| Description | `Deliver structured troubleshooting guide steps through the Conversation Topic interface.` |
+| Description | *(describe the conversational delivery purpose)* |
 
 ---
 
-#### Tool 4 — File Upload (Image)
+#### Tool 4 — File Upload
 
 ![L1 Agent — File Upload tool](../screenshots/L1-agent-tool4-file-upload.png)
 
@@ -239,34 +176,31 @@ Click the **Add tools and information** tab to configure all tools for this agen
 
 | Field | Value |
 |-------|-------|
-| Tool name | `UploadImage` |
 | Tool type | **File Upload** |
-| Accepted types | `image/png, image/jpeg, image/jpg` |
-| Description | `Allows the user to upload error screenshots and device label images in chat. Uploaded files are attached to the Incident record and trigger Now Assist Document Intelligence extraction.` |
+| Description | *(describe the purpose — the agent will use this to collect error screenshots and device images)* |
 
-> **This tool is the bridge to NADI.** Uploaded images attach to the Incident record. NADI (Capability 04) auto-triggers on those attachments and extracts `u_extracted_error_code`, which arms the Resolution Pathfinder Agentic Workflow.
+> **This tool is the bridge to NADI.** Files uploaded by the user via this tool are attached to the Incident record. NADI (Capability 04) auto-triggers on those attachments and extracts `u_extracted_error_code`.
 
 ---
 
-### Step 5: Configure Channel and Status
+### Step 4: Configure Channel and Status
 
-Back in the Agentic Workflow settings, under **Select channel and status**:
+Navigate to the **Channel and status** section on the AI Agent.
 
 ![L1 Agent — Channel and status config](../screenshots/L1-agent-channel-status.png)
 
 | Setting | Value |
 |---------|-------|
-| Engage via Now Assist Panel | ✅ Enabled |
 | Virtual Agent experience | ✅ Toggled on — required for NAVA to invoke this agent |
 | Status | **Active** |
 
-> From the FAQ: *"Be sure the AI Agents skill is activated in the Assistants → Skills setup page, and that the Virtual Agent experience is toggled on for the AI Agent."* Without this, the agent will not be discoverable from NAVA even if all other settings are correct.
+> The Virtual Agent experience toggle must be on for the AI Agent Orchestrator to route NAVA queries to this agent. Without it, the agent will not be discoverable from the Now Assist Panel.
 
 ---
 
-### Step 6: Configure Data Access
+### Step 5: Configure Data Access
 
-Navigate to the agent's **Data Access** settings.
+Navigate to the **Data Access** section.
 
 ![L1 Agent — Data access settings](../screenshots/L1-agent-data-access.png)
 
@@ -281,51 +215,45 @@ Ensure the agent has access to:
 
 ---
 
-### Step 7: Configure User Access
+### Step 6: Configure User Access
+
+Navigate to the **User Access** section.
 
 ![L1 Agent — User access settings](../screenshots/L1-agent-user-access.png)
 
 | Setting | Value |
 |---------|-------|
-| User roles | `now_assist_panel_user` — required to interact with the agent via NAVA |
+| User roles | `now_assist_panel_user` |
 
-> Per the official getting started guide: *"Click the down arrow, then add `now_assist_panel_user` in the User roles field."* This is the minimum role required for a user to invoke an AI Agent from the Now Assist Panel / NAVA chat.
+> `now_assist_panel_user` is the minimum role required for a user to invoke an AI Agent from the Now Assist Panel / NAVA chat.
 
 ---
 
-### Step 8: Test the Agent
+### Step 7: Test the Agent
 
 Navigate to **AI Agent Studio → Testing**.
 
-1. Enter test scenario: *"I can't access the server prod-app-01"*
-2. Verify the agent:
-   - Queries the Knowledge Graph for user context
-   - Presents troubleshooting guide steps
-   - Asks if the steps resolved the issue
-   - If "No" → prompts for image upload
-   - Creates an Incident with `state = New` and `contact_type = chat`
-3. Check the created Incident for:
-   - `contact_type = chat` ✅
-   - `state = New` ✅
-   - Uploaded images attached ✅
-4. Verify NADI triggers on the attachments and populates `u_extracted_error_code`
+1. Enter a test scenario describing an IT infrastructure issue
+2. Verify the agent invokes the correct tools in sequence
+3. Confirm an Incident is created with `state = New` and `contact_type = chat`
+4. Confirm uploaded images are attached to the Incident record
+5. Verify NADI triggers on the attachments and populates `u_extracted_error_code`
 
-> If you get **"No agents available at the moment"**: check that AI Search is enabled, the Agentic Workflow and AI Agent are Active, the agent's **Proficiency** is filled in and descriptive, and the **Virtual Agent experience** is toggled on.
+> If you get **"No agents available at the moment"**: check that AI Search is enabled, the AI Agent is Active, the **Proficiency** is populated, and **Virtual Agent experience** is toggled on.
 
 ---
 
 ## Key Configuration Fields
 
 | Field | Value for This Lab |
-|-------|--------------------|
-| Agentic Workflow name | IT Infrastructure Issue — Requestor Flow |
+|-------|-------------------|
 | AI Agent name | L1 First Responder Analyst |
 | Role required to configure | `sn_aia.admin` |
 | User role required to invoke | `now_assist_panel_user` |
-| Tool 1 | KnowledgeGraphSearch (Knowledge Graph) |
-| Tool 2 | TroubleshootingGuide (Subflow) |
-| Tool 3 | ConversationTopicGuide (Conversation Topic) |
-| Tool 4 | UploadImage (File Upload) |
+| Tool 1 | Knowledge Graph — User Graph |
+| Tool 2 | Subflow — Troubleshooting Guide |
+| Tool 3 | Conversation Topic — Troubleshooting Guide |
+| Tool 4 | File Upload — error screenshots and device images |
 | Virtual Agent experience | Toggled on |
 | Incident state on creation | `New` |
 | Incident contact_type | `chat` |
@@ -335,19 +263,9 @@ Navigate to **AI Agent Studio → Testing**.
 
 ## Technical Notes
 
-### Agentic Workflow vs AI Agent — When You Use Each
+### Proficiency Field
 
-| Concept | What it is | Configured where |
-|---------|-----------|-----------------|
-| **Agentic Workflow** | The business problem / goal | AI Agent Studio → Create and manage → Use Cases |
-| **AI Agent** | The specialist worker attached to the workflow | Connected within the Agentic Workflow |
-| **Tools** | The platform actions the agent can take | "Add tools and information" tab on the AI Agent |
-
-Think of the Agentic Workflow as the *why* and the AI Agent as the *who*. Tools are the *how*.
-
-### Proficiency — Why It Matters
-
-The AI Agent Orchestrator uses the agent's **Proficiency** field to match user queries to the right agent. This is separate from the **Role** (which gives the LLM its persona) and the **Instructions** (which govern step-by-step behavior). Without a detailed, specific Proficiency, the Orchestrator cannot route queries to this agent and will return "No agents available."
+The Orchestrator uses Proficiency to match incoming user queries to the right agent. It is generated from the agent's description and role content — check it by adding it as a column in the AI Agents list view. If blank or too generic, the Orchestrator will not route queries here and will return "No agents available."
 
 ### Why `state = New` (Not `In Progress`)?
 
