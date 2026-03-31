@@ -1,387 +1,237 @@
-# Use Case Summary — AI-Powered IT Incident Resolution (End-to-End)
+# 00 — Use Case Summary: NAVA Agentic Incident Resolution
 
-> **Release:** Zurich | **Lab:** ServiceNow Native AI Enablement Lab
-
----
-
-## Scenario
-
-> A user reports that a production server is inaccessible. This document traces every step the platform takes — from the user's first message to the execution of a remediation action — including every decision point and alternate path.
+> **Use case:** Veritas Resolution Agentic Workflow
+> **Team:** ServiceNow · Global Intelligent Automation SC Team · India
+> **Release:** Zurich | **Document version:** v2.1 · March 2026
 
 ---
 
-## Overview — Full Pipeline
+## Executive Summary
+
+NAVA (Now Assist Virtual Agent) with Agentic Incident Resolution is an end-to-end, multi-agent pipeline built on ServiceNow that handles IT incidents autonomously — from first user message to resolution — with no mandatory human intervention.
+
+When an issue cannot be deflected in chat, the platform creates an incident, extracts structured data from user-uploaded images via Now Assist Document Intelligence, and triggers the **Veritas Resolution Agentic Workflow**. The workflow searches multiple knowledge sources and — on finding a resolution — dispatches a remediation plan to Azure AI Foundry via the A2A (Agent-to-Agent) protocol for execution.
+
+> **Key outcome:** Zero-touch incident resolution — user message → autonomous diagnosis → external remediation → incident closed, with a complete audit trail written at every step.
+
+---
+
+## Business Context & Problem Statement
+
+Traditional ITSM flows suffer from three compounding inefficiencies:
+
+**High L1 ticket volume** for errors that have known resolutions — solved by structured KB deflection via the L1 Requestor Agent before any ticket is created.
+
+**Slow triage** because agents lack structured error data — solved by Now Assist Document Intelligence auto-extracting fields from uploaded images, including the key `u_extracted_error_code` field that gates the entire agentic workflow.
+
+**Resolution bottleneck at L2** because search is manual and cross-system — solved by the Veritas agentic search cascade (KB → Elastic logs → internet) and A2A-driven automated remediation via Azure AI Foundry.
+
+This use case is designed for **regulated-industry accounts** (banking, healthcare, infrastructure) where ticket volume is high, resolution SLAs are tight, and there is a need to demonstrate autonomous AI value without removing human oversight from critical paths.
+
+---
+
+## Architecture Overview
+
+The solution is structured across three swimlanes, each owned by a distinct set of ServiceNow components and agents:
+
+| Swimlane | Components & Agents |
+|----------|-------------------|
+| **Requestor Flow** | Now Assist Virtual Agent (NAVA), L1 / Requestor Agent, Knowledge Graph + User Graph, Troubleshooting Guide (file upload tool), Conversation Topic, Now Assist Document Intelligence |
+| **Fulfiller Flow** (Veritas Workflow) | Resolution Finder Agent, GenerateSearchQueryAgainstAISearch Skill, FindSimilarIncidents Skill (Predictive Intelligence), RetrieveRelevantKBContent Retriever, Assess if solution exists Skill Prompt, Privacy-safe Web Search |
+| **External Integration** (Veritas Workflow) | Observability & Action Agent, A2A Protocol, Azure AI Foundry (remote execution agent) |
+
+### Full Pipeline
 
 ```
-User Message (NAVA Chat)
+User Message via NAVA (Chat)
         │
         ▼
-[STAGE 1] First Responder AI Agent — Intake & Triage
+Phase 1 — Requestor Flow: Deflection & Incident Creation
         │
-        ├── PATH 1A: KB answer found → respond in chat → DONE (deflected)
-        └── PATH 1B: No KB answer → enrich and create Incident
+        ├── DEFLECTED → KB answer found in chat → conversation ends, no ticket
+        │
+        └── NOT DEFLECTED → Incident created with Doc Intel error extraction
                 │
                 ▼
-        [STAGE 2] Resolution Pathfinder — Background Investigation
+        Phase 2 — Fulfiller Flow: Veritas Resolution Finder Agent
                 │
-                ├── PATH 2A: Internal KB resolves → write plan → continue
-                ├── PATH 2B: Elastic logs resolve → write plan → continue
-                └── PATH 2C: Web search resolves → write plan → continue
-                        │
-                        ▼
-                [STAGE 3] Observability and Action Agent — Remediation
-                        │
-                        ├── PATH 3A: Remediation succeeds → write result → DONE
-                        └── PATH 3B: Remediation fails / partial → write result → manual handoff
+                ├── Path A: KB + Predictive Intelligence → assess → resolution plan found
+                │           └── → Phase 3 (External Integration)
+                │
+                └── Path B: No internal resolution → privacy-safe web search
+                            ├── Web search resolves → resolution plan written → Phase 3
+                            └── Web search fails → escalate to L2 (Phase 3 NOT triggered)
+                                        │
+                                        ▼
+                            Phase 3 — External Integration: A2A → Azure AI Foundry
+                                        │
+                                        ├── Path 3A: Remediation succeeds → incident closed
+                                        └── Path 3B: Fail/partial → full log → L2 handoff
 ```
 
 ---
 
-## Stage 1 — User Intake (Capabilities 01 – 05, 07)
+## End-to-End Flow — Phase by Phase
 
-### Step 1: User opens NAVA and types a message
-**Capability 01 — Now Assist for Virtual Agent (NAVA)**
+### Phase 1 — Requestor Flow: Deflection & Incident Creation
 
-- The user navigates to the Service Portal and opens the Now Assist chat widget
-- NAVA receives the message: *"The production server prod-app-01 is unreachable"*
-- The Now Assist Panel powers the LLM-backed conversation layer
+> **Lab doc:** [01 — Now Assist Virtual Agent](01-now-assist-virtual-agent.md) | [02 — L1 First Responder Agent](02-L1-agent-first-responder-analyst-agent.md) | [04 — Now Assist Document Intelligence](04-now-assist-document-intelligence.md)
 
----
+**Step 1 — User sends a message to NAVA via chat.**
+The Now Assist Virtual Agent receives the message and stamps `contact_type = chat` on the session. The Now Assist Panel powers the LLM-backed conversation layer.
 
-### Step 2: Intent is identified and routed
-**Capability 02 — Conversational Topics**
+**Step 2 — The L1 / Requestor Agent is triggered.**
+Under the agent, the Knowledge Graph queries the User Graph to identify and contextualise the user — role, device, past tickets — enabling personalised troubleshooting and pre-populated incident fields.
 
-- The NLU model evaluates the message against trained intents
-- Minimum confidence threshold: **0.70**
-- If the intent **"Server Unreachable"** is matched → topic activates and hands off to the First Responder AI Agent
-- If confidence < 0.70 → the topic falls back to the default VA flow (out of scope for this lab)
+**Step 3 — Troubleshooting Guide is presented.**
+The agent presents a Troubleshooting Guide sourced via the file upload tool, delivered through the Conversation Topic interface.
 
----
+> **Decision point:** If the troubleshooting steps resolve the issue → the conversation is deflected in chat with no ticket created (optimal outcome — no incident volume generated). If unhelpful, the flow continues.
 
-### Step 3: First Responder AI Agent takes over the conversation
-**Capability 05 — First Responder Operations Analyst (Chat AI Agent)**
+**Step 4 — User uploads error screenshots and device detail images.**
+The agent requests images via the Conversation Topic (upload image to Virtual Agent).
 
-The First Responder is a **Chat AI Agent** running in AI Agent Studio. It takes control of the NAVA conversation and begins gathering context.
+**Step 5 — Incident record created with state = New.**
+Uploaded images are attached to the incident record.
 
-#### Step 3a — Knowledge Graph search (immediate deflection attempt)
-**Capability 03 — Knowledge Graph**
-
-- Tool call: `KnowledgeGraphSearch`
-- The agent queries the semantic data layer using the user's description
-- **PATH 1A — KB answer found:**
-  - Agent responds with resolution steps directly in the chat
-  - Offers the user confirmation that the issue is resolved
-  - **Conversation ends. No Incident created. Deflected.**
-- **PATH 1B — No KB answer found:**
-  - Agent continues to gather context
-  - Proceeds to Step 3b
-
-#### Step 3b — Error code extraction from uploaded screenshot
-**Capability 04 — Now Assist in Document Intelligence**
-
-- Agent prompts user: *"Could you upload a screenshot of the error you're seeing?"*
-- User uploads a screenshot via the chat
-- Tool call: `UploadSupportingDocument` (File Upload tool type)
-- Now Assist in Document Intelligence processes the image using GenAI
-- Extracts the error code (e.g., `HOST_UNREACHABLE`) and populates `u_extracted_error_code`
-- **If no document uploaded:** The agent may attempt to infer the error code from the conversation text, or proceed without it (the Agentic Workflow requires `u_extracted_error_code` to be non-empty — so if not extracted, the Incident is still created but the Resolution Pathfinder will not trigger automatically)
-
-#### Step 3c — Structured data extraction
-**Capability 07 — Flow Action Tool (ExtractIncidentDetails)**
-
-- Tool call: `ExtractIncidentDetails` (Flow Action tool type)
-- The Flow Designer action runs a script that parses the conversation and extracts:
-  - `cmdb_ci` — the affected server (e.g., `prod-app-01`)
-  - `u_extracted_error_code` — the error code (e.g., `HOST_UNREACHABLE`)
-  - `category` — derived from error type
-  - `subcategory`
-  - `urgency` — derived from error severity (e.g., `HOST_UNREACHABLE` → urgency = 1 - Critical)
-
-#### Step 3d — Incident creation
-- The agent creates an Incident record with all enriched context:
-
-| Field | Value |
-|-------|-------|
-| `short_description` | User-reported description |
-| `cmdb_ci` | Affected server CI |
-| `u_extracted_error_code` | `HOST_UNREACHABLE` |
-| `category` | Network / Infrastructure |
-| `urgency` | 1 — Critical |
-| `state` | 2 — In Progress |
-| `contact_type` | chat |
-
-- The agent informs the user: *"I've created Incident INC0012345. Our systems are investigating automatically."*
+**Step 6 — Now Assist Document Intelligence auto-triggers on each attached image.**
+Doc Intel extracts structured fields per the configured use case — no manual data entry. The critical output is `u_extracted_error_code`, populated on the incident record and used as the gate for the downstream agentic workflow trigger.
 
 ---
 
-## Stage 2 — Background Resolution Investigation (Capabilities 06, 08, 09, 10, 11)
+### Phase 2 — Fulfiller Flow: Veritas Resolution Finder Agent
 
-The Incident record save triggers the **Resolution Pathfinder Agentic Workflow**.
+> **Lab doc:** [06 — Fulfiller AI Agent](06-fulfiller-ai-agent.md) | [03 — NASK CreateOptimalSearchQuery](03-now-assist-skill-kit.md) | [03 — NASK GenerateWebSearchQns](03-now-assist-skill-kit-web-search.md) | [08 — Agentic Workflow](08-wrapping-in-agentic-workflow.md)
 
-### Step 4: Agentic Workflow trigger evaluation
-**Capability 06 — Resolution Pathfinder (Agentic Workflow)**
+**Trigger conditions** (all three must be true simultaneously):
 
-The workflow evaluates the trigger conditions on the Incident record:
+| Field | Required value |
+|-------|---------------|
+| `state` | In Progress |
+| `contact_type` (Channel) | Chat |
+| `u_extracted_error_code` | is not empty |
 
-| Condition | Required Value | Outcome |
-|-----------|---------------|---------|
-| `state` | = `2` (In Progress) | Must be true |
-| `contact_type` | = `chat` | Must be true |
-| `u_extracted_error_code` | not empty | Must be true |
-
-- **All conditions met** → Agentic Workflow fires → Resolution Pathfinder AI Agent is invoked in the background
-- **Any condition not met** → Workflow does not trigger → Incident sits in the queue for manual L2 pickup
+The trigger fires on the **`incident extend`** table — because `u_extracted_error_code` is a custom field that only exists there (populated by NADI).
 
 ---
 
-### Step 5: Resolution Pathfinder investigates — Internal Data
-**Capability 08 — Resolution Finder (Internal Data) — Now Assist Skill**
+**Path A — Step 1 (parallel fire from workflow Start node):**
 
-- Tool call: `ResolutionFinderInternalData` (Now Assist Skill — RAG-based)
-- The Skill uses Retrieval-Augmented Generation to search:
-  - Knowledge Graph KB articles tagged to the error code
-  - Previously resolved Incidents with a similar `u_extracted_error_code`
-- Returns a JSON payload:
-  ```json
-  {
-    "resolution_found": true | false,
-    "steps": ["step 1", "step 2", ...],
-    "source": "KB article title or Incident number",
-    "confidence": 0.0–1.0
-  }
-  ```
+Two Now Assist skills fire in parallel:
 
-**PATH 2A — Internal resolution found (confidence ≥ threshold):**
-- Agent formats the resolution plan:
-  ```
-  ---
-  RESOLUTION PLAN
-  Source: Internal KB
-  Steps:
-  1. Restart network interface on prod-app-01
-  2. Clear ARP cache
-  Citation: KB0045231 — Network Interface Recovery Procedures
-  ---
-  ```
-- Plan is written to the Incident `work_notes`
-- Agent proceeds directly to **Stage 3** (Observability and Action Agent)
+1. **GenerateSearchQueryAgainstAISearch Skill** — constructs an optimised AI search query from the error code and incident context. This skill calls `CreateOptimalSearchQuery` as an upstream tool via skill chaining.
+2. **FindSimilarIncidents Skill (Predictive Intelligence)** — searches for historically similar incidents using ML-based similarity matching.
 
-**PATH 2B — No internal resolution found:**
-- Agent proceeds to Step 6
+**Path A — Step 2:**
+The optimised AI search query is passed to the **RetrieveRelevantKBContent Retriever** skill, which fetches ranked relevant results from the ServiceNow Knowledge Base using AI Search RAG. Results from FindSimilarIncidents also merge at this stage.
+
+**Path A — Step 3:**
+The **Assess if solution exists Skill Prompt** evaluates the combined retrieval output (KB content + similar incidents) and determines whether a viable resolution exists. This is a reasoning step — the agent does not proceed to remediation unless a solution is confirmed.
+
+**Path A — Result:**
+- If the Assess skill confirms a solution exists → the agent builds a structured Resolution Plan and writes it to the incident work notes → flow continues to **Phase 3**.
+- If no solution is confirmed → flow falls through to **Path B**.
 
 ---
 
-### Step 6: Resolution Pathfinder investigates — Live Log Data
-**Capability 11 — Elastic MCP Server Integration**
+**Path B — No internal resolution found:**
+If no result is found from KB or similar incidents, a **privacy-safe web search** is triggered. PII and internal identifiers are stripped before the query is sent externally (enforced by the `GenerateWebSearchQnsForResolutionPlan` NASK skill).
 
-- Tool call: `ElasticLogSearch` (MCP Tool via MCP Client)
-- Parameters passed: `{ "error_code": "HOST_UNREACHABLE", "server": "prod-app-01" }`
-- ServiceNow MCP Client calls the Elastic MCP Server over the registered connection
-- Elastic runs: `logs WHERE error_code=HOST_UNREACHABLE AND host=prod-app-01`
-- Returns matching log entries with timestamps
+> **Lab doc:** [03 — NASK Web Search Skill](03-now-assist-skill-kit-web-search.md) | [09 — Web Search Query Generator](09-web-search-query-generator.md) | [10 — Web Search Tool](10-web-search-tool.md)
 
-**PATH 2B-i — Root cause found in logs:**
-- Agent analyses log entries and identifies root cause (e.g., *"NIC failure at 14:22:05 UTC, repeated LINK_DOWN events"*)
-- Formats resolution plan:
-  ```
-  ---
-  RESOLUTION PLAN
-  Source: Log Analysis
-  Steps:
-  1. Investigate NIC failure on prod-app-01 (LINK_DOWN events at 14:22)
-  2. Replace or reset the network interface card
-  3. Verify link state after reset
-  Citation: Elastic logs — prod-app-01 — 2024-03-15 14:22:05 UTC
-  ---
-  ```
-- Plan written to Incident `work_notes`
-- Agent proceeds to **Stage 3** (Observability and Action Agent)
-
-**PATH 2B-ii — No conclusive finding in logs:**
-- Agent proceeds to Step 7
+**Path B — Fallback:**
+If the web search also yields no actionable result → the incident is escalated to L2 manual pickup. The external agent (Phase 3) is **NOT triggered** — user validation is required before any automated remediation executes on an unresolved search path.
 
 ---
 
-### Step 7: Resolution Pathfinder investigates — Internet Search
-**Capability 09 — Web Search Query Generator — Now Assist Skill**
-**Capability 10 — Web Search Tool**
+### Phase 3 — External Integration: Observability & Action Agent via A2A
 
-#### Step 7a — Generate a privacy-safe search query
-- Tool call: `GenerateWebSearchQuery` (Now Assist Skill)
-- The Skill strips all internal identifiers (hostnames, IPs, internal names) and generates a clean, public-safe query
-- Example output: `"HOST_UNREACHABLE error network interface Linux server restart steps"`
-- **Privacy rule:** Internal values like `prod-app-01` or `192.168.1.50` are never sent to the internet
+> **Lab doc:** [07 — External Agent Integration (A2A OAuth + Registration)](07-external-agent-integration.md) | [12 — Observability and Action Agent](12-observability-action-agent.md)
 
-#### Step 7b — Execute the web search
-- Tool call: `WebSearch` (built-in Web Search tool type — Google Grounding)
-- Top results are returned and synthesised by the LLM
-- Agent formats the resolution plan:
-  ```
-  ---
-  RESOLUTION PLAN
-  Source: Web Search
-  Steps:
-  1. Check if the network interface is up: ip link show
-  2. Restart the interface: ifup eth0
-  3. Flush routing tables: ip route flush cache
-  4. Test connectivity: ping -c 4 <gateway>
-  Citation: https://example.com/host-unreachable-linux-fix
-  ---
-  ```
-- Plan written to Incident `work_notes`
+> **Trigger:** Phase 3 fires only when Path A of the Fulfiller Flow produces a resolution plan. It does NOT trigger on Path B fallback.
 
-**PATH 2C — Web search also fails to produce a resolution:**
-- Agent writes to `work_notes`:
-  ```
-  No automated resolution found. Manual investigation required.
-  Searched: Internal KB, Elastic Log System, Web.
-  ```
-- Incident remains In Progress for L2 manual pickup
-- **Pipeline ends here. Stage 3 is not invoked.**
+**Step 1 — Observability & Action Agent constructs remediation action set.**
+The agent (running in ServiceNow as the primary A2A orchestrator) receives the resolution plan and structures it into a remediation action set.
+
+**Step 2 — Remediation plan dispatched to Azure AI Foundry via A2A.**
+The plan is serialised and sent to Azure AI Foundry via the Agent-to-Agent protocol. ServiceNow remains the orchestrator; Azure AI Foundry acts as the remote execution agent. Authentication uses OAuth 2.0 Client Credentials via the `FoundryConnectCreds` connection alias.
+
+**Step 3 — Azure AI Foundry executes remediation actions.**
+The ObsAgent executes prescribed actions in the target environment (service restart, config patch, queue flush, etc.). Execution telemetry streams back to ServiceNow.
+
+**Path 3A — Success:**
+Incident auto-resolved, resolution notes and execution outcome written to the incident record, ticket closed. No human intervention required.
+
+**Path 3B — Fail / Partial:**
+Full execution log, attempted steps, and failure reason written to incident work notes. Incident escalated to L2 with complete context for investigation.
 
 ---
 
-## Stage 3 — Autonomous Remediation (Capability 12)
+## Key ServiceNow Components & Capabilities
 
-Triggered automatically by the Agentic Workflow after the resolution plan is written (Paths 2A, 2B-i, and 2C excluded).
-
-### Step 8: Agentic Workflow passes control to the Observability and Action Agent
-**Capability 12 — Observability and Action Agent (External AI Agent — A2A Protocol)**
-
-- The Agentic Workflow's next stage activates the **Observability and Action Agent**
-- This is an **External AI Agent** type registered in AI Agent Studio via the **Agent2Agent (A2A) protocol**
-- ServiceNow's **AI Agent Fabric** invokes the agent using the A2A open standard
-
----
-
-### Step 9: ServiceNow discovers and calls the Azure AI Foundry agent
-
-- ServiceNow has previously discovered the Azure AI Foundry agent via its **Agent Card** at:
-  `https://<azure-foundry-endpoint>/.well-known/agent.json`
-- The Agent Card declares the external agent's skills:
-  - `run_remediation` — executes structured remediation steps against a CI
-  - `check_server_status` — verifies current server state
-- ServiceNow sends the resolution plan steps and incident context to Azure AI Foundry:
-  - Resolution steps (from `work_notes`)
-  - Affected CI (`cmdb_ci` = `prod-app-01`)
-  - Error code (`u_extracted_error_code` = `HOST_UNREACHABLE`)
-
----
-
-### Step 10: Azure AI Foundry executes the remediation
-
-The Azure AI Foundry agent runs the actual actions against the infrastructure:
-
-**Example remediation sequence for `HOST_UNREACHABLE`:**
-1. Restart network interface on `prod-app-01`
-2. Clear ARP cache
-3. Verify connectivity (ping test)
-
-**PATH 3A — Remediation succeeds:**
-- Azure AI Foundry returns:
-  ```json
-  {
-    "status": "success",
-    "actions_taken": [
-      "Restarted network interface on prod-app-01",
-      "Cleared ARP cache"
-    ],
-    "timestamp": "2024-03-15T14:38:22Z"
-  }
-  ```
-- ServiceNow writes to Incident `work_notes`:
-  ```
-  ---
-  REMEDIATION RESULT
-  Agent: Azure AI Foundry — Observability and Action Agent
-  Status: Success
-  Actions taken:
-  1. Restarted network interface on prod-app-01
-  2. Cleared ARP cache
-  Completed: 2024-03-15 14:38:22 UTC
-  ---
-  ```
-- Incident can be auto-resolved or flagged for closure review
-
-**PATH 3B — Remediation fails or partial:**
-- Azure AI Foundry returns:
-  ```json
-  {
-    "status": "partial",
-    "actions_taken": ["Restarted network interface on prod-app-01"],
-    "failed_actions": ["ARP cache clear failed — permission denied"],
-    "timestamp": "2024-03-15T14:38:45Z"
-  }
-  ```
-- ServiceNow writes the partial result to `work_notes`
-- Incident remains In Progress with full audit trail of what was attempted
-- L2 engineer picks up the Incident with complete context: original description, resolution plan, and remediation attempt log
-
----
-
-## Complete Incident Record at End of Pipeline
-
-By the end of a successful run, the Incident `work_notes` contains:
-
-```
-[Entry 1 — from Resolution Pathfinder]
----
-RESOLUTION PLAN
-Source: Internal KB
-Steps:
-1. Restart network interface on prod-app-01
-2. Clear ARP cache
-Citation: KB0045231
----
-
-[Entry 2 — from Observability and Action Agent]
----
-REMEDIATION RESULT
-Agent: Azure AI Foundry — Observability and Action Agent
-Status: Success
-Actions taken:
-1. Restarted network interface on prod-app-01
-2. Cleared ARP cache
-Completed: 2024-03-15 14:38:22 UTC
----
-```
-
-The Incident carries a complete, audit-ready record of every AI decision and every action taken — with no human involvement required for known error types.
+| Component | Role in this use case | Lab doc |
+|-----------|----------------------|---------|
+| **Now Assist Virtual Agent (NAVA)** | Front-door for all user interactions. Handles multi-turn conversation, intent routing, troubleshooting delivery, and image upload orchestration. | [01](01-now-assist-virtual-agent.md) |
+| **L1 / Requestor AI Agent** | Orchestrates the requestor-side flow: KG lookup, troubleshooting, user prompting for images, and handoff to incident creation. | [02](02-L1-agent-first-responder-analyst-agent.md) |
+| **Knowledge Graph (User Graph)** | Identifies and contextualises the user at session start, enabling personalised troubleshooting and pre-populated incident fields. | [02](02-L1-agent-first-responder-analyst-agent.md) |
+| **Troubleshooting Guide (file upload tool)** | Surfaces step-by-step resolution guides via the file upload tool, delivered through the Conversation Topic interface. | [01](01-now-assist-virtual-agent.md) |
+| **Now Assist Document Intelligence** | Auto-triggers on images attached to an incident. Extracts structured fields (including `u_extracted_error_code`) per use case config — no manual data entry. | [04](04-now-assist-document-intelligence.md) |
+| **Veritas Resolution Agentic Workflow** | The named agentic workflow spanning the Fulfiller and External Integration flows. Contains search cascade logic, agent bindings, trigger conditions, and A2A dispatch. | [08](08-wrapping-in-agentic-workflow.md) |
+| **GenerateSearchQueryAgainstAISearch Skill** | Generates an optimised AI search query from the raw error code + incident context. Runs in parallel with FindSimilarIncidents from the workflow Start node. | [03](03-now-assist-skill-kit.md) |
+| **GenerateWebSearchQnsForResolutionPlan Skill** | Generates privacy-safe web search questions when internal KB and logs fail. Uses skill chaining — calls `CreateOptimalSearchQuery` as an upstream tool. | [03-web](03-now-assist-skill-kit-web-search.md) |
+| **FindSimilarIncidents + RetrieveRelevantKBContent** | FindSimilarIncidents uses Predictive Intelligence ML to surface historically similar incidents. RetrieveRelevantKBContent fetches ranked KB results via AI Search RAG. Both feed the Assess skill. | [06](06-fulfiller-ai-agent.md) |
+| **Elastic MCP Server** | Live log querying for root cause analysis when KB search is inconclusive. ServiceNow acts as MCP client. | [05](05-mcp-elastic-integration.md) / [11](11-elastic-mcp-server.md) |
+| **Observability & Action Agent** | Builds the remediation plan from the Phase 2 resolution and dispatches it to Azure AI Foundry via A2A. External agent type registered in AI Agent Studio. | [12](12-observability-action-agent.md) |
+| **A2A Protocol** | Agent-to-Agent protocol enabling cross-platform agent communication. ServiceNow acts as primary orchestrator; Azure AI Foundry as remote executor. OAuth 2.0 Client Credentials via `FoundryConnectCreds`. | [07](07-external-agent-integration.md) |
+| **Azure AI Foundry (ObsAgent)** | Remote execution agent that carries out remediation actions in the target environment and streams telemetry back to ServiceNow. Hosted on Azure Container Apps. | [07](07-external-agent-integration.md) / [12](12-observability-action-agent.md) |
 
 ---
 
 ## Decision Path Summary
 
-| Stage | Condition | Path | Outcome |
+| Phase | Condition | Path | Outcome |
 |-------|-----------|------|---------|
-| Stage 1 — Intake | KB answer found immediately | **1A** | Deflected in chat. No Incident. |
-| Stage 1 — Intake | No KB answer | **1B** | Incident created. Pipeline continues. |
-| Stage 2 — Investigation | Internal KB resolves | **2A** | Plan written. Stage 3 invoked. |
-| Stage 2 — Investigation | Internal KB fails, logs resolve | **2B-i** | Plan written. Stage 3 invoked. |
-| Stage 2 — Investigation | Internal KB + logs fail, web resolves | **2C** | Plan written. Stage 3 invoked. |
-| Stage 2 — Investigation | All three sources fail | **2D** | Manual note written. No Stage 3. L2 pickup. |
-| Stage 2 — Investigation | `u_extracted_error_code` empty | *(no trigger)* | Agentic Workflow does not fire. Manual queue. |
-| Stage 3 — Remediation | Azure Foundry succeeds | **3A** | Result written. Incident resolved. |
-| Stage 3 — Remediation | Azure Foundry fails or partial | **3B** | Partial result written. L2 handoff with full context. |
+| Phase 1 — Requestor | KB answer found in chat | **Deflected** | Conversation ends. No incident created. |
+| Phase 1 — Requestor | No KB answer | **1B** | Incident created. Pipeline continues. |
+| Phase 2 — Fulfiller | KB + PI resolves, solution confirmed | **Path A** | Resolution plan written. Phase 3 triggered. |
+| Phase 2 — Fulfiller | Internal fails, web search resolves | **Path B** | Privacy-safe web resolution plan written. Phase 3 triggered. |
+| Phase 2 — Fulfiller | All sources fail | **Path B Fallback** | Manual note written. Phase 3 NOT triggered. L2 pickup. |
+| Phase 2 — Fulfiller | `u_extracted_error_code` empty | *(No trigger)* | Agentic Workflow does not fire. Manual queue. |
+| Phase 3 — External | Azure AI Foundry succeeds | **Path 3A** | Result written. Incident auto-resolved. |
+| Phase 3 — External | Azure AI Foundry fails / partial | **Path 3B** | Partial result written. Full context to L2. |
 
 ---
 
-## Capabilities Reference
+## Value Outcomes
 
-| # | Capability | Stage | Role in Pipeline |
-|---|-----------|-------|-----------------|
-| 01 | Now Assist for Virtual Agent (NAVA) | 1 | Chat entry point |
-| 02 | Conversational Topics (NLU) | 1 | Intent routing to AI agent |
-| 03 | Knowledge Graph | 1 | Immediate deflection search |
-| 04 | Now Assist in Document Intelligence | 1 | Error code extraction from screenshots |
-| 05 | First Responder AI Agent (Chat) | 1 | Conversation orchestration, Incident creation |
-| 06 | Resolution Pathfinder (Agentic Workflow) | 2 | Background investigation + orchestration trigger |
-| 07 | Flow Action Tool — Extract Incident Details | 1 | Structured data extraction from conversation |
-| 08 | Resolution Finder — Internal Data (Now Assist Skill) | 2 | RAG search over KB + resolved incidents |
-| 09 | Web Search Query Generator (Now Assist Skill) | 2 | Privacy-safe internet query generation |
-| 10 | Web Search Tool | 2 | Internet resolution search |
-| 11 | Elastic MCP Server (MCP Client) | 2 | Live log querying for root cause |
-| 12 | Observability and Action Agent (A2A — Azure AI Foundry) | 3 | Autonomous remediation execution |
+| Outcome | How the architecture delivers it |
+|---------|----------------------------------|
+| **L1 ticket deflection** | Troubleshooting guide delivered in chat before any incident is created. Deflected conversations produce no ticket, reducing incident volume. |
+| **Structured incident data without manual entry** | Now Assist Doc Intel extracts all key fields from user images automatically — no form filling, no agent interpretation required. |
+| **Faster resolution via optimised search** | GenerateSearchQueryAgainstAISearch + FindSimilarIncidents (Predictive Intelligence) + RetrieveRelevantKBContent + Assess skill cascade finds the best available resolution — KB content and similar incidents evaluated together before escalating. |
+| **Zero-touch remediation for known paths** | Path A + Phase 3 delivers end-to-end resolution with no human involvement — from error code to closed incident. |
+| **Context-rich L2 handoffs** | Every escalation path (Path B Fallback, Path 3B) writes a complete trail — attempted steps, search results, execution logs — so L2 engineers never start from zero. |
+| **Cross-platform AI orchestration** | A2A protocol integration with Azure AI Foundry demonstrates ServiceNow as the orchestration layer for multi-cloud AI — not a walled garden. |
+
+---
+
+## Positioning & SC Notes
+
+This use case is positioned for the following customer conversations:
+
+**"How do I connect my existing Azure AI investment to ServiceNow?"**
+The A2A integration with Azure AI Foundry is a direct answer: ServiceNow orchestrates, Azure executes, and the result is written back to the system of record.
+
+**"Can ServiceNow actually fix things, or just raise tickets?"**
+Path A + Phase 3 demonstrates end-to-end autonomous remediation with a full audit trail — from chat message to closed incident with execution log.
+
+**"How does your AI handle cases it can't solve?"**
+Path B and Path 3B show deliberate, context-rich escalation — not silent failure. Every escalation writes a complete diagnostic trail before the L2 handoff.
+
+**"Is there human oversight?"**
+Path B explicitly requires user validation before external execution. Path 3B writes a complete log before L2 handoff. The system is designed for regulated environments — humans steer, agents execute within defined boundaries.
+
+> **Relevant product capabilities to highlight:** Now Assist Virtual Agent (Agentic Reasoning) · AI Agent Studio · Now Assist Document Intelligence · Agentic Workflow · A2A Protocol · GenerateSearchQueryAgainstAISearch Skill · FindSimilarIncidents (Predictive Intelligence) · RetrieveRelevantKBContent Retriever · Knowledge Graph
 
 ---
 
@@ -389,10 +239,39 @@ The Incident carries a complete, audit-ready record of every AI decision and eve
 
 | Constraint | Detail |
 |-----------|--------|
-| Agentic Workflow requires | `state=In Progress`, `contact_type=chat`, `u_extracted_error_code` non-empty |
-| A2A / External Agent requires | ServiceNow Zurich **patch 4** minimum |
-| Privacy — web search | Internal hostnames, IPs, user names must be stripped before internet search (enforced by Cap. 09 prompt) |
-| Communication mode — Cap. 12 | Synchronous if remediation < 30 seconds; Asynchronous if longer-running |
-| ACL on External Agent | Required — without it, the Observability and Action Agent cannot be invoked from the Agentic Workflow |
-| Auth — Elastic MCP | API Key or OAuth 2.1 (managed in AI Agent Studio) |
-| Auth — Azure AI Foundry | OAuth 2.0 or API Key via Connection & Credential alias |
+| Agentic Workflow trigger gate | `state = In Progress` AND `contact_type = chat` AND `u_extracted_error_code` is not empty — all three required |
+| Trigger table | `incident extend` (`x_nava_agentic_lab_incident_extend`) — not base `incident` table |
+| A2A / External Agent minimum release | ServiceNow Zurich Patch 4 |
+| Privacy — web search | Internal hostnames, IPs, user names stripped before internet query (enforced by `GenerateWebSearchQnsForResolutionPlan` NASK skill prompt) |
+| Phase 3 trigger condition | Only fires when Path A produces a confirmed resolution plan — does NOT fire on Path B fallback |
+| Communication mode — ObsAgent | Synchronous (remediations < 30s); Asynchronous for long-running operations via callback registry |
+| OAuth — Azure AI Foundry | Client Credentials flow, `Send Credentials = In Request Body`, scope = `api://<client-id>/.default` |
+| Auth — Elastic MCP | API Key or OAuth 2.0 managed in AI Agent Studio |
+| ACL — External Agent | Required — without `itil` role ACL, Observability & Action Agent cannot be invoked from workflow |
+| Data access — Agentic Workflow | Dynamic user → Assigned to [task] → approved role: `itil` |
+
+---
+
+## Lab Documentation Index
+
+| # | Document | Phase | What it covers |
+|---|----------|-------|---------------|
+| 00 | **Use Case Summary** (this doc) | All | End-to-end architecture, flow, and SC positioning |
+| 01 | [Now Assist Virtual Agent (NAVA)](01-now-assist-virtual-agent.md) | 1 | NAVA setup, conversation topic, chat channel |
+| 02 | [L1 First Responder Agent](02-L1-agent-first-responder-analyst-agent.md) | 1 | L1 / Requestor Agent — KG lookup, troubleshooting, incident creation |
+| 03 | [NASK — CreateOptimalSearchQuery](03-now-assist-skill-kit.md) | 2 | Now Assist Skill Kit — building the upstream query generation skill |
+| 03p2 | [NASK — Part 2](03-now-assist-skill-kit-part2.md) | 2 | NASK extended configuration |
+| 03ws | [NASK — GenerateWebSearchQnsForResolutionPlan](03-now-assist-skill-kit-web-search.md) | 2 | Web search skill chaining — skill-as-tool pattern, NASK web search tool |
+| 04 | [Now Assist Document Intelligence](04-now-assist-document-intelligence.md) | 1 | NADI setup — error code extraction from uploaded images |
+| 05 | [MCP Elastic Integration](05-mcp-elastic-integration.md) | 2 | MCP client configuration for Elastic log search |
+| 06 | [Fulfiller AI Agent](06-fulfiller-ai-agent.md) | 2 | Resolution Finder Agent — tools, system prompt, KB retrieval cascade |
+| 07 | [External Agent Integration (A2A)](07-external-agent-integration.md) | 3 | OAuth 2.0 setup + External Agent registration in AI Agent Studio |
+| 08 | [Wrapping in Agentic Workflow](08-wrapping-in-agentic-workflow.md) | 2+3 | Veritas Agentic Workflow — LLM description, agents, trigger, channels |
+| 09 | [Web Search Query Generator](09-web-search-query-generator.md) | 2 | Privacy-safe query generation skill |
+| 10 | [Web Search Tool](10-web-search-tool.md) | 2 | Web Search tool execution |
+| 11 | [Elastic MCP Server](11-elastic-mcp-server.md) | 2 | Elastic MCP server setup |
+| 12 | [Observability & Action Agent](12-observability-action-agent.md) | 3 | ObsAgent — A2A external agent, remediation execution, Phase 3 paths |
+
+---
+
+*Document prepared by ServiceNow Global Intelligent Automation SC Team · India · March 2026*
