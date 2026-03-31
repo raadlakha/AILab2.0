@@ -24,23 +24,7 @@ NAVA is built on top of Virtual Agent. Both must be active for this lab to funct
 
 ## Role in the Requestor Flow
 
-```
-[Step 1 — Requestor Flow]
-
-User types message in Service Portal / Employee Center / Mobile
-        │
-        ▼
-Now Assist for Virtual Agent (NAVA)
-        │  stamps contact_type = chat on the session
-        ▼
-NLU + AI Agent Planner evaluate the message
-        │
-        ▼
-L1 / Requestor AI Agent is triggered
-        │
-        ▼
-... Phase 1 continues (KB deflection → troubleshooting guide → incident creation)
-```
+![NAVA Requestor Flow — Step 1 Architecture](../screenshots/nava-requestor-flow.png)
 
 > **Why `contact_type = chat` matters:** This field is the trigger condition for the downstream Agentic Workflow. If `contact_type` is not stamped as `chat`, the Resolution Pathfinder Agentic Workflow will not fire — even if all other conditions are met.
 
