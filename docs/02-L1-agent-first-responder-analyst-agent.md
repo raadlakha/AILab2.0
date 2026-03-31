@@ -85,7 +85,7 @@ Navigate to **All → AI Agent Studio → Create and manage → AI Agents → Ne
 
 The wizard opens on **Define the specialty**.
 
-![Define the specialty — agent name and description](../screenshots/L1-Agent1.png)
+![Define the specialty — agent name and description](../screenshots/L1-Agent.png)
 
 The page instructs: *"Using clear, precise language, write the name, description, role, and list of steps this AI agent completes. Writing a clear, distinct name and description is critical because the LLM relies on the wording to correctly identify and use this agent."*
 
@@ -133,7 +133,7 @@ Click **Generate details** to let Now Assist draft the role and instructions fro
 
 The wizard advances to **Add tools and information**.
 
-![Add tools and information — tool list](../screenshots/L2-Agent.png)
+![Add tools and information — tool list](../screenshots/L1-Agent2.png)
 
 The page reads: *"Tools provide the essential functionality and data an AI agent needs to carry out its role. An AI agent selects a tool based on the tool's name and description, which need to be clearly written."*
 
