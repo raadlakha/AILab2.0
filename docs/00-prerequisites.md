@@ -13,8 +13,8 @@ Complete every step below in order before proceeding to [01 — Now Assist for V
  
 ---
  
-## Pre-Requisite 1: Switch to the `x_nava_agentic_lab` Application Scope
- 
+### Pre-Requisite 1: Switch to the `x_nava_agentic_lab` Application Scope
+
 All lab artefacts — topics, agents, agentic workflows, flow actions, and tables — live in the **x_nava_agentic_lab** scoped application. If you build or configure components in the wrong scope (e.g., Global), they will not be visible to the AI Agent at runtime and cross-scope privilege errors will occur.
  
 ### Steps
@@ -28,6 +28,36 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 4. Confirm the scope picker now displays **x_nava_agentic_lab** as the active scope
  
 > **This must remain your active scope for the entire lab.** If you navigate away and the scope resets to Global, switch back before making any changes. A common symptom of being in the wrong scope is seeing *"Record not found"* or *"Insufficient privileges"* errors when saving flow actions or agent configurations.
+ 
+---
+
+## Pre-Requisite 2: Verify the Incident Extend Table and Sample Records
+ 
+The lab scenario uses a **custom table called incident extend** (`x_snc_apacaienable_incident_extend`) that adds fields specific to the Veritas NetBackup triage use case — such as error codes, product, serial number, and barcode. This table must already exist on your instance and be populated with sample incident records before you begin the build.
+ 
+### Steps
+ 
+1. In the **Filter navigator** (left-hand sidebar), type `incident extend` in the search field
+2. Under **All Results**, click **incident extends** to open the list view
+ 
+![Filter Navigator — incident extends](../screenshots/inc-extend-tbl.png)
+ 
+3. Confirm the **incident extends** list view loads and displays sample records
+4. Verify that records are populated with Veritas NetBackup-related data — you should see incidents with short descriptions referencing hardware overheating, error codes (e.g., error 84, error 37, status code 2817), and categories such as **Hardware** and **Software**
+ 
+![Incident Extends — Sample Records](../screenshots/inc-extend-tbl-main.png)
+ 
+> **What to look for:** The records should include a mix of categories, assignment groups (e.g., IT Operations Support, IT Client Systems Engineering), and states. These sample records are used by Predictive Intelligence for training and by the AI Agent for pattern matching during triage. If the table is empty or missing, the downstream Agentic Workflow will have no historical data to reference when generating resolution plans.
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Table name | `x_snc_apacaienable_incident_extend` |
+| List URL path | `x_snc_apacaienable_incident_extend_list.do` |
+| Number prefix | `INCE` |
+| Minimum sample records | 10+ |
+| Record categories | Hardware, Software, Inquiry / Help |
+ 
+> **If the table is missing or empty:** Contact your lab administrator to import the Update Set that creates the `x_snc_apacaienable` scoped application and its seed data. The table and records are delivered as part of the lab instance provisioning — they are not created during the build exercises.
  
 ---
  
