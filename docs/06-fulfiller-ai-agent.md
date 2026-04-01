@@ -249,13 +249,13 @@ Click **Save**.
 
 From **Add tool ▼** select **Web search**.
 
-![Add tool dropdown — Web search highlighted](../screenshots/L2-agent-tool6.png)
+![Add tool dropdown — Web search highlighted](../screenshots/L2-agent-tool4.png)
 
 The **Edit web search** dialog opens:
 
-![Edit web search — top (resource, provider, inputs)](../screenshots/L2-agent-tool6-2.png)
+![Edit web search — top (resource, provider, inputs)](../screenshots/L2-agent-tool4-2.png)
 
-![Edit web search — scrolled (remaining inputs, tool settings)](../screenshots/L2-agent-tool6-3.png)
+![Edit web search — scrolled (remaining inputs, tool settings)](../screenshots/L2-agent-tool4-3.png)
 
 | Field | Value |
 |-------|-------|
