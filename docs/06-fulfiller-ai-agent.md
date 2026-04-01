@@ -189,11 +189,11 @@ Click **Add**.
 
 From **Add tool ▼** select **MCP server tool**.
 
-![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool4.png)
+![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool6.png)
 
 The **Add a Model Context Protocol Tool** dialog opens:
 
-![Add MCP tool — elastic mcp server, platform_core_execute_esql](../screenshots/L2-agent-tool4-2.png)
+![Add MCP tool — elastic mcp server, platform_core_execute_esql](../screenshots/L2-agent-tool6-2.png)
 
 | Field | Value |
 |-------|-------|
@@ -202,7 +202,7 @@ The **Add a Model Context Protocol Tool** dialog opens:
 
 The tool settings section:
 
-![MCP tool settings — platform_core_execute_esql](../screenshots/L2-agent-tool4-3.png)
+![MCP tool settings — platform_core_execute_esql](../screenshots/L2-agent-tool6-3.png)
 
 | Field | Value |
 |-------|-------|
