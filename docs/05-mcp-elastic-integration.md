@@ -165,3 +165,9 @@ The MCP `initialize` handshake negotiates the protocol version. ServiceNow's cli
 - [Add an MCP server in AI Agent Studio — ServiceNow Docs](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/model-context-protocol-client/concept/add-mcp-client-on-ai-agent-studio.html)
 - [MCP — The Protocol Powering Agentic AI — ServiceNow Community](https://www.servicenow.com/community/ceg-ai-coe-articles/mcp-the-protocol-powering-agentic-ai/ta-p/3508887)
 - [Elastic Kibana — MCP Agent Builder endpoint documentation](https://www.elastic.co/docs)
+
+---
+
+## Next Step
+
+Continue to [06 — Fulfiller AI Agent: Resolution Pathfinder for Incident case Agent: CreateOptimalSearchQuery](06-fulfiller-ai-agent.md) to build out your fulfiller flow AI Agent (Resolution Pathfinder for Incident case Agent) now that you have all the components needed!
