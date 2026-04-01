@@ -49,187 +49,45 @@ Since you can only generate one query, apply this priority logic:
 - **NEVER** include any of the following in your generated query:
   - Customer names, account names, or organisation identifiers
   - Internal hostnames, IP addresses, or network topology details
-
-
-
   - Serial numbers, asset tags, or licence keys
-
-
-
   - Internal ticket numbers, case IDs, or reference codes
-
-
-
   - File paths that reveal internal directory structures or naming conventions
-
-
-
   - Usernames, credentials, or authentication details
-
-
-
   - Any data that could identify the specific customer environment
 
-
-
-
-
-
-
 - **ALWAYS** generalise references:
-
-
-
   - Use generic terms like "the affected drive", "the appliance", "the backup server" instead of specific hostnames or identifiers.
-
-
-
   - Refer to error codes and product names by their publicly documented identifiers only (e.g., "Status Code 84", "NetBackup Appliance 5240").
-
-
-
   - Frame the query using vendor-neutral or publicly available terminology where possible.
-
-
-
-
-
-
 
 - **TEST BEFORE OUTPUT**: Before finalising the query, verify it could be typed into a public search engine without exposing any proprietary or environment-specific information.
 
-
-
-
-
-
-
 ---
-
-
-
-
-
-
 
 ## OUTPUT FORMAT
-
-
-
-
-
-
-
 OUTPUT ONLY THE SEARCH QUERY TEXT AND NOTHING ELSE.
-
-
-
-
-
-
-
 Do not include labels, numbering, headers, explanations, or any surrounding text. Return only the raw query string that can be passed directly to a search engine.
 
-
-
-
-
-
-
 ---
-
-
-
-
-
-
 
 ## QUERY CONSTRUCTION TIPS
-
-
-
-
-
-
-
 - **Anchor the query** with the product/system name AND the error code (if available). These are the terms vendor KBs are indexed on.
-
-
-
 - **Pair the anchor with an action keyword**: "troubleshoot", "resolve", "causes", "resolution", "fix", "known issue".
-
-
-
 - **Keep the query between 5-15 words**. Too short = vague results. Too long = search engine drops keywords.
-
-
-
 - **Use quotation marks** around the exact error code or status code (e.g., "status code 84") to force exact-match results.
-
-
-
 - **Prefer the vendor's official product name** over abbreviations or informal names.
 
-
-
-
-
-
-
 ---
-
-
-
-
-
-
 
 ## EXAMPLE
 
-
-
-
-
-
-
 **Input:**
-
-
-
 ISSUE: Tape backup fails on a specific drive with error code 84
-
-
-
 SYMPTOMS: Backups to tape consistently fail on one drive, device errors reported, bad blocks detected, controller errors logged, error code 84 observed, only server restart performed, issue persists
-
-
-
 ERROR: Status Code 84 — appliance reports device errors and bad blocks on tape drive
-
-
-
 SYSTEM: Veritas NetBackup Appliance 5240 (Storage Server)
-
-
-
 CATEGORY: Hardware / Tape Drive Failure
-
-
-
 DESCRIPTION: Backups to tape repeatedly fail on a single drive, with Windows Event Viewer and UNIX syslog showing device errors, bad blocks, and controller errors. The problem is identified by error code 84. The only remediation attempted so far has been a server restart, which did not resolve the failure.
 
-
-
-
-
-
-
 **Expected Output:**
-
-
-
-
-
-
-
 Veritas NetBackup "status code 84" tape drive error causes resolution
