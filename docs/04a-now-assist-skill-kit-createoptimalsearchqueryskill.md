@@ -25,31 +25,31 @@ This section covers building the **`CreateOptimalSearchQuery`** skill — the fi
 
 ```
 Fulfiller Flow — Phase 2 (triggered when state = In Progress AND
-                          contact_type = chat AND
+                          channel = chat AND
                           u_extracted_error_code ≠ empty)
         │
         ▼
 Path A — Step 1 (parallel fire from workflow Start node):
 
   ┌────────────────────────────────────────────────────┐
-  │  CreateOptimalSearchQuery skill fires               │
-  │  ↓                                                  │
-  │  GetIncidentExtendDetail (Flow Action)              │
-  │  → reads Incident extend table fields               │
+  │  CreateOptimalSearchQuery skill fires              │
+  │  ↓                                                 │
+  │  GetIncidentExtendDetail (Flow Action)             │
+  │  → reads Incident extend table fields              │
   │  → outputs: short_description, error_code, CI,     │
   │    description, product_name, serial_number, etc.  │
-  │  ↓                                                  │
-  │  GenerateOptimalPromptForRAG (Skill Prompt)         │
+  │  ↓                                                 │
+  │  GenerateOptimalPromptForRAG (Skill Prompt)        │
   │  → LLM constructs an optimised AI Search query     │
-  │    from the incident context                        │
+  │    from the incident context                       │
   └────────────────────────────────────────────────────┘
         │
-        ▼  (output: optimised search query string)
+        ▼  (output: optimised search query string ready for AI Search)
 Path A — Step 2: RetrieveRelevantKBContent skill
         (receives the query → fetches ranked KB results via AI Search RAG)
 ```
 
-> **Why this skill exists:** Raw error codes make poor search queries. This skill transforms the structured incident data (error code, CI name, product, description) into an LLM-optimised query string that AI Search can rank meaningfully — improving KB retrieval quality significantly.
+> **Why this skill exists:** Raw error codes and messy incident case records make poor search queries. This skill transforms the structured incident data (error code, CI name, product, description) into an LLM-optimised query string that AI Search can rank meaningfully — improving KB retrieval quality significantly.
 
 ***
 
@@ -59,7 +59,7 @@ The skill has two nodes on its canvas, executed in sequence:
 
 | Node                          | Type         | Purpose                                                                                                                             |
 | ----------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `GetIncidentExtendDetail`     | Flow Action  | Pre-processing tool — reads all relevant fields from the extended Incident table and outputs them as structured data for the prompt |
+| `GetIncidentExtendDetail`     | Flow Action  | Pre-processing tool — reads all relevant fields from the Incident extend record and outputs them as structured data for the prompt  |
 | `GenerateOptimalPromptForRAG` | Skill Prompt | LLM prompt — takes the Flow Action outputs as context and generates an optimised AI Search query string                             |
 
 The skill takes one input — `incidentextendrecord` (the Incident record identifier) — and outputs a query string ready for the AI Search retriever in the next step.
@@ -73,8 +73,7 @@ The skill takes one input — `incidentextendrecord` (the Incident record identi
 | Now Assist Skill Kit plugin           | `sn_now_assist_skill_kit` — must be Active                                                           |
 | Now LLM Service or Azure OpenAI       | LLM provider configured in the instance                                                              |
 | `GetIncidentExtendDetail` Flow Action | Must exist — this is the Flow Action resource referenced by the tool                                 |
-| Extended Incident table               | `x_nava_agentic_lab_incident_extend` (or equivalent) — must be populated by the time the skill fires |
-| Role                                  | `sn_skill_kit.admin` or `admin`                                                                      |
+| Incident Extend table                 | `x_nava_agentic_lab_incident_extend` (or equivalent) — must be populated by the time the skill fires |
 
 ***
 
@@ -109,7 +108,9 @@ For this lab, the following provider is selected:
 | -------------------- | -------------------------------------------------------------- |
 | Default provider     | `Azure OpenAI`                                                 |
 | Default provider API | `Chat Completions`                                             |
-| Available models     | gpt\_small, gpt-4-turbo, gpt-4o-mini, gpt-4o, gpt\_large, gpt4 |
+| Available models     | gpt_small, gpt-4-turbo, gpt-4o-mini, gpt-4o, gpt\_large, gpt4  |
+
+![NASK — General Info: Skill Name, Description, and Provider](../screenshots/NASKCreateOptimalSearchQuery1-1.png)
 
 > The provider selection determines which LLM processes the prompt. Azure OpenAI is used here for its GPT model range. If your instance uses Now LLM Service natively, select that instead — the skill logic is provider-agnostic.
 
@@ -132,6 +133,8 @@ Scroll down on the General info page to reach **Configure security controls**.
 | ----- | ------ |
 | Roles | `itil` |
 
+![NASK — Security Controls: User Access and Role Restrictions](../screenshots/NASKCreateOptimalSearchQuery1-2.png)
+
 > **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits. Both are set to `itil` to match the access model established in the L1 Agent.
 
 Click **Continue** to proceed to prompt creation.
@@ -150,6 +153,8 @@ Before authoring the prompt, define the skill input that will be passed in at ru
 | Make input mandatory | Unchecked                      |
 | Allow truncation     | Unchecked                      |
 
+![NASK — Skill Input: incidentextendrecord](../screenshots/NASKCreateOptimalSearchQuery1-3.png)
+
 > `incidentextendrecord` is the identifier passed in by the Fulfiller Flow when the skill is invoked. It references the extended Incident record that `GetIncidentExtendDetail` will query. This input is threaded through to the Flow Action tool as `{{incidentextendrecord}}`.
 
 ***
@@ -160,9 +165,15 @@ After saving the skill input, navigate to the **Add tools** tab (Step 2 of the N
 
 The canvas shows the execution flow: **Start → \[tool nodes] → End**. Click the **+** connector between Start and End to add a node.
 
-Select **Tool node** and click **Add**. The tool type picker appears.
+Select **Tool node** and click **Add**.
+
+![NASK — Add Node Dialog: Tool Node Selected](../screenshots/NASKCreateOptimalSearchQuery1-4.png)
+
+The tool type picker appears.
 
 Select **Flow Action** as the tool type and click **Configure tool**.
+
+![NASK — Tool Type: Flow Action](../screenshots/NASKCreateOptimalSearchQuery1-5.png)
 
 ***
 
@@ -176,6 +187,8 @@ The **Add flow action as a tool** wizard opens (5-step wizard: General info → 
 | -------- | ---------------------------------------------------------- |
 | Name     | `GetIncidentExtendDetail`                                  |
 | Resource | `Retrieval of Relevant Fields from Incident Extract table` |
+
+![NASK — Flow Action Tool: General Info](../screenshots/NASKCreateOptimalSearchQuery1-6.png)
 
 > The **Resource** field references the Flow Action that reads the extended Incident table. Ensure ACLs are correctly configured on this resource — the platform shows a warning: _"Ensure that Access Control Lists (ACLs) are correctly configured for the resource so that the skill can access it."_
 
@@ -192,6 +205,8 @@ Click **Continue**.
 | Name     | `Incident Number`          |
 | Datatype | `String`                   |
 | Value    | `{{incidentextendrecord}}` |
+
+![NASK — Flow Action Tool: Tool Inputs](../screenshots/NASKCreateOptimalSearchQuery1-7.png)
 
 > `{{incidentextendrecord}}` is the skill input defined in Step 4 — it is passed directly into the Flow Action here. This is how the runtime Incident record is threaded through the skill into the pre-processing tool.
 
@@ -219,6 +234,8 @@ The Flow Action returns the following outputs from the extended Incident table. 
 | Category             | String     | Incident category                         |
 | Work Notes           | String     | Diagnostic notes from the L1 conversation |
 
+![NASK — Flow Action Tool: Tool Outputs](../screenshots/NASKCreateOptimalSearchQuery1-8.png)
+
 > Truncation is available per output field — enabling truncation trims the field value if it exceeds the token limit, keeping the prompt intact. Leave all truncation unchecked unless you hit token limit issues in testing.
 
 Click **Continue**.
@@ -232,6 +249,8 @@ Click **Continue**.
 | Field | Value                 |
 | ----- | --------------------- |
 | Type  | **None (Always run)** |
+
+![NASK — Flow Action Tool: Tool Conditions](../screenshots/NASKCreateOptimalSearchQuery1-9.png)
 
 > Tool conditions let you specify whether the tool should run or be skipped based on a script or filter. **None (Always run)** means the `GetIncidentExtendDetail` Flow Action executes unconditionally every time the skill is invoked — the correct setting here since the prompt always needs the Incident context.
 
@@ -254,6 +273,8 @@ Verify all fields before adding:
 | Outputs         | (all 11 fields) | String / Object / True/False as defined                    |
 | Tool conditions | Type            | none                                                       |
 
+![NASK — Flow Action Tool: Summary](../screenshots/NASKCreateOptimalSearchQuery1-10.png)
+
 Click **Add tool**.
 
 ***
@@ -275,6 +296,8 @@ GenerateOptimalProm...    ← Skill Prompt node (auto-created)
 End
 ```
 
+![NASK — Canvas: Full Skill Flow](../screenshots/NASKCreateOptimalSearchQuery1-11.png)
+
 The left panel shows **Tools** → `GetIncidentExtendDetail` / Flow Action.
 
 > The **Skill prompt** node (`GenerateOptimalProm...` = `GenerateOptimalPromptForRAG`) is the LLM prompt step. Navigate to **Step 1: Edit prompt** to author the prompt template — reference the Flow Action outputs using `{{GetIncidentExtendDetail.field_name}}` syntax (e.g. `{{GetIncidentExtendDetail.short_description}}`, `{{GetIncidentExtendDetail.error_code}}`).
@@ -289,6 +312,8 @@ Navigate to **Step 4: Deployment and skill settings** → select **Deployment se
 | -------- | ------------------------------ |
 | Workflow | `Other`                        |
 | Product  | (leave blank — not applicable) |
+
+![NASK — Deployment Settings: Workflow](../screenshots/NASKCreateOptimalSearchQuery1-13.png)
 
 > The **Workflow** field determines where this skill appears in the Now Assist Admin → Skills catalogue. Setting it to **Other** places the skill under the **Other** category — making it findable when activating it for use in Flow Designer.
 
@@ -311,9 +336,11 @@ Review the deployment settings summary:
 
 Under **Select which finalized prompts to include in the Published skill:**
 
-| Provider                                             | Prompt                                              | Action    |
-| ---------------------------------------------------- | --------------------------------------------------- | --------- |
+| Provider                                             | Prompt                                              | Action     |
+| ---------------------------------------------------- | --------------------------------------------------- | ---------  |
 | Now LLM Service (Now LLM Generic) — Default provider | `GenerateOptimalPromptForRAG (v1)` — Default prompt | ✅ Checked |
+
+![NASK — Publish Skill Dialog](../screenshots/NASKCreateOptimalSearchQuery1-12.png)
 
 Click **Publish**.
 
@@ -326,6 +353,8 @@ Click **Publish**.
 After publishing, navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills** tab.
 
 Locate `CreateOptimalSearchQuery` under the **Other** workflow (it will show **Custom | Not started | Now LLM Service**). Click **Turn on** → set role restrictions as required → confirm activation.
+
+![Now Assist Admin — Skills: CreateOptimalSearchQuery](../screenshots/NASKCreateOptimalSearchQuery1-14.png)
 
 > The skill must be **Active** in Now Assist Admin for it to be callable as a Flow Action from the Fulfiller Flow in Flow Designer. Publishing alone is not sufficient — activation is a separate step.
 
