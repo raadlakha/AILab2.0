@@ -135,7 +135,7 @@ Scroll down on the General info page to reach **Configure security controls**.
 
 ![NASK — Security Controls: User Access and Role Restrictions](../screenshots/NASKCreateOptimalSearchQuery1-2.png)
 
-> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits. Both are set to `itil` to match the access model established in the L1 Agent.
+> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits.
 
 Click **Continue** to proceed to prompt creation.
 
@@ -153,11 +153,36 @@ Before authoring the prompt, define the skill input that will be passed in at ru
 | Make input mandatory | Unchecked                      |
 | Allow truncation     | Unchecked                      |
 
+The 'Make input mandatory' is currently unchecked, but as you progressively firm up your AI Agent / Agentic Workflow build, it can eventually be turned on (checked) to ensure more robustness in overall solutioning, as making the input mandatory will ensure that the flow runs smoothly.
+
 ![NASK — Skill Input: incidentextendrecord](../screenshots/NASKCreateOptimalSearchQuery1-3.png)
 
 > `incidentextendrecord` is the identifier passed in by the Fulfiller Flow when the skill is invoked. It references the extended Incident record that `GetIncidentExtendDetail` will query. This input is threaded through to the Flow Action tool as `{{incidentextendrecord}}`.
 
 ***
+
+### Step 5: Rename the Prompt
+ 
+When the skill is created, NASK auto-generates a default prompt named **Incident Summarization**. This needs to be renamed to reflect the skill's actual purpose.
+ 
+1. In the **Skill contents** panel (left side), expand **Prompts** → **Azure OpenAI** → **Chat Completions**
+2. Click on **Incident Summarization** to select it
+ 
+![NASK — Edit Prompt: Default Name (Incident Summarization)](../screenshots/NASKCreateOptimalSearchQuery1-15.png)
+ 
+3. Click the **pencil icon** next to the prompt name to open the **Edit prompt name** dialog
+4. Change the **Name** from `Incident Summarization` to `GenerateOptimalPromptForRAG`
+ 
+![NASK — Edit Prompt Name Dialog](../screenshots/NASKCreateOptimalSearchQuery1-16.png)
+ 
+5. Click **Save changes**
+6. Confirm the prompt name now displays as **GenerateOptimalPromptForRAG** in the Skill contents panel
+ 
+![NASK — Prompt Renamed to GenerateOptimalPromptForRAG](../screenshots/NASKCreateOptimalSearchQuery1-17.png)
+ 
+> The prompt name is referenced throughout the skill — on the canvas (as the Skill prompt node label), in the Publish dialog, and in the finalized prompt selector. Renaming it now ensures consistency across all surfaces. This is also the prompt name that appears when you publish the skill in Step 14.
+ 
+---
 
 ### Step 5: Add Tools — Canvas
 
