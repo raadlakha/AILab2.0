@@ -1,6 +1,6 @@
 # 06 — Fulfiller AI Agent: Resolution Pathfinder for Incident case Agent
 
-> **Release:** Zurich | **Flow:** Fulfiller Flow — Phase 2, all paths
+> **Release:** Zurich | **Flow:** Fulfiller Flow — Phase 2 (Root Cause Analysis and to attempt to resolve the issue)
 > **Source:** [ServiceNow Zurich — AI Agent Studio](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/ai-agent-studio.html) | [Create an AI agent](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/configure-next-best-action-agent.html) | [Add tools and information](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/add-tool-aia.html)
 
 ---
@@ -365,9 +365,9 @@ The `platform_core_execute_esql` tool description contains hard instructions tel
 
 The agent's description and instructions define a strict search hierarchy:
 
-1. **Path A — Internal:** `ResolutionFinderUsingInternalData` (PI + KB RAG). If confirmed → write plan → stop.
-2. **Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql`. If conclusive → write plan → stop.
-3. **Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`. Writes plan + URL citation.
+1. **1. Internal:** `ResolutionFinderUsingInternalData` (PI + KB RAG)
+2. **2. Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql`
+3. **3. Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`
 
 If all three paths yield nothing, the agent writes a structured "no resolution found" note documenting what was searched — arming L2 engineers with full context on what the AI already tried.
 
@@ -384,6 +384,4 @@ If all three paths yield nothing, the agent writes a structured "no resolution f
 
 ## Next Steps
 
-→ Complete the remaining wizard steps: **Define data access**, **Add triggers** (configure the Incident trigger conditions), and **Select channels and status**.
-
-→ After the agent is published and active, the Fulfiller Flow fires automatically when an Incident meets the trigger conditions — no human initiation required.
+Continue to [07 — External Agent Integration: ServiceNow as A2A Primary Agent](07-external-agent-integration.md) to onboard an external A2A Agent onto ServiceNow Platform to be used within your Agentic Workflow Orchestration.
