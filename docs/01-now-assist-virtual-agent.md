@@ -198,9 +198,12 @@ The final section is **Review**. Confirm all settings look correct across each s
 
 ---
 
+Once the Virtual Agent Assistant has been setup, we need to move on to duplicate the 'Upload Image' topic that we will require as part of the AI Agent build.
+
 ### Step 11: Navigate to the Upload Image Topic
 
-The Upload image topic is an out-of-the-box (OOB) topic provided by the Platform AI Agents and Skills application. It handles image upload within Virtual Agent conversations. For this lab, you will duplicate the topic into your scoped application so it can be used by the First Responder Operations Analyst Agent.
+
+The **Upload image** topic is an out-of-the-box (OOB) topic provided by the Platform AI Agents and Skills application. It handles image upload within Virtual Agent conversations. For this lab, you will duplicate the topic into your scoped application so it can be used by the First Responder Operations Analyst Agent.
 
 1. In Assistant Designer, click the Asset library tab
 2. Select the Topics sub-tab
