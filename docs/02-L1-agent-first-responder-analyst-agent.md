@@ -1,6 +1,6 @@
 # 02 — First Responder Operations Analyst Agent
 
-> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Building of the First Responder Operations Analyst Agent)
+> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Step 3)
 
 ---
 

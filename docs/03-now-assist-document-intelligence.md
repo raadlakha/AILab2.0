@@ -1,6 +1,6 @@
 # 02 — Now Assist in Document Intelligence (NADI)
 
-> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Steps 5 & 6)
+> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Steps 4)
 > **Source:** [ServiceNow Zurich — Now Assist in Document Intelligence](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/document-intelligence/concept/docintel-nowassist-landing.html) | [Use cases for Now Assist in Document Intelligence](https://www.servicenow.com/docs/r/intelligent-experiences/now-assist-in-document-intelligence/use-cases-now-assist-document-intelligence.html)
 
 ---

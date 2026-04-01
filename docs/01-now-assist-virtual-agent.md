@@ -1,6 +1,6 @@
 # 01 — Now Assist for Virtual Agent (NAVA)
 
-> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Step 1)
+> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Step 1 & 2)
 > **Source:** [ServiceNow Zurich — Using Now Assist in Virtual Agent](https://www.servicenow.com/docs/bundle/zurich-conversational-interfaces/page/administer/now-assist-in-va/concept/using-now-assist-in-va.html) | [Configuring Now Assist in Virtual Agent](https://www.servicenow.com/docs/bundle/zurich-conversational-interfaces/page/administer/now-assist-in-va/task/configure-now-assist-va.html)
 
 ---

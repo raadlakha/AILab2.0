@@ -9,7 +9,7 @@
 
 **Model Context Protocol (MCP)** is an open standard (created by Anthropic, Nov 2024) that allows AI agents to connect to external tools, databases, and APIs in a consistent and discoverable way. ServiceNow's Zurich Patch 4 release introduces native MCP client support — making ServiceNow AI Agents able to consume external MCP servers as tool providers.
 
-In this lab, ServiceNow acts as the **MCP client** and Elastic (Kibana) acts as the **MCP server**. The Elastic MCP server exposes the Veritas NetBackup log analysis and RCA tools — allowing the `First Responder Operations Analyst Agent` or the Fulfiller Flow agents to query Elastic directly as a named tool, without needing a custom REST integration.
+In this lab, ServiceNow acts as the **MCP client** and Elastic (Kibana) acts as the **MCP server**. The Elastic MCP server exposes the Veritas NetBackup log analysis and RCA tools — allowing the `Resolution Pathfinder for Incident case Agent` (Fulfiller flow) to query Elastic directly as a named tool, without needing a custom REST integration.
 
 ```
 ServiceNow AI Agent (MCP Client)
@@ -30,11 +30,8 @@ Veritas NetBackup log indices → RCA tools exposed as MCP tool definitions
 
 | Requirement | Detail |
 |-------------|--------|
-| ServiceNow release | Zurich Patch 4 or later (MCP client support added in Zurich Patch 4) |
-| Plugin | `sn_mcp_client` — must be Active. If **Manage MCP servers** is not visible in AI Agent Studio Settings, log an Incident for "CNS - Application Delivery Controller" to enable it |
-| Role | `sn_aia.admin` or `admin` |
-| Elastic deployment | Kibana endpoint active and MCP agent builder enabled |
-| API key | Elastic API key with access to the MCP endpoint (generated in Kibana → API Keys) |
+| MCP Server Endpoint URL | Kibana endpoint active and URL to the MCP endpoint |
+| API key | Elastic API key with access to the MCP endpoint |
 
 ---
 
@@ -51,7 +48,7 @@ curl -X POST \
   -d '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"test-client","version":"1.0.0"},"capabilities":{},"protocolVersion":"2024-11-05"},"jsonrpc":"2.0"}'
 ```
 
-Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`).
+Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`). Note that the work ApiKey within the format is **must**.
 
 **Expected response:** A JSON-RPC 2.0 response containing the MCP server's `serverInfo`, `protocolVersion: "2024-11-05"`, and `capabilities` object — confirming the endpoint is live and the API key is authorised.
 
@@ -82,7 +79,7 @@ Configure the following fields:
 | Name | `elasticMCPConn` |
 | Authentication type | `API Key` |
 | MCP server URL | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
-| API key | *(enter your Elastic API key — leave blank in lab environments without a live key)* |
+| API key | *(enter your Elastic API key — it will be provided during lab day itself, or reach out to the Lab instructors to provide you with the API key)* |
 
 > **Authentication type — API Key:** ServiceNow's MCP client supports three authentication modes: OAuth 2.1 (recommended for production), API Key, and Authless. API Key is used here because Elastic Kibana's MCP endpoint uses API key authentication. The key is stored securely as a Connection & Credential Alias — it is not stored in plaintext.
 >
@@ -102,13 +99,9 @@ Verify the record:
 
 | Field | Value |
 |-------|-------|
-| Server name | `elasticMCPConn` |
-| Connection Alias | `elasticMCPConn_1774940033699` *(auto-generated)* |
+| Server name | `elasticMCPConn` (or whatever you have decided to name it as) |
+| Connection Alias | `elasticMCPConn_1774940033699` *(auto-generated, can be different acros instances)* |
 | Application | `Global` |
-
-> **Connection Alias** is the platform credential record (`sn_cc_alias`) that stores the API key and URL securely. It is referenced by the MCP client when establishing sessions with the Elastic server. The auto-generated suffix (`_<timestamp>`) ensures uniqueness across multiple MCP server registrations.
->
-> **Third-party data routing warning:** The banner shown in the screenshot references KB2596322 — ServiceNow's advisory that MCP server connections may route data through third-party providers outside your region. Review this with your security and compliance team before using in production. In this lab, data sent to the Elastic MCP server includes Incident context and query strings derived from NADI-extracted fields.
 
 ---
 
@@ -160,13 +153,9 @@ ServiceNow acts as the MCP **client** in this integration. The platform manages 
 
 MCP sessions have a finite lifetime. After a session expires, further requests return a `400` error. ServiceNow refreshes sessions per-user — each user's first request after expiry generates a new session. If you observe consistent 400 errors across all users, check the `sn_mcp_client_server_session_mapping` table for accumulated stale sessions and clear them.
 
-### API Key Security
-
-The API key is stored in the Connection Alias (`sn_cc_alias`) and is never exposed in plaintext after entry. Access to the Connection Alias record is controlled by ACLs — restrict it to the minimum required roles (`sn_aia.admin`) to prevent credential exposure.
-
 ### Protocol Version Compatibility
 
-The MCP `initialize` handshake negotiates the protocol version. ServiceNow's client uses `2024-11-05`. Ensure the Elastic Kibana MCP server is on a compatible version. If there is a mismatch, the connection will fail with a protocol version error in the ServiceNow system log (`sn_mcp_client.MCPRequestExecutor: MCP Protocol not supported version`).
+The MCP `initialize` handshake negotiates the protocol version. ServiceNow's client uses `2024-11-05`. Ensure the Elastic Kibana MCP server (or whatever MCP server that you are trying to connect to in the future) is on a compatible version. If there is a mismatch, the connection will fail with a protocol version error in the ServiceNow system log (`sn_mcp_client.MCPRequestExecutor: MCP Protocol not supported version`).
 
 ---
 
