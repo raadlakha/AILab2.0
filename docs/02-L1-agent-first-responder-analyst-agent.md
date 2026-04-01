@@ -107,7 +107,7 @@ The wizard advances to **Add tools and information**.
 
 The page reads: *"Tools provide the essential functionality and data an AI agent needs to carry out its role. An AI agent selects a tool based on the tool's name and description, which need to be clearly written."*
 
-The left nav shows **Define the specialty ✓** completed. Four tools must be added. Use the **Add tool ▼** dropdown to select the tool type for each.
+Four tools must be added to this AI Agent. Use the **Add tool ▼** dropdown to select the tool type for each.
 
 > You can click **+ Recommend Tools** to get AI-suggested tools based on your agent description, or add each manually.
 
@@ -132,8 +132,9 @@ Configure the following fields:
 | Tool description *(Description for LLM)* | `Use this Knowledge Graph to retrieve relevant information about the user who you are currently engaged with.` |
 | Query instruction | `Query to the knowledge graph. It should be a direct translation of request into a search query.` |
 | Execution mode | **Autonomous** |
+| Display Output | **No** |
 
-> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's role, department, manager, and affected CI — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question.
+> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question.
 >
 > **Execution mode Autonomous** means the agent calls this tool without requesting user permission first — the user never sees it happen.
 
@@ -163,7 +164,7 @@ Configure the following fields:
 | Display output | **No** |
 | Attachments | `troubleshooting-resolution-guide.pdf` — 114.0 KB |
 
-> **Why this tool:** This is the deflection gate. The agent retrieves and presents the relevant L1/L2/L3 severity-tiered diagnostic steps from the attached PDF. If the user confirms the steps resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
+> **Why this tool:** This is the deflection gate. The agent retrieves and presents the relevant L1/L2/L3 severity-tiered diagnostic steps from the attached PDF, with the PDF guide serving as a guidepost to steer and define the boundaries to which the AI Agent can interact within. If the user confirms the steps proposed by the AI Agent resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
 >
 > The PDF must be uploaded as an attachment here — the agent cannot reference external URLs. Supported formats: PDF, DOCX, TXT (up to 5 files, 5 MB each).
 >
@@ -195,9 +196,9 @@ Configure the following fields:
 | Tool description *(Description for LLM)* | `This tool allows user to upload image to Now Assist Virtual Agent` |
 | Execution mode | **Autonomous** |
 
-> **Why this tool:** This OOTB Virtual Agent conversation topic renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes in the next capability to extract the error code.
+> **Why this tool:** This Virtual Agent conversation topic renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes in the next capability to extract the error code.
 >
-> The topic `Upload image x_nava_agentic_lab` is scoped to the `x_nava_agentic_lab` application scope — ensure this scope is active and the Virtual Agent topic is published before testing.
+> The topic `Upload image x_nava_agentic_lab` is scoped to the `x_nava_agentic_lab` application scope — ensure this scope is active and the Virtual Agent topic is published before testing. For this to work, ensure that you have duplicated the OOTB Topic 'Upload Image' within Virtual Agent Designer (due to cross-application scope reasons, you have to duplicate the OOTB topic and use it).
 
 Click **Add**.
 
@@ -309,17 +310,15 @@ Click **Save and continue** to complete the agent configuration.
 
 ### Wizard Step 6 — Test the Agent
 
-Navigate to **AI Agent Studio → Testing**.
+Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Portal → Chat Widget**.
 
 1. Enter: *"I can't reach the backup server"*
-2. **Tool 1 check** — agent responds with caller context (role, affected CI) without asking for it
-3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps from the guide
+2. **Tool 1 check** — agent responds with caller context (username, full name, department, roles) without asking for it
+3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps from the guide based on the user's questions
 4. Reply *"resolved"* → conversation ends, no Incident created (**deflection path confirmed**)
 5. Re-run. Reply *"not resolved"* → **Tool 3 check** — in-chat image upload prompt appears
 6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `contact_type = chat`, all inputs populated, image attached
-7. Open the Incident — confirm NADI triggered and `u_extracted_error_code` is populated
-
-> **"No agents available at the moment"** — check: AI Search enabled, agent status Active, Proficiency field populated, Virtual Agent channel ON with `Now Assist in Virtual Agent AlLab` selected.
+7. Open the Incident case (from the Incident Extend table) — confirm NADI triggered and `u_extracted_error_code` is populated
 
 ---
 
@@ -337,9 +336,6 @@ Navigate to **AI Agent Studio → Testing**.
 | Data access | `Dynamic user` → approved role: `itil` |
 | Channel | Virtual Agent — `Now Assist in Virtual Agent AlLab` |
 | Now Assist panel | OFF |
-| Incident `state` on creation | `New` |
-| Incident `contact_type` | `chat` |
-| Images attached at creation | Yes — NADI triggers immediately |
 
 ---
 
@@ -356,20 +352,7 @@ The agent's instructions govern when each tool fires:
 
 All subflow inputs are mandatory — the agent accumulates them across the conversation before invoking Tool 4.
 
-### Why `state = New`?
-
-The subflow creates the Incident with `state = New`. State advances to `In Progress` only after NADI extracts `u_extracted_error_code` from the attached images. This gates the Resolution Pathfinder Agentic Workflow:
-
 ```
-Trigger conditions:
-  ✓ state = In Progress (2)        ← set by NADI after extraction
-  ✓ contact_type = chat            ← stamped by NAVA (Capability 01)
-  ✓ u_extracted_error_code ≠ empty ← populated by NADI (Capability 04)
-```
-
-### Proficiency Field
-
-Auto-generated from the agent name and description. The Orchestrator uses it to match incoming user messages to this agent. Inspect it by adding it as a column in the AI Agents list view. If blank or too generic, the Orchestrator cannot route queries here.
 
 ---
 
@@ -384,6 +367,4 @@ Auto-generated from the agent name and description. The Orchestrator uses it to 
 
 ## Next Steps
 
-→ [03 — Knowledge Graph](03-knowledge-graph.md) — configure the User Graph schema queried by Tool 1
-
-→ [04 — Now Assist Document Intelligence](04-now-assist-document-intelligence.md) — configure NADI, which auto-triggers on Incident attachments created by Tool 4 and populates `u_extracted_error_code`
+→ [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md) — configure NADI, which auto-triggers on Incident attachments created by Tool 4 and populates important fields such as `u_extracted_error_code`
