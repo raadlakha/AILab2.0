@@ -1,7 +1,6 @@
 # 02 — First Responder Operations Analyst Agent
 
-> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1
-> **Source:** [AI Agent Studio](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/ai-agent-studio.html) | [Create an AI agent](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/configure-next-best-action-agent.html) | [Add tools and information](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/add-tool-aia.html)
+> **Release:** Zurich | **Flow:** Requestor Flow — Phase 1 (Building of the First Responder Operations Analyst Agent)
 
 ---
 
@@ -9,7 +8,7 @@
 
 The **First Responder Operations Analyst Agent** is an AI Agent built in AI Agent Studio. It is the first automated intelligence that engages after NAVA routes a user message — handling the conversation from initial user identification through to Incident creation.
 
-This section covers building the **AI Agent** only. The Agentic Workflow that connects this agent to the NAVA trigger is configured separately.
+This section covers building the **AI Agent** only.
 
 ---
 
@@ -20,12 +19,12 @@ NAVA receives user message (contact_type = chat stamped)
         │
         ▼
 Tool 1 — Knowledge Graph (User Graph)
-        Silently identifies user role, department, affected CI
+        Silently identifies who the user is and related information about the user
         No questions asked to the user
         │
         ▼
 Tool 2 — File Upload (Troubleshooting Resolution Guide)
-        L1/L2/L3 severity-tiered troubleshooting guide presented in chat
+        L1/L2/L3 severity-tiered troubleshooting guide provided to the AI Agent to accurately categorise, diagnose and recommend suitable troubleshooting and resolution steps
         User works through diagnostic steps
         │
         ▼
@@ -34,21 +33,21 @@ Tool 2 — File Upload (Troubleshooting Resolution Guide)
    NO  → Continue
         │
         ▼
-Tool 3 — Conversation Topic (Upload image x_nava_agentic_lab)
+Tool 3 — Conversation Topic (Upload image Topic)
         OOTB topic prompts user to upload error screenshot + device image
         In-chat file picker rendered via Virtual Agent
         │
         ▼
 Tool 4 — Subflow (Create and submit Incident record with image upload(s))
-        Fires after images are uploaded
+        Gets triggered after images are uploaded
         Creates Incident record with all mandatory inputs
         Images attached at creation time
         │
         ▼
-NADI auto-triggers on attachments → extracts u_extracted_error_code
+Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extracts information such as error code, model details, product bar code, product name, serial number
 ```
 
-> **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready.
+> **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready. The Create and submit Incident record with image upload(s) subflow will still work as intended even if user decides to not upload any images for the issue. In our lab narrative, we require for images to be uploaded as we use the extract fields for our Agentic Workflow. 
 
 ---
 
