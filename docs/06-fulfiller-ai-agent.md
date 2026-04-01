@@ -13,7 +13,7 @@ The agent uses six tools covering all three search paths:
 
 ```
 Fulfiller Flow — Phase 2 trigger:
-  state = In Progress AND contact_type = chat AND u_extracted_error_code ≠ empty
+  state = In Progress AND channel = chat AND u_extracted_error_code ≠ empty
         │
         ▼
 Resolution Pathfinder for Incident case Agent
@@ -23,26 +23,26 @@ Resolution Pathfinder for Incident case Agent
         │
         ├── Tool 2: Now Assist skill — Resolution Finder Internal Data
         │          Calls ResolutionFinderUsingInternalData
-        │          (PI similarity + KB RAG — Path A)
-        │
-        ├── Tool 3: Now Assist skill — Generate Web Search Question for Resolution Plan
-        │          Calls GenerateWebSearchQnsForResolutionPlan
-        │          Generates optimised web search query (Path B fallback)
+        │          (PI similarity + KB RAG to determine if internal information is sufficient to provide a resolution plan)
+        |
+        ├── Tool 3: MCP server tool — platform_core_get_index_mapping
+        │          Retrieves Elastic index mappings — helps agent understand schema
+        │          before constructing queries
         │
         ├── Tool 4: MCP server tool — platform_core_execute_esql
         │          Runs ES|QL query against Elastic — returns log results in tabular format
         │          Must receive query from platform_core_generate_esql or user verbatim
-        │
-        ├── Tool 5: MCP server tool — platform_core_get_index_mapping
-        │          Retrieves Elastic index mappings — helps agent understand schema
-        │          before constructing queries
+        |
+        ├── Tool 5: Now Assist skill — Generate Web Search Question for Resolution Plan
+        │          Calls GenerateWebSearchQnsForResolutionPlan
+        │          Generates optimised web search query (Path B fallback)
         │
         └── Tool 6: Web search — Search the web
                    Gemini AI answer provider
                    Privacy-safe web search (Path B final fallback)
         │
         ▼
-Agent writes resolution plan + source citation to Incident work notes
+AI Agent generates appropriate resolution plan + source citation that is to be written into the Incident case work notes regardless of outcome
 ```
 
 ---
@@ -51,11 +51,11 @@ Agent writes resolution plan + source citation to Incident work notes
 
 | Capability | Tool | How |
 |-----------|------|-----|
-| Incident context retrieval | Tool 1 — Flow action | Reads all enriched fields from the extended Incident table before any search begins |
-| Internal KB + PI resolution | Tool 2 — Now Assist skill | Searches similar resolved incidents + KB articles via RAG and Predictive Intelligence |
-| Web search query generation | Tool 3 — Now Assist skill (Supervised) | Generates a privacy-safe, optimised query for web search — supervised to ensure PII is stripped |
+| Incident context retrieval | Tool 1 — Flow action | Retrieves and reads all relevant fields from the Incident extend record before any search begins |
+| Internal KB + PI resolution | Tool 2 — Now Assist skill | Searches similar resolved incidents (Predictive Intelligence) + KB articles via RAG |
+| Elastic index discovery | Tool 3 — MCP server tool | Retrieves index mappings so agent can understand log schema before querying |
 | Elastic log query execution | Tool 4 — MCP server tool | Executes ES\|QL queries against Elastic log indices — must use a pre-generated query |
-| Elastic index discovery | Tool 5 — MCP server tool (Supervised) | Retrieves index mappings so agent can understand log schema before querying |
+| Web search query generation | Tool 5 — Now Assist skill (Supervised) | Generates a privacy-safe, optimised query for web search — supervised to ensure PII and all sensitive information is stripped |
 | Web search | Tool 6 — Web search | Gemini AI answer — searches the internet when internal and log sources yield no resolution |
 
 ---
@@ -64,12 +64,8 @@ Agent writes resolution plan + source citation to Incident work notes
 
 | Requirement | Detail |
 |-------------|--------|
-| AI Agent Studio | Now Assist Pro+ — `sn_aia` plugin Active |
-| `ResolutionFinderUsingInternalData` skill | Published and active (built in doc 03-part2) |
-| `GenerateWebSearchQnsForResolutionPlan` skill | Published and active |
-| Elastic MCP server | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built in doc 05) |
-| Web search provider | Gemini AI answer configured in Now Assist Admin |
-| Role | `sn_aia.admin` or `admin` |
+| Custom Now Assist Skills built | Custom Now Assist Skills for CreateOptimalSearchQuery, ResolutionFinderUsingInternalData and GenerateWebSearchQnsForResolutionPlan must be created |
+| Elastic MCP server | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier) |
 
 ---
 
@@ -86,9 +82,13 @@ The wizard opens on **Define the specialty**.
 | Field | Value |
 |-------|-------|
 | AI agent name | `Resolution Pathfinder for Incident case Agent` |
-| AI agent description *(Description for LLM)* | `The Resolution Pathfinder for Incident case Agent analyses an assigned IT Incident case with the eventual end goal of building a resolution plan. It does this by attempting searches across three broad areas. Firstly, searching Internal systems for possible resolution steps. Secondly, searching the log entries within the external Elastic MCP server and lastly, to conduct web search against the Internet (if the first two fail to return anything conclusive). It writes the final resolution plan and source citation to the Incident record. Triggered when an incident is in In Progress state with the channel as 'Chat' and a non-empty u_extracted_error_code field.` |
+| AI agent description *(Description for LLM)* | `See full text below` |
 
-> The description explicitly covers all three search paths and the trigger conditions — this is critical because the LLM uses it to understand the agent's scope and the Orchestrator uses it to route queries to this agent.
+AI agent description Expectation: SC to build the prompt for the description
+
+AI agent role Expectation: SC to build the prompt for the description
+
+List of Steps Expectation: SC to build the prompt for the description
 
 Click **Save and continue**.
 
@@ -143,45 +143,45 @@ The **Edit Now Assist skill** dialog opens:
 | Field | Value |
 |-------|-------|
 | Select skill | `ResolutionFinderUsingInternalData` |
-| Selected skill description *(read-only)* | `Retrieve Relevant Fields from Incident Extract table` |
-| Input — Record from Incident Extend table | `record_from_incident_extend_table` (glide_record.x_snc_nava_inci...) |
-| Input — Record from Incident Extend table String | `record_from_incident_extend_table_string` (string) |
+| Selected skill description | `Retrieve Relevant Fields from Incident Extract table` |
 | Name | `Resolution Finder Internal Data` |
 | Tool description *(Description for LLM)* | `This tool searches internal Knowledge Contents (Predictive Intelligence using Similarity Searches for Past Resolved Cases) as well as relevant Knowledge Base articles to determine if there is a solution to a newly raised Incident case.` |
 | Execution mode | **Autonomous** |
 | Display output | **No** |
 
-> **Path A tool.** This is the first search path — it calls `ResolutionFinderUsingInternalData` which runs `FindSimilarIncidents` (PI) and `RetrieveRelevantKBContent` (RAG) in parallel. If a resolution is confirmed by the `Assess if solution exists` prompt within that skill, this is the terminal step and the agent writes the resolution plan to the Incident.
+> This is the first search path that the AI Agent will take to solve the Incident case — it calls `ResolutionFinderUsingInternalData` which runs `FindSimilarIncidents` (PI) and `RetrieveRelevantKBContent` (RAG) in parallel. If a probable resolution is confirmed by the `Assess if solution exists` prompt within that skill, the suggested Resolution Plan is shared back with the AI Agent.
 
 Click **Save**.
 
 ---
 
-#### Tool 3 — Now Assist Skill (Generate Web Search Question)
+#### Tool 3 — MCP Server Tool (platform_core_get_index_mapping)
 
-From **Add tool ▼** select **Now Assist skill**.
+From **Add tool ▼** select **MCP server tool**.
 
-![Add tool dropdown — Now Assist skill highlighted](../screenshots/L2-agent-tool3.png)
+![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool5.png)
 
-The **Edit Now Assist skill** dialog opens:
+The **Add a Model Context Protocol Tool** dialog opens:
 
-![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (top)](../screenshots/L2-agent-tool3-2.png)
-
-![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (scrolled)](../screenshots/L2-agent-tool3-3.png)
+![Add MCP tool — elastic mcp server, platform_core_get_index_mapping](../screenshots/L2-agent-tool5-2.png)
 
 | Field | Value |
 |-------|-------|
-| Select skill | `GenerateWebSearchQnsForResolutionPlan` |
-| Selected skill description *(read-only)* | `Retrieve Relevant Fields from Incident Extract table` |
-| Input — Incidentextendrecord | `incidentextendrecord` (string) |
-| Name | `Generate Web Search Question for Resolution Plan` |
-| Tool description *(Description for LLM)* | `The 'Generate Web Search Question for Resolution Plan' tool generates a search query that is optimised for web search engines. The output of this tool call is used to build an actionable resolution plan that Support Agents can use to resolve support issues much faster down the line, as some pre-work has already been done for them by the AI agent.` |
+| Select Model Context Protocol server | `elastic mcp server (or whatever is the name of the Elastic MCP server that you have defined in the previous section)` |
+| Select tool | `platform_core_get_index_mapping` |
+
+The tool settings section:
+
+![MCP tool settings — platform_core_get_index_mapping](../screenshots/L2-agent-tool5-3.png)
+
+| Field | Value |
+|-------|-------|
+| Name | `platform_core_get_index_mapping` |
+| Tool description *(Description for LLM)* | `Retrieve mappings for the specified index or indices.` |
 | Execution mode | **Supervised** |
-| Display output | **No** |
+| Display output | **Yes** |
 
-> **Path B tool — Supervised.** Execution mode is **Supervised** rather than Autonomous — this is deliberate. Web search query generation must be reviewed before sending externally, ensuring PII and internal identifiers are stripped from the query. The agent pauses and presents the generated query for approval before proceeding to Tool 6 (Web search).
-
-Click **Save**.
+Click **Add**.
 
 ---
 
@@ -197,7 +197,7 @@ The **Add a Model Context Protocol Tool** dialog opens:
 
 | Field | Value |
 |-------|-------|
-| Select Model Context Protocol server | `elastic mcp server` |
+| Select Model Context Protocol server | `elastic mcp server (or whatever is the name of the Elastic MCP server that you have defined in the previous section)` |
 | Select tool | `platform_core_execute_esql` |
 
 The tool settings section:
@@ -217,43 +217,31 @@ Click **Add**.
 
 ---
 
-#### Tool 5 — MCP Server Tool (platform_core_get_index_mapping)
+#### Tool 5 — Now Assist Skill (Generate Web Search Question)
 
-From **Add tool ▼** select **MCP server tool**.
+From **Add tool ▼** select **Now Assist skill**.
 
-![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool5.png)
+![Add tool dropdown — Now Assist skill highlighted](../screenshots/L2-agent-tool3.png)
 
-The **Add a Model Context Protocol Tool** dialog opens:
+The **Edit Now Assist skill** dialog opens:
 
-![Add MCP tool — elastic mcp server, platform_core_get_index_mapping](../screenshots/L2-agent-tool5-2.png)
+![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (top)](../screenshots/L2-agent-tool3-2.png)
 
-| Field | Value |
-|-------|-------|
-| Select Model Context Protocol server | `elastic mcp server` |
-| Select tool | `platform_core_get_index_mapping` |
-
-The available Elastic tools visible in the dropdown:
-- `platform_core_cases` — Retrieves cases from Elastic Security, Observability, or Stack Management
-- `platform_core_execute_esql` — Execute an ES\|QL query (Tool 4)
-- `platform_core_generate_esql` — Generate an ES\|QL query from a natural language query
-- `platform_core_get_document_by_id` — Retrieve the full content of an Elasticsearch document by ID
-- `platform_core_get_index_mapping` ✓ — Retrieve mappings for the specified index or indices
-
-The tool settings section:
-
-![MCP tool settings — platform_core_get_index_mapping](../screenshots/L2-agent-tool5-3.png)
+![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (scrolled)](../screenshots/L2-agent-tool3-3.png)
 
 | Field | Value |
 |-------|-------|
-| Input — Indices | `indices` (simple_array) |
-| Name | `platform_core_get_index_mapping` |
-| Tool description *(Description for LLM)* | `Retrieve mappings for the specified index or indices.` |
+| Select skill | `GenerateWebSearchQnsForResolutionPlan` |
+| Selected skill description | `Retrieve Relevant Fields from Incident Extract table` |
+| Input — Incidentextendrecord | `incidentextendrecord` (string) |
+| Name | `Generate Web Search Question for Resolution Plan` |
+| Tool description *(Description for LLM)* | `The 'Generate Web Search Question for Resolution Plan' tool generates a search query that is optimised for web search engines. The output of this tool call is used to build an actionable resolution plan that Support Agents can use to resolve support issues much faster down the line, as some pre-work has already been done for them by the AI agent.` |
 | Execution mode | **Supervised** |
-| Display output | **Yes** |
+| Display output | **No** |
 
-> **Supervised + Display output Yes.** This tool is supervised because index mapping inspection is a schema discovery step — the agent presents the mapping to the human operator for review before deciding how to structure the ES\|QL query. Display output Yes ensures the mapping is visible in the conversation context, enabling the agent (and operator) to reason about field names and types before calling `platform_core_execute_esql`.
+> **Path B tool — Supervised.** Execution mode is **Supervised** rather than Autonomous — this is deliberate. Web search queries must be reviewed by user before sending externally, ensuring PII and internal identifiers are stripped from the query. The agent pauses and presents the generated query for approval before proceeding to Tool 6 (Web search).
 
-Click **Add**.
+Click **Save**.
 
 ---
 
