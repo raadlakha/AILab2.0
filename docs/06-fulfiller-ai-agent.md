@@ -295,6 +295,37 @@ Click **Save and continue**.
 
 ---
 
+### Wizard Step 4 — Define Data Access
+
+The wizard advances to **Define security controls → Define data access**.
+
+![Define user access](../screenshots/L2-agent-data-access.png)
+
+| Field | Value |
+|-------|-------|
+| Data access | `Dynamic user` |
+| Role(s) | `itil` |
+
+> Restricts agent invocation to `itil` role users — consistent with the access model across all lab capabilities.
+
+Click **Save and continue**.
+
+---
+
+### Wizard Step 5 — Select Channels and Status
+
+The wizard advances to **Select channels and status**.
+
+![Select channels and status](../screenshots/L2-agent-channel-status.png)
+
+| Setting | Value |
+|---------|-------|
+| Engage via Virtual Agent assistants | **Allow: OFF** |
+
+Click **Save and continue** to complete the agent configuration.
+
+---
+
 ## Key Configuration Summary
 
 | Field | Value |
@@ -303,12 +334,11 @@ Click **Save and continue**.
 | Type | Chat |
 | Tool 1 | Flow action — `Retrieve relevant field values from a record within Incident Extract (x_snc_nava_incident_extend` |
 | Tool 2 | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderUsingInternalData` — Autonomous |
-| Tool 3 | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
+| Tool 3 | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes** |
 | Tool 4 | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous |
-| Tool 5 | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes** |
+| Tool 5 | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
 | Tool 6 | Web search — `Search the web` — Gemini AI answer — Autonomous |
 | User access | `Users with specific roles` → `itil` |
-| Trigger | state = In Progress, contact_type = chat, u_extracted_error_code ≠ empty |
 
 ---
 
@@ -322,9 +352,9 @@ The mix of Autonomous and Supervised execution modes is intentional:
 |------|------|--------|
 | Tool 1 — Flow action | Autonomous | Data retrieval — no risk, always needed |
 | Tool 2 — ResolutionFinderInternalData | Autonomous | Internal-only search — safe to run without human review |
-| Tool 3 — GenerateWebSearchQns | **Supervised** | Query goes external — human must confirm PII/internal data is stripped |
+| Tool 3 — platform_core_get_index_mapping | **Supervised** | Schema discovery — human should review mapping before query is built |
 | Tool 4 — platform_core_execute_esql | Autonomous | Query execution only — ES\|QL guardrails prevent hallucination |
-| Tool 5 — platform_core_get_index_mapping | **Supervised** | Schema discovery — human should review mapping before query is built |
+| Tool 5 — GenerateWebSearchQns | **Supervised** | Query goes external — human must confirm PII/internal data is stripped |
 | Tool 6 — Web search | Autonomous | Fires after supervised query generation is approved — safe to execute |
 
 ### ES|QL Guardrails
