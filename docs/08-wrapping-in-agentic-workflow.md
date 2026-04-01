@@ -74,17 +74,12 @@ The **Veritas Resolution Agentic Workflow** wizard opens on **Define key require
 
 The page explains the LLM's three jobs: know *when* to use the workflow, know the *steps* to complete it, and know the *AI agents* needed.
 
-**Workflow Name:**
+**Workflow Name:** - Veritas Resolution Agentic Workflow
 
-```
-Veritas Resolution Agentic Workflow
-```
-
-**Workflow description**
+**Workflow description** -
 Expectation: SC to build the prompt for the description
 
-**List of Steps**
-Expectation: SC to build the prompt for the list of steps
+**List of Steps** -Expectation: SC to build the prompt for the list of steps
 
 
 ---
