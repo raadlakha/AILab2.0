@@ -117,7 +117,7 @@ The second section is **Agentic Support**. This is a Zurich Patch 2+ setting.
 | Enable Agentic Support | On |
 | AI Agents prioritised in planner | Enabled (system property: `sn_aia.use_agents_in_planner = true`) |
 
-> This ensures the AI Agent Planner evaluates registered agents **before** falling back to scripted topics. The L1 Requestor Agent will be evaluated first for every IT infrastructure message.
+> This ensures the AI Agent Planner evaluates registered agents **before** falling back to scripted topics. The First Responder Operations Analyst Agent will be evaluated first for every IT infrastructure message. More information on how this works is available here: https://www.servicenow.com/community/now-assist-articles/virtual-agent-with-agentic-reasoning-in-the-october-release-and/ta-p/3406077
 
 ---
 
@@ -127,14 +127,7 @@ The third section is **Search Sources**.
 
 ![NAVA Search Sources](../screenshots/nava-search-source.png)
 
-Add the following search source for this lab:
-
-| Source | Type | Purpose |
-|--------|------|---------|
-| IT Infrastructure Runbooks | Knowledge Base | KB articles containing troubleshooting guides and resolution steps |
-
-> The search profile controls what content NAVA searches when generating responses. In the Requestor Flow, this feeds the L1 Agent's KB lookup before creating an Incident.
-
+No configuration needed on this page - Click "Save and Continue"
 ---
 
 ### Step 5: Knowledge Graphs
@@ -143,12 +136,9 @@ The fourth section is **Knowledge Graphs**.
 
 ![NAVA Knowledge Graph](../screenshots/nava-kg.png)
 
-Verify the Knowledge Graph is connected. This enables:
-- User identification via the **User Graph** (role, department, previous interactions)
-- Slot-filling is for pre-populating `caller_id`, `cmdb_ci`, `department` from the user's graph context - however empty/None for today's configuration.
-- Semantic search across KB articles indexed in the Knowledge Graph
+No configuration needed on this page - Click "Save and Continue"
 
-> The L1 Requestor Agent uses the Knowledge Graph as **Tool 1** to query user context and identify the affected CI at the start of every conversation.
+> To note: The First Responder Operations Analyst Agent uses the Knowledge Graph as **Tool** to query user context and identify who they are currently speaking with. The important distinction to note here is that we are not configuring the Knowledge Graphs available within Virtual Agent, but instead adding Knowledge Graph as a tool within the AI agent build.
 
 ---
 
@@ -158,13 +148,7 @@ The fifth section is **Assets**.
 
 ![NAVA Assets](../screenshots/nava-assets.png)
 
-Enable the following Now Assist skills (assets) for this lab:
-
-| Skill | Required | Purpose |
-|-------|----------|---------|
-| **AI Agents** | ✅ Yes | Routes conversation to the L1 Requestor Agent |
-| **Knowledge** | ✅ Yes | Enables KB article search in responses |
-| **AI Search** | Optional | Enhances search quality across multiple sources |
+No configuration needed on this page - Click "Save and Continue"
 
 ---
 
@@ -174,8 +158,7 @@ The sixth section is **Display Experience** — where NAVA is surfaced.
 
 ![NAVA Display Experience](../screenshots/nava-display.png)
 
-1. Open or create the **Service Portal** display experience
-2. Verify the **Now Assist Panel** is enabled for the fulfiller workspace
+1. Add the **Service Portal** to the Chat experience for the new Assistant that you are creating. You have the option of deciding and configuring if you would like for it to be a Standard or Enhanced Chat experience. This will not affect the lab as much, but more of a conversational experience for users when interacting with the Virtual Agent.
 
 ![NAVA Display — Portal](../screenshots/nava-display-portal1.png)
 
@@ -185,26 +168,26 @@ The sixth section is **Display Experience** — where NAVA is surfaced.
 
 ### Step 8: Chat Experience & Chat Features
 
-The seventh through ninth sections are **Branding**, **Chat experience**, and **Chat features**.
+The eighth through tenth sections are **Branding**, **Chat experience**, and **Chat features**.
 
-For this lab, **Branding** can be left at defaults. The critical setting is in **Chat features**:
+For this lab, **Branding** can be left at defaults, or you can choose a specific Branding theme that you like. The critical setting is in **Chat features**:
 
 ![NAVA Chat Features](../screenshots/nava-chat-features.png)
 
 | Setting | Value |
 |---------|-------|
-| Enable Now Assist for Virtual Agent | Checked |
-| Enable file upload in chat | ✅ Checked — required for Requestor Flow Step 4 (screenshot upload) |
-| Default AI model | Now Assist LLM (default) or your configured provider |
-| Conversation memory | Enabled |
+| Web search mode | NOT Checked |
+| Response Streaming | ✅ Checked |
+| Document uploads | ✅ Checked |
+| Closed chats | ✅ Checked |
 
-> **File upload in chat** must be enabled here. Without it, the file upload prompt in the Conversation Topic (Capability 02) will not function, and the user cannot submit error screenshots to trigger Document Intelligence.
+> **File upload in chat** must be enabled here. Without it, the file upload prompt in the Conversation Topic (Capability 02) will not function, and the user cannot submit error screenshots to trigger Document Intelligence Task.
 
 ---
 
 ### Step 9: Review and Save
 
-The final section is **Review**. Confirm all settings look correct across each section, then click **Save**.
+The final section is **Review**. Confirm all settings look correct across each section, then click **Save**. Once all saved, check and make sure that the Assistant is in **Activated** mode.
 
 ---
 
@@ -213,10 +196,7 @@ The final section is **Review**. Confirm all settings look correct across each s
 1. Navigate to your instance's **Service Portal** (`/sp`)
 2. Click the chat icon (bottom-right corner)
 3. Verify the Virtual Agent widget loads and NAVA responds
-4. Type: *"I can't access the server"*
-5. Confirm the L1 Requestor Agent activates (after completing Capability 05)
-
-> The full end-to-end test — including agent handoff, Knowledge Graph search, file upload, and incident creation — is performed after completing Capabilities 02 through 07.
+4. Check and confirm that the Chat Widget populated in Service Portal is the Assistant that you had just configured in Virtual Agent Designer.
 
 ---
 
@@ -224,15 +204,10 @@ The final section is **Review**. Confirm all settings look correct across each s
 
 | Field | Value for This Lab |
 |-------|--------------------|
-| Assistant | Now Assist for Virtual Agent |
+| Assistant Name | Now Assist in Virtual Agent - AI Lab |
 | Display experience | Service Portal (`/sp`) |
-| Skills (Assets) enabled | AI Agents, Knowledge |
-| File upload | Enabled in Chat features |
-| Agentic support | Enabled (Zurich Patch 2+) |
-| Search source | IT Infrastructure Runbooks KB |
-| Knowledge Graph | Connected |
-| Session field stamped | `contact_type = chat` |
-| Role to configure | `sn_va_designer` or `admin` |
+| Agentic support | Enabled |
+| Chat Features Enabled | Response Streaming, Document Uploads, Closed Chats |
 
 ---
 
@@ -240,24 +215,23 @@ The final section is **Review**. Confirm all settings look correct across each s
 
 ### `contact_type = chat` — How It Gets Stamped
 
-When a user interacts with NAVA via the Service Portal chat widget, ServiceNow automatically stamps `contact_type = chat` on the virtual agent session. When the L1 Agent subsequently creates an Incident, this value is carried forward to the `contact_type` field on the Incident record.
+When a user interacts with NAVA via the Service Portal chat widget, ServiceNow automatically stamps `contact_type = chat` on the virtual agent session. When the L1 Agent subsequently creates an Incident, this value is carried forward to the `channel` field on the Incident record.
 
 This is a **platform behaviour** — no manual configuration needed. However it is critical to verify post-incident creation, as it is one of three conditions that gate the Resolution Pathfinder Agentic Workflow:
 
 ```
 Agentic Workflow trigger conditions:
   ✓ state = In Progress (2)
-  ✓ contact_type = chat
+  ✓ channel = chat
   ✓ u_extracted_error_code ≠ empty
 ```
 
-If `contact_type` is not `chat` (e.g., incident created via email or form), the Agentic Workflow will not trigger.
+If `channel` is not `chat` (e.g., incident created via email or form), the Agentic Workflow will not trigger.
 
 ### Agentic Reasoning — Zurich Patch 2+ Behaviour Change
 
-From Zurich Patch 2 (Now Assist in VA v12.x / GAIC v11.2), the following default behaviours change:
+From Zurich Patch 2, the following default behaviours change:
 
-- Default LLM switches to **GPT-4.1** (NowLLM users switch to GPT-OSS)
 - AI Agents are **prioritised** over scripted topics in every response
 - Multi-intent is supported and appears in responses
 - Disambiguation follow-up questions are only asked for very unclear/one-word queries
