@@ -63,7 +63,8 @@ Phase 2 — Fulfiller Flow — Veritas Resolution Finder Agent
         └── Path B: No internal solution → Consider Privacy-safe Web Search to gather more information for resolution
                   → Checked against Elastic server's log record entries to validate on root cause analysis; nothing conclusive found → Privacy-safe Web Search
                   ├── Web search finds actionable next steps for resolution → Resolution Plan generated to be written to Incident work notes for Support Agent (human) to takeover
-                  └── Web search fails → Work notes generated to be appended to the Incident case → L2 escalation 🔴
+                  |── Phase 3 NOT triggered — Support Agent (human) reviews and executes ✅
+                  └── Web search fails → Work notes generated (on the results of the Web Search) to be appended to the Incident case → L2 escalation 🔴
                           │
                           ▼
 Phase 3 — External Integration — Observability & Action Agent via A2A
@@ -178,11 +179,9 @@ These conditions are evaluated on the **`incident extend`** table (`x_nava_agent
 |-------|-----------|------|---------|
 | Phase 1 | KB deflection succeeds | **1A** | Deflected in chat. No Incident created. ✅ |
 | Phase 1 | No KB deflection | **1B** | Incident created. Pipeline continues. |
-| Phase 2 | Internal KB + similar incidents resolve | **Path A** | Resolution Plan written. Phase 3 triggered. ✅ |
-| Phase 2 | Internal fails → web search resolves | **Path B** | Resolution Plan written. Phase 3 triggered. ✅ |
-| Phase 2 | All sources fail | **Path B fallback** | Work notes + L2 escalation. Phase 3 NOT triggered. 🔴 |
-| Phase 2 | `u_extracted_error_code` empty | *(no trigger)* | Agentic Workflow does not fire. Manual queue. |
-| Phase 3 | Azure AI Foundry executes successfully | **Path 3A** | Result written. Incident auto-resolved. ✅ |
+| Phase 2 | Internal KB or similar incidents resolve or relevant information found in log records | **Path A** | Resolution Plan generated and written. Phase 3 triggered. ✅ |
+| Phase 2 | Internal KB or similar incidents resolved or  no relevant information found in log records | **Path B** | Web search triggered to generate Actionable Resolution Plan for human Support Agent. ✅ |
+| Phase 3 | Azure AI Foundry executes successfully | **Path 3A** | Work notes in Incident case generated and written. Incident auto-resolved. ✅ |
 | Phase 3 | Azure AI Foundry fails / partial | **Path 3B** | Partial log written. L2 handoff with full context. 🔴 |
 
 ---
