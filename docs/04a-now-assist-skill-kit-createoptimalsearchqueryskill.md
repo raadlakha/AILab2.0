@@ -1,4 +1,4 @@
-# 03 — Now Assist Skill Kit: CreateOptimalSearchQuery
+# 04a — Now Assist Skill Kit: CreateOptimalSearchQuery
 
 > **Release:** Zurich | **Flow:** Fulfiller Flow — Phase 2, Path A, Step 1
 > **Source:** [Now Assist Skill Kit — ServiceNow Community](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-tool-and-deployment-options/ta-p/3284803) | [Create a custom skill — ServiceNow Docs](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-skill-kit/concept/now-assist-skill-kit-landing.html)

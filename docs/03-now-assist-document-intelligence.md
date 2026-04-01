@@ -339,4 +339,4 @@ Now Assist in Document Intelligence supports: PDF, PNG, JPEG, and other common i
 
 ## Next Step
 
-Continue to [05 — L1 Requestor Agent](05-requestor-ai-agent.md) to build the Chat AI Agent that orchestrates the full Requestor Flow — from Knowledge Graph lookup through Troubleshooting Guide delivery, image upload prompting, and Incident creation.
+Continue to [04a — Now Assist Skill Kit: CreateOptimalSearchQuery](04a-now-assist-skill-kit-createoptimalsearchqueryskill.md) to build the first of three Custom Now Assist Skills needed for second AI Agent (Resolution Pathfinder for Incident case Agent).
