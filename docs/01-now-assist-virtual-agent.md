@@ -209,19 +209,6 @@ The Upload image topic is an out-of-the-box (OOB) topic provided by the Platform
 
 ![NAVA Chat Features](../screenshots/va-topic-tool-uploadimage-1.png)
 
----
-
-### Step 11: Navigate to the Upload Image Topic
-
-The Upload image topic is an out-of-the-box (OOB) topic provided by the Platform AI Agents and Skills application. It handles image upload within Virtual Agent conversations. For this lab, you will duplicate the topic into your scoped application so it can be used by the First Responder Operations Analyst Agent.
-
-1. In Assistant Designer, click the Asset library tab
-2. Select the Topics sub-tab
-3. In the search bar, type Upload image
-4. Confirm the OOB topic appears — it should show as Published and Active
-
-![NAVA Chat Features](../screenshots/va-topic-tool-uploadimage-1.png)
-
 > The OOB topic is owned by the **Platform AI Agents and Skills** scope. You cannot edit it directly — you must duplicate it into your lab scope (`x_nava_agentic_lab`). Make sure you are on the right scope before performing the duplication step!
 
 ---
