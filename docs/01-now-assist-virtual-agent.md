@@ -52,10 +52,8 @@ L1 / Requestor AI Agent is triggered
 |-----------|---------------------|
 | Conversational intake | User describes the issue in natural language — no form filling |
 | Session stamping | `contact_type = chat` is automatically applied to the session and propagates to the Incident record |
-| AI Agent routing | NAVA's AI Agent Planner identifies the right agent (L1 Requestor Agent) and hands off the conversation |
-| Knowledge Graph slot-filling | Known user context (name, department, CI) pre-populates fields — fewer questions asked |
+| AI Agent routing | NAVA's AI Agent Planner identifies the right agent (First Responder Operations Analyst Agent) and hands off the conversation |
 | Agentic support | In Zurich Patch 2+, AI Agents are prioritised in VA responses by default via the **Agentic Support** setting |
-| Search sources | NAVA queries configured search sources (Knowledge Base, AI Search) as part of response generation |
 
 ---
 
@@ -65,43 +63,23 @@ In Zurich, NAVA is configured through the **Assistant Designer**, a unified conf
 
 ```
 Assistant Designer — Setup Wizard Order
-  1. Basic details
-  2. Agentic support
-  3. Search sources
-  4. Knowledge Graphs
-  5. Assets
-  6. Display experience
-  7. Branding
-  8. Chat experience
-  9. Chat features
- 10. Review
+  1. Settings: Basic details
+  2. Settings: Agentic support
+  3. Settings: Display experience
+  4. Settings: Branding
+  5. Settings: Chat experience
+  6. Settings: Additional Chat features
+  7. Information Sources: Search sources
+  8. Information Sources: Knowledge Graphs
+  9. Information Sources: Assets
+  10. Review
 ```
-
----
-
-## Prerequisites
-
-| Requirement | Detail |
-|-------------|--------|
-| Licence | Now Assist Pro+ or ITSM Pro+ with Now Assist for Virtual Agent |
-| Plugin — Virtual Agent | `com.glide.cs.chatbot` — must be Active |
-| Plugin — Now Assist in VA | `sn_now_assist_va` — must be Active |
-| Plugin — Now Assist AI Agents | `sn_aia` — must be Active (v5.2+ recommended for Zurich) |
-| Plugin — GAIC | `sn_gaic` — v11.2+ for agentic reasoning |
-| Role | `sn_va_designer` or `admin` |
-| Zurich patch | Patch 2+ for AI Agents prioritisation; Patch 4+ for Agentic Support configuration in Settings UI |
 
 ---
 
 ## Lab Exercise — Steps to Configure NAVA
 
-### Step 1: Verify Now Assist for Virtual Agent is Activated
-
-1. Navigate to **All** → search **Now Assist** → **Administration** → **Setup**
-2. Confirm **Now Assist for Virtual Agent** is listed as **Active**
-3. If not active, use the **Now Assist Setup Assistant** to activate it
-
-### Step 2: Open the Assistant Designer
+### Step 1: Open the Assistant Designer
 
 Navigate to **Conversational Interfaces** → **Assistant Designer**
 
@@ -111,7 +89,7 @@ Navigate to **Conversational Interfaces** → **Assistant Designer**
 
 ---
 
-### Step 3: Basic Details
+### Step 2: Basic Details
 
 The first section in the wizard is **Basic details**.
 
@@ -128,7 +106,7 @@ Review and confirm:
 
 ---
 
-### Step 4: Agentic Support
+### Step 3: Agentic Support
 
 The second section is **Agentic Support**. This is a Zurich Patch 2+ setting.
 
@@ -145,7 +123,7 @@ The second section is **Agentic Support**. This is a Zurich Patch 2+ setting.
 
 ---
 
-### Step 5: Search Sources
+### Step 4: Search Sources
 
 The third section is **Search Sources**.
 
@@ -161,7 +139,7 @@ Add the following search source for this lab:
 
 ---
 
-### Step 6: Knowledge Graphs
+### Step 5: Knowledge Graphs
 
 The fourth section is **Knowledge Graphs**.
 
@@ -176,7 +154,7 @@ Verify the Knowledge Graph is connected. This enables:
 
 ---
 
-### Step 7: Assets
+### Step 6: Assets
 
 The fifth section is **Assets**.
 
@@ -192,7 +170,7 @@ Enable the following Now Assist skills (assets) for this lab:
 
 ---
 
-### Step 8: Display Experience
+### Step 7: Display Experience
 
 The sixth section is **Display Experience** — where NAVA is surfaced.
 
@@ -207,7 +185,7 @@ The sixth section is **Display Experience** — where NAVA is surfaced.
 
 ---
 
-### Step 9: Chat Experience & Chat Features
+### Step 8: Chat Experience & Chat Features
 
 The seventh through ninth sections are **Branding**, **Chat experience**, and **Chat features**.
 
@@ -226,13 +204,13 @@ For this lab, **Branding** can be left at defaults. The critical setting is in *
 
 ---
 
-### Step 10: Review and Save
+### Step 9: Review and Save
 
 The final section is **Review**. Confirm all settings look correct across each section, then click **Save**.
 
 ---
 
-### Step 11: Verify the Chat Widget in Service Portal
+### Step 10: Verify the Chat Widget in Service Portal
 
 1. Navigate to your instance's **Service Portal** (`/sp`)
 2. Click the chat icon (bottom-right corner)
