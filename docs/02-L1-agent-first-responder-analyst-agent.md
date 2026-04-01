@@ -352,8 +352,6 @@ The agent's instructions govern when each tool fires:
 
 All subflow inputs are mandatory — the agent accumulates them across the conversation before invoking Tool 4.
 
-```
-
 ---
 
 ## Reference
