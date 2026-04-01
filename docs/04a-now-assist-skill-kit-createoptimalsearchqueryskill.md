@@ -329,7 +329,38 @@ The left panel shows **Tools** → `GetIncidentExtendDetail` / Flow Action.
 
 ***
 
-### Step 13: Configure Deployment Settings
+### Step 13: Author the Prompt
+ 
+Navigate back to **Step 1: Edit prompt** in the NASK wizard tab bar. Click on the **GenerateOptimalPromptForRAG** prompt in the Skill contents panel to open the prompt editor.
+ 
+The prompt for this skill is provided in the lab repository. Copy the full prompt text from the following file and paste it into the **Prompt** text area:
+ 
+```
+📁 ../NASKprompts/CreateOptimalSearchQuery-Prompt
+```
+ 
+1. Open the file at [`../NASKprompts/CreateOptimalSearchQuery-Prompt`](../NASKprompts/CreateOptimalSearchQuery-Prompt) in the lab repository
+2. Copy the **entire contents** of the file
+3. In the NASK prompt editor, paste the copied text into the **Prompt** field
+4. Verify that the prompt references the Flow Action output variables using `{{GetIncidentExtendDetail.<field_name>}}` syntax — for example:
+   - `{{GetIncidentExtendDetail.short_description}}`
+   - `{{GetIncidentExtendDetail.description}}`
+   - `{{GetIncidentExtendDetail.configuration_item}}`
+   - `{{GetIncidentExtendDetail.error_code}}`
+   - `{{GetIncidentExtendDetail.product_name}}`
+   - `{{GetIncidentExtendDetail.serial_number}}`
+   - `{{GetIncidentExtendDetail.category}}`
+   - `{{GetIncidentExtendDetail.work_notes}}`
+5. Click **Save** to save the prompt
+6. Click **Manage prompt** → **Finalize prompt** to lock the prompt as version 1
+ 
+> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 15). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
+ 
+> **Prompt design note:** The prompt instructs the LLM to take the structured incident fields (error code, CI name, product details, work notes, description) and synthesise them into a single, keyword-optimised search query string suitable for AI Search. It is not a summarisation task — the output is a search query, not a summary. This distinction is critical for downstream KB retrieval quality.
+ 
+---
+
+### Step 14: Configure Deployment Settings
 
 Navigate to **Step 4: Deployment and skill settings** → select **Deployment settings** from the left nav.
 
@@ -344,7 +375,7 @@ Navigate to **Step 4: Deployment and skill settings** → select **Deployment se
 
 ***
 
-### Step 14: Publish the Skill
+### Step 15: Publish the Skill
 
 Click **Publish skill** (top right of the skill editor).
 
@@ -373,7 +404,7 @@ Click **Publish**.
 
 ***
 
-### Step 15: Activate the Skill
+### Step 16: Activate the Skill
 
 After publishing, navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills** tab.
 
