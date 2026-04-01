@@ -283,6 +283,42 @@ You should now see **two** topics:
  
 ---
 
+### Step 15: Configure Topic Properties — System Roles
+ 
+1. Switch to the **Properties** tab
+2. Scroll down to **Advanced properties (optional)** → expand **Who can access this topic**
+3. Next to **System Roles**, click the **edit** (pencil) icon
+ 
+![Topic Properties — Advanced Properties](../screenshots/va-topic-tool-uploadimage-5.png)
+ 
+4. In the **System Roles** dialog, move the following two roles from **Selected** to **Available** (essentially removing it from the System Roles):
+ 
+| Role | Purpose |
+|------|---------|
+| `wm_agent` | Allows Workspace agents to invoke this topic |
+| `sn_uxc_gen_ai.platform_ai_image_processor` | Grants the AI image processing capability required by the Process image node |
+ 
+![System Roles — Selection Dialog](../screenshots/va-topic-tool-uploadimage-6.png)
+ 
+5. Click **Save** on the System Roles dialog
+6. Confirm that the roles have been removed
+ 
+![Topic Properties — Roles Configured](../screenshots/va-topic-tool-uploadimage-7.png)
+ 
+---
+
+### Step 16: Save, Publish, and Verify Active State
+ 
+1. Click **Save** in the top-right corner
+2. If the topic status shows **Inactive**, click **Publish** to make it active and available in the chat window
+3. Switch to the **Flow** tab and confirm the status indicator shows **Active** (green dot)
+ 
+![Duplicated Topic — Active and Published](../screenshots/va-topic-tool-uploadimage-9.png)
+ 
+> The topic is now live in the `x_nava_agentic_lab` scope. It will be referenced as a **Tool** by the First Responder Operations Analyst Agent when it needs to prompt the user to upload an error screenshot.
+ 
+---
+
 ## Key Configuration Fields
 
 | Field | Value for This Lab |
