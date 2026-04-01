@@ -184,7 +184,7 @@ When the skill is created, NASK auto-generates a default prompt named **Incident
  
 ---
 
-### Step 5: Add Tools — Canvas
+### Step 6: Add Tools — Canvas
 
 After saving the skill input, navigate to the **Add tools** tab (Step 2 of the NASK wizard).
 
@@ -202,7 +202,7 @@ Select **Flow Action** as the tool type and click **Configure tool**.
 
 ***
 
-### Step 6: Configure the Flow Action Tool — General Info
+### Step 7: Configure the Flow Action Tool — General Info
 
 The **Add flow action as a tool** wizard opens (5-step wizard: General info → Tool inputs → Tool outputs → Tool conditions → Summary).
 
@@ -221,7 +221,7 @@ Click **Continue**.
 
 ***
 
-### Step 7: Configure the Flow Action Tool — Tool Inputs
+### Step 8: Configure the Flow Action Tool — Tool Inputs
 
 **Step 2 — Tool inputs:**
 
@@ -239,7 +239,7 @@ Click **Continue**.
 
 ***
 
-### Step 8: Configure the Flow Action Tool — Tool Outputs
+### Step 9: Configure the Flow Action Tool — Tool Outputs
 
 **Step 3 — Tool outputs:**
 
@@ -267,7 +267,7 @@ Click **Continue**.
 
 ***
 
-### Step 9: Configure the Flow Action Tool — Tool Conditions
+### Step 10: Configure the Flow Action Tool — Tool Conditions
 
 **Step 4 — Tool conditions (optional):**
 
@@ -283,7 +283,7 @@ Click **Continue** → review the Summary → click **Add tool**.
 
 ***
 
-### Step 10: Review Tool Summary
+### Step 11: Review Tool Summary
 
 **Step 5 — Summary:**
 
@@ -304,7 +304,7 @@ Click **Add tool**.
 
 ***
 
-### Step 11: Verify Canvas
+### Step 12: Verify Canvas
 
 After adding the tool, the canvas updates to show the full skill execution flow:
 
@@ -329,7 +329,7 @@ The left panel shows **Tools** → `GetIncidentExtendDetail` / Flow Action.
 
 ***
 
-### Step 12: Configure Deployment Settings
+### Step 13: Configure Deployment Settings
 
 Navigate to **Step 4: Deployment and skill settings** → select **Deployment settings** from the left nav.
 
@@ -344,7 +344,7 @@ Navigate to **Step 4: Deployment and skill settings** → select **Deployment se
 
 ***
 
-### Step 13: Publish the Skill
+### Step 14: Publish the Skill
 
 Click **Publish skill** (top right of the skill editor).
 
@@ -373,7 +373,7 @@ Click **Publish**.
 
 ***
 
-### Step 14: Activate the Skill
+### Step 15: Activate the Skill
 
 After publishing, navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills** tab.
 
