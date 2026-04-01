@@ -1,7 +1,7 @@
 # 00 — Use Case Summary: NAVA Agentic Incident Resolution
 
 > **Use case:** Veritas Resolution Agentic Workflow
-> **Release:** Zurich | **Team:** ServiceNow Global Intelligent Automation SC Team · India · March 2026
+> **Release:** Zurich | **Team:** ServiceNow APJ Intelligent Automation SC Team · March 2026
 
 ---
 
@@ -9,7 +9,7 @@
 
 **NAVA (Now Assist Virtual Agent) with Agentic Incident Resolution** is an end-to-end, multi-agent pipeline built on ServiceNow that handles IT incidents autonomously — from first user message to resolution — with no mandatory human intervention.
 
-When an issue cannot be deflected in chat, the platform creates an incident, extracts structured data from user-uploaded images via Now Assist Document Intelligence, and triggers the **Veritas Resolution Agentic Workflow**. The workflow searches multiple knowledge sources and — on finding a resolution — dispatches a remediation plan to Azure AI Foundry via the **A2A (Agent-to-Agent) protocol** for execution.
+When an issue cannot be deflected in chat, the platform summarises all of the chat interactions and uses it to creates an Incident case, extracts key information from user-uploaded images via Now Assist Document Intelligence, and triggers the **Veritas Resolution Agentic Workflow**. The workflow searches multiple knowledge sources and — on finding a resolution — dispatches a remediation plan to Azure AI Foundry via the **A2A (Agent-to-Agent) protocol** for execution.
 
 > **Key outcome:** Zero-touch incident resolution — user message → autonomous diagnosis → external remediation → incident closed, with a complete audit trail written at every step.
 
@@ -25,7 +25,7 @@ Traditional ITSM flows suffer from three compounding inefficiencies:
 
 **Resolution bottleneck at L2** because search is manual and cross-system — solved by the Veritas agentic search cascade and A2A-driven automated remediation.
 
-This use case is designed for regulated-industry accounts (banking, healthcare, infrastructure) where ticket volume is high, resolution SLAs are tight, and there is a need to demonstrate autonomous AI value without removing human oversight from critical paths.
+This use case is designed for regulated-industry account (banking, healthcare, infrastructure) where ticket volume is high, resolution SLAs are tight, and there is a need to demonstrate autonomous AI value without removing human oversight from critical paths.
 
 ---
 
@@ -35,8 +35,8 @@ The solution is structured across three swimlanes, each owned by a distinct set 
 
 | Swimlane | Components & Agents |
 |----------|-------------------|
-| **Requestor flow** | Now Assist Virtual Agent (NAVA), L1 / Requestor Agent, Knowledge Graph + User Graph, Troubleshooting Guide (file upload tool), Conversation Topic, Now Assist Document Intelligence |
-| **Fulfiller flow (Veritas Workflow)** | Resolution Finder Agent, GenerateSearchQueryAgainstAISearch Skill, FindSimilarIncidents Skill (Predictive Intelligence), RetrieveRelevantKBContent Retriever, Assess if solution exists Skill Prompt, Privacy-safe Web Search |
+| **Requestor flow** | Now Assist Virtual Agent (NAVA), L1 / Requestor Agent, Knowledge Graph + User Graph, Troubleshooting Guide (file upload tool), Conversation Topic, Flow Action (Create Incident Case), Now Assist Document Intelligence |
+| **Fulfiller flow (Veritas Workflow)** | ResolutionFinderInternalData Now Assist Custom Skill, CreateOptimalSearchQuery Now Assist Custom Skill, GenerateWebSearchQnsForResolutionPlan Now Assist Custom Skill, Flow Action (Retrieve Incident Case), Web Search tool, Elastic MCP server connectivity (Log entries) |
 | **External integration (Veritas Workflow)** | Observability & Action Agent, A2A Protocol, Azure AI Foundry (remote execution agent) |
 
 ### Full Pipeline — Decision Tree
@@ -49,19 +49,21 @@ Phase 1 — Requestor Flow — Deflection & Incident Creation
         │
         ├── KB deflection succeeds → conversation ends, NO ticket created ✅
         │
-        └── No deflection → image upload → Doc Intel extraction → Incident created
+        └── No deflection → chat conversation is summarised and gathering of additional details → image upload → Incident created → Doc Intel extraction
                 │
                 ▼
 Phase 2 — Fulfiller Flow — Veritas Resolution Finder Agent
         │
         ├── Trigger: state=In Progress AND channel=Chat AND error_code≠empty
         │
-        ├── Path A: Internal KB + FindSimilarIncidents → solution found
-        │         → Resolution Plan written → Phase 3 triggered ✅
+        ├── Path A: Internal Knowledge Base + Predictive Intelligence (Similarity) → possible resolution next steps found
+                  → Checked against Elastic server's log record entries to validate on root cause analysis → In concurrence with information found internally
+        │         → Resolution Plan generated → Phase 3 triggered ✅
         │
-        └── Path B: No internal solution → Privacy-safe Web Search
-                  ├── Web search resolves → Resolution Plan written → Phase 3 triggered ✅
-                  └── Web search fails → Work notes written → L2 escalation 🔴
+        └── Path B: No internal solution → Consider Privacy-safe Web Search to gather more information for resolution
+                  → Checked against Elastic server's log record entries to validate on root cause analysis; nothing conclusive found → Privacy-safe Web Search
+                  ├── Web search finds actionable next steps for resolution → Resolution Plan generated to be written to Incident work notes for Support Agent (human) to takeover
+                  └── Web search fails → Work notes generated to be appended to the Incident case → L2 escalation 🔴
                           │
                           ▼
 Phase 3 — External Integration — Observability & Action Agent via A2A
@@ -283,4 +285,4 @@ This use case is positioned for the following customer conversations:
 
 ---
 
-*Document prepared by ServiceNow Global Intelligent Automation SC Team · India · March 2026*
+*Document prepared by ServiceNow APJ Intelligent Automation SC Team · March 2026*
