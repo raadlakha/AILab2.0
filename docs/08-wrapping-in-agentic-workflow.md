@@ -16,7 +16,7 @@ An **Agentic Workflow** in ServiceNow AI Agent Studio is the orchestration conta
 - **Triggers** — the record conditions that automatically launch the workflow
 - **Channels** — where the workflow surfaces to users
 
-This document walks through building the **Veritas Resolution Agentic Workflow** — the top-level orchestration layer for the entire Veritas architecture. It wraps the Resolution Pathfinder Agent (internal KB + Elastic + web search) and the ObsAgent (A2A execution via Azure AI Foundry) into a single governed workflow.
+This document walks through building the **Veritas Resolution Agentic Workflow** — the top-level orchestration layer for the entire Agentic Workflow architecture. It wraps the Resolution Pathfinder Agent (internal KB + Elastic + web search) and the ObsAgent (A2A execution via Azure AI Foundry) into a single governed workflow.
 
 ---
 
@@ -27,7 +27,7 @@ This document walks through building the **Veritas Resolution Agentic Workflow**
 Each agentic workflow is controlled by a Large Language Model that interprets the workflow's description to determine:
 
 1. **When to use this workflow** — matched against the trigger objective and user intent
-2. **The steps required to complete the workflow** — derived from the workflow description's `<steps>` block
+2. **The steps required to complete the workflow** — derived from the workflow description's `<List of steps>` block
 3. **The AI agents needed to complete the steps** — the LLM matches step descriptions to agent names and descriptions
 
 > This is the key design principle: the **LLM reads the description and decides which agent to call for which step**. Agent matching is semantic — the LLM compares terminology in an agent's name and description to the workflow step. This means agent descriptions and workflow step language must be aligned.
@@ -38,7 +38,7 @@ Each agentic workflow is controlled by a Large Language Model that interprets th
 |---------|-----------|---------|
 | **Agentic Workflow** | The orchestration container — defines the goal, steps, agents, security, and triggers | The project brief |
 | **AI Agent** | The worker that executes specific steps — has tools, a system prompt, and a model | The specialist |
-| **Trigger** | The record condition that auto-launches the workflow | The alarm |
+| **Trigger** | The record condition that auto-launches the workflow / AI Agent | The alarm |
 | **Channel** | Where the workflow output surfaces (Now Assist panel, Virtual Agent) | The communication medium |
 
 ### Wizard Structure
@@ -58,12 +58,7 @@ The Agentic Workflow creation wizard has five steps:
 
 | Requirement | Detail |
 |-------------|--------|
-| AI Agent Studio | `sn_aia` plugin Active — Zurich |
-| Resolution Pathfinder Agent | Built and Active (see [06 — Fulfiller AI Agent](06-fulfiller-ai-agent.md)) |
-| ObsAgent (External) | Registered and Active (see [07 — External Agent Integration](07-external-agent-integration.md)) |
-| Incident Extend table | `x_nava_agentic_lab_incident_extend` populated |
-| Now Assist Panel | Enabled in Now Assist Admin → Experiences |
-| Role | `sn_aia.admin` or `admin` |
+| AI Agents built out | Resolution Pathfinder for Incident case Agent and ObsAgent built out |
 
 ---
 
@@ -85,57 +80,12 @@ The page explains the LLM's three jobs: know *when* to use the workflow, know th
 Veritas Resolution Agentic Workflow
 ```
 
-**Workflow description** (the LLM system prompt — tagged `Description for LLM`):
+**Workflow description**
+Expectation: SC to build the prompt for the description
 
-```xml
-This workflow addresses the end-to-end resolution of IT incidents
-associated with veritas servers, that arrive via the Chat channel and
-carry an extracted error code, automating the process from root
-cause discovery through actionable resolution planning. The
-Resolution Pathfinder Agent systematically searches internal
-knowledge bases, server log entries from the Elastic MCP server,
-and the public internet — in that order of preference — to
-construct a sourced resolution plan and write it directly to the
-incident record. Once the resolution plan is generated, the Azure AI
-Foundry ObsAgent executes the prescribed remediation actions against
-the target environment and returns the execution outcome.
-```
+**List of Steps**
+Expectation: SC to build the prompt for the list of steps
 
-> **Writing the description well is critical.** The LLM uses this text — not the agent names alone — to decide when to activate the workflow and which agent handles which step. Use precise, domain-specific language that mirrors the terminology in your agent names and descriptions. Click **View writing guidelines** for ServiceNow's official guidance on prompt engineering for agentic workflows.
-
-The description should continue with the XML `<steps>` block that enumerates each step, the responsible agent, and the conditions:
-
-```xml
-<steps>
-  <step>
-    <name>Root cause discovery and resolution planning</name>
-    <agent>Resolution Pathfinder for Incident case Agent</agent>
-    <description>
-      Search the internal KB, Elastic log server via MCP, and the
-      public internet in order to identify the root cause and construct
-      an actionable, sourced resolution plan. Write the plan to the
-      incident work notes.
-    </description>
-  </step>
-  <step>
-    <name>Autonomous remediation execution</name>
-    <agent>ObsAgent</agent>
-    <description>
-      Receive the resolution plan and execute the prescribed
-      remediation actions against the Veritas server environment via
-      the A2A protocol. Return the execution outcome (success / partial
-      / failure) and write it to the incident work notes.
-    </description>
-    <condition>Only execute if Step 1 produced a resolution plan.</condition>
-  </step>
-</steps>
-
-</system>
-```
-
-> The closing `</steps>` and `</system>` tags visible at the top of the screenshot (Image 2) indicate the full system prompt uses XML tags — consistent with Anthropic-style prompt engineering conventions used throughout the Veritas architecture.
-
-Click **View versions** to manage prompt versioning. Click **+ Generate details** to use Now Assist to auto-generate a description draft based on the workflow name.
 
 ---
 
@@ -156,7 +106,6 @@ Click **Add AI agents** and add both agents:
 
 > The LLM uses semantic matching between the step descriptions in the workflow description and the agent's `name` + `description` fields. This is why the ObsAgent's description explicitly says "Azure AI Foundry Observability Agent, answers questions about veritas resolution recommendation" — it aligns with the second step's language about remediation execution. If the agent description is too generic, the LLM may route the wrong step to the wrong agent.
 
-The **+ Ask Now Assist to suggest AI agents** section at the bottom allows Now Assist to recommend agents based on the workflow description — useful when building workflows with many available agents.
 
 Click **Save and continue**.
 
@@ -173,7 +122,7 @@ The wizard advances to **Define security controls → Define user access**.
 | Field | Value |
 |-------|-------|
 | User access | `Users with specific roles` |
-| Role(s) | `itil` |
+| Role(s) | `snc_internal` |
 
 > Once saved, an ACL record is automatically generated. Users with the `itil` role can discover and interact with this workflow through its configured channels (Now Assist panel). Without this ACL, no users will be able to trigger or see the workflow's output.
 
@@ -190,9 +139,9 @@ The wizard advances to **Define data access**.
 | Field | Value |
 |-------|-------|
 | User identity type | `Dynamic user` |
-| Approved role(s) | `itil` |
+| Approved role(s) | `snc_internal` |
 
-> **Dynamic user** means the workflow runs as the user who triggered it — it inherits that user's roles and data permissions. This ensures the workflow cannot access data the triggering user couldn't access themselves. The **Approved role(s)** field caps the maximum privilege: even if the triggering user has admin, the workflow operates within `itil` bounds. This is the correct governance model for a workflow that reads incident records and writes work notes.
+> **Dynamic user** means the workflow runs as the user who triggered it — it inherits that user's roles and data permissions. This ensures the workflow cannot access data the triggering user couldn't access themselves. The **Approved role(s)** field caps the maximum privilege: even if the triggering user has admin, the workflow operates within `snc_internal` bounds. This is the correct governance model for a workflow that reads incident records and writes work notes.
 >
 > The alternative — **System user** — runs the workflow as a high-privilege service account and should only be used when the workflow requires access beyond the triggering user's permissions.
 
@@ -312,9 +261,9 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 | Key requirements | Description | End-to-end Veritas incident resolution — KB, Elastic, web, A2A execution |
 | Key requirements | AI agents | Resolution Pathfinder for Incident case Agent + ObsAgent |
 | Security — user access | User access | Users with specific roles |
-| Security — user access | Role(s) | `itil` |
+| Security — user access | Role(s) | `snc_internal` |
 | Security — data access | User identity type | Dynamic user |
-| Security — data access | Approved role(s) | `itil` |
+| Security — data access | Approved role(s) | `snc_internal` |
 | Trigger | Type | Created |
 | Trigger | Name | Trigger to resolve newly created Incident record from Incident Extend table |
 | Trigger | Objective | `Help me resolve Veritas Incident Number: ${number}` |
@@ -377,10 +326,10 @@ The Veritas workflow uses **Now Assist panel** because it targets the fulfiller 
 |---------|-------------|-----|
 | Workflow triggers but wrong agent fires first | LLM mismatches step to agent | Align step language in workflow description with agent name/description |
 | Trigger fires but no agentic response appears | Now Assist panel not enabled | Enable in Now Assist Admin → Experiences → Now Assist panel → Turn on |
-| Trigger conditions never fire | error code field empty | Verify NADI is populating `u_extracted_error_code` in the extend table |
-| "Access denied" when workflow tries to read incident | ACL misconfiguration | Verify Dynamic user approved role includes `itil` |
-| ObsAgent step skipped entirely | Resolution Pathfinder returned no plan | Expected behaviour (Path 3B) — escalation to L2 via work notes |
-| Trigger fires on wrong incidents | Condition too broad | Add `Channel is Chat` condition to scope to NAVA-originated incidents only |
+| Trigger conditions never fire | trigger conditions not met | Verify that all trigger conditions have been met |
+| "Access denied" when workflow tries to read incident | ACL misconfiguration | Verify Dynamic user approved role includes `snc_internal` |
+| ObsAgent step skipped entirely | Resolution Pathfinder returned no plan; web search is triggered | Expected behaviour (Path B) |
+| Trigger fires on wrong incidents | Condition too broad | Review if there are other agentic workflows also utilising similar triggers |
 
 ---
 
@@ -389,16 +338,10 @@ The Veritas workflow uses **Now Assist panel** because it targets the fulfiller 
 - [Create an agentic workflow — Zurich Docs](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/task/configure-use-case-ai-agents.html)
 - [General guidelines for creating AI agents and agentic workflows](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/gg-creating-aia.html)
 - [Get Familiar with Agentic Workflows & AI Agents — Community Lab](https://www.servicenow.com/community/developer-articles/get-familiar-with-agentic-workflows-amp-ai-agent/ta-p/3326559)
-- [06 — Fulfiller AI Agent (Resolution Pathfinder)](06-fulfiller-ai-agent.md)
-- [07 — External Agent Integration (ObsAgent A2A)](07-external-agent-integration.md)
-- [12 — Observability and Action Agent](12-observability-action-agent.md)
 
 ---
 
 ## Next Steps
 
-→ With the Veritas Resolution Agentic Workflow configured and both agents added, the full Veritas architecture is complete.
+→ With the Veritas Resolution Agentic Workflow configured and both agents added, the full Veritas Agentic Workflow is complete. Congratulations!
 
-→ Enable the trigger once testing is confirmed (keep **Trigger is ON** toggled off until end-to-end testing passes).
-
-→ Return to [00 — Use Case Summary](00-use-case-summary.md) for the complete architecture overview across all phases.

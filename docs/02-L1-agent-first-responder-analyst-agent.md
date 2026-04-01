@@ -94,10 +94,10 @@ Configure the following fields:
 Expectation: SC to build the prompt for the description
 
 **AI agent role**
-Expectation: SC to build the prompt for the description
+Expectation: SC to build the prompt for the role
 
 **List of Steps**
-Expectation: SC to build the prompt for the description
+Expectation: SC to build the prompt for the list of steps
 
 ### Wizard Step 2 — Add Tools and Information
 

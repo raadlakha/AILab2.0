@@ -86,9 +86,9 @@ The wizard opens on **Define the specialty**.
 
 AI agent description Expectation: SC to build the prompt for the description
 
-AI agent role Expectation: SC to build the prompt for the description
+AI agent role Expectation: SC to build the prompt for the role
 
-List of Steps Expectation: SC to build the prompt for the description
+List of Steps Expectation: SC to build the prompt for the list of steps
 
 Click **Save and continue**.
 
