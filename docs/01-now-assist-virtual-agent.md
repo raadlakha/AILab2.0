@@ -249,4 +249,4 @@ From Zurich Patch 2, the following default behaviours change:
 
 ## Next Step
 
-Continue to [02 — Conversational Topics](02-conversational-topics.md) to configure the NLU intent and Conversation Topic that routes server issue reports to the L1 Requestor Agent, and to set up the **file upload tool** used in Step 4 of the Requestor Flow.
+Continue to [02 — First Responder Operations Analyst Agent](02-L1-agent-first-responder-analyst-agent.md) to configure the Requestor AI Agent: First Responder Operations Analyst Agent.
