@@ -46,18 +46,18 @@ L1 / Requestor AI Agent is triggered
 
 ---
 
-## What NAVA Enables in This Lab
+## What NAVA enables in this lab
 
 | Capability | How NAVA Enables It |
 |-----------|---------------------|
 | Conversational intake | User describes the issue in natural language — no form filling |
 | Session stamping | `contact_type = chat` is automatically applied to the session and propagates to the Incident record |
 | AI Agent routing | NAVA's AI Agent Planner identifies the right agent (First Responder Operations Analyst Agent) and hands off the conversation |
-| Agentic support | In Zurich Patch 2+, AI Agents are prioritised in VA responses by default via the **Agentic Support** setting |
+| Agentic support | AI Agents are prioritised in VA responses by default via the **Agentic Support** setting |
 
 ---
 
-## Architecture — How NAVA Is Configured
+## Architecture — How NAVA is configured
 
 In Zurich, NAVA is configured through the **Assistant Designer**, a unified configuration surface. The wizard steps through the following sections in order:
 
@@ -101,14 +101,12 @@ Review and confirm:
 |-------|--------------------|
 | Name | `Now Assist in Virtual Agent - AI Lab` |
 | Description | Description for Now Assist in Virtual Agent - AI Lab |
-| Status | Active |
-| Default language | English |
 
 ---
 
 ### Step 3: Agentic Support
 
-The second section is **Agentic Support**. This is a Zurich Patch 2+ setting.
+The second section is **Agentic Support**.
 
 ![NAVA Agentic Support](../screenshots/nava-agentic-support.png)
 
@@ -215,7 +213,7 @@ The final section is **Review**. Confirm all settings look correct across each s
 
 ### `contact_type = chat` — How It Gets Stamped
 
-When a user interacts with NAVA via the Service Portal chat widget, ServiceNow automatically stamps `contact_type = chat` on the virtual agent session. When the L1 Agent subsequently creates an Incident, this value is carried forward to the `channel` field on the Incident record.
+When a user interacts with NAVA via the Service Portal chat widget, ServiceNow automatically stamps `contact_type = chat` on the virtual agent session.
 
 This is a **platform behaviour** — no manual configuration needed. However it is critical to verify post-incident creation, as it is one of three conditions that gate the Resolution Pathfinder Agentic Workflow:
 
@@ -228,7 +226,7 @@ Agentic Workflow trigger conditions:
 
 If `channel` is not `chat` (e.g., incident created via email or form), the Agentic Workflow will not trigger.
 
-### Agentic Reasoning — Zurich Patch 2+ Behaviour Change
+### Agentic Reasoning
 
 From Zurich Patch 2, the following default behaviours change:
 
