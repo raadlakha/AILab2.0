@@ -115,6 +115,77 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 > **Training time:** On most lab instances, training completes within 1–2 minutes given the small dataset. If the solution stays in *Training* state for more than 5 minutes, check that the instance has the **Predictive Intelligence** plugin active and that there are sufficient resolved records in the Incident table matching the filter condition (State = Resolved).
  
 ---
+
+## Pre-Requisite 4: Verify the Knowledge Base Article and Index It in AI Search
+ 
+The First Responder Operations Analyst Agent uses **AI Search** to retrieve Knowledge Base articles as part of its KB deflection path. A Veritas Backup Failure KB article has already been created on your instance — you need to confirm it exists and then trigger the AI Search indexer so the article is available for retrieval at runtime.
+ 
+### Part A: Verify the KB Article Exists
+ 
+1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list
+2. Filter the list by **Short description contains `backup`**
+3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
+ 
+![Knowledge List — Veritas Backup Failure Article](../screenshots/Index-new-KB-article-0.png)
+ 
+> If the article is missing, contact your lab administrator. The KB article is delivered as part of the lab instance provisioning.
+ 
+---
+ 
+### Part B: Navigate to AI Search Indexed Sources
+ 
+1. In the **Filter navigator**, type `Indexed Sources`
+2. Under **AI Search** → **AI Search Index**, click **Indexed Sources**
+ 
+![Filter Navigator — Indexed Sources](../screenshots/Index-new-KB-article-1.png)
+ 
+> There are two **Indexed Sources** entries in the navigator — one under **Query Generation > Semantic Filter** and one under **AI Search > AI Search Index**. Use the **AI Search** path.
+ 
+3. In the **AI Search Indexed Sources** list, filter by **Name starts with `Knowledge Table`**
+4. Confirm the **Knowledge Table** record exists with the following values:
+ 
+![AI Search Indexed Sources — Knowledge Table](../screenshots/Index-new-KB-article-2.png)
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Name | Knowledge Table |
+| Source | `Knowledge [kb_knowledge]` |
+| Type | internal |
+| Active | `true` |
+ 
+---
+ 
+### Part C: Trigger the Index
+ 
+1. Click on **Knowledge Table** to open the Indexed Source record
+2. You will see the **AI Search Indexed Source — Knowledge Table** form with **Index All Tables** and **Index Selected Table/s** buttons in the top-right corner
+ 
+![AI Search Indexed Source — Knowledge Table Form](../screenshots/Index-new-KB-article-3.png)
+ 
+> **Cross-scope notice:** You may see a banner stating *"This record is in the Global application, but x_nava_agentic_lab is the current application."* This is expected — the Indexed Source is a Global record. You can still trigger the index from here.
+ 
+3. Click **Index All Tables** to queue the indexing job
+4. The page will navigate to the **Indexed Source History** form. Initially, both **Keyword Ingestion State** and **Semantic Ingestion State** will show `not_started`
+ 
+![Indexed Source History — Queued](../screenshots/Index-new-KB-article-4.png)
+ 
+5. Refresh the page periodically until the indexing completes. When finished, the form should show:
+ 
+![Indexed Source History — Indexing Complete](../screenshots/Index-new-KB-article-5.png)
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Keyword Ingestion State | `indexed` |
+| Semantic Ingestion State | `indexing` → eventually `indexed` |
+| Records Processed | 3,681 (approximate — varies by instance) |
+| AIS Records Processed | 3,336 (approximate) |
+| Number of Errors | 0 |
+| Number of Minor Errors | 0 |
+| Total Ingestion Duration | ~42 seconds (varies) |
+ 
+> **Indexing time:** The keyword ingestion typically completes within 1–2 minutes. Semantic ingestion may take longer and may still show `indexing` when keyword ingestion has already finished — this is normal. The lab exercises will function once **Keyword Ingestion State** reaches `indexed`. If errors occur during ingestion, verify the Knowledge Table source is active and that the KB article is in Published state.
+ 
+---
  
 ## Checklist
  
@@ -122,7 +193,9 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 |---|---------------|
 | 1 | Application scope set to `x_nava_agentic_lab` |
 | 2 | Incident extend table exists with sample records |
- 
+| 3 | Predictive Intelligence Similarity model trained (100%) |
+| 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
+
 ---
  
 ## Next Step
