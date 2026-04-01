@@ -20,14 +20,14 @@ In this lab, NADI is configured with a use case called **Veritas Extract**. When
 ```
 [Steps 5 & 6 — Requestor Flow]
 
-Step 5: Incident created (state = New)
+Step 5: Incident created (state = In Progress)
         │  uploaded images attached to the record
         ▼
 Step 6: Now Assist in Document Intelligence auto-triggers
         │  on each image attachment present on the Incident
         ▼
   Use Case: Veritas Extract
-  Target table: incident (extended)
+  Target table: Incident Extend (x_snc_apacaienable_incident_extend)
         │
         ▼
   GenAI reads image, extracts:
@@ -40,12 +40,12 @@ Step 6: Now Assist in Document Intelligence auto-triggers
         ▼
   Auto-generated Flow fires:
     "DocIntel Extract Values Flow — Veritas Extract"
-    Writes extracted values to Incident record fields
+    Writes extracted values to Incident Extend (x_snc_apacaienable_incident_extend) record fields
         │
         ▼
-Agentic Workflow can now evaluate trigger conditions:
+Down the line Agentic Workflow can now evaluate trigger conditions:
   ✓ state = In Progress
-  ✓ contact_type = chat
+  ✓ channel = chat
   ✓ u_extracted_error_code ≠ empty   ← populated by NADI
 ```
 
@@ -65,26 +65,13 @@ Agentic Workflow can now evaluate trigger conditions:
 
 ---
 
-## Prerequisites
-
-| Requirement | Detail |
-|-------------|--------|
-| Licence | Now Assist Pro+ or ITSM Pro+ with Now Assist in Document Intelligence |
-| Plugin — Now Assist in Document Intelligence | `sn_now_assist_doc_intel` — must be Active |
-| Custom field | `u_extracted_error_code` — must exist on the extended Incident table |
-| Extended Incident table | `x_nava_agentic_lab_incident_extend` (or your scoped app equivalent) |
-| Role | `sn_doc_intel.admin` or `admin` |
-| Zurich patch | Base Zurich; Zurich Patch 4 recommended for NASK tool integration |
-
----
-
 ## Lab Exercise — Steps to Configure NADI
 
 ### Step 1: Open Now Assist in Document Intelligence
 
-Navigate to **All** → search **Now Assist** → **Now Assist Features**
+Navigate to **All** → search **Now Assist Admin** → **Platform** → **Search for 'Document'** → **Edit 'Extract information from documents'**
 
-In the Now Assist Features screen, locate the **Extract Information from documents** skill.
+In the Now Assist skills for Platform screen, locate the **Extract Information from documents** skill.
 
 ![NADI — Now Assist Features screen](../screenshots/NADI-1.png)
 
@@ -128,7 +115,7 @@ Configure the following fields:
 | Setting | Value |
 |---------|-------|
 | Field name | `Error Code` |
-| Details | `This is the error code mentioned in the image. Example format: "0xE00052" — extract only the numeric suffix (e.g. 52).` |
+| Details | `This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.` |
 | Field type | `Text` |
 | Target table | Extended Incident table |
 | Target field | `u_extracted_error_code` |
@@ -143,9 +130,9 @@ Configure the following fields:
 | Setting | Value |
 |---------|-------|
 | Field name | `Model Details` |
-| Details | `Device model information from the label or image.` |
+| Details | `This is Reg. Model Version, Alpha numeric field on the image` |
 | Field type | `Text` |
-| Target field | `u_model_details` |
+| Target field | `model_details` |
 | Required for extraction | Optional |
 
 #### Field 3 — Product Name
@@ -155,9 +142,9 @@ Configure the following fields:
 | Setting | Value |
 |---------|-------|
 | Field name | `product name` |
-| Details | `The product name as shown on the device label, typically found below "Product."` |
+| Details | `This is the product name which is mentioned on the device details image, generally mentioned below "Product:"` |
 | Field type | `Text` |
-| Target field | `u_product_name` |
+| Target field | `product` |
 | Required for extraction | Optional |
 
 #### Field 4 — Serial Number
@@ -167,9 +154,9 @@ Configure the following fields:
 | Setting | Value |
 |---------|-------|
 | Field name | `Serial Number` |
-| Details | `Device serial number from the label.` |
+| Details | `This is the SN number mentioned at the end of the image on th left side, mentioned after the text "SN:"` |
 | Field type | `Text` |
-| Target field | `u_serial_number` |
+| Target field | `serial_number` |
 | Required for extraction | Optional |
 
 #### Field 5 — PN / Bar Code
@@ -179,40 +166,30 @@ Configure the following fields:
 | Setting | Value |
 |---------|-------|
 | Field name | `PN / Bar Code` |
-| Details | `Part number or barcode from the device label.` |
+| Details | `This is the pn number above the bar code, which is alpha numeric also it is hyphenated` |
 | Field type | `Text` |
-| Target field | `u_pn_bar_code` |
+| Target field | `pn_bar_code` |
 | Required for extraction | Optional |
 
 ---
 
-### Step 4: Enable Full Automation Mode
-
-1. Click the **Settings** (gear) icon on the use case
-2. Navigate to **Extraction mode**
-3. Toggle **Full automation mode (no agent review required)** → **On**
-
-> Full automation mode means the GenAI extracts fields and writes them directly to the Incident record without waiting for an agent to review or approve. This is required for the Requestor Flow — the Incident must be enriched immediately after image upload so the Agentic Workflow trigger can fire.
-
----
-
-### Step 5: Test the Extraction
-
-1. On the use case, click **Test**
+### Step 4: Test the Extraction
 
 ![NADI — Test screen](../screenshots/NADI-6-test.png)
 
-2. In the test dialog, choose:
+1. In the test dialog, choose:
    - **Upload from record** — select an existing Incident with an image attached, or
    - **Upload from this device** — upload a Veritas device label image directly
-3. Click **Continue**
+2. Click **Continue**
 
 ![NADI — Test Result 1](../screenshots/NADI-7-test1.png)
 
 The Document Q&A panel displays the extracted values. Verify:
-- `u_extracted_error_code` → numeric error value extracted from the image
-- `u_product_name` → product name as printed on the label
-- `u_serial_number` → serial number if present
+- `error_code` → numeric error value extracted from the image
+- `product` → product name as printed on the label
+- `serial_number` → serial number if present
+- `pn_bar_code` → product bar code if present
+- `model_details` → model details if present
 
 ![NADI — Test Result 2](../screenshots/NADI-7-test2.png)
 
@@ -220,7 +197,7 @@ The Document Q&A panel displays the extracted values. Verify:
 
 ---
 
-### Step 6: Add the Integration
+### Step 5: Add the Integration
 
 The integration tells NADI what to do once extraction is complete — specifically, it creates the Flow that writes extracted values back to the Incident record.
 
@@ -255,7 +232,7 @@ Trigger: Document Task Updated
 
 ---
 
-### Step 7: Activate the Integration
+### Step 6: Activate the Integration
 
 1. In the **Integrations** panel, locate **Veritas_Process**
 
@@ -267,7 +244,7 @@ Trigger: Document Task Updated
 
 ---
 
-### Step 8: Configure the Incident Integration Trigger
+### Step 7: Configure the Incident Integration Trigger
 
 This step wires NADI to auto-trigger when images are attached to an Incident created via NAVA chat.
 
@@ -278,9 +255,10 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 | Field | Value |
 |-------|-------|
-| Trigger type | Record-based |
-| Table | Extended Incident table |
-| Trigger condition | Attachment added AND `contact_type = chat` |
+| Integration Name | `Veritas_Extract` |
+| Target Table | incident extend |
+| Integration type | `Extract Values` |
+| Create Flow | ✅ Checked |
 
 ![NADI — Integration trigger config 2](../screenshots/NADI-9-integration2.png)
 
@@ -294,20 +272,17 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 ---
 
-### Step 9: Verify Full Automation End-to-End
+### Step 8: Verify Full Automation End-to-End
 
-1. Create a test Incident via the NAVA chat (or manually with `contact_type = chat`)
-2. Attach a Veritas device label image to the Incident
-3. Verify the Document task is created and reaches **Done** status automatically
-4. Check the Incident record for populated fields:
-   - `u_extracted_error_code` → should contain the extracted error code
-   - `u_product_name`, `u_serial_number` → populated if present in the image
+1. Click the **Settings** (gear) icon on the use case
+2. Navigate to **Extraction mode**
+3. Toggle **Full automation mode (no agent review required)** → **On**
 
 ![NADI — Full automation verification](../screenshots/NADI-10-usecase-full-auto.png)
 
 ![NADI — Full automation result](../screenshots/NADI-10-usecase-full-auto2.png)
 
-> Once `u_extracted_error_code` is non-empty on an Incident with `state = In Progress` and `contact_type = chat`, the Resolution Pathfinder Agentic Workflow fires automatically.
+> Full automation mode means the GenAI extracts fields and writes them directly to the Incident record without waiting for an agent to review or approve. This is required for the Requestor Flow — the Incident must be enriched immediately after image upload so the Agentic Workflow trigger can fire.
 
 ---
 
@@ -318,13 +293,9 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 | Skill | Extract Information from documents |
 | Use case name | Veritas Extract |
 | Target table | Extended Incident table |
-| Critical output field | `u_extracted_error_code` |
 | Extraction mode | Full automation (no agent review) |
 | Integration name | Veritas_Process |
 | Integration type | Process task |
-| Auto-generated flow | DocIntel Extract Values Flow — Veritas Extract |
-| Trigger condition | Document Task status = Done |
-| Role required | `sn_doc_intel.admin` or `admin` |
 
 ---
 

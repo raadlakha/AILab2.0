@@ -317,7 +317,7 @@ Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Por
 3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps from the guide based on the user's questions
 4. Reply *"resolved"* → conversation ends, no Incident created (**deflection path confirmed**)
 5. Re-run. Reply *"not resolved"* → **Tool 3 check** — in-chat image upload prompt appears
-6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `contact_type = chat`, all inputs populated, image attached
+6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `channel = chat`, all inputs populated, image attached
 7. Open the Incident case (from the Incident Extend table) — confirm NADI triggered and `u_extracted_error_code` is populated
 
 ---
