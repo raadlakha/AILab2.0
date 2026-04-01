@@ -198,6 +198,91 @@ The final section is **Review**. Confirm all settings look correct across each s
 
 ---
 
+### Step 11: Navigate to the Upload Image Topic
+
+The Upload image topic is an out-of-the-box (OOB) topic provided by the Platform AI Agents and Skills application. It handles image upload within Virtual Agent conversations. For this lab, you will duplicate the topic into your scoped application so it can be used by the First Responder Operations Analyst Agent.
+
+1. In Assistant Designer, click the Asset library tab
+2. Select the Topics sub-tab
+3. In the search bar, type Upload image
+4. Confirm the OOB topic appears — it should show as Published and Active
+
+![NAVA Chat Features](../screenshots/va-topic-tool-uploadimage-1.png)
+
+---
+
+### Step 11: Navigate to the Upload Image Topic
+
+The Upload image topic is an out-of-the-box (OOB) topic provided by the Platform AI Agents and Skills application. It handles image upload within Virtual Agent conversations. For this lab, you will duplicate the topic into your scoped application so it can be used by the First Responder Operations Analyst Agent.
+
+1. In Assistant Designer, click the Asset library tab
+2. Select the Topics sub-tab
+3. In the search bar, type Upload image
+4. Confirm the OOB topic appears — it should show as Published and Active
+
+![NAVA Chat Features](../screenshots/va-topic-tool-uploadimage-1.png)
+
+> The OOB topic is owned by the **Platform AI Agents and Skills** scope. You cannot edit it directly — you must duplicate it into your lab scope (`x_nava_agentic_lab`). Make sure you are on the right scope before performing the duplication step!
+
+---
+
+### Step 12: Open the Topic and Duplicate It
+ 
+1. Click on the **Upload image** topic name to open it in the **Flow** view
+2. On the canvas, review the existing flow structure:
+ 
+```
+Upload image  →  Process image  →  Decision
+                                      │
+                              ┌───────┴───────┐
+                        File Supported    File Not Supported
+                              │                   │
+                            End           File Error Message
+```
+ 
+3. Click the **kebab menu** (three-dot icon, top-right) and select **Duplicate**
+ 
+![Upload Image Topic — Duplicate Option](../screenshots/va-topic-tool-uploadimage-2.png)
+ 
+> Notice the left-hand **Components** palette — it shows the available node types (Input Collector, Text, Static Choice, File Picker, etc.) and the **Bot response** nodes. You do not need to modify the flow for this lab; the duplicate will inherit the full flow as-is.
+ 
+---
+
+### Step 13: Name the Duplicate Topic
+ 
+In the **Duplicate Topic** dialog:
+ 
+| Field | Value |
+|-------|-------|
+| Name | `Upload image x_nava_agentic_lab` |
+ 
+Click **Save**.
+ 
+![Duplicate Topic Dialog](../screenshots/va-topic-tool-uploadimage-3.png)
+ 
+> The naming convention appends the scoped application name to distinguish the duplicate from the OOB topic. This is important — the AI Agent will reference this topic by name when invoking the tool.
+ 
+---
+
+### Step 14: Verify the Duplicate in the Topics List
+ 
+After saving, check on the 'Variables' tab and ensure that the variables have been copied over
+ 
+You should now see **two** topics:
+ 
+| Variable Name | Variable Type |
+|------|--------|
+| upload_image | Input |
+| user | Input |
+| doc_intel_max_file_size | Script |
+| doc_intel_supported_file_... | Script |
+| is_file_size_supported | Script |
+| is_file_type_supported | Script |
+ 
+![Topics List — Duplicate Confirmed](../screenshots/va-topic-tool-uploadimage-4.png)
+ 
+---
+
 ## Key Configuration Fields
 
 | Field | Value for This Lab |
