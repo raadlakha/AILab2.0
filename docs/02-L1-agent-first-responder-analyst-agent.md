@@ -259,9 +259,9 @@ The section heading reads: *"Define who can access this AI agent (ACLs)"*
 | Field | Value |
 |-------|-------|
 | User access | `Users with specific roles` |
-| Role(s) | `itil` |
+| Role(s) | `snc_internal` |
 
-> Restricts agent access to users with the `itil` role — authenticated IT service desk users. General platform users without this role cannot invoke the agent via NAVA.
+> Restricts agent access to users with the `snc_internal` role — authenticated IT service desk users. General platform users without this role cannot invoke the agent via NAVA.
 
 Click **Save and continue**.
 
@@ -278,9 +278,9 @@ The section heading reads: *"Select the user identity this AI agent will run as"
 | Field | Value |
 |-------|-------|
 | User identity type | `Dynamic user` |
-| Approved role(s) | `itil` |
+| Approved role(s) | `snc_internal` |
 
-> **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `itil` approved role sets the ceiling: the agent cannot exceed the permissions of the `itil` role regardless of who is logged in. This prevents privilege escalation.
+> **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `snc_internal` approved role sets the ceiling: the agent cannot exceed the permissions of the `snc_internal` role regardless of who is logged in. This prevents privilege escalation.
 
 Click **Save and continue**.
 
@@ -332,8 +332,8 @@ Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Por
 | Tool 2 | File Upload — `Troubleshooting Resolution Guide` — `troubleshooting-resolution-guide.pdf` |
 | Tool 3 | Conversational Topic — `Upload image x_nava_agentic_lab` |
 | Tool 4 | Subflow — `Create Incident Case` — `Create and submit Incident record with image upload(s) subflow` |
-| User access | `Users with specific roles` → `itil` |
-| Data access | `Dynamic user` → approved role: `itil` |
+| User access | `Users with specific roles` → `snc_internal` |
+| Data access | `Dynamic user` → approved role: `snc_internal` |
 | Channel | Virtual Agent — `Now Assist in Virtual Agent AlLab` |
 | Now Assist panel | OFF |
 

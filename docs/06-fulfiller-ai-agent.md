@@ -287,9 +287,9 @@ The wizard advances to **Define security controls → Define user access**.
 | Field | Value |
 |-------|-------|
 | User access | `Users with specific roles` |
-| Role(s) | `itil` |
+| Role(s) | `snc_internal` |
 
-> Restricts agent invocation to `itil` role users — consistent with the access model across all lab capabilities.
+> Restricts agent invocation to `snc_internal` role users — consistent with the access model across all lab capabilities.
 
 Click **Save and continue**.
 
@@ -304,9 +304,9 @@ The wizard advances to **Define security controls → Define data access**.
 | Field | Value |
 |-------|-------|
 | Data access | `Dynamic user` |
-| Role(s) | `itil` |
+| Role(s) | `snc_internal` |
 
-> Restricts agent invocation to `itil` role users — consistent with the access model across all lab capabilities.
+> Restricts agent invocation to `snc_internal` role users — consistent with the access model across all lab capabilities.
 
 Click **Save and continue**.
 
@@ -338,7 +338,7 @@ Click **Save and continue** to complete the agent configuration.
 | Tool 4 | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous |
 | Tool 5 | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
 | Tool 6 | Web search — `Search the web` — Gemini AI answer — Autonomous |
-| User access | `Users with specific roles` → `itil` |
+| User access | `Users with specific roles` → `snc_internal` |
 
 ---
 
