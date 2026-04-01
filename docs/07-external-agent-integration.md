@@ -2,7 +2,7 @@
 
 > **Release:** Zurich Patch 4+ | **Feature:** AI Agent Fabric — Agent2Agent (A2A) Protocol
 > **Role in Veritas:** Phase 3 — External Integration (Observability & Action Agent via A2A)
-> **Sources:** [External Agents via Google A2A — SN Community](https://www.servicenow.com/community/now-assist-articles/external-agents-in-servicenow-via-google-a2a-servicenow-as/ta-p/3467587) | [Enable MCP and A2A — AI Agent Fabric](https://www.servicenow.com/community/now-assist-articles/enable-mcp-and-a2a-for-your-agentic-workflows-with-faqs-updated/ta-p/3373907) | [Create external AI agent — Zurich Docs](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/create-a2a-agent.html)
+> **Sources:** [External Agents via Google A2A — SN Community](https://www.servicenow.com/community/now-assist-articles/external-agents-in-servicenow-via-google-a2a-servicenow-as/xta-p/3467587) | [Enable MCP and A2A — AI Agent Fabric](https://www.servicenow.com/community/now-assist-articles/enable-mcp-and-a2a-for-your-agentic-workflows-with-faqs-updated/ta-p/3373907) | [Create external AI agent — Zurich Docs](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/create-a2a-agent.html)
 
 ---
 
@@ -24,7 +24,7 @@ The configuration covers two distinct setup layers:
 ```
 Phase 3 — External Integration — Observability & Action Agent via A2A
         │
-        Trigger: Path A of Fulfiller Flow produces a resolution plan
+        Trigger: Path A of Fulfiller Flow (Resolution Pathfinder for Incident case Agent) produces a resolution plan
         (Does NOT trigger on Path B)
         │
         ▼
@@ -43,12 +43,12 @@ Step 3: Azure AI Foundry executes prescribed remediation actions
         │
         ├── Path 3A — Success:
         │   Incident auto-resolved, resolution notes + execution outcome
-        │   written to incident record, ticket closed
+        │   generated and ready to be written to incident record, ticket closed
         │   No human intervention required
         │
         └── Path 3B — Fail / Partial:
             Full execution log, attempted steps, and failure reason
-            written to incident work notes
+            generated and ready to be written to incident work notes
             Incident escalated to L2 with complete context
 ```
 
@@ -76,7 +76,7 @@ ServiceNow AI Agent Studio supports A2A from **Zurich Patch 4** as part of **AI 
 | Mode | ServiceNow Role | When used |
 |------|----------------|-----------|
 | **Primary (Client)** | ServiceNow orchestrates and delegates to external agents | This lab — SN calls Azure AI Foundry |
-| **Secondary (Server)** | ServiceNow exposes its own agents to external orchestrators | External platforms calling SN agents |
+| **Secondary (Server)** | ServiceNow exposes its own agents to external orchestrators | External platforms calling SN agents (Not scoped as part of this Lab build) |
 
 In this lab, ServiceNow acts as the **primary (client) agent** — the Observability & Action Agent in AI Agent Studio calls the Azure AI Foundry ObsAgent via A2A and awaits the remediation result.
 
@@ -87,11 +87,8 @@ In this lab, ServiceNow acts as the **primary (client) agent** — the Observabi
 | Requirement | Detail |
 |-------------|--------|
 | ServiceNow release | Zurich Patch 4 or later |
-| AI Agent Fabric | `sn_aia` plugin — Active |
-| AI Agent Studio | Accessible under Global scope |
 | Azure AI Foundry ObsAgent | Deployed on Azure Container Apps, A2A-compliant, exposing `/.well-known/agent.json` |
 | Azure App Registration | Client ID, Client Secret, and Token URL available from Azure portal |
-| Roles | `admin` or `sn_aia.admin` |
 
 ---
 
@@ -143,12 +140,11 @@ Fill in the following fields. All values come from your **Azure App Registration
 |-------|-------|-------|
 | Name | `FoundryOAuth` | Unique identifier for this OAuth provider in SN |
 | Client ID | `45067447-9ccd-46a6-8ab1-c74875f043ba` | Azure App Registration → Application (client) ID |
-| Client Secret | `••••••••••••••••••••` | Azure App Registration → Client secrets → Value |
+| Client Secret | `Client Secret value will be provided on the day of the lab itself / ask from the Lab instructors for what the client secret value is` | Azure App Registration → Client secrets → Value |
 | Default Grant type | `Client Credentials` | **Critical** — must be set to Client Credentials (not Authorization Code) |
 | Token URL | `https://login.microsoftonline.com/3ce2a773-b126-4efb-97d8-067bbcc3495a/oauth2/v2.0/token` | Azure tenant-specific token endpoint |
-| Redirect URL | `https://demoalectriallwfzu144198.service-now.com/oauth_redirect.do` | Auto-populated from instance |
+| Redirect URL | `https://demoalectriallwfzu144198.service-now.com/oauth_redirect.do (The instance host name will change based on your instance host name. Do not blindly copy the value.)` | Auto-populated from instance |
 | Send Credentials | `In Request Body (Form URL-Encoded)` | **Critical** — Azure requires credentials in request body, not Basic Auth header |
-| Application | `Global` |  |
 | Accessible from | `All application scopes` |  |
 | Active | ✅ Checked |  |
 
@@ -181,7 +177,7 @@ Click **Submit** to save the scope row.
 
 Navigate to **All → IntegrationHub → Connections & Credentials → Credentials**.
 
-Click **New** and configure:
+Click **New > OAuth 2.0 Credentials** and configure:
 
 ![OAuth 2.0 Credentials — FoundryOAuthCreds (new record)](../screenshots/a2a-oauth-cred.png)
 
@@ -215,6 +211,8 @@ ServiceNow makes a POST to the Azure token endpoint with the Client ID, Client S
 The green banner confirms: **"OAuth token flow completed successfully"**
 
 > The browser redirects to `oauth_client_credentials_input.do` and returns this success page. This confirms that ServiceNow can reach Azure's token endpoint and the Client ID + Secret + scope are correct. The OAuth token is now stored in `FoundryOAuthCreds` and will be used automatically for all A2A calls.
+
+> If the retrieval of OAuth token is not successful for you, check if the OAuth scopes have been defined clearly. Click into OAuth Entity Profile (FoundryOauth default_profile) and ensure that OAuth Entity Scope and OAuth scope has been populated as well. If not, do so and test again.
 
 ---
 
@@ -405,7 +403,7 @@ In **Step 3: Define the specialty**, configure the agent's runtime behaviour:
 |---------|-------|
 | User access | `Any authenticated user` |
 
-> Any authenticated ServiceNow user can invoke this agent through the Veritas workflow. In production, restrict to `sn_aia.admin` + `itil` for tighter governance.
+> Any authenticated ServiceNow user can invoke this agent through the Veritas workflow. In production, restrict to specific roles for tighter governance.
 
 ---
 
@@ -531,7 +529,7 @@ When the Veritas workflow reaches Phase 3 and the Observability & Action Agent f
 3. ObsAgent receives the resolution plan, parses the remediation steps
 4. ObsAgent executes against the target environment (Azure-hosted infrastructure)
 5. ObsAgent returns a structured response: `{ status, actions_taken, timestamp }`
-6. ServiceNow writes the result to the Incident `work_notes`
+6. ServiceNow summarises the result and generates it into an actionable Resolution Plan to be populated within the Incident Extend record's `work_notes`
 
 **Path 3A — Success:** Resolution notes + execution outcome written to record → ticket auto-closed. No human intervention.
 
@@ -545,14 +543,10 @@ When the Veritas workflow reaches Phase 3 and the Observability & Action Agent f
 - [Enable MCP and A2A for your agentic workflows (AI Agent Fabric)](https://www.servicenow.com/community/now-assist-articles/enable-mcp-and-a2a-for-your-agentic-workflows-with-faqs-updated/ta-p/3373907)
 - [Create an external AI agent with A2A — Zurich Docs](https://www.servicenow.com/docs/r/zurich/intelligent-experiences/create-a2a-agent.html)
 - [A2A Protocol specification](https://a2aprotocol.ai/)
-- [12 — Observability and Action Agent (high-level overview)](../docs/12-observability-action-agent.md)
 
 ---
 
 ## Next Steps
 
 → With the ObsAgent registered and activated, it is now available as a tool/agent in the Veritas Agentic Workflow.
-
-→ Return to [00 — Use Case Summary](00-use-case-summary.md) to see the complete end-to-end Veritas architecture with all phases connected.
-
-→ For the ObsAgent's role in the full Fulfiller Flow see [12 — Observability and Action Agent](12-observability-action-agent.md).
+→ For the ObsAgent's role in the full Fulfiller Flow, continue to [# 08 — Wrapping Agents in the Veritas Resolution Agentic Workflow](08-wrapping-in-agentic-workflow.md).
