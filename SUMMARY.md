@@ -1,8 +1,8 @@
-# NAVA Agentic Incident Resolution — AILab 2.0
+# Table of contents
 
 ## Overview
 
-* [Introduction](README.md)
+* [ServiceNow-AI-Lab: Incident Resolution and Remediation](README.md)
 * [Prerequisites](docs/00-prerequisites.md)
 
 ## Phase 1 — Requestor Flow
