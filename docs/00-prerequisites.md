@@ -60,12 +60,68 @@ The lab scenario uses a **custom table called incident extend** (`x_snc_apacaien
 > **If the table is missing or empty:** Contact your lab administrator to import the Update Set that creates the `x_snc_apacaienable` scoped application and its seed data. The table and records are delivered as part of the lab instance provisioning — they are not created during the build exercises.
  
 ---
+
+## Pre-Requisite 3: Train the Predictive Intelligence Similarity Model
+ 
+The AI Agent uses a **Predictive Intelligence Similarity** solution to find historically resolved incidents that are similar to the incoming issue. The Similarity Definition is already configured on your instance — you just need to trigger the training job so the ML model is built and ready before the lab begins.
+ 
+### Steps
+ 
+1. In the **Filter navigator**, type `Predictive Intelli` and expand the **Predictive Intelligence** menu
+ 
+![Filter Navigator — Predictive Intelligence](../screenshots/PI-step1.png)
+ 
+2. Under **Similarity**, click **Solution Definitions**
+3. Open the definition labelled **Find possible resolution for similar Incident cases**
+ 
+![Similarity Definitions — List View](../screenshots/PI-step2.png)
+ 
+4. Review the Similarity Definition configuration and confirm the following fields match:
+ 
+![Similarity Definition — Configuration](../screenshots/PI-step3.png)
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Label | `Find possible resolution for similar Incident cases` |
+| Name | `ml_x_snc_x_snc_apacaienable_global_find_possil` |
+| Active | ✅ Checked |
+| Table | `Incident [incident]` |
+| Test Table | `incident extend [x_snc_apacaienable_incid...]` |
+| Fields | Short description, Configuration item, Resolution code, Resolution notes, Category, Description |
+| Test Fields | Short description, error code, product bar code, product name, serial number, Category, Configuration item |
+| Filter | State is Resolved |
+| No. of records matching | 96 (approximate — may vary on your instance) |
+| Processing Language | English |
+| Stopwords | Default English Stopwords |
+| Training Frequency | Run Once |
+| Update Frequency | Do not update |
+ 
+> **Table vs. Test Table:** The **Table** (`Incident`) is the training corpus — the model learns from resolved incidents and their resolution notes. The **Test Table** (`incident extend`) is the table against which similarity is evaluated at runtime. This is why the Test Fields include the custom fields (`error_code`, `product_bar_code`, `serial_number`) that exist on the extended table.
+ 
+5. Click the **Update & Retrain** button in the top-right corner to trigger the training job
+6. Scroll down to the **ML Solutions** tab at the bottom of the form
+7. Wait for the solution to reach **Solution Complete** at **100%** progress
+ 
+![ML Solutions — Training Complete](../screenshots/PI-step4.png)
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Active | `true` |
+| Version | `1` |
+| State | Solution Complete |
+| Progress | 100% |
+| Row Count | 45 (approximate — depends on resolved incident count) |
+ 
+> **Training time:** On most lab instances, training completes within 1–2 minutes given the small dataset. If the solution stays in *Training* state for more than 5 minutes, check that the instance has the **Predictive Intelligence** plugin active and that there are sufficient resolved records in the Incident table matching the filter condition (State = Resolved).
+ 
+---
  
 ## Checklist
  
 | # | Pre-Requisite |
 |---|---------------|
 | 1 | Application scope set to `x_nava_agentic_lab` |
+| 2 | Incident extend table exists with sample records |
  
 ---
  
