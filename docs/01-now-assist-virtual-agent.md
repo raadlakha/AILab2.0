@@ -99,8 +99,8 @@ Review and confirm:
 
 | Field | Value for This Lab |
 |-------|--------------------|
-| Name | `Now Assist for Virtual Agent` |
-| Description | AI-powered conversational assistant for IT support |
+| Name | `Now Assist in Virtual Agent - AI Lab` |
+| Description | Description for Now Assist in Virtual Agent - AI Lab |
 | Status | Active |
 | Default language | English |
 
@@ -118,8 +118,6 @@ The second section is **Agentic Support**. This is a Zurich Patch 2+ setting.
 | AI Agents prioritised in planner | Enabled (system property: `sn_aia.use_agents_in_planner = true`) |
 
 > This ensures the AI Agent Planner evaluates registered agents **before** falling back to scripted topics. The L1 Requestor Agent will be evaluated first for every IT infrastructure message.
-
-> **Important:** Once the **AI Agents** skill is enabled and you upgrade to Zurich Patch 2+, Virtual Agent with agentic reasoning is enabled. **This change cannot be reversed.** Uncheck before upgrading if you do not want it.
 
 ---
 
