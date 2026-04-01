@@ -55,11 +55,11 @@ Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extr
 
 | Capability | Tool | How |
 |-----------|------|-----|
-| Silent user contextualisation | Tool 1 — Knowledge Graph | Queries User Graph to get caller role, department, CI — no prompting of the user |
-| Guided troubleshooting | Tool 2 — File Upload | L1/L2/L3 severity-tiered guide from attached PDF; deflection gate |
+| Silent user contextualisation | Tool 1 — Knowledge Graph | Queries User Graph to get attributes related to the user |
+| Guided troubleshooting | Tool 2 — File Upload | L1/L2/L3 severity-tiered guide from attached PDF; framework to guide the AI Agent's thinking and reasoning process |
 | Deflection | — | Issue resolved in chat → conversation ends, no Incident created |
-| In-chat image upload | Tool 3 — Conversation Topic | OOTB topic renders native in-chat file picker |
-| Enriched Incident creation | Tool 4 — Subflow | Creates and submits Incident after images captured; `state = New`; images attached; NADI-ready |
+| In-chat image upload | Tool 3 — Conversation Topic | OOTB topic renders native in-chat image upload picker |
+| Enriched Incident creation | Tool 4 — Subflow | Creates and submits Incident after images captured; `state changes from New to In Progress`; images attached; NADI-ready |
 
 ---
 
@@ -67,12 +67,7 @@ Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extr
 
 | Requirement | Detail |
 |-------------|--------|
-| Licence | Now Assist Pro+ or ITSM Pro+ |
-| Plugin `sn_aia` | Now Assist AI Agents — must be Active |
-| Plugin `sn_gaic` | v11.2+ |
-| AI Search | Must be enabled — agents return "No agents available" without it |
-| Role | `sn_aia.admin` or `admin` |
-| NAVA | Capability 01 complete |
+| New Virtual Agent assistant created | Complete steps |
 
 ---
 
