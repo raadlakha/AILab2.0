@@ -49,11 +49,11 @@ User (NAVA Chat — Service Portal)
               ▼
 ┌──────────────────────────────────┐
 │  First Responder AI Agent        │  ← Capability 05
-│  (Chat type — AI Agent Studio)   │
+│  (AI Agent type — Chat)          │
 │  Tools:                          │
 │   • Knowledge Graph search       │  ← Capability 03
 │   • Now Assist Document Intel    │  ← Capability 04
-│   • Flow Action (Extract INC)    │  ← Capability 07
+│   • Flow Action (Raise INC)      │  ← Capability 07
 └─────────────┬────────────────────┘
               │ Incident Created
               │ state=In Progress, contact_type=chat, u_extracted_error_code≠empty
@@ -61,9 +61,10 @@ User (NAVA Chat — Service Portal)
 ┌──────────────────────────────────┐
 │  Resolution Pathfinder           │  ← Capability 06
 │  (Agentic Workflow + Chat Agent) │
-│  Tools:                          │
+│  Tools:                          |
+    • Flow Action (Retrieve INC)   │  ← Capability 07
 │   • ResolutionFinderInternalData │  ← Capability 08
-│     (Now Assist Skill — RAG)     │
+│     (Now Assist Skill — RAG & PI)│
 │   • ElasticLogSearch             │  ← Capability 11
 │     (MCP Tool)                   │
 │   • GenerateWebSearchQuery       │  ← Capability 09
@@ -72,7 +73,7 @@ User (NAVA Chat — Service Portal)
 └─────────────┬────────────────────┘
               │
               ▼
-  Resolution Plan written to Incident work_notes
+  Resolution Plan generated to be written to Incident work_notes
               │
               ▼
 ┌──────────────────────────────────┐
@@ -85,7 +86,7 @@ User (NAVA Chat — Service Portal)
 └─────────────┬────────────────────┘
               │
               ▼
-  Remediation result written to Incident work_notes
+  Remediation result generated to be written to Incident work_notes
 ```
 
 ---
@@ -114,7 +115,7 @@ Work through the capabilities in order — each builds on the previous.
 | Admin roles | `sn_aia.admin` (AI agents), `kg_admin` (Knowledge Graph), `sn_va_designer` (Virtual Agent), `admin` |
 | External systems | Elastic instance with MCP-compatible endpoint (for Capability 11) |
 | External systems | Azure AI Foundry agent with A2A-compliant Agent Card at `/.well-known/agent.json` (for Capability 12) |
-| Zurich minimum | Patch 4 (required for External AI Agent / A2A protocol — Capability 12) |
+| Zurich minimum | Patch 6 Hot Fix 2 (required for External AI Agent / A2A protocol — Capability 12) |
 
 ---
 
