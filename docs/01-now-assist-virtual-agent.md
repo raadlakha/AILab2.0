@@ -42,7 +42,7 @@ L1 / Requestor AI Agent is triggered
 ... Phase 1 continues (KB deflection → troubleshooting guide → incident creation)
 ```
 
-> **Why `contact_type = chat` matters:** This field is the trigger condition for the downstream Agentic Workflow. If `contact_type` is not stamped as `chat`, the Resolution Pathfinder Agentic Workflow will not fire — even if all other conditions are met.
+> **Why `contact_type = chat` matters:** This field is the trigger condition for the downstream Agentic Workflow. If `contact_type` is not stamped as `chat`, the First Responder Operations Analyst Agent will not fire — even if all other conditions are met.
 
 ---
 
