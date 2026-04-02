@@ -246,7 +246,7 @@ You need to change the **Run As** property to **System User** so the subflow exe
 ![Subflows — Filtered Result](../screenshots/flowaction-check3.png)
  
 6. Click on the subflow name to open it
-7. Review the subflow structure — confirm the **Subflow Inputs** section shows the five mandatory inputs: `ci_name_input`, `chat_user_name`, `category_type`, `work_notes_details`, `short_description_inp...` (all String type)
+7. Click on Edit subflow to begin editing the subflow
  
 ![Subflow — Inputs and Structure](../screenshots/flowaction-check4.png)
  
@@ -259,7 +259,7 @@ You need to change the **Run As** property to **System User** so the subflow exe
  
 ![Subflow Properties — Run As Changed to System User](../screenshots/flowaction-check6.png)
  
-11. Click **Update** to save the change
+11. Click **Update** to save the change and finally, publish the subflow again
  
 > **Why System User?** When the L1 Agent fires this subflow during a Virtual Agent chat session, the session runs as the end user (e.g., Alex Rai). If Run As is set to "User who initiates session", the subflow inherits that user's ACLs — which typically do not include write access to the Incident Extend table or permission to attach files programmatically. Setting Run As to **System User** ensures the subflow has the necessary permissions to create the Incident record, attach uploaded images, and set all required fields — regardless of who is chatting with the agent.
  
