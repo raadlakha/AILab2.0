@@ -32,32 +32,70 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 
 ***
 
-## Pre-Requisite 2: Verify the Incident Extend Table and Sample Records
-
-The lab scenario uses a **custom table called incident extend** (`x_snc_apacaienable_incident_extend`) that adds fields specific to the Veritas NetBackup triage use case — such as error codes, product, serial number, and barcode. This table must already exist on your instance and be populated with sample incident records before you begin the build.
-
+## Pre-Requisite 2: Verify the Incident Extend Table, Update Numbering, and Confirm Sample Records
+ 
+The lab scenario uses a **custom table called incident extend** (`x_snc_apacaienable_incident_extend`) that adds fields specific to the Veritas NetBackup triage use case — such as error codes, product, serial number, and barcode. This table must already exist on your instance. Before the lab begins, you need to verify the table exists, update its auto-numbering counter to avoid collisions with seed data, and confirm sample records are populated.
+ 
 ### Steps
-
-1. In the **Filter navigator** (left-hand sidebar), type `incident extend` in the search field
-2. Under **All Results**, click **incident extends** to open the list view
-
-![Filter Navigator — incident extends](../.gitbook/assets/inc-extend-tbl.png)
-
-3. Confirm the **incident extends** list view loads and displays sample records
-4. Verify that records are populated with Veritas NetBackup-related data — you should see incidents with short descriptions referencing hardware overheating, error codes (e.g., error 84, error 37, status code 2817), and categories such as **Hardware** and **Software**
-
-![Incident Extends — Sample Records](../.gitbook/assets/inc-extend-tbl-main.png)
-
-> **What to look for:** The records should include a mix of categories, assignment groups (e.g., IT Operations Support, IT Client Systems Engineering), and states. These sample records are used by Predictive Intelligence for training and by the AI Agent for pattern matching during triage. If the table is empty or missing, the downstream Agentic Workflow will have no historical data to reference when generating resolution plans.
-
-| Field                  | Expected Value                               |
-| ---------------------- | -------------------------------------------- |
-| Table name             | `x_snc_apacaienable_incident_extend`         |
-| List URL path          | `x_snc_apacaienable_incident_extend_list.do` |
-| Number prefix          | `INCE`                                       |
-| Minimum sample records | 10+                                          |
-| Record categories      | Hardware, Software, Inquiry / Help           |
-
+ 
+1. In the **Filter navigator** (left-hand sidebar), type `System defin`
+2. Under **System Definition**, click **Tables**
+ 
+![Filter Navigator — System Definition > Tables](../screenshots/inc-extend-tbl1.png)
+ 
+3. In the **Tables** list, filter by **Label starts with `Incident Extend`**
+4. Confirm the **incident extend** table appears with the following details:
+ 
+![Tables List — incident extend](../screenshots/inc-extend-tbl2.png)
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Label | `incident extend` |
+| Name | `x_snc_apacaienable_incident_extend` |
+| Extends table | `Incident` |
+| Application | `x_nava_agentic_lab` |
+ 
+5. Click on **incident extend** to open the Table Definition form
+6. Select the **Controls** tab
+7. Locate the **auto-numbering** section and update the **Number** field to `12,000`
+ 
+> **Why update to 12,000?** The seed data contains records numbered up to approximately INCE0011xxx. Setting the counter to 12,000 ensures that any new Incident records created during the lab (e.g., via the L1 Agent's Incident creation subflow) receive numbers starting from INCE0012000 onward — avoiding numbering collisions with the pre-loaded sample data.
+ 
+8. **Right-click** on the form header bar and select **Save** to save the change without navigating away from the page
+ 
+![Table Definition — Controls Tab with Number Updated and Save](../screenshots/inc-extend-tbl3.png)
+ 
+> Confirm the following fields on the Controls tab after saving:
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Prefix | `INCE` |
+| Number | `12,000` |
+| Number of digits | `7` |
+| Extensible | ✅ Checked |
+| Create access controls | ✅ Checked |
+| User role | `x_snc_apacaienable.incident_extend_user` |
+ 
+9. Scroll down to the **Related Links** section at the bottom of the Table Definition form
+10. Click **Show List** to open the incident extend records list view
+ 
+![Table Definition — Related Links and Show List](../screenshots/inc-extend-tbl4.png)
+ 
+11. Confirm the **incident extends** list view loads and displays sample records
+12. Verify that records are populated with Veritas NetBackup-related data — you should see incidents with short descriptions referencing hardware overheating, error codes (e.g., error 84, error 37, status code 2817), and categories such as **Hardware** and **Software**
+ 
+![Incident Extends — Sample Records](../screenshots/inc-extend-tbl-main.png)
+ 
+> **What to look for:** The records should include a mix of categories, assignment groups (e.g., IT Operations Support, IT Client Systems Engineering), and states set to **Resolved**. These sample records are used by Predictive Intelligence for training and by the AI Agent for pattern matching during triage. If the table is empty or missing, the downstream Agentic Workflow will have no historical data to reference when generating resolution plans.
+ 
+| Field | Expected Value |
+|-------|----------------|
+| Table name | `x_snc_apacaienable_incident_extend` |
+| List URL path | `x_snc_apacaienable_incident_extend_list.do` |
+| Number prefix | `INCE` |
+| Minimum sample records | 10+ |
+| Record categories | Hardware, Software, Inquiry / Help |
+ 
 > **If the table is missing or empty:** Contact your lab administrator to import the Update Set that creates the `x_snc_apacaienable` scoped application and its seed data. The table and records are delivered as part of the lab instance provisioning — they are not created during the build exercises.
 
 ***
