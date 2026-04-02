@@ -131,7 +131,7 @@ Configure the following fields:
 | Field name              | `Model Details`                                                |
 | Details                 | `This is Reg. Model Version, Alpha numeric field on the image` |
 | Field type              | `Text`                                                         |
-| Target field            | `model_details`                                                |
+| Target field            | `model details`                                                |
 | Required for extraction | Optional                                                       |
 
 #### Field 3 — Product Name
@@ -143,7 +143,7 @@ Configure the following fields:
 | Field name              | `product name`                                                                                                  |
 | Details                 | `This is the product name which is mentioned on the device details image, generally mentioned below "Product:"` |
 | Field type              | `Text`                                                                                                          |
-| Target field            | `product`                                                                                                       |
+| Target field            | `product name`                                                                                                  |
 | Required for extraction | Optional                                                                                                        |
 
 #### Field 4 — Serial Number
@@ -155,19 +155,19 @@ Configure the following fields:
 | Field name              | `Serial Number`                                                                                           |
 | Details                 | `This is the SN number mentioned at the end of the image on th left side, mentioned after the text "SN:"` |
 | Field type              | `Text`                                                                                                    |
-| Target field            | `serial_number`                                                                                           |
+| Target field            | `serial number`                                                                                           |
 | Required for extraction | Optional                                                                                                  |
 
-#### Field 5 — PN / Bar Code
+#### Field 5 — PN Bar Code
 
 ![NADI — PN Bar Code Field](../.gitbook/assets/NADI-5-pn-bar-code-field.png)
 
 | Setting                 | Value                                                                                    |
 | ----------------------- | ---------------------------------------------------------------------------------------- |
-| Field name              | `PN / Bar Code`                                                                          |
+| Field name              | `PN Bar Code`                                                                            |
 | Details                 | `This is the pn number above the bar code, which is alpha numeric also it is hyphenated` |
 | Field type              | `Text`                                                                                   |
-| Target field            | `pn_bar_code`                                                                            |
+| Target field            | `product bar code`                                                                       |
 | Required for extraction | Optional                                                                                 |
 
 ***
