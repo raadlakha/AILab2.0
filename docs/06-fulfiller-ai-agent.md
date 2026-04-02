@@ -311,7 +311,22 @@ Click **Save and continue**.
 
 ***
 
-### Wizard Step 5 — Select Channels and Status
+### Wizard Step 5 — Add Triggers
+
+The wizard advances to **Add triggers**.
+
+![Add triggers — trigger configuration](../screenshots/L2-agent-trigger.png)
+
+
+| Setting  | Value              |
+| -------- | ------------------ |
+| Triggers | None — leave empty |
+
+Click **Save and continue**.
+
+***
+
+### Wizard Step 6 — Select Channels and Status
 
 The wizard advances to **Select channels and status**.
 

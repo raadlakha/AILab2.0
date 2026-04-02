@@ -291,17 +291,9 @@ The wizard advances to **Add triggers**.
 
 ![Add triggers — trigger configuration](../screenshots/L1-agent-trigger.png)
 
-The page explains: _"A trigger lets you launch an AI agent without needing a user's request. Triggers are optional, based on conditions or schedules you set, and launch agentic AI experiences."_
-
-The triggers table shows columns for Name, Trigger, Table, Conditions, Run as, Channel, Status, and Remove. For this agent, **no triggers are needed** — the table should show "No data to display."
-
 | Setting  | Value              |
 | -------- | ------------------ |
 | Triggers | None — leave empty |
-
-> **Why no triggers:** The First Responder Operations Analyst Agent is a **Chat agent** — it is invoked conversationally when a user sends a message through NAVA (Virtual Agent). It does not need to fire automatically based on record conditions or schedules. Triggers are used for agents that need to launch proactively (e.g., an agent that fires when an Incident reaches a certain state) — that pattern is used later in the lab for the Agentic Workflow, not here.
->
-> The right-hand **FAQs** panel provides useful context: "What if I don't add any triggers?" — the agent simply responds when invoked via its configured channel (Virtual Agent). "When to add a trigger?" — when you want the agent to launch without a user request, based on conditions or schedules.
 
 Click **Save and continue**.
 
