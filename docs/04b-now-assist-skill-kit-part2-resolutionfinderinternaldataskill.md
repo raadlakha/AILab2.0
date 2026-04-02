@@ -509,7 +509,7 @@ The **Publish Skill** dialog opens:
 | Feature         | Not Applicable                                                       |
 | Display Options | None                                                                 |
 | Provider        | Now LLM Service (Now LLM Generic) — Default provider                 |
-| Prompt          | `Assess if solution exists within Internal Knowledge sources (v2)` ✅ |
+| Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅     |
 
 ![NASK — Publish Skill Dialog](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31.png)
 
@@ -545,7 +545,7 @@ Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service)
 | Tool 3              | `RetrieveRelevantKBContent` — Retriever — RAG — Semantic — E5FT — Top K: 3                          |
 | Search query source | `{{GenerateSearchQueryAgainstAISearch.response}}`                                                   |
 | Search profile      | `quick_action_kb_search_profile`                                                                    |
-| Prompt              | `Assess if solution exists within Internal Knowledge sources (v2)`                                  |
+| Prompt              | `Assess if solution exists within Internal Knowledge sources`.                                      |
 | User access         | Select roles → `itil`                                                                               |
 | Role restrictions   | `itil`                                                                                              |
 | Deployment workflow | Other                                                                                               |
