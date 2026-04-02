@@ -275,7 +275,7 @@ FindSimilarIncidents        GenerateSearchQuery...
  
 ![NASK — Canvas: Two Parallel Tools](../screenshots/NASKResolutionFinderUsingInternalData2-19.png)
  
-> At this point the Retriever has not yet been added. The next step inserts `RetrieveRelevantKBContent` between `GenerateSearchQueryAgainstAISearch` and the `Assess if solution exists` prompt.
+> At this point the Retriever has not yet been added. The next step inserts `RetrieveRelevantKBContent` between `GenerateSearchQueryAgainstAISearch` and the `Assess if solution exists` prompt. (Click on the (+) line where it is after the GeneratedSearchQueryAgainstAISearch node, not the one after Predictive Intelligence)
  
 ---
  
