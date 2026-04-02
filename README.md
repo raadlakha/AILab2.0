@@ -64,7 +64,7 @@ By completing this lab, an SC will be able to:
 
 ## Lab Scenario
 
-> A user reports that a Veritas server is throwing errors. They send a message to NAVA and upload a screenshot of the error screen. The platform extracts the error code from the image, creates an incident, searches the KB and live logs for a resolution, generates a remediation plan, and dispatches it to Azure AI Foundry for execution — all without a human touching the ticket.
+> A user reports that a Veritas server is throwing errors. They send a message to NAVA and upload screenshot(s) of the error screen. The platform extracts the error code from the image, creates an incident, searches the KB and live logs for a resolution, generates a remediation plan, and dispatches it to Azure AI Foundry for execution — all without a human touching the ticket.
 
 ***
 
@@ -78,11 +78,11 @@ Phase 1 — Requestor Flow
 ┌──────────────────────────────────────────────┐
 │  L1 First Responder Operations Analyst Agent │
 │  • Troubleshooting guide delivered in chat   │
-│  • User uploads error screenshot             │
+│  • User uploads error screenshot(s)          │
 │  • Now Assist Document Intelligence extracts │
-│    u_extracted_error_code from image         │
+│    key fields from image(s)                  │
 │  • Incident created: state = In Progress,    │
-│    contact_type = chat, error_code populated │
+│    channel = chat, error_code populated      │
 └──────────────────────┬───────────────────────┘
                        │
                        ▼
