@@ -24,7 +24,7 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 2. In the **Application scope** dropdown, type `x_nava` in the filter field
 3. Select **x\_nava\_agentic\_lab** from the results
 
-![Change Application Scope to x\_nava\_agentic\_lab](../.gitbook/assets/change-scope-to-x_nava_agentic_lab.png)
+![Change Application Scope to x\_nava\_agentic\_lab](../screenshots/change-scope-to-x_nava_agentic_lab.png)
 
 4. Confirm the scope picker now displays **x\_nava\_agentic\_lab** as the active scope
 
@@ -105,16 +105,16 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 1. In the **Filter navigator**, type `Predictive Intelli` and expand the **Predictive Intelligence** menu
 
-![Filter Navigator — Predictive Intelligence](../.gitbook/assets/PI-step1.png)
+![Filter Navigator — Predictive Intelligence](../screenshots/PI-step1.png)
 
 2. Under **Similarity**, click **Solution Definitions**
 3. Open the definition labelled **Find possible resolution for similar Incident cases**
 
-![Similarity Definitions — List View](../.gitbook/assets/PI-step2.png)
+![Similarity Definitions — List View](../screenshots/PI-step2.png)
 
 4. Review the Similarity Definition configuration and confirm the following fields match:
 
-![Similarity Definition — Configuration](../.gitbook/assets/PI-step3.png)
+![Similarity Definition — Configuration](../screenshots/PI-step3.png)
 
 | Field                   | Expected Value                                                                                             |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -138,7 +138,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 6. Scroll down to the **ML Solutions** tab at the bottom of the form
 7. Wait for the solution to reach **Solution Complete** at **100%** progress
 
-![ML Solutions — Training Complete](../.gitbook/assets/PI-step4.png)
+![ML Solutions — Training Complete](../screenshots/PI-step4.png)
 
 | Field     | Expected Value                                        |
 | --------- | ----------------------------------------------------- |
@@ -162,7 +162,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 2. Filter the list by **Short description contains `backup`**
 3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
 
-![Knowledge List — Veritas Backup Failure Article](../.gitbook/assets/Index-new-KB-article-0.png)
+![Knowledge List — Veritas Backup Failure Article](../screenshots/Index-new-KB-article-0.png)
 
 > If the article is missing, contact your lab administrator. The KB article is delivered as part of the lab instance provisioning.
 
@@ -173,14 +173,14 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 1. In the **Filter navigator**, type `Indexed Sources`
 2. Under **AI Search** → **AI Search Index**, click **Indexed Sources**
 
-![Filter Navigator — Indexed Sources](../.gitbook/assets/Index-new-KB-article-1.png)
+![Filter Navigator — Indexed Sources](../screenshots/Index-new-KB-article-1.png)
 
 > There are two **Indexed Sources** entries in the navigator — one under **Query Generation > Semantic Filter** and one under **AI Search > AI Search Index**. Use the **AI Search** path.
 
 3. In the **AI Search Indexed Sources** list, filter by **Name starts with `Knowledge Table`**
 4. Confirm the **Knowledge Table** record exists with the following values:
 
-![AI Search Indexed Sources — Knowledge Table](../.gitbook/assets/Index-new-KB-article-2.png)
+![AI Search Indexed Sources — Knowledge Table](../screenshots/Index-new-KB-article-2.png)
 
 | Field  | Expected Value             |
 | ------ | -------------------------- |
@@ -196,18 +196,18 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 1. Click on **Knowledge Table** to open the Indexed Source record
 2. You will see the **AI Search Indexed Source — Knowledge Table** form with **Index All Tables** and **Index Selected Table/s** buttons in the top-right corner
 
-![AI Search Indexed Source — Knowledge Table Form](../.gitbook/assets/Index-new-KB-article-3.png)
+![AI Search Indexed Source — Knowledge Table Form](../screenshots/Index-new-KB-article-3.png)
 
 > **Cross-scope notice:** You may see a banner stating _"This record is in the Global application, but x\_nava\_agentic\_lab is the current application."_ This is expected — the Indexed Source is a Global record. You can still trigger the index from here.
 
 3. Click **Index All Tables** to queue the indexing job
 4. The page will navigate to the **Indexed Source History** form. Initially, both **Keyword Ingestion State** and **Semantic Ingestion State** will show `not_started`
 
-![Indexed Source History — Queued](../.gitbook/assets/Index-new-KB-article-4.png)
+![Indexed Source History — Queued](../screenshots/Index-new-KB-article-4.png)
 
 5. Refresh the page periodically until the indexing completes. When finished, the form should show:
 
-![Indexed Source History — Indexing Complete](../.gitbook/assets/Index-new-KB-article-5.png)
+![Indexed Source History — Indexing Complete](../screenshots/Index-new-KB-article-5.png)
 
 | Field                    | Expected Value                           |
 | ------------------------ | ---------------------------------------- |

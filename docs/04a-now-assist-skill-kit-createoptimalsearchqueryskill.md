@@ -109,7 +109,7 @@ For this lab, the following provider is selected:
 | Default provider API | `Chat Completions`                                             |
 | Available models     | gpt\_small, gpt-4-turbo, gpt-4o-mini, gpt-4o, gpt\_large, gpt4 |
 
-![NASK — General Info: Skill Name, Description, and Provider](../.gitbook/assets/NASKCreateOptimalSearchQuery1-1.png)
+![NASK — General Info: Skill Name, Description, and Provider](../screenshots/NASKCreateOptimalSearchQuery1-1.png)
 
 > The provider selection determines which LLM processes the prompt. Azure OpenAI is used here for its GPT model range. If your instance uses Now LLM Service natively, select that instead — the skill logic is provider-agnostic.
 
@@ -132,7 +132,7 @@ Scroll down on the General info page to reach **Configure security controls**.
 | ----- | ------ |
 | Roles | `itil` |
 
-![NASK — Security Controls: User Access and Role Restrictions](../.gitbook/assets/NASKCreateOptimalSearchQuery1-2.png)
+![NASK — Security Controls: User Access and Role Restrictions](../screenshots/NASKCreateOptimalSearchQuery1-2.png)
 
 > **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits.
 
@@ -154,7 +154,7 @@ Before authoring the prompt, define the skill input that will be passed in at ru
 
 The 'Make input mandatory' is currently unchecked, but as you progressively firm up your AI Agent / Agentic Workflow build, it can eventually be turned on (checked) to ensure more robustness in overall solutioning, as making the input mandatory will ensure that the flow runs smoothly.
 
-![NASK — Skill Input: incidentextendrecord](../.gitbook/assets/NASKCreateOptimalSearchQuery1-3.png)
+![NASK — Skill Input: incidentextendrecord](../screenshots/NASKCreateOptimalSearchQuery1-3.png)
 
 > `incidentextendrecord` is the identifier passed in by the Fulfiller Flow when the skill is invoked. It references the Incident extend record that `GetIncidentExtendDetail` will query. This input is threaded through to the Flow Action tool as `{{incidentextendrecord}}`.
 
@@ -167,17 +167,17 @@ When the skill is created, NASK auto-generates a default prompt named **Incident
 1. In the **Skill contents** panel (left side), expand **Prompts** → **Azure OpenAI** → **Chat Completions**
 2. Click on **Incident Summarization** to select it
 
-![NASK — Edit Prompt: Default Name (Incident Summarization)](../.gitbook/assets/NASKCreateOptimalSearchQuery1-15.png)
+![NASK — Edit Prompt: Default Name (Incident Summarization)](../screenshots/NASKCreateOptimalSearchQuery1-15.png)
 
 3. Click the **pencil icon** next to the prompt name to open the **Edit prompt name** dialog
 4. Change the **Name** from `Incident Summarization` to `GenerateOptimalPromptForRAG`
 
-![NASK — Edit Prompt Name Dialog](../.gitbook/assets/NASKCreateOptimalSearchQuery1-16.png)
+![NASK — Edit Prompt Name Dialog](../screenshots/NASKCreateOptimalSearchQuery1-16.png)
 
 5. Click **Save changes**
 6. Confirm the prompt name now displays as **GenerateOptimalPromptForRAG** in the Skill contents panel
 
-![NASK — Prompt Renamed to GenerateOptimalPromptForRAG](../.gitbook/assets/NASKCreateOptimalSearchQuery1-17.png)
+![NASK — Prompt Renamed to GenerateOptimalPromptForRAG](../screenshots/NASKCreateOptimalSearchQuery1-17.png)
 
 > The prompt name is referenced throughout the skill — on the canvas (as the Skill prompt node label), in the Publish dialog, and in the finalized prompt selector. Renaming it now ensures consistency across all surfaces. This is also the prompt name that appears when you publish the skill in Step 14.
 
@@ -191,13 +191,13 @@ The canvas shows the execution flow: **Start → \[tool nodes] → End**. Click 
 
 Select **Tool node** and click **Add**.
 
-![NASK — Add Node Dialog: Tool Node Selected](../.gitbook/assets/NASKCreateOptimalSearchQuery1-4.png)
+![NASK — Add Node Dialog: Tool Node Selected](../screenshots/NASKCreateOptimalSearchQuery1-4.png)
 
 The tool type picker appears.
 
 Select **Flow Action** as the tool type and click **Configure tool**.
 
-![NASK — Tool Type: Flow Action](../.gitbook/assets/NASKCreateOptimalSearchQuery1-5.png)
+![NASK — Tool Type: Flow Action](../screenshots/NASKCreateOptimalSearchQuery1-5.png)
 
 ***
 
@@ -212,7 +212,7 @@ The **Add flow action as a tool** wizard opens (5-step wizard: General info → 
 | Name     | `GetIncidentExtendDetail`                                  |
 | Resource | `Retrieval of Relevant Fields from Incident Extract table` |
 
-![NASK — Flow Action Tool: General Info](../.gitbook/assets/NASKCreateOptimalSearchQuery1-6.png)
+![NASK — Flow Action Tool: General Info](../screenshots/NASKCreateOptimalSearchQuery1-6.png)
 
 > The **Resource** field references the Flow Action that reads the Incident extend table. Ensure ACLs are correctly configured on this resource — the platform shows a warning: _"Ensure that Access Control Lists (ACLs) are correctly configured for the resource so that the skill can access it."_
 
@@ -230,7 +230,7 @@ Click **Continue**.
 | Datatype | `String`                   |
 | Value    | `{{incidentextendrecord}}` |
 
-![NASK — Flow Action Tool: Tool Inputs](../.gitbook/assets/NASKCreateOptimalSearchQuery1-7.png)
+![NASK — Flow Action Tool: Tool Inputs](../screenshots/NASKCreateOptimalSearchQuery1-7.png)
 
 > `{{incidentextendrecord}}` is the skill input defined in Step 4 — it is passed directly into the Flow Action here. This is how the runtime Incident record is threaded through the skill into the pre-processing tool.
 
@@ -258,7 +258,7 @@ The Flow Action returns the following outputs from the Incident extend table. Al
 | Category             | String     | Incident category                         |
 | Work Notes           | String     | Diagnostic notes from the L1 conversation |
 
-![NASK — Flow Action Tool: Tool Outputs](../.gitbook/assets/NASKCreateOptimalSearchQuery1-8.png)
+![NASK — Flow Action Tool: Tool Outputs](../screenshots/NASKCreateOptimalSearchQuery1-8.png)
 
 > Truncation is available per output field — enabling truncation trims the field value if it exceeds the token limit, keeping the prompt intact. Leave all truncation unchecked unless you hit token limit issues in testing.
 
@@ -274,7 +274,7 @@ Click **Continue**.
 | ----- | --------------------- |
 | Type  | **None (Always run)** |
 
-![NASK — Flow Action Tool: Tool Conditions](../.gitbook/assets/NASKCreateOptimalSearchQuery1-9.png)
+![NASK — Flow Action Tool: Tool Conditions](../screenshots/NASKCreateOptimalSearchQuery1-9.png)
 
 > Tool conditions let you specify whether the tool should run or be skipped based on a script or filter. **None (Always run)** means the `GetIncidentExtendDetail` Flow Action executes unconditionally every time the skill is invoked — the correct setting here since the prompt always needs the Incident context.
 
@@ -297,7 +297,7 @@ Verify all fields before adding:
 | Outputs         | (all 11 fields) | String / Object / True/False as defined                    |
 | Tool conditions | Type            | none                                                       |
 
-![NASK — Flow Action Tool: Summary](../.gitbook/assets/NASKCreateOptimalSearchQuery1-10.png)
+![NASK — Flow Action Tool: Summary](../screenshots/NASKCreateOptimalSearchQuery1-10.png)
 
 Click **Add tool**.
 
@@ -320,7 +320,7 @@ GenerateOptimalProm...    ← Skill Prompt node (auto-created)
 End
 ```
 
-![NASK — Canvas: Full Skill Flow](../.gitbook/assets/NASKCreateOptimalSearchQuery1-11.png)
+![NASK — Canvas: Full Skill Flow](../screenshots/NASKCreateOptimalSearchQuery1-11.png)
 
 The left panel shows **Tools** → `GetIncidentExtendDetail` / Flow Action.
 
@@ -368,7 +368,7 @@ Navigate to **Step 4: Deployment and skill settings** → select **Deployment se
 | Workflow | `Other`                        |
 | Product  | (leave blank — not applicable) |
 
-![NASK — Deployment Settings: Workflow](../.gitbook/assets/NASKCreateOptimalSearchQuery1-13.png)
+![NASK — Deployment Settings: Workflow](../screenshots/NASKCreateOptimalSearchQuery1-13.png)
 
 > The **Workflow** field determines where this skill appears in the Now Assist Admin → Skills catalogue. Setting it to **Other** places the skill under the **Other** category — making it findable when activating it for use in Flow Designer.
 
@@ -395,7 +395,7 @@ Under **Select which finalized prompts to include in the Published skill:**
 | ---------------------------------------------------- | --------------------------------------------------- | --------- |
 | Azure OpenAI                                         | `GenerateOptimalPromptForRAG (v1)` — Default prompt | ✅ Checked |
 
-![NASK — Publish Skill Dialog](../.gitbook/assets/NASKCreateOptimalSearchQuery1-12.png)
+![NASK — Publish Skill Dialog](../screenshots/NASKCreateOptimalSearchQuery1-12.png)
 
 Click **Publish**.
 
@@ -409,7 +409,7 @@ After publishing, navigate to **All → Admin Center → Now Assist Admin → No
 
 Locate `CreateOptimalSearchQuery` under the **Other** workflow (it will show **Custom | Not started | Now LLM Service**). Click **Turn on** → set role restrictions as required → confirm activation.
 
-![Now Assist Admin — Skills: CreateOptimalSearchQuery](../.gitbook/assets/NASKCreateOptimalSearchQuery1-14.png)
+![Now Assist Admin — Skills: CreateOptimalSearchQuery](../screenshots/NASKCreateOptimalSearchQuery1-14.png)
 
 > The skill must be **Active** in Now Assist Admin for it to be callable as a Flow Action from the Fulfiller Flow in Flow Designer. Publishing alone is not sufficient — activation is a separate step.
 

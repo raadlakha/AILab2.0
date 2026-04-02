@@ -110,7 +110,7 @@ HTTP Connection (FoundryConnect) — ties URL + credential alias together
 
 Navigate to **All → System OAuth → Application Registry** (search `application registry` in the All menu).
 
-![Application Registry navigation](../.gitbook/assets/a2a-oauth-app-reg.png)
+![Application Registry navigation](../screenshots/a2a-oauth-app-reg.png)
 
 The Application Registry menu shows two paths:
 
@@ -119,7 +119,7 @@ The Application Registry menu shows two paths:
 
 Click **New**. The **"What kind of OAuth application?"** picker appears:
 
-![OAuth application type picker](../.gitbook/assets/a2a-oauth-obound.png)
+![OAuth application type picker](../screenshots/a2a-oauth-obound.png)
 
 Select **"Connect to a third party OAuth Provider - Outbound"** and click **Continue**.
 
@@ -131,7 +131,7 @@ This creates an **Outbound OAuth 2.0 provider** record — the standard path for
 
 The **Application Registries** form opens with the OAuth provider detail fields.
 
-![Application Registry — FoundryOAuth configuration](../.gitbook/assets/a2a-oauth-outbound-app-reg1.png)
+![Application Registry — FoundryOAuth configuration](../screenshots/a2a-oauth-outbound-app-reg1.png)
 
 Fill in the following fields. All values come from your **Azure App Registration** in the Azure portal:
 
@@ -157,7 +157,7 @@ Save (right-click header → Save).
 
 After saving the Application Registry, navigate to the **OAuth Entity Scopes** tab.
 
-![OAuth Entity Scopes — FoundryOAuthOutboundScope](../.gitbook/assets/a2a-oauth-outbound-app-entity-scope.png)
+![OAuth Entity Scopes — FoundryOAuthOutboundScope](../screenshots/a2a-oauth-outbound-app-entity-scope.png)
 
 Add a new scope row:
 
@@ -178,7 +178,7 @@ Navigate to **All → IntegrationHub → Connections & Credentials → Credentia
 
 Click **New > OAuth 2.0 Credentials** and configure:
 
-![OAuth 2.0 Credentials — FoundryOAuthCreds (new record)](../.gitbook/assets/a2a-oauth-cred.png)
+![OAuth 2.0 Credentials — FoundryOAuthCreds (new record)](../screenshots/a2a-oauth-cred.png)
 
 | Field                                 | Value                                                                       |
 | ------------------------------------- | --------------------------------------------------------------------------- |
@@ -199,13 +199,13 @@ Save the record.
 
 After saving `FoundryOAuthCreds`, scroll down to **Related Links** and click **Get OAuth Token**.
 
-![FoundryOAuthCreds — Get OAuth Token link](../.gitbook/assets/a2a-oauth-cred-test-token.png)
+![FoundryOAuthCreds — Get OAuth Token link](../screenshots/a2a-oauth-cred-test-token.png)
 
 > The banner at the top of the saved credential record shows: _"OAuth Access or Refresh tokens are not available. Verify the OAuth configuration and click the 'Get OAuth Token' link below to request a new token."_ This is expected before the first token fetch — click **Get OAuth Token** circled in green to initiate the Client Credentials flow.
 
 ServiceNow makes a POST to the Azure token endpoint with the Client ID, Client Secret, and scope. On success:
 
-![OAuth token flow completed successfully](../.gitbook/assets/a2a-oauth-token-success.png)
+![OAuth token flow completed successfully](../screenshots/a2a-oauth-token-success.png)
 
 The green banner confirms: **"OAuth token flow completed successfully"**
 
@@ -225,13 +225,13 @@ The **Connection & Credential Alias** is the ServiceNow object that bundles a **
 
 Navigate to **All → IntegrationHub → Connections & Credentials → Connection & Credential Aliases**.
 
-![Connection & Credential Aliases navigation](../.gitbook/assets/a2a-connect-cred1.png)
+![Connection & Credential Aliases navigation](../screenshots/a2a-connect-cred1.png)
 
 > In the All menu, search `Connections & Cre` to see both the IntegrationHub section and the standalone Connections & Credentials section. Use **Connection & Credential Aliases** (highlighted with the green star — it's already in Favorites from prior use).
 
 Click **New** and configure:
 
-![Connection & Credential Aliases — FoundryConnectCreds new record](../.gitbook/assets/a2a-connect-cred2.png)
+![Connection & Credential Aliases — FoundryConnectCreds new record](../screenshots/a2a-connect-cred2.png)
 
 | Field                               | Value                       |
 | ----------------------------------- | --------------------------- |
@@ -250,13 +250,13 @@ Save (right-click header → Save).
 
 After saving `FoundryConnectCreds`, navigate to the **Connections** tab. It will show "No records to display".
 
-![Connections tab — click New to add connection](../.gitbook/assets/a2a-connect-cred3.png)
+![Connections tab — click New to add connection](../screenshots/a2a-connect-cred3.png)
 
 > The annotation on the screenshot says: _"Click New — This is part of Connection & Credentials"_. Click **New** in the top-right of the Connections related list.
 
 The **HTTP(s) Connection** form opens:
 
-![HTTP Connection — FoundryConnect](../.gitbook/assets/a2a-oauth-connect.png)
+![HTTP Connection — FoundryConnect](../screenshots/a2a-oauth-connect.png)
 
 | Field            | Value                                                                                            |
 | ---------------- | ------------------------------------------------------------------------------------------------ |
@@ -284,13 +284,13 @@ With OAuth and the Connection Alias configured, the agent can now be registered 
 
 Navigate to **All → AI Agent Studio → Create and manage → AI agents**.
 
-![AI Agent Studio — Add dropdown with External option](../.gitbook/assets/ExternalAgent1.png)
+![AI Agent Studio — Add dropdown with External option](../screenshots/ExternalAgent1.png)
 
 The **AI agents** list shows 366 agents (the lab instance). Click the **Add** dropdown (top right) and select **External**.
 
 The **"Select a method for adding an external AI agent"** dialog appears:
 
-![Select method — Agent2Agent (A2A) protocol selected](../.gitbook/assets/ExternalAgent1-1.png)
+![Select method — Agent2Agent (A2A) protocol selected](../screenshots/ExternalAgent1-1.png)
 
 Two options are presented:
 
@@ -316,7 +316,7 @@ The **Discover and activate** screen opens. Click **+ Add new provider**.
 
 The **Add provider** form appears:
 
-![Add provider — AzObservabilityAgent configuration](../.gitbook/assets/ExternalAgentConfig1.png)
+![Add provider — AzObservabilityAgent configuration](../screenshots/ExternalAgentConfig1.png)
 
 | Field                           | Value                                                                                            |
 | ------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -338,7 +338,7 @@ Click **Add**.
 
 Back on the **Discover and activate** screen, select `AzObservabilityAgent` from the Provider dropdown and click **Discover external AI agent**.
 
-![Discover external AI agent — ObsAgent discovered as Active](../.gitbook/assets/ExternalAgentPostConfigDiscover.png)
+![Discover external AI agent — ObsAgent discovered as Active](../screenshots/ExternalAgentPostConfigDiscover.png)
 
 ServiceNow calls `GET /.well-known/agent.json` using the `FoundryConnectCreds` connection (with the OAuth Bearer token). On success, the discovered agent appears in the list:
 
@@ -354,7 +354,7 @@ Click **ObsAgent** to review the Agent Card details.
 
 The **ObsAgent** detail panel opens:
 
-![ObsAgent — Basic info and Activate button](../.gitbook/assets/ActivateExternalAgent.png)
+![ObsAgent — Basic info and Activate button](../screenshots/ActivateExternalAgent.png)
 
 Two tabs are available: **Basic info** and **Agent card**.
 
@@ -379,7 +379,7 @@ The wizard completes Step 1 (Discover and activate ✅) and advances to Step 2 (
 
 In **Step 3: Define the specialty**, configure the agent's runtime behaviour:
 
-![Define specialty — Communication mode, Authentication, User access](../.gitbook/assets/ExternalAgent3.png)
+![Define specialty — Communication mode, Authentication, User access](../screenshots/ExternalAgent3.png)
 
 **Communication mode:**
 

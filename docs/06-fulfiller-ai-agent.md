@@ -76,7 +76,7 @@ Navigate to **All → AI Agent Studio → Create and manage → AI Agents → Ne
 
 The wizard opens on **Define the specialty**.
 
-![Define the specialty — agent name and description](../.gitbook/assets/L2-agent.png)
+![Define the specialty — agent name and description](../screenshots/L2-agent.png)
 
 | Field                                        | Value                                           |
 | -------------------------------------------- | ----------------------------------------------- |
@@ -97,7 +97,7 @@ Click **Save and continue**.
 
 The wizard advances to **Add tools and information**.
 
-![Add tools and information](../.gitbook/assets/L2-Agent2.png)
+![Add tools and information](../screenshots/L2-Agent2.png)
 
 Six tools must be added. Use **Add tool ▼** to select the tool type for each.
 
@@ -107,11 +107,11 @@ Six tools must be added. Use **Add tool ▼** to select the tool type for each.
 
 From **Add tool ▼** select **Flow action**.
 
-![Add tool dropdown — Flow action highlighted](../.gitbook/assets/L2-agent-tool1.png)
+![Add tool dropdown — Flow action highlighted](../screenshots/L2-agent-tool1.png)
 
 The **Edit flow action** dialog opens:
 
-![Edit flow action — Incident Extract fields](../.gitbook/assets/L2-agent-tool1-2.png)
+![Edit flow action — Incident Extract fields](../screenshots/L2-agent-tool1-2.png)
 
 | Field                                    | Value                                                                                                                                                                                                                                                                                    |
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -131,13 +131,13 @@ Click **Save**.
 
 From **Add tool ▼** select **Now Assist skill**.
 
-![Add tool dropdown — Now Assist skill highlighted](../.gitbook/assets/L2-agent-tool2.png)
+![Add tool dropdown — Now Assist skill highlighted](../screenshots/L2-agent-tool2.png)
 
 The **Edit Now Assist skill** dialog opens:
 
-![Edit Now Assist skill — ResolutionFinderUsingInternalData (top)](../.gitbook/assets/L2-agent-tool2-2.png)
+![Edit Now Assist skill — ResolutionFinderUsingInternalData (top)](../screenshots/L2-agent-tool2-2.png)
 
-![Edit Now Assist skill — ResolutionFinderUsingInternalData (scrolled)](../.gitbook/assets/L2-agent-tool2-3.png)
+![Edit Now Assist skill — ResolutionFinderUsingInternalData (scrolled)](../screenshots/L2-agent-tool2-3.png)
 
 | Field                                    | Value                                                                                                                                                                                                                                         |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -158,11 +158,11 @@ Click **Save**.
 
 From **Add tool ▼** select **MCP server tool**.
 
-![Add tool dropdown — MCP server tool highlighted](../.gitbook/assets/L2-agent-tool5.png)
+![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool5.png)
 
 The **Add a Model Context Protocol Tool** dialog opens:
 
-![Add MCP tool — elastic mcp server, platform\_core\_get\_index\_mapping](../.gitbook/assets/L2-agent-tool5-2.png)
+![Add MCP tool — elastic mcp server, platform\_core\_get\_index\_mapping](../screenshots/L2-agent-tool5-2.png)
 
 | Field                                | Value                                                                                                                  |
 | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
@@ -171,7 +171,7 @@ The **Add a Model Context Protocol Tool** dialog opens:
 
 The tool settings section:
 
-![MCP tool settings — platform\_core\_get\_index\_mapping](../.gitbook/assets/L2-agent-tool5-3.png)
+![MCP tool settings — platform\_core\_get\_index\_mapping](../screenshots/L2-agent-tool5-3.png)
 
 | Field                                    | Value                                                   |
 | ---------------------------------------- | ------------------------------------------------------- |
@@ -188,11 +188,11 @@ Click **Add**.
 
 From **Add tool ▼** select **MCP server tool**.
 
-![Add tool dropdown — MCP server tool highlighted](../.gitbook/assets/L2-agent-tool6.png)
+![Add tool dropdown — MCP server tool highlighted](../screenshots/L2-agent-tool6.png)
 
 The **Add a Model Context Protocol Tool** dialog opens:
 
-![Add MCP tool — elastic mcp server, platform\_core\_execute\_esql](../.gitbook/assets/L2-agent-tool6-2.png)
+![Add MCP tool — elastic mcp server, platform\_core\_execute\_esql](../screenshots/L2-agent-tool6-2.png)
 
 | Field                                | Value                                                                                                                  |
 | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
@@ -201,7 +201,7 @@ The **Add a Model Context Protocol Tool** dialog opens:
 
 The tool settings section:
 
-![MCP tool settings — platform\_core\_execute\_esql](../.gitbook/assets/L2-agent-tool6-3.png)
+![MCP tool settings — platform\_core\_execute\_esql](../screenshots/L2-agent-tool6-3.png)
 
 | Field                                    | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -220,13 +220,13 @@ Click **Add**.
 
 From **Add tool ▼** select **Now Assist skill**.
 
-![Add tool dropdown — Now Assist skill highlighted](../.gitbook/assets/L2-agent-tool3.png)
+![Add tool dropdown — Now Assist skill highlighted](../screenshots/L2-agent-tool3.png)
 
 The **Edit Now Assist skill** dialog opens:
 
-![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (top)](../.gitbook/assets/L2-agent-tool3-2.png)
+![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (top)](../screenshots/L2-agent-tool3-2.png)
 
-![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (scrolled)](../.gitbook/assets/L2-agent-tool3-3.png)
+![Edit Now Assist skill — GenerateWebSearchQnsForResolutionPlan (scrolled)](../screenshots/L2-agent-tool3-3.png)
 
 | Field                                    | Value                                                                                                                                                                                                                                                                                                                                                          |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -248,13 +248,13 @@ Click **Save**.
 
 From **Add tool ▼** select **Web search**.
 
-![Add tool dropdown — Web search highlighted](../.gitbook/assets/L2-agent-tool4.png)
+![Add tool dropdown — Web search highlighted](../screenshots/L2-agent-tool4.png)
 
 The **Edit web search** dialog opens:
 
-![Edit web search — top (resource, provider, inputs)](../.gitbook/assets/L2-agent-tool4-2.png)
+![Edit web search — top (resource, provider, inputs)](../screenshots/L2-agent-tool4-2.png)
 
-![Edit web search — scrolled (remaining inputs, tool settings)](../.gitbook/assets/L2-agent-tool4-3.png)
+![Edit web search — scrolled (remaining inputs, tool settings)](../screenshots/L2-agent-tool4-3.png)
 
 | Field                              | Value                                |
 | ---------------------------------- | ------------------------------------ |
@@ -315,7 +315,7 @@ Click **Save and continue**.
 
 The wizard advances to **Select channels and status**.
 
-![Select channels and status](../.gitbook/assets/L2-agent-channel-status.png)
+![Select channels and status](../screenshots/L2-agent-channel-status.png)
 
 | Setting                             | Value          |
 | ----------------------------------- | -------------- |

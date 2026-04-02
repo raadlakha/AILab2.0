@@ -82,7 +82,7 @@ Assistant Designer — Setup Wizard Order
 
 Navigate to **Conversational Interfaces** → **Assistant Designer**
 
-![Assistant Designer — Create Chat-Based Assistant](../.gitbook/assets/nava-create-chat-based-assistant.png)
+![Assistant Designer — Create Chat-Based Assistant](../screenshots/nava-create-chat-based-assistant.png)
 
 > The Assistant Designer shows the **Assistants** tab. The default assistant is **Now Assist for Virtual Agent**. Click **Edit** to open the setup wizard.
 
@@ -92,7 +92,7 @@ Navigate to **Conversational Interfaces** → **Assistant Designer**
 
 The first section in the wizard is **Basic details**.
 
-![NAVA Basic Details](../.gitbook/assets/nava-basic-detail.png)
+![NAVA Basic Details](../screenshots/nava-basic-detail.png)
 
 Review and confirm:
 
@@ -107,7 +107,7 @@ Review and confirm:
 
 The second section is **Agentic Support**.
 
-![NAVA Agentic Support](../.gitbook/assets/nava-agentic-support.png)
+![NAVA Agentic Support](../screenshots/nava-agentic-support.png)
 
 | Setting                          | Value                                                            |
 | -------------------------------- | ---------------------------------------------------------------- |
@@ -122,7 +122,7 @@ The second section is **Agentic Support**.
 
 The third section is **Search Sources**.
 
-![NAVA Search Sources](../.gitbook/assets/nava-search-source.png)
+![NAVA Search Sources](../screenshots/nava-search-source.png)
 
 No configuration needed on this page - Click "Save and Continue"
 
@@ -130,7 +130,7 @@ No configuration needed on this page - Click "Save and Continue"
 
 The fourth section is **Knowledge Graphs**.
 
-![NAVA Knowledge Graph](../.gitbook/assets/nava-kg.png)
+![NAVA Knowledge Graph](../screenshots/nava-kg.png)
 
 No configuration needed on this page - Click "Save and Continue"
 
@@ -142,7 +142,7 @@ No configuration needed on this page - Click "Save and Continue"
 
 The fifth section is **Assets**.
 
-![NAVA Assets](../.gitbook/assets/nava-assets.png)
+![NAVA Assets](../screenshots/nava-assets.png)
 
 No configuration needed on this page - Click "Save and Continue"
 
@@ -152,13 +152,13 @@ No configuration needed on this page - Click "Save and Continue"
 
 The sixth section is **Display Experience** — where NAVA is surfaced.
 
-![NAVA Display Experience](../.gitbook/assets/nava-display.png)
+![NAVA Display Experience](../screenshots/nava-display.png)
 
 1. Add the **Service Portal** to the Chat experience for the new Assistant that you are creating. You have the option of deciding and configuring if you would like for it to be a Standard or Enhanced Chat experience. This will not affect the lab as much, but more of a conversational experience for users when interacting with the Virtual Agent.
 
 2. You might encounter the situation where Service Portal is greyed out for you. In that case, you need to first disable/deactivate Service Portal from the respective Virtual Agent Assistant that currently has Service Portal added to it, and then come back to the `Now Assist in Virtual Agent - AI Lab` assistant and add in Service Portal.
 
-![NAVA Display — Portal](../.gitbook/assets/nava-display-portal1.png)
+![NAVA Display — Portal](../screenshots/nava-display-portal1.png)
 
 > **Display experiences** determine which portal or workspace the assistant is embedded in. For this lab: **Service Portal** (`/sp`) chat widget.
 
@@ -170,7 +170,7 @@ The eighth through tenth sections are **Branding**, **Chat experience**, and **C
 
 For this lab, **Branding** can be left at defaults, or you can choose a specific Branding theme that you like. The critical setting is in **Chat features**:
 
-![NAVA Chat Features](../.gitbook/assets/nava-chat-features.png)
+![NAVA Chat Features](../screenshots/nava-chat-features.png)
 
 | Setting            | Value       |
 | ------------------ | ----------- |
@@ -209,7 +209,7 @@ The **Upload image** topic is an out-of-the-box (OOB) topic provided by the Plat
 3. In the search bar, type Upload image
 4. Confirm the OOB topic appears — it should show as Published and Active
 
-![NAVA Chat Features](../.gitbook/assets/va-topic-tool-uploadimage-1.png)
+![NAVA Chat Features](../screenshots/va-topic-tool-uploadimage-1.png)
 
 > The OOB topic is owned by the **Platform AI Agents and Skills** scope. You cannot edit it directly — you must duplicate it into your lab scope (`x_nava_agentic_lab`). Make sure you are on the right scope before performing the duplication step!
 
@@ -231,7 +231,7 @@ Upload image  →  Process image  →  Decision
 
 3. Click the **kebab menu** (three-dot icon, top-right) and select **Duplicate**
 
-![Upload Image Topic — Duplicate Option](../.gitbook/assets/va-topic-tool-uploadimage-2.png)
+![Upload Image Topic — Duplicate Option](../screenshots/va-topic-tool-uploadimage-2.png)
 
 > Notice the left-hand **Components** palette — it shows the available node types (Input Collector, Text, Static Choice, File Picker, etc.) and the **Bot response** nodes. You do not need to modify the flow for this lab; the duplicate will inherit the full flow as-is.
 
@@ -247,7 +247,7 @@ In the **Duplicate Topic** dialog:
 
 Click **Save**.
 
-![Duplicate Topic Dialog](../.gitbook/assets/va-topic-tool-uploadimage-3.png)
+![Duplicate Topic Dialog](../screenshots/va-topic-tool-uploadimage-3.png)
 
 > The naming convention appends the scoped application name to distinguish the duplicate from the OOTB topic. This is important — the AI Agent will reference this topic by name when invoking the tool.
 
@@ -268,7 +268,7 @@ You should now see **two** topics:
 | is\_file\_size\_supported        | Script        |
 | is\_file\_type\_supported        | Script        |
 
-![Topics List — Duplicate Confirmed](../.gitbook/assets/va-topic-tool-uploadimage-4.png)
+![Topics List — Duplicate Confirmed](../screenshots/va-topic-tool-uploadimage-4.png)
 
 ***
 
@@ -278,7 +278,7 @@ You should now see **two** topics:
 2. Scroll down to **Advanced properties (optional)** → expand **Who can access this topic**
 3. Next to **System Roles**, click the **edit** (pencil) icon
 
-![Topic Properties — Advanced Properties](../.gitbook/assets/va-topic-tool-uploadimage-5.png)
+![Topic Properties — Advanced Properties](../screenshots/va-topic-tool-uploadimage-5.png)
 
 4. In the **System Roles** dialog, move the following two roles from **Selected** to **Available** (essentially removing it from the System Roles):
 
@@ -287,12 +287,12 @@ You should now see **two** topics:
 | `wm_agent`                                  | Allows Workspace agents to invoke this topic                                 |
 | `sn_uxc_gen_ai.platform_ai_image_processor` | Grants the AI image processing capability required by the Process image node |
 
-![System Roles — Selection Dialog](../.gitbook/assets/va-topic-tool-uploadimage-6.png)
+![System Roles — Selection Dialog](../screenshots/va-topic-tool-uploadimage-6.png)
 
 5. Click **Save** on the System Roles dialog
 6. Confirm that the roles have been removed
 
-![Topic Properties — Roles Configured](../.gitbook/assets/va-topic-tool-uploadimage-7.png)
+![Topic Properties — Roles Configured](../screenshots/va-topic-tool-uploadimage-7.png)
 
 ***
 
@@ -302,7 +302,7 @@ You should now see **two** topics:
 2. If the topic status shows **Inactive**, click **Publish** to make it active and available in the chat window
 3. Switch to the **Flow** tab and confirm the status indicator shows **Active** (green dot)
 
-![Duplicated Topic — Active and Published](../.gitbook/assets/va-topic-tool-uploadimage-9.png)
+![Duplicated Topic — Active and Published](../screenshots/va-topic-tool-uploadimage-9.png)
 
 > The topic is now live in the `x_nava_agentic_lab` scope. It will be referenced as a **Tool** by the First Responder Operations Analyst Agent when it needs to prompt the user to upload an error screenshot.
 

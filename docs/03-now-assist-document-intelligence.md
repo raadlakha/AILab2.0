@@ -72,7 +72,7 @@ Navigate to **All** → search **Now Assist Admin** → **Skills** → **Platfor
 
 In the Now Assist skills for Platform screen, locate the **Extract Information from documents** skill.
 
-![NADI — Now Assist Features screen](../.gitbook/assets/NADI-1.png)
+![NADI — Now Assist Features screen](../screenshots/NADI-1.png)
 
 > This is the entry point for all NADI configuration. The skill is OOB — you do not create it. You create **use cases** within it.
 
@@ -83,7 +83,7 @@ In the Now Assist skills for Platform screen, locate the **Extract Information f
 1. Click **Edit** on the **Extract Information from documents** skill
 2. Click **New use case**
 
-![NADI — Create Use Case](../.gitbook/assets/NADI-2.png)
+![NADI — Create Use Case](../screenshots/NADI-2.png)
 
 Fill in the use case details:
 
@@ -95,7 +95,7 @@ Fill in the use case details:
 
 3. Click **Next**
 
-![NADI — Use Case Details](../.gitbook/assets/NADI-3.png)
+![NADI — Use Case Details](../screenshots/NADI-3.png)
 
 ***
 
@@ -103,13 +103,13 @@ Fill in the use case details:
 
 On the **Fields** step, click **Add a field** → select **Field** (not question or table).
 
-![NADI — Add Fields](../.gitbook/assets/NADI-4.png)
+![NADI — Add Fields](../screenshots/NADI-4.png)
 
 Configure the following fields:
 
 #### Field 1 — Error Code
 
-![NADI — Error Code Field](../.gitbook/assets/NADI-5-error-code-field.png)
+![NADI — Error Code Field](../screenshots/NADI-5-error-code-field.png)
 
 | Setting                 | Value                                                                                                                                     |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,7 +124,7 @@ Configure the following fields:
 
 #### Field 2 — Model Details
 
-![NADI — Model Details Field](../.gitbook/assets/NADI-5-model-details-field.png)
+![NADI — Model Details Field](../screenshots/NADI-5-model-details-field.png)
 
 | Setting                 | Value                                                          |
 | ----------------------- | -------------------------------------------------------------- |
@@ -136,7 +136,7 @@ Configure the following fields:
 
 #### Field 3 — Product Name
 
-![NADI — Product Name Field](../.gitbook/assets/NADI-5-product-name-field.png)
+![NADI — Product Name Field](../screenshots/NADI-5-product-name-field.png)
 
 | Setting                 | Value                                                                                                           |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ Configure the following fields:
 
 #### Field 4 — Serial Number
 
-![NADI — Serial Number Field](../.gitbook/assets/NADI-5-serial-number-field.png)
+![NADI — Serial Number Field](../screenshots/NADI-5-serial-number-field.png)
 
 | Setting                 | Value                                                                                                     |
 | ----------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -160,7 +160,7 @@ Configure the following fields:
 
 #### Field 5 — PN Bar Code
 
-![NADI — PN Bar Code Field](../.gitbook/assets/NADI-5-pn-bar-code-field.png)
+![NADI — PN Bar Code Field](../screenshots/NADI-5-pn-bar-code-field.png)
 
 | Setting                 | Value                                                                                    |
 | ----------------------- | ---------------------------------------------------------------------------------------- |
@@ -174,14 +174,14 @@ Configure the following fields:
 
 ### Step 4: Test the Extraction
 
-![NADI — Test screen](../.gitbook/assets/NADI-6-test.png)
+![NADI — Test screen](../screenshots/NADI-6-test.png)
 
 1. In the test dialog, choose:
    * **Upload from record** — select an existing Incident with an image attached, or
    * **Upload from this device** — upload a Veritas device label image directly
 2. Click **Continue**
 
-![NADI — Test Result 1](../.gitbook/assets/NADI-7-test1.png)
+![NADI — Test Result 1](../screenshots/NADI-7-test1.png)
 
 The Document Q\&A panel displays the extracted values. Verify:
 
@@ -191,7 +191,7 @@ The Document Q\&A panel displays the extracted values. Verify:
 * `pn_bar_code` → product bar code if present
 * `model_details` → model details if present
 
-![NADI — Test Result 2](../.gitbook/assets/NADI-7-test2.png)
+![NADI — Test Result 2](../screenshots/NADI-7-test2.png)
 
 > If extraction does not complete and the status stays **In Progress**, the document may still be processing. Click **Refresh**. If it stays stuck, check the execution logs.
 
@@ -204,7 +204,7 @@ The integration tells NADI what to do once extraction is complete — specifical
 1. In the use case, navigate to the **Integrations** step
 2. Click **Add Integration**
 
-![NADI — Integration config 1](../.gitbook/assets/NADI-8-integration.png)
+![NADI — Integration config 1](../screenshots/NADI-8-integration.png)
 
 Fill in:
 
@@ -217,7 +217,7 @@ Fill in:
 
 3. Click **Save**
 
-![NADI — Integration config 2](../.gitbook/assets/NADI-8-integration2.png)
+![NADI — Integration config 2](../screenshots/NADI-8-integration2.png)
 
 This auto-generates a Flow in Workflow Studio:
 
@@ -236,7 +236,7 @@ Trigger: Document Task Updated
 
 1. In the **Integrations** panel, locate **Veritas\_Process**
 
-![NADI — Activate integration step 1](../.gitbook/assets/NADI-8-activate3.png)
+![NADI — Activate integration step 1](../screenshots/NADI-8-activate3.png)
 
 2. Click **Open in Flow Designer** (or navigate to the auto-generated flow in Workflow Studio)
 3. The flow opens with status **Inactive**
@@ -251,7 +251,7 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 1. Navigate to the **Integrations** tab of the use case
 2. Add a second integration — or configure the trigger on the existing flow:
 
-![NADI — Integration trigger config 1](../.gitbook/assets/NADI-9-integration.png)
+![NADI — Integration trigger config 1](../screenshots/NADI-9-integration.png)
 
 | Field            | Value             |
 | ---------------- | ----------------- |
@@ -260,13 +260,13 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 | Integration type | `Extract Values`  |
 | Create Flow      | ✅ Checked         |
 
-![NADI — Integration trigger config 2](../.gitbook/assets/NADI-9-integration2.png)
+![NADI — Integration trigger config 2](../screenshots/NADI-9-integration2.png)
 
 3. Verify the trigger activates correctly
 
-![NADI — Activate trigger step 1](../.gitbook/assets/NADI-9-integration-activate3.png)
+![NADI — Activate trigger step 1](../screenshots/NADI-9-integration-activate3.png)
 
-![NADI — Activate trigger step 2](../.gitbook/assets/NADI-9-integration-activate4.png)
+![NADI — Activate trigger step 2](../screenshots/NADI-9-integration-activate4.png)
 
 > **Note:** The integration trigger ensures NADI runs automatically whenever an image is attached to a chat-originated Incident — no manual intervention required by the L1 Agent or user.
 
@@ -278,9 +278,9 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 2. Navigate to **Extraction mode**
 3. Toggle **Full automation mode (no agent review required)** → **On**
 
-![NADI — Full automation verification](../.gitbook/assets/NADI-10-usecase-full-auto.png)
+![NADI — Full automation verification](../screenshots/NADI-10-usecase-full-auto.png)
 
-![NADI — Full automation result](../.gitbook/assets/NADI-10-usecase-full-auto2.png)
+![NADI — Full automation result](../screenshots/NADI-10-usecase-full-auto2.png)
 
 > Full automation mode means the GenAI extracts fields and writes them directly to the Incident record without waiting for an agent to review or approve. This is required for the Requestor Flow — the Incident must be enriched immediately after image upload so the Agentic Workflow trigger can fire.
 

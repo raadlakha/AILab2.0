@@ -117,7 +117,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 
 The **New skill** wizard opens on **General info**.
 
-![General info — skill name and description](../.gitbook/assets/NASK-generatewebsearchquestion-step1.png)
+![General info — skill name and description](../screenshots/NASK-generatewebsearchquestion-step1.png)
 
 Configure the skill identity:
 
@@ -145,7 +145,7 @@ The available models shown under Now LLM Generic include the full NowLLM model f
 
 Scroll down on the General info page to reach **Configure security controls**.
 
-![Security controls — ACL and role restrictions](../.gitbook/assets/NASK-generatewebsearchquestion-step2.png)
+![Security controls — ACL and role restrictions](../screenshots/NASK-generatewebsearchquestion-step2.png)
 
 **Define user access with an ACL:**
 
@@ -171,7 +171,7 @@ Click **Continue**.
 
 After creation the skill lands on **Step 1: Edit prompt**.
 
-![Skill editor — prompt canvas showing published status](../.gitbook/assets/NASK-generatewebsearchquestion-step3.png)
+![Skill editor — prompt canvas showing published status](../screenshots/NASK-generatewebsearchquestion-step3.png)
 
 Note the **Published** badge in the header — this skill was published as part of a prior iteration. For a new build, status will show **Draft** at this point. The skill editor has four tabs:
 
@@ -208,13 +208,13 @@ Navigate to **Step 2: Add tools**.
 
 The canvas shows **Start → Skill prompt → End**. Click the **+** connector between Start and the Skill prompt node to insert a tool node before the prompt fires.
 
-![Add node dialog — Tool node selection](../.gitbook/assets/NASK-generatewebsearchquestion-step4.png)
+![Add node dialog — Tool node selection](../screenshots/NASK-generatewebsearchquestion-step4.png)
 
 Select **Tool node** and click **Add**.
 
 The tool type picker opens.
 
-![Add skill as a tool — Tool type picker](../.gitbook/assets/NASK-generatewebsearchquestion-step5.png)
+![Add skill as a tool — Tool type picker](../screenshots/NASK-generatewebsearchquestion-step5.png)
 
 Select **Skill** as the tool type and click **Configure tool**.
 
@@ -226,7 +226,7 @@ Select **Skill** as the tool type and click **Configure tool**.
 
 The **Add skill as a tool** wizard opens (5-step: General info → Tool inputs → Tool outputs → Tool conditions → Summary).
 
-![Add skill as a tool — General info](../.gitbook/assets/NASK-generatewebsearchquestion-step6.png)
+![Add skill as a tool — General info](../screenshots/NASK-generatewebsearchquestion-step6.png)
 
 **Step 1 — General info:**
 
@@ -245,7 +245,7 @@ Click **Continue**.
 
 ### Step 6: Configure Skill Tool — Tool Inputs
 
-![Add skill as a tool — Tool inputs](../.gitbook/assets/NASK-generatewebsearchquestion-step7.png)
+![Add skill as a tool — Tool inputs](../screenshots/NASK-generatewebsearchquestion-step7.png)
 
 **Step 2 — Tool inputs:**
 
@@ -261,7 +261,7 @@ Click **Continue**.
 
 ### Step 7: Configure Skill Tool — Tool Outputs
 
-![Add skill as a tool — Tool outputs](../.gitbook/assets/NASK-generatewebsearchquestion-step8.png)
+![Add skill as a tool — Tool outputs](../screenshots/NASK-generatewebsearchquestion-step8.png)
 
 **Step 3 — Tool outputs:**
 
@@ -283,7 +283,7 @@ Click **Continue**.
 
 ### Step 8: Configure Skill Tool — Tool Conditions
 
-![Add skill as a tool — Tool conditions](../.gitbook/assets/NASK-generatewebsearchquestion-step9.png)
+![Add skill as a tool — Tool conditions](../screenshots/NASK-generatewebsearchquestion-step9.png)
 
 **Step 4 — Tool conditions (optional):**
 
@@ -299,7 +299,7 @@ Click **Continue**.
 
 ### Step 9: Review Tool Summary
 
-![Add skill as a tool — Summary](../.gitbook/assets/NASK-generatewebsearchquestion-step10.png)
+![Add skill as a tool — Summary](../screenshots/NASK-generatewebsearchquestion-step10.png)
 
 **Step 5 — Summary:**
 
@@ -326,7 +326,7 @@ Click **Add tool**.
 
 After adding the tool, the canvas updates to show the full skill execution flow:
 
-![Tool canvas with skill tool and skill prompt nodes](../.gitbook/assets/NASK-generatewebsearchquestion-step11.png)
+![Tool canvas with skill tool and skill prompt nodes](../screenshots/NASK-generatewebsearchquestion-step11.png)
 
 ```
 Start
@@ -351,7 +351,7 @@ The left panel shows **Tools** → `RetrieveGeneratedSearchQuerythaswas` (trunca
 
 Navigate back to **Step 1: Edit prompt** to view and edit the prompt template. Click on the Generate Web Search Questions for Resolution Plan prompt in the Skill contents panel to open the prompt editor.
 
-![Prompt editor — Generate Web Search Questions for Resolution Plan](../.gitbook/assets/NASK-generatewebsearchquestion-step12.png)
+![Prompt editor — Generate Web Search Questions for Resolution Plan](../screenshots/NASK-generatewebsearchquestion-step12.png)
 
 A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
 
@@ -397,7 +397,7 @@ Navigate to **Step 4: Deployment and skill settings** → click **Publish skill*
 
 The **Publish Skill** dialog opens:
 
-![Publish Skill dialog](../.gitbook/assets/NASK-generatewebsearchquestion-step13.png)
+![Publish Skill dialog](../screenshots/NASK-generatewebsearchquestion-step13.png)
 
 Review deployment settings:
 
@@ -424,7 +424,7 @@ Click **Publish**.
 
 In **Step 4: Deployment and skill settings**, select **Deployment settings** from the left nav.
 
-![Deployment settings — Workflow = Other](../.gitbook/assets/NASK-generatewebsearchquestion-step14.png)
+![Deployment settings — Workflow = Other](../screenshots/NASK-generatewebsearchquestion-step14.png)
 
 | Field    | Value         |
 | -------- | ------------- |
@@ -439,13 +439,13 @@ In **Step 4: Deployment and skill settings**, select **Deployment settings** fro
 
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other**.
 
-![Now Assist Admin — Skills — Other — GenerateWebSearchQnsForResolutionPlan](../.gitbook/assets/NASK-generatewebsearchquestion-step15.png)
+![Now Assist Admin — Skills — Other — GenerateWebSearchQnsForResolutionPlan](../screenshots/NASK-generatewebsearchquestion-step15.png)
 
 Locate `GenerateWebSearchQnsForResolutionPlan` under the **Available** tab in the **Other** workflow. Status shows **Custom | Inactive | Now LLM Service**.
 
 Click **Turn on**.
 
-![Successfully activated confirmation](../.gitbook/assets/NASK-generatewebsearchquestion-step16.png)
+![Successfully activated confirmation](../screenshots/NASK-generatewebsearchquestion-step16.png)
 
 The **"Successfully activated"** confirmation dialog appears:
 
