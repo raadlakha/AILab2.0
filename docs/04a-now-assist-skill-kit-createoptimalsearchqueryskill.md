@@ -393,7 +393,7 @@ Under **Select which finalized prompts to include in the Published skill:**
 
 | Provider                                             | Prompt                                              | Action    |
 | ---------------------------------------------------- | --------------------------------------------------- | --------- |
-| Now LLM Service (Now LLM Generic) — Default provider | `GenerateOptimalPromptForRAG (v1)` — Default prompt | ✅ Checked |
+| Azure OpenAI                                         | `GenerateOptimalPromptForRAG (v1)` — Default prompt | ✅ Checked |
 
 ![NASK — Publish Skill Dialog](../.gitbook/assets/NASKCreateOptimalSearchQuery1-12.png)
 
