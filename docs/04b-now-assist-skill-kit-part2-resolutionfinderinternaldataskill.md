@@ -458,8 +458,47 @@ After all three tools are added, the canvas shows the complete four-node flow:
 > **Key topology:** `GenerateSearchQueryAgainstAISearch.response` flows into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` bypasses the Retriever entirely and merges directly at the `Assess if solution exists` prompt. The prompt therefore receives two context sources: `{{RetrieveRelevantKBContent.Rag Results}}` (KB articles) and `{{FindSimilarIncidents.outputs}}` (similar incidents).
  
 ---
+
+### Step 9: Author the Prompt
  
-### Step 9: Publish the Skill
+Navigate back to **Step 1: Edit prompt** in the NASK wizard tab bar. Click on the **Assess if solution exists within Internal Knowledge sources** prompt in the Skill contents panel to open the prompt editor.
+ 
+This is the most critical prompt in the entire skill — it is the LLM reasoning step that evaluates whether a viable resolution exists based on the combined output of all three tools: the AI Search query, the RAG results from KB articles, and the Predictive Intelligence similar incidents.
+ 
+A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
+ 
+```
+📁 ../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt
+```
+ 
+1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt) in the lab repository
+2. **Read through the entire prompt before pasting anything.** This prompt is more complex than the upstream skills — it must reason across two distinct data sources (RAG KB results and PI similar incidents) and make a binary determination (resolution found or not). Understand the evaluation logic, the grounding constraints, and the expected output structure before proceeding
+3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
+4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
+ 
+| Area to Review | What to Consider |
+|----------------|-----------------|
+| Grounding constraint | The prompt enforces that the LLM must base its evaluation **exclusively** on the three provided inputs (AI Search Query, RAG Results, PI Results). Verify this constraint aligns with your organisation's requirements — in some environments you may want to relax this to allow the LLM to draw on general knowledge as a supplement |
+| RAG Results evaluation criteria | How should the LLM weigh KB article relevance? The prompt defines thresholds and matching criteria — adjust these if your KB articles are structured differently or if you want more/less permissive matching |
+| PI Results evaluation criteria | How should the LLM assess similar incident matches? Consider whether the top 3 results from PI are sufficient, or whether the evaluation logic should account for confidence scores or resolution quality |
+| Output format and structure | Does the expected output (resolution found / not found, with supporting evidence) align with how the downstream Agentic Workflow consumes the result? If the workflow expects specific field names or JSON structure, ensure the prompt produces them |
+| Error code specificity | Are the error codes in your Veritas NetBackup demo data consistent with the examples in the prompt? If your incidents reference different error codes or product types, update the examples accordingly |
+| Tone and decision threshold | How confident should the LLM be before confirming a resolution exists? A conservative prompt (requiring strong evidence from both RAG and PI) reduces false positives but may miss valid resolutions. A permissive prompt increases recall but risks hallucination |
+ 
+5. Verify that the prompt references the tool output variables correctly:
+   - `{{GenerateSearchQueryAgainstAISearch.response}}` — the optimised search query from the upstream skill
+   - `{{RetrieveRelevantKBContent.Rag Results}}` — the top 3 re-ranked KB article chunks
+   - `{{FindSimilarIncidents.outputs}}` — the top 3 similar resolved incidents from PI
+6. Click **Save** to save the prompt
+7. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
+ 
+> **Do not copy blindly.** The provided prompt has been tested against the Veritas NetBackup triage scenario and represents a considered approach to multi-source resolution evaluation — but it is a starting point, not a finished product. The strength of an agentic system lies in its ability to adapt to the data and context it operates in. As you run end-to-end tests and observe how the LLM reasons across RAG and PI outputs, you will find areas where the prompt benefits from iteration: tighter grounding rules, adjusted evaluation thresholds, additional examples of what constitutes a "valid" resolution, or restructured output formatting. Finalize v1 now, test it, and create v2 when you have real execution data to inform improvements.
+ 
+> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 10). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
+ 
+---
+ 
+### Step 10: Publish the Skill
  
 Navigate to the **Edit prompt** tab → finalize the `Assess if solution exists within Internal Knowledge sources` prompt → click **Publish skill**.
  
@@ -482,7 +521,7 @@ Click **Publish**.
  
 ---
  
-### Step 10: Activate the Skill
+### Step 11: Activate the Skill
  
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
  
