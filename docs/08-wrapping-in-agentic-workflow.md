@@ -105,7 +105,7 @@ Click **Save and continue**.
 
 The wizard advances to **Define security controls → Define user access**.
 
-![Define user access — Users with specific roles, itil](../screenshots/Agentic-WF-3.png)
+![Define user access — Users with specific roles, snc_internal](../screenshots/Agentic-WF-3.png)
 
 **Define who can access this agentic workflow (ACL):**
 
@@ -114,7 +114,7 @@ The wizard advances to **Define security controls → Define user access**.
 | User access | `Users with specific roles` |
 | Role(s)     | `snc_internal`              |
 
-> Once saved, an ACL record is automatically generated. Users with the `itil` role can discover and interact with this workflow through its configured channels (Now Assist panel). Without this ACL, no users will be able to trigger or see the workflow's output.
+> Once saved, an ACL record is automatically generated. Users with the `snc_internal` role can discover and interact with this workflow through its configured channels (Now Assist panel). Without this ACL, no users will be able to trigger or see the workflow's output.
 
 ***
 
@@ -129,11 +129,9 @@ The wizard advances to **Define data access**.
 | Field              | Value          |
 | ------------------ | -------------- |
 | User identity type | `Dynamic user` |
-| Approved role(s)   | `snc_internal` |
+| Approved role(s)   | `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
 
-> **Dynamic user** means the workflow runs as the user who triggered it — it inherits that user's roles and data permissions. This ensures the workflow cannot access data the triggering user couldn't access themselves. The **Approved role(s)** field caps the maximum privilege: even if the triggering user has admin, the workflow operates within `snc_internal` bounds. This is the correct governance model for a workflow that reads incident records and writes work notes.
->
-> The alternative — **System user** — runs the workflow as a high-privilege service account and should only be used when the workflow requires access beyond the triggering user's permissions.
+> **Dynamic user** means the workflow runs as the user who triggered it — it inherits that user's roles and data permissions. This ensures the workflow cannot access data the triggering user couldn't access themselves. The **Approved role(s)** field caps the maximum privilege: even if the triggering user has admin, the workflow operates within `snc_internal, itil and x_snc_apacaienable.incident_extent_user` bounds. This is the correct governance model for a workflow that reads incident records and writes work notes.
 
 ***
 
