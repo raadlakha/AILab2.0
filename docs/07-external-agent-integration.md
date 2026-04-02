@@ -213,6 +213,11 @@ The green banner confirms: **"OAuth token flow completed successfully"**
 
 > If the retrieval of OAuth token is not successful for you, check if the OAuth scopes have been defined clearly. Click into OAuth Entity Profile (FoundryOauth default\_profile) and ensure that OAuth Entity Scope and OAuth scope has been populated as well. If not, do so and test again.
 
+| Field       | Value                                                 |
+| ----------- | ----------------------------------------------------- |
+| Name        | `FoundryOauthOutboundScope`                           |
+| OAuth Scope | `api://45067447-9ccd-46a6-8ab1-c74875f043ba/.default` |
+
 ***
 
 ## Part 2: Connection & Credential Alias Setup
