@@ -3,7 +3,7 @@
 > **Release:** Zurich | **Flow:** Fulfiller Flow — Phase 2, Path A (Steps 1–3)
 > **Source:** [Now Assist Skill Kit — Tool and Deployment Options](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-tool-and-deployment-options/ta-p/3284803) | [NASK FAQ](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-nask-faq/ta-p/3007953)
  
----
+***
  
 ## What It Is
  
@@ -38,7 +38,7 @@ Path A — Result:
  
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
  
----
+***
  
 ## Skill Architecture
  
@@ -49,7 +49,7 @@ Path A — Result:
 | `RetrieveRelevantKBContent` | Retriever (RAG) | After GenerateSearchQuery | Semantic KB search using optimised query — returns `Rag Results` as `json_object` |
 | `Assess if solution exist...` | Skill Prompt | After Retriever + PI merge | LLM reasoning — evaluates RAG + PI combined output |
  
----
+***
  
 ## Skill Inputs
  
