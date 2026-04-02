@@ -57,10 +57,7 @@ The lab scenario uses a **custom table called incident extend** (`x_snc_apacaien
  
 5. Click on **incident extend** to open the Table Definition form
 6. Select the **Controls** tab
-7. Locate the **auto-numbering** section and update the **Number** field to `12,000`
- 
-> **Why update to 12,000?** The seed data contains records numbered up to approximately INCE0011xxx. Setting the counter to 12,000 ensures that any new Incident records created during the lab (e.g., via the L1 Agent's Incident creation subflow) receive numbers starting from INCE0012000 onward — avoiding numbering collisions with the pre-loaded sample data.
- 
+7. Locate the **auto-numbering** section and update the **Number** field to `12,000` 
 8. **Right-click** on the form header bar and select **Save** to save the change without navigating away from the page
  
 ![Table Definition — Controls Tab with Number Updated and Save](../screenshots/inc-extend-tbl3.png)
@@ -226,6 +223,48 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ***
 
+## Pre-Requisite 5: Change Subflow Run As to System User
+ 
+The **Create and submit Incident record with image upload(s) subflow** is invoked by the L1 First Responder Operations Analyst Agent to create Incident records. By default, the subflow's **Run As** property is set to **User who initiates session** — meaning it executes with the permissions of the chat user (e.g., Alex Rai). This can cause permission failures when the subflow attempts to create records on tables that the chat user does not have write access to.
+ 
+You need to change the **Run As** property to **System User** so the subflow executes with elevated permissions regardless of who initiated the chat session.
+ 
+### Steps
+ 
+1. In the **Filter navigator**, type `workflow stu`
+2. Under **Process Automation**, click **Workflow Studio**
+ 
+![Filter Navigator — Workflow Studio](../screenshots/flowaction-check1.png)
+ 
+3. In Workflow Studio, click the **Subflows** tab
+4. Filter the subflow list by **Name contains `Create and submit`**
+ 
+![Workflow Studio — Subflows Tab with Filter](../screenshots/flowaction-check2.png)
+ 
+5. Confirm the subflow **Create and submit Incident record with image upload(s) subflow** appears — it should show **Published**, **Active: true**, and belong to the `x_nava_agentic_lab` application
+ 
+![Subflows — Filtered Result](../screenshots/flowaction-check3.png)
+ 
+6. Click on the subflow name to open it
+7. Review the subflow structure — confirm the **Subflow Inputs** section shows the five mandatory inputs: `ci_name_input`, `chat_user_name`, `category_type`, `work_notes_details`, `short_description_inp...` (all String type)
+ 
+![Subflow — Inputs and Structure](../screenshots/flowaction-check4.png)
+ 
+8. Click the **kebab menu** (three-dot icon, top-right) and select **Properties**
+ 
+![Subflow — Kebab Menu with Properties](../screenshots/flowaction-check5.png)
+ 
+9. In the **Subflow properties** dialog, expand **Advanced Options**
+10. Change the **Run As** dropdown from `User who initiates session` to **`System User`**
+ 
+![Subflow Properties — Run As Changed to System User](../screenshots/flowaction-check6.png)
+ 
+11. Click **Update** to save the change
+ 
+> **Why System User?** When the L1 Agent fires this subflow during a Virtual Agent chat session, the session runs as the end user (e.g., Alex Rai). If Run As is set to "User who initiates session", the subflow inherits that user's ACLs — which typically do not include write access to the Incident Extend table or permission to attach files programmatically. Setting Run As to **System User** ensures the subflow has the necessary permissions to create the Incident record, attach uploaded images, and set all required fields — regardless of who is chatting with the agent.
+ 
+***
+
 ## Checklist
 
 | # | Pre-Requisite                                                         |
@@ -234,7 +273,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 | 2 | Incident extend table exists with sample records                      |
 | 3 | Predictive Intelligence Similarity model trained (100%)               |
 | 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
-
+| 5 | Subflow Run As changed to System User                                 |
 ***
 
 ## Next Step
