@@ -6,7 +6,7 @@ description: >-
 
 # ServiceNow-AI-Lab: Incident Resolution and Remediation
 
-> **Platform:** ServiceNow · **Release:** Zurich **Team:** Global Intelligent Automation SC Team · India
+> **Platform:** ServiceNow · **Release:** Zurich **Team:** Global Intelligent Automation SC Team · APJ
 
 ***
 
