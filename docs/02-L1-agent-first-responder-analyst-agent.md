@@ -68,6 +68,7 @@ Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extr
 | Requirement                         | Detail         |
 | ----------------------------------- | -------------- |
 | New Virtual Agent assistant created | Complete steps |
+| Duplicate 'Upload Image' topic      | Complete steps |
 
 ***
 

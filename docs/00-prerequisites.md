@@ -82,8 +82,8 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 | Field                   | Expected Value                                                                                             |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Label                   | `Find possible resolution for similar Incident cases`                                                      |
-| Name                    | `ml_x_snc_x_snc_apacaienable_global_find_possil`                                                           |
-| Active                  | ✅ Checked                                                                                                  |
+| Name                    | `ml_x_snc_x_snc_apacaienable_global_find_possibl..`                                                        |
+| Active                  | ✅ Checked                                                                                                 |
 | Table                   | `Incident [incident]`                                                                                      |
 | Test Table              | `incident extend [x_snc_apacaienable_incid...]`                                                            |
 | Fields                  | Short description, Configuration item, Resolution code, Resolution notes, Category, Description            |

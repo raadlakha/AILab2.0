@@ -124,7 +124,7 @@ The third section is **Search Sources**.
 
 ![NAVA Search Sources](../.gitbook/assets/nava-search-source.png)
 
-## No configuration needed on this page - Click "Save and Continue"
+No configuration needed on this page - Click "Save and Continue"
 
 ### Step 5: Knowledge Graphs
 
@@ -134,7 +134,7 @@ The fourth section is **Knowledge Graphs**.
 
 No configuration needed on this page - Click "Save and Continue"
 
-> To note: The First Responder Operations Analyst Agent uses the Knowledge Graph as **Tool** to query user context and identify who they are currently speaking with. The important distinction to note here is that we are not configuring the Knowledge Graphs available within Virtual Agent, but instead adding Knowledge Graph as a tool within the AI agent build.
+> To note: The First Responder Operations Analyst AI Agent (which you will be building later in the lab) uses the Knowledge Graph as **Tool** to query user context and identify who they are currently speaking with. The important distinction to note here is that we are not configuring the Knowledge Graphs available within Virtual Agent, but instead adding Knowledge Graph as a tool within the AI agent build.
 
 ***
 
@@ -155,6 +155,8 @@ The sixth section is **Display Experience** — where NAVA is surfaced.
 ![NAVA Display Experience](../.gitbook/assets/nava-display.png)
 
 1. Add the **Service Portal** to the Chat experience for the new Assistant that you are creating. You have the option of deciding and configuring if you would like for it to be a Standard or Enhanced Chat experience. This will not affect the lab as much, but more of a conversational experience for users when interacting with the Virtual Agent.
+
+2. You might encounter the situation where Service Portal is greyed out for you. In that case, you need to first disable/deactivate Service Portal from the respective Virtual Agent Assistant that currently has Service Portal added to it, and then come back to the `Now Assist in Virtual Agent - AI Lab` assistant and add in Service Portal.
 
 ![NAVA Display — Portal](../.gitbook/assets/nava-display-portal1.png)
 
@@ -247,7 +249,7 @@ Click **Save**.
 
 ![Duplicate Topic Dialog](../.gitbook/assets/va-topic-tool-uploadimage-3.png)
 
-> The naming convention appends the scoped application name to distinguish the duplicate from the OOB topic. This is important — the AI Agent will reference this topic by name when invoking the tool.
+> The naming convention appends the scoped application name to distinguish the duplicate from the OOTB topic. This is important — the AI Agent will reference this topic by name when invoking the tool.
 
 ***
 
