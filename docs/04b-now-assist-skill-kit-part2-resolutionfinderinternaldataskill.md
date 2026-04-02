@@ -67,13 +67,12 @@ Path A — Result:
  
 | Requirement | Detail |
 |-------------|--------|
-| NASK plugin | `sn_now_assist_skill_kit` — Active |
+| Now LLM Service or Azure OpenAI | LLM provider configured in the instance |
 | `CreateOptimalSearchQuery` skill | Published and active |
 | PI solution | `Find possible resolution for similar Incident cases` — trained and active |
 | AI Search / RAG | Enabled — Search profile `quick_action_kb_search_profile` configured |
 | KB articles | Indexed with E5FT embedding model on `body` and `title` semantic indexes |
-| Extended Incident table | `x_snc_nava_incident` — populated before skill fires |
-| Role | `sn_skill_kit.admin` or `admin` |
+| Incident Extend table | `x_snc_nava_incident` — populated before skill fires |
  
 ---
  
@@ -86,7 +85,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 | Field | Value |
 |-------|-------|
 | Skill name | `ResolutionFinderUsingInternalData` |
-| Description | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_nava_incident) by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
+| Description | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) [Ignore the discrepancy with the screenshot - intent is to input the name of your Incident Extend table] by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
 | Default provider | `Azure OpenAI` |
 | Default provider API | `Chat Completions` |
  

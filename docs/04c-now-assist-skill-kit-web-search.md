@@ -105,8 +105,9 @@ Available from NASK version **3.0.1** (Xanadu Patch 3). This allows a published 
 
 | Requirement                      | Detail                                                               |
 | -------------------------------- | -------------------------------------------------------------------- |
+| Now LLM Service or Azure OpenAI  | LLM provider configured in the instance                              |
 | `CreateOptimalSearchQuery` skill | Must be **published** (not just saved) — it is called as a tool here |
-| Incident Extend table          | `x_nava_agentic_lab_incident_extend` populated                         |
+| Incident Extend table            | `x_nava_agentic_lab_incident_extend` populated                       |
 
 ***
 

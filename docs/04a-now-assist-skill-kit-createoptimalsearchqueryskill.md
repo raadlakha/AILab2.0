@@ -70,7 +70,6 @@ The skill takes one input — `incidentextendrecord` (the Incident record identi
 
 | Requirement                           | Detail                                                                                               |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Now Assist Skill Kit plugin           | `sn_now_assist_skill_kit` — must be Active                                                           |
 | Now LLM Service or Azure OpenAI       | LLM provider configured in the instance                                                              |
 | `GetIncidentExtendDetail` Flow Action | Must exist — this is the Flow Action resource referenced by the tool                                 |
 | Incident Extend table                 | `x_nava_agentic_lab_incident_extend` (or equivalent) — must be populated by the time the skill fires |
