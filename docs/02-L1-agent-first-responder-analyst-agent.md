@@ -193,6 +193,7 @@ Configure the following fields:
 | Name                                                     | `Upload image x_nava_agentic_lab`                                   |
 | Tool description _(Description for LLM)_                 | `This tool allows user to upload image to Now Assist Virtual Agent` |
 | Execution mode                                           | **Autonomous**                                                      |
+| Display output                                           | **Yes**                                                             |
 
 > **Why this tool:** This Virtual Agent conversation topic renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes in the next capability to extract the error code.
 >
