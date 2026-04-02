@@ -17,16 +17,16 @@ This is a **skill-chaining** pattern: a skill calling another published skill as
 
 ***
 
-## Where This Fits in the Veritas Architecture
+## Where This Fits in the Agentic Workflow (Veritas Architecture)
 
 ```
 Veritas Resolution Agentic Workflow
         │
         ▼
-Phase 1: AI Search (KB RAG) — CreateOptimalSearchQuery → RetrieveRelevantKBContent
+Phase 1: AI Search (KB RAG) + Similarity PI — CreateOptimalSearchQuery → RetrieveRelevantKBContent + FindSimilarIncidents
         │
         ▼ (no resolution found)
-Phase 2: Elastic Log Analysis — ElasticLogAnalysis skill (Capability 11)
+Phase 2: Elastic Log Analysis — Elastic MCP Server connectivity (to be built in later parts of the lab, not yet introduced)
         │
         ▼ (no resolution found)
 Phase 3: Internet Fallback ← YOU ARE HERE
@@ -42,11 +42,11 @@ Phase 3: Internet Fallback ← YOU ARE HERE
   │  Skill prompt: Generate Web Search Questions for            │
   │  Resolution Plan                                            │
   │  → takes tool output + incident context                     │
-  │  → generates structured web search question set             │
+  │  → generates optimised web search question                  │
   └─────────────────────────────────────────────────────────────┘
         │
         ▼
-  Output: set of web search questions → Resolution Plan
+  Output: optimised web search question → searches the web with 'web search' tool → Attempts to create and generate an actionable resolution plan
 ```
 
 ***
@@ -63,7 +63,7 @@ Phase 3: Internet Fallback ← YOU ARE HERE
 | Outputs               | provider, response, error, errorCode, status (all String)                                                                                                        |
 | Tool                  | `RetrieveGeneratedSearchQuerythatwasforAI` → calls `CreateOptimalSearchQuery` skill                                                                              |
 | Tool condition        | None (Always run)                                                                                                                                                |
-| Prompt                | `Generate Web Search Questions for Resolution Plan (v2)`                                                                                                         |
+| Prompt                | `Generate Web Search Questions for Resolution Plan`                                                                                                         |
 | Workflow (deployment) | Other                                                                                                                                                            |
 | User access           | Any authenticated user                                                                                                                                           |
 | Role restrictions     | `itil`                                                                                                                                                           |
@@ -105,11 +105,8 @@ Available from NASK version **3.0.1** (Xanadu Patch 3). This allows a published 
 
 | Requirement                      | Detail                                                               |
 | -------------------------------- | -------------------------------------------------------------------- |
-| NASK plugin                      | `sn_now_assist_skill_kit` v3.0.1+ — Active                           |
 | `CreateOptimalSearchQuery` skill | Must be **published** (not just saved) — it is called as a tool here |
 | Incident Extend table          | `x_nava_agentic_lab_incident_extend` populated                         |
-| Role                             | `sn_skill_kit.admin` or `admin`                                      |
-| Now LLM Service                  | Configured and active on instance                                    |
 
 ***
 
@@ -188,7 +185,7 @@ The **Skill contents** panel on the left shows:
 
 * **inputs (1):** `incidentextendrecord` (String)
 * **Outputs (5):** provider, response, error, errorCode, status
-* **Prompts (1):** Now LLM Service → Now LLM Generic → `Generate Web Search Questions for Resolution Plan`
+* **Prompts (1):** Now LLM Service → Now LLM Generic → Change from `Incident Summarization` to `Generate Web Search Questions for Resolution Plan`
 
 The **input modal** (shown in this screenshot) confirms:
 
@@ -199,7 +196,6 @@ The **input modal** (shown in this screenshot) confirms:
 | Description          | `Record Number from Incident Extend table` |
 | Make input mandatory | Unchecked                                  |
 | Allow truncation     | Unchecked                                  |
-| Test value           | `INCE0011002`                              |
 
 > `incidentextendrecord` is the runtime identifier — the Incident record number — passed in when the Veritas agent invokes this skill. It threads through to the tool as `{{incidentextendrecord}}`.
 
