@@ -303,9 +303,9 @@ The wizard advances to **Define security controls → Define data access**.
 | Field       | Value          |
 | ----------- | -------------- |
 | Data access | `Dynamic user` |
-| Role(s)     | `snc_internal` |
+| Role(s)     | `snc_internal, itil, x_snc_apacaienable_incident_extend` |
 
-> Restricts agent invocation to `snc_internal` role users — consistent with the access model across all lab capabilities.
+> Restricts agent invocation to `snc_internal, itil and x_snc_apacaienable_incident_extend` role. Additional roles are given here as the Custom Now Assist Skills are created in itil role and the AI Agent needs to have access to x_snc_apacaienable_incident_extend role in order to get data from the custom table.
 
 Click **Save and continue**.
 
