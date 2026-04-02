@@ -10,7 +10,7 @@
 
 In Zurich, the legacy Document Intelligence (DocIntel) application is **no longer activated on new instances** and is being prepared for future deprecation. **Now Assist in Document Intelligence is the current, supported product** for all new implementations.
 
-In this lab, NADI is configured with a use case called **Veritas Extract**. When a user uploads an error screenshot or device label image (via the Conversation Topic upload in Step 4 of the Requestor Flow), NADI auto-triggers on the Incident attachment and extracts structured fields — specifically `u_extracted_error_code` — which arms the downstream Agentic Workflow trigger.
+In this lab, NADI is configured with a use case called **Veritas Extract**. When a user uploads an error screenshot or device label image (via the Conversation Topic upload in Step 4 of the Requestor Flow), NADI auto-triggers on the Incident attachment and extracts structured fields — specifically `error_code` — which arms the downstream Agentic Workflow trigger.
 
 ***
 
@@ -30,7 +30,7 @@ Step 6: Now Assist in Document Intelligence auto-triggers
         │
         ▼
   GenAI reads image, extracts:
-    • u_extracted_error_code  ← KEY FIELD — gates the Agentic Workflow
+    • error_code  ← KEY FIELD — gates the Agentic Workflow
     • Additional fields (model, product name, serial number, barcode) as configured
         │
         ▼
@@ -45,10 +45,10 @@ Step 6: Now Assist in Document Intelligence auto-triggers
 Down the line Agentic Workflow can now evaluate trigger conditions:
   ✓ state = In Progress
   ✓ channel = chat
-  ✓ u_extracted_error_code ≠ empty   ← populated by NADI
+  ✓ error_code ≠ empty   ← populated by NADI
 ```
 
-> **Why this matters:** `u_extracted_error_code` is a custom field on the extended Incident table. It is populated **exclusively** by NADI. If NADI is not configured or fails to extract, this field remains empty and the Resolution Pathfinder Agentic Workflow will not fire.
+> **Why this matters:** `error_code` is a custom field on the extended Incident table. It is populated **exclusively** by NADI. If NADI is not configured or fails to extract, this field remains empty and the Resolution Pathfinder Agentic Workflow will not fire.
 
 ***
 
@@ -57,7 +57,7 @@ Down the line Agentic Workflow can now evaluate trigger conditions:
 | Capability              | How NADI Delivers It                                                                |
 | ----------------------- | ----------------------------------------------------------------------------------- |
 | Auto-field population   | Error code and device details extracted from uploaded image — no manual copy-paste  |
-| Agentic Workflow arming | `u_extracted_error_code` populated on the Incident, enabling the downstream trigger |
+| Agentic Workflow arming | `error_code` populated on the Incident, enabling the downstream trigger |
 | Full automation mode    | No agent review required — GenAI writes directly to record fields                   |
 | Richer AI agent context | Extracted error code used by Resolution Pathfinder to search KB, logs, and web      |
 | Higher data quality     | AI reads directly from source image — eliminates transcription errors               |
@@ -90,7 +90,7 @@ Fill in the use case details:
 | Field         | Value                                                          |
 | ------------- | -------------------------------------------------------------- |
 | Use case name | `Veritas Extract`                                              |
-| Target table  | Extended Incident table (`x_nava_agentic_lab_incident_extend`) |
+| Target table  | Incident Extend table (`x_nava_agentic_lab_incident_extend`)   |
 | LLM           | `Azure OpenAI - GPT Large` (or your configured provider)       |
 
 3. Click **Next**
@@ -117,10 +117,10 @@ Configure the following fields:
 | Details                 | `This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.` |
 | Field type              | `Text`                                                                                                                                    |
 | Target table            | Extended Incident table                                                                                                                   |
-| Target field            | `u_extracted_error_code`                                                                                                                  |
+| Target field            | `error_code`                                                                                                                  |
 | Required for extraction | ✅ Yes                                                                                                                                     |
 
-> **This is the critical field.** `u_extracted_error_code` is the gate for the downstream Agentic Workflow. It must be mapped to the correct target field on the extended Incident table.
+> **This is the critical field.** `error_code` is the gate for the downstream Agentic Workflow. It must be mapped to the correct target field on the extended Incident table.
 
 #### Field 2 — Model Details
 
@@ -301,7 +301,7 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 ## Technical Notes
 
-### Why `u_extracted_error_code` is the Critical Field
+### Why `error_code` is the Critical Field
 
 This field is the **third and final condition** for the Resolution Pathfinder Agentic Workflow trigger:
 
@@ -309,7 +309,7 @@ This field is the **third and final condition** for the Resolution Pathfinder Ag
 Agentic Workflow trigger conditions:
   ✓ state = In Progress (2)       ← set when L1 Agent creates the Incident
   ✓ contact_type = chat           ← stamped by NAVA (Capability 01)
-  ✓ u_extracted_error_code ≠ empty ← populated by NADI (this capability)
+  ✓ error_code ≠ empty ← populated by NADI (this capability)
 ```
 
 Without NADI running successfully, the workflow will never fire — regardless of how correctly the L1 Agent and NAVA are configured.
