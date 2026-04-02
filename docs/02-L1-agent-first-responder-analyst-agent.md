@@ -129,8 +129,8 @@ Configure the following fields:
 | Name                                     | `User related attributes Knowledge Graph`                                                                      |
 | Tool description _(Description for LLM)_ | `Use this Knowledge Graph to retrieve relevant information about the user who you are currently engaged with.` |
 | Query instruction                        | `Query to the knowledge graph. It should be a direct translation of request into a search query.`              |
-| Execution mode                           | **Autonomous**                                                                                                 |
-| Display Output                           | **No**                                                                                                         |
+| Execution mode                           | `Autonomous`                                                                                                   |
+| Display Output                           | `No`                                                                                                           |
 
 > **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question.
 >
@@ -158,9 +158,9 @@ Configure the following fields:
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Name                                     | `Troubleshooting Resolution Guide`                                                                                                                                                                                                                                                                     |
 | Tool description _(Description for LLM)_ | `This guide covers common enterprise backup appliance problems categorised into three severity tiers (L1, L2, L3), providing symptoms, likely causes, and diagnostic steps for each to help operations agents quickly triage issues and determine whether to resolve, escalate, or raise an Incident.` |
-| Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                                         |
-| Display output                           | **No**                                                                                                                                                                                                                                                                                                 |
-| Attachments                              | `troubleshooting-resolution-guide.pdf` — 114.0 KB                                                                                                                                                                                                                                                      |
+| Execution mode                           | `Autonomous`                                                                                                                                                                                                                                                                                           |
+| Display output                           | `No`                                                                                                                                                                                                                                                                                                   |
+| Attachments                              | `troubleshooting-resolution-guide.pdf`                                                                                                                                                                                                                                                                 |
 
 > **Why this tool:** This is the deflection gate. The agent retrieves and presents the relevant L1/L2/L3 severity-tiered diagnostic steps from the attached PDF, with the PDF guide serving as a guidepost to steer and define the boundaries to which the AI Agent can interact within. If the user confirms the steps proposed by the AI Agent resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
 >
@@ -192,8 +192,8 @@ Configure the following fields:
 | Selected topic description _(read-only, auto-populated)_ | `Use this topic to prompt the user to upload an image`              |
 | Name                                                     | `Upload image x_nava_agentic_lab`                                   |
 | Tool description _(Description for LLM)_                 | `This tool allows user to upload image to Now Assist Virtual Agent` |
-| Execution mode                                           | **Autonomous**                                                      |
-| Display output                                           | **Yes**                                                             |
+| Execution mode                                           | `Autonomous`                                                        |
+| Display output                                           | `Yes`                                                               |
 
 > **Why this tool:** This Virtual Agent conversation topic renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes in the next capability to extract the error code.
 >
@@ -234,8 +234,8 @@ The dialog header explains: _"An AI agent uses a subflow to execute a set of ste
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Name                                     | `Create Incident Case`                                                                                                                                       |
 | Tool description _(Description for LLM)_ | `The Create Incident Case Tool is a subflow that takes in four inputs in order to raise the Incident case. All of the four inputs are mandatory parameters.` |
-| Execution mode                           | **Autonomous**                                                                                                                                               |
-| Display output                           | **No**                                                                                                                                                       |
+| Execution mode                           | `Autonomous`                                                                                                                                                 |
+| Display output                           | `No`                                                                                                                                                         |
 
 > **Why this tool:** Creates and submits the Incident record — but only after Tool 3 (image upload) has completed. The sequencing is deliberate: the Incident is created with images already attached so NADI triggers immediately on the attachments and can extract `u_extracted_error_code`.
 >
@@ -307,8 +307,8 @@ The wizard advances to **Select channels and status**.
 
 | Setting                             | Value                               |
 | ----------------------------------- | ----------------------------------- |
-| Engage via the Now Assist panel     | **Allow: OFF**                      |
-| Engage via Virtual Agent assistants | **Allow: ON**                       |
+| Engage via the Now Assist panel     | `OFF`                               |
+| Engage via Virtual Agent assistants | `ON`                                |
 | Chat assistants                     | `Now Assist in Virtual Agent AlLab` |
 
 > The Requestor Flow is triggered through NAVA (Virtual Agent), not the Now Assist Panel — so the Virtual Agent channel is the correct one here. The Now Assist panel toggle stays **OFF** deliberately.
@@ -340,15 +340,15 @@ Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Por
 | Field            | Value                                                                                               |
 | ---------------- | --------------------------------------------------------------------------------------------------- |
 | Agent name       | `First Responder Operations Analyst Agent`                                                          |
-| Type             | Chat                                                                                                |
-| Tool 1           | Knowledge Graph — `User related attributes Knowledge Graph` — User Graph                            |
-| Tool 2           | File Upload — `Troubleshooting Resolution Guide` — `troubleshooting-resolution-guide.pdf`           |
-| Tool 3           | Conversational Topic — `Upload image x_nava_agentic_lab`                                            |
-| Tool 4           | Subflow — `Create Incident Case` — `Create and submit Incident record with image upload(s) subflow` |
-| User access      | `Users with specific roles` → `snc_internal`                                                        |
-| Data access      | `Dynamic user` → approved role: `snc_internal`                                                      |
+| Type             | `Chat`                                                                                              |
+| Tool 1           | `User related attributes Knowledge Graph` — Knowledge Graph — User Graph                           |
+| Tool 2           | `Troubleshooting Resolution Guide` — File Upload — `troubleshooting-resolution-guide.pdf`          |
+| Tool 3           | `Upload image x_nava_agentic_lab` — Conversational Topic                                           |
+| Tool 4           | `Create Incident Case` — Subflow — `Create and submit Incident record with image upload(s) subflow` |
+| User access      | `Users with specific roles` → `snc_internal`                                                       |
+| Data access      | `Dynamic user` → approved role: `snc_internal`                                                     |
 | Channel          | Virtual Agent — `Now Assist in Virtual Agent AlLab`                                                 |
-| Now Assist panel | OFF                                                                                                 |
+| Now Assist panel | `OFF`                                                                                               |
 
 ***
 
