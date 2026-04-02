@@ -281,7 +281,7 @@ Click **Save**.
 
 The wizard advances to **Define security controls → Define user access**.
 
-![Define user access](../.gitbook/assets/L2-agent-user-access.png)
+![Define user access](../screenshots/L2-agent-user-access.png)
 
 | Field       | Value                       |
 | ----------- | --------------------------- |
@@ -298,7 +298,7 @@ Click **Save and continue**.
 
 The wizard advances to **Define security controls → Define data access**.
 
-![Define user access](../.gitbook/assets/L2-agent-data-access.png)
+![Define user access](../screenshots/L2-agent-data-access.png)
 
 | Field       | Value          |
 | ----------- | -------------- |
