@@ -41,7 +41,7 @@ Path A — Result:
 Refer to diagram to understand topology
 ![NASK — Complete Canvas Topology: Parallel PI + Skill → Retriever → Prompt](../screenshots/NASKResolutionFinderUsingInternalData2-30.png)
  
-***
+---
  
 ## Skill Architecture
  
