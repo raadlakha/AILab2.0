@@ -89,7 +89,7 @@ Fill in the use case details:
 
 | Field         | Value                                                        |
 | ------------- | ------------------------------------------------------------ |
-| Use case name | `Veritas Extract`                                            |
+| Use case name | ```Veritas Extract```                                        |
 | Target table  | Incident Extend table (`x_nava_agentic_lab_incident_extend`) |
 | LLM           | `Azure OpenAI - GPT Large` (or your configured provider)     |
 
