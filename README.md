@@ -75,7 +75,7 @@ User Message → NAVA Chat (Service Portal)
         │
         ▼
 Phase 1 — Requestor Flow
-┌─────────────────────────────────────────────┐
+┌──────────────────────────────────────────────┐
 │  L1 First Responder Operations Analyst Agent │
 │  • Troubleshooting guide delivered in chat   │
 │  • User uploads error screenshot             │
@@ -83,11 +83,11 @@ Phase 1 — Requestor Flow
 │    u_extracted_error_code from image         │
 │  • Incident created: state = In Progress,    │
 │    contact_type = chat, error_code populated │
-└──────────────────────┬──────────────────────┘
+└──────────────────────┬───────────────────────┘
                        │
                        ▼
 Phase 2 — Fulfiller Flow (Veritas Resolution Agentic Workflow)
-┌─────────────────────────────────────────────┐
+┌──────────────────────────────────────────────┐
 │  Resolution Pathfinder Agent                 │
 │                                              │
 │  Path A — Internal resolution:               │
@@ -104,11 +104,11 @@ Phase 2 — Fulfiller Flow (Veritas Resolution Agentic Workflow)
 │  • Privacy-safe internet search              │
 │       ↓ No resolution found                  │
 │       → Escalate to L2 (Phase 3 skipped)     │
-└──────────────────────┬──────────────────────┘
+└──────────────────────┬───────────────────────┘
                        │ (Path A only)
                        ▼
 Phase 3 — External Integration
-┌─────────────────────────────────────────────┐
+┌──────────────────────────────────────────────┐
 │  Observability & Action Agent (External/A2A) │
 │  • Remediation plan dispatched to            │
 │    Azure AI Foundry via A2A protocol         │
@@ -121,7 +121,7 @@ Phase 3 — External Integration
 │  Path 3B — Fail/Partial:                     │
 │  Full execution log written to work notes,   │
 │  incident escalated to L2 with full context  │
-└─────────────────────────────────────────────┘
+└──────────────────────────────────────────────┘
 ```
 
 ***
