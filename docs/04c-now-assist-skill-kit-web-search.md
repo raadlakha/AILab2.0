@@ -367,9 +367,9 @@ A reference prompt for this skill is provided in the lab repository. Open the fi
 |----------------|-----------------|
 | INPUT FORMAT fields | Do the field names and descriptions match the data your Incident Extend table actually produces? If you have added custom fields beyond the standard set, consider referencing them here |
 | Privacy constraints | Are the rules around stripping internal hostnames, IPs, and user data appropriate for your organisation's security posture? You may need to tighten or loosen these depending on your environment |
-| Output format | Does the expected output structure (single optimised query vs. multiple questions) align with how the downstream Web Search tool (Capability 10) consumes the result? |
+| Output format | Does the expected output structure (single optimised query vs. multiple questions) align with how the downstream Web Search tool consumes the result? |
 | Examples in the prompt | Are the provided examples representative of the types of incidents your lab environment generates? If your Veritas NetBackup scenarios differ, adjust the examples accordingly |
-| Tone and specificity | Is the prompt too generic or too narrow for the error codes and product types in your extended incident data? Tailor the language to match your demo narrative |
+| Tone and specificity | Is the prompt too generic or too narrow for the error codes and product types in your extended incident data? Tailor the language to match your narrative |
  
 5. Verify that the prompt references the tool output variable `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}` — this is how the optimised query from the upstream `CreateOptimalSearchQuery` skill is injected into the prompt context
 6. Click **Save** to save the prompt
@@ -385,9 +385,8 @@ A reference prompt for this skill is provided in the lab repository. Open the fi
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
 | Structured INPUT FORMAT with fixed fields  | Forces consistent context injection regardless of incident data quality                                               |
 | Privacy constraints in prompt rules        | Prevents internal system details leaking into externally-visible search queries                                       |
-| Output: single optimised query string      | Downstream Web Search tool (Capability 10) expects a single query, not a list                                         |
+| Output: single optimised query string      | Downstream Web Search tool expects a single query, not a list                                                         |
 | `web-search-optimised` framing in preamble | Guides the LLM to produce queries with search-engine semantics, not NLP questions                                     |
-| 1026-word prompt                           | Reflects the complexity of the task — privacy rules, output format, and multiple examples require verbose instruction |
 
 ***
 
