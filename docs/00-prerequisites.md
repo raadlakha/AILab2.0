@@ -10,6 +10,8 @@ Before building the Agentic Workflow and AI Agents in this lab, there are a numb
 
 Complete every step below in order before proceeding to [01 — Now Assist for Virtual Agent (NAVA)](01-now-assist-virtual-agent.md).
 
+Lab resources that you will need in order to complete the lab: [Lab resources folder](../Lab%20resources/)
+
 ***
 
 ### Pre-Requisite 1: Switch to the `x_nava_agentic_lab` Application Scope
