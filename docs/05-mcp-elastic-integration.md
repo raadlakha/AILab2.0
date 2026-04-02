@@ -69,7 +69,7 @@ The **Manage Model Context Protocol servers** page lists all registered MCP serv
 
 Click **Add MCP server**. The **Add MCP server** dialog opens.
 
-![Add MCP server — elasticMCPConn](../screenshots/MCPConnect1.png)
+![Add MCP server — elasticMCPConn](<../.gitbook/assets/MCPConnect1 (1).png>)
 
 Configure the following fields:
 
@@ -92,7 +92,7 @@ Click **Add**.
 
 After adding, ServiceNow creates a **Model Context Protocol Server** record and a corresponding **Connection Alias**.
 
-![MCP server record — elasticMCPConn](../screenshots/MCPConnect2.png)
+![MCP server record — elasticMCPConn](<../.gitbook/assets/MCPConnect2 (1).png>)
 
 Verify the record:
 

@@ -63,7 +63,7 @@ Phase 3: Internet Fallback ← YOU ARE HERE
 | Outputs               | provider, response, error, errorCode, status (all String)                                                                                                        |
 | Tool                  | `RetrieveGeneratedSearchQuerythatwasforAI` → calls `CreateOptimalSearchQuery` skill                                                                              |
 | Tool condition        | None (Always run)                                                                                                                                                |
-| Prompt                | `Generate Web Search Questions for Resolution Plan`                                                                                                         |
+| Prompt                | `Generate Web Search Questions for Resolution Plan`                                                                                                              |
 | Workflow (deployment) | Other                                                                                                                                                            |
 | User access           | Any authenticated user                                                                                                                                           |
 | Role restrictions     | `itil`                                                                                                                                                           |
@@ -117,7 +117,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 
 The **New skill** wizard opens on **General info**.
 
-![General info — skill name and description](../screenshots/NASK-generatewebsearchquestion-step1.png)
+![General info — skill name and description](<../.gitbook/assets/NASK-generatewebsearchquestion-step1 (1).png>)
 
 Configure the skill identity:
 
@@ -145,7 +145,7 @@ The available models shown under Now LLM Generic include the full NowLLM model f
 
 Scroll down on the General info page to reach **Configure security controls**.
 
-![Security controls — ACL and role restrictions](../screenshots/NASK-generatewebsearchquestion-step2.png)
+![Security controls — ACL and role restrictions](<../.gitbook/assets/NASK-generatewebsearchquestion-step2 (1).png>)
 
 **Define user access with an ACL:**
 
@@ -171,7 +171,7 @@ Click **Continue**.
 
 After creation the skill lands on **Step 1: Edit prompt**.
 
-![Skill editor — prompt canvas showing published status](../screenshots/NASK-generatewebsearchquestion-step3.png)
+![Skill editor — prompt canvas showing published status](<../.gitbook/assets/NASK-generatewebsearchquestion-step3 (1).png>)
 
 Note the **Published** badge in the header — this skill was published as part of a prior iteration. For a new build, status will show **Draft** at this point. The skill editor has four tabs:
 
@@ -208,13 +208,13 @@ Navigate to **Step 2: Add tools**.
 
 The canvas shows **Start → Skill prompt → End**. Click the **+** connector between Start and the Skill prompt node to insert a tool node before the prompt fires.
 
-![Add node dialog — Tool node selection](../screenshots/NASK-generatewebsearchquestion-step4.png)
+![Add node dialog — Tool node selection](<../.gitbook/assets/NASK-generatewebsearchquestion-step4 (1).png>)
 
 Select **Tool node** and click **Add**.
 
 The tool type picker opens.
 
-![Add skill as a tool — Tool type picker](../screenshots/NASK-generatewebsearchquestion-step5.png)
+![Add skill as a tool — Tool type picker](<../.gitbook/assets/NASK-generatewebsearchquestion-step5 (1).png>)
 
 Select **Skill** as the tool type and click **Configure tool**.
 
@@ -226,7 +226,7 @@ Select **Skill** as the tool type and click **Configure tool**.
 
 The **Add skill as a tool** wizard opens (5-step: General info → Tool inputs → Tool outputs → Tool conditions → Summary).
 
-![Add skill as a tool — General info](../screenshots/NASK-generatewebsearchquestion-step6.png)
+![Add skill as a tool — General info](<../.gitbook/assets/NASK-generatewebsearchquestion-step6 (1).png>)
 
 **Step 1 — General info:**
 
@@ -245,7 +245,7 @@ Click **Continue**.
 
 ### Step 6: Configure Skill Tool — Tool Inputs
 
-![Add skill as a tool — Tool inputs](../screenshots/NASK-generatewebsearchquestion-step7.png)
+![Add skill as a tool — Tool inputs](<../.gitbook/assets/NASK-generatewebsearchquestion-step7 (1).png>)
 
 **Step 2 — Tool inputs:**
 
@@ -261,7 +261,7 @@ Click **Continue**.
 
 ### Step 7: Configure Skill Tool — Tool Outputs
 
-![Add skill as a tool — Tool outputs](../screenshots/NASK-generatewebsearchquestion-step8.png)
+![Add skill as a tool — Tool outputs](<../.gitbook/assets/NASK-generatewebsearchquestion-step8 (1).png>)
 
 **Step 3 — Tool outputs:**
 
@@ -283,7 +283,7 @@ Click **Continue**.
 
 ### Step 8: Configure Skill Tool — Tool Conditions
 
-![Add skill as a tool — Tool conditions](../screenshots/NASK-generatewebsearchquestion-step9.png)
+![Add skill as a tool — Tool conditions](<../.gitbook/assets/NASK-generatewebsearchquestion-step9 (1).png>)
 
 **Step 4 — Tool conditions (optional):**
 
@@ -299,7 +299,7 @@ Click **Continue**.
 
 ### Step 9: Review Tool Summary
 
-![Add skill as a tool — Summary](../screenshots/NASK-generatewebsearchquestion-step10.png)
+![Add skill as a tool — Summary](<../.gitbook/assets/NASK-generatewebsearchquestion-step10 (1).png>)
 
 **Step 5 — Summary:**
 
@@ -326,7 +326,7 @@ Click **Add tool**.
 
 After adding the tool, the canvas updates to show the full skill execution flow:
 
-![Tool canvas with skill tool and skill prompt nodes](../screenshots/NASK-generatewebsearchquestion-step11.png)
+![Tool canvas with skill tool and skill prompt nodes](<../.gitbook/assets/NASK-generatewebsearchquestion-step11 (1).png>)
 
 ```
 Start
@@ -351,43 +351,43 @@ The left panel shows **Tools** → `RetrieveGeneratedSearchQuerythaswas` (trunca
 
 Navigate back to **Step 1: Edit prompt** to view and edit the prompt template. Click on the Generate Web Search Questions for Resolution Plan prompt in the Skill contents panel to open the prompt editor.
 
-![Prompt editor — Generate Web Search Questions for Resolution Plan](../screenshots/NASK-generatewebsearchquestion-step12.png)
+![Prompt editor — Generate Web Search Questions for Resolution Plan](<../.gitbook/assets/NASK-generatewebsearchquestion-step12 (1).png>)
 
 A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
 
 ```
 📁 ../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt
 ```
- 
-1. Open the file at [`../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt`](../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt) in the lab repository
+
+1. Open the file at [`../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt`](../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt/) in the lab repository
 2. **Read through the entire prompt before pasting anything.** Understand what the prompt is asking the LLM to do, how the input schema is structured, what privacy constraints are applied, and what the expected output format looks like
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
 4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems that adapt to their surroundings — the prompt should reflect your specific context. Consider the following as you review:
- 
-| Area to Review | What to Consider |
-|----------------|-----------------|
-| INPUT FORMAT fields | Do the field names and descriptions match the data your Incident Extend table actually produces? If you have added custom fields beyond the standard set, consider referencing them here |
-| Privacy constraints | Are the rules around stripping internal hostnames, IPs, and user data appropriate for your organisation's security posture? You may need to tighten or loosen these depending on your environment |
-| Output format | Does the expected output structure (single optimised query vs. multiple questions) align with how the downstream Web Search tool consumes the result? |
-| Examples in the prompt | Are the provided examples representative of the types of incidents your lab environment generates? If your Veritas NetBackup scenarios differ, adjust the examples accordingly |
-| Tone and specificity | Is the prompt too generic or too narrow for the error codes and product types in your extended incident data? Tailor the language to match your narrative |
- 
+
+| Area to Review         | What to Consider                                                                                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INPUT FORMAT fields    | Do the field names and descriptions match the data your Incident Extend table actually produces? If you have added custom fields beyond the standard set, consider referencing them here          |
+| Privacy constraints    | Are the rules around stripping internal hostnames, IPs, and user data appropriate for your organisation's security posture? You may need to tighten or loosen these depending on your environment |
+| Output format          | Does the expected output structure (single optimised query vs. multiple questions) align with how the downstream Web Search tool consumes the result?                                             |
+| Examples in the prompt | Are the provided examples representative of the types of incidents your lab environment generates? If your Veritas NetBackup scenarios differ, adjust the examples accordingly                    |
+| Tone and specificity   | Is the prompt too generic or too narrow for the error codes and product types in your extended incident data? Tailor the language to match your narrative                                         |
+
 5. Verify that the prompt references the tool output variable `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}` — this is how the optimised query from the upstream `CreateOptimalSearchQuery` skill is injected into the prompt context
 6. Click **Save** to save the prompt
 7. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
- 
-> **Do not copy blindly.** The provided prompt is a proven starting point (~1026 words) that has been tested against the Veritas NetBackup triage scenario — but it is not immutable. The strength of an agentic system lies in its ability to adapt. As you build out the full workflow and observe how the LLM responds to real incident data in your lab instance, you will likely find areas where the prompt benefits from refinement: tighter constraints, additional examples, adjusted output formatting, or domain-specific terminology. Treat prompt authoring as an iterative process — finalize v1 now, test it end-to-end, and create v2 when you identify improvements.
- 
+
+> **Do not copy blindly.** The provided prompt is a proven starting point (\~1026 words) that has been tested against the Veritas NetBackup triage scenario — but it is not immutable. The strength of an agentic system lies in its ability to adapt. As you build out the full workflow and observe how the LLM responds to real incident data in your lab instance, you will likely find areas where the prompt benefits from refinement: tighter constraints, additional examples, adjusted output formatting, or domain-specific terminology. Treat prompt authoring as an iterative process — finalize v1 now, test it end-to-end, and create v2 when you identify improvements.
+
 > **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 12). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
 
 **Key prompt design decisions:**
 
-| Decision                                   | Rationale                                                                                                             |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Structured INPUT FORMAT with fixed fields  | Forces consistent context injection regardless of incident data quality                                               |
-| Privacy constraints in prompt rules        | Prevents internal system details leaking into externally-visible search queries                                       |
-| Output: single optimised query string      | Downstream Web Search tool expects a single query, not a list                                                         |
-| `web-search-optimised` framing in preamble | Guides the LLM to produce queries with search-engine semantics, not NLP questions                                     |
+| Decision                                   | Rationale                                                                         |
+| ------------------------------------------ | --------------------------------------------------------------------------------- |
+| Structured INPUT FORMAT with fixed fields  | Forces consistent context injection regardless of incident data quality           |
+| Privacy constraints in prompt rules        | Prevents internal system details leaking into externally-visible search queries   |
+| Output: single optimised query string      | Downstream Web Search tool expects a single query, not a list                     |
+| `web-search-optimised` framing in preamble | Guides the LLM to produce queries with search-engine semantics, not NLP questions |
 
 ***
 
@@ -397,7 +397,7 @@ Navigate to **Step 4: Deployment and skill settings** → click **Publish skill*
 
 The **Publish Skill** dialog opens:
 
-![Publish Skill dialog](../screenshots/NASK-generatewebsearchquestion-step13.png)
+![Publish Skill dialog](<../.gitbook/assets/NASK-generatewebsearchquestion-step13 (1).png>)
 
 Review deployment settings:
 
@@ -424,7 +424,7 @@ Click **Publish**.
 
 In **Step 4: Deployment and skill settings**, select **Deployment settings** from the left nav.
 
-![Deployment settings — Workflow = Other](../screenshots/NASK-generatewebsearchquestion-step14.png)
+![Deployment settings — Workflow = Other](<../.gitbook/assets/NASK-generatewebsearchquestion-step14 (1).png>)
 
 | Field    | Value         |
 | -------- | ------------- |
@@ -439,13 +439,13 @@ In **Step 4: Deployment and skill settings**, select **Deployment settings** fro
 
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other**.
 
-![Now Assist Admin — Skills — Other — GenerateWebSearchQnsForResolutionPlan](../screenshots/NASK-generatewebsearchquestion-step15.png)
+![Now Assist Admin — Skills — Other — GenerateWebSearchQnsForResolutionPlan](<../.gitbook/assets/NASK-generatewebsearchquestion-step15 (1).png>)
 
 Locate `GenerateWebSearchQnsForResolutionPlan` under the **Available** tab in the **Other** workflow. Status shows **Custom | Inactive | Now LLM Service**.
 
 Click **Turn on**.
 
-![Successfully activated confirmation](../screenshots/NASK-generatewebsearchquestion-step16.png)
+![Successfully activated confirmation](<../.gitbook/assets/NASK-generatewebsearchquestion-step16 (1).png>)
 
 The **"Successfully activated"** confirmation dialog appears:
 

@@ -37,7 +37,7 @@ Path A — Result:
 
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
 
-![NASK — Complete Canvas Topology: Parallel PI + Skill → Retriever → Prompt](../screenshots/NASKResolutionFinderUsingInternalData2-30.png)
+![NASK — Complete Canvas Topology: Parallel PI + Skill → Retriever → Prompt](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-30 (1).png>)
 
 ***
 
@@ -87,7 +87,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 | Default provider     | `Azure OpenAI`                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Default provider API | `Chat Completions`                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-![NASK — General Info: ResolutionFinderUsingInternalData](../screenshots/NASKResolutionFinderUsingInternalData2-1.png)
+![NASK — General Info: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-1 (1).png>)
 
 ***
 
@@ -99,7 +99,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 | Roles                           | `itil`         |
 | Apply role restrictions — Roles | `itil`         |
 
-![NASK — Security Controls: User Access and Role Restrictions](../screenshots/NASKResolutionFinderUsingInternalData2-2.png)
+![NASK — Security Controls: User Access and Role Restrictions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-2 (1).png>)
 
 ***
 
@@ -118,7 +118,7 @@ Two inputs are required — one per tool type.
 | Make input mandatory | Unchecked                           |
 | Allow truncation     | Unchecked                           |
 
-![NASK — Skill Input 1: Record from Incident Extend table](../screenshots/NASKResolutionFinderUsingInternalData2-3.png)
+![NASK — Skill Input 1: Record from Incident Extend table](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-3 (1).png>)
 
 #### Input 2 — String (for Skill tool)
 
@@ -130,7 +130,7 @@ Two inputs are required — one per tool type.
 | Make input mandatory | Unchecked                                  |
 | Allow truncation     | Unchecked                                  |
 
-![NASK — Skill Input 2: Record from Incident Extend table String](../screenshots/NASKResolutionFinderUsingInternalData2-10.png)
+![NASK — Skill Input 2: Record from Incident Extend table String](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-10 (1).png>)
 
 ***
 
@@ -140,7 +140,7 @@ Navigate to the **Add tools** tab. Click **+** on the canvas → **Tool node** �
 
 Select **Predictive Intelligence** → **Configure tool**.
 
-![NASK — Tool Type: Predictive Intelligence](../screenshots/NASKResolutionFinderUsingInternalData2-4.png)
+![NASK — Tool Type: Predictive Intelligence](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-4 (1).png>)
 
 #### Step 4a — General Info
 
@@ -151,7 +151,7 @@ Select **Predictive Intelligence** → **Configure tool**.
 | Solution label   | `Find possible resolution for similar Incident cases`                                    |
 | Solution name    | `ml_x_snc_x_snc_apacaienable_global_find_possible_resolution_for_similar_incident_cases` |
 
-![NASK — PI Tool: General Info](../screenshots/NASKResolutionFinderUsingInternalData2-5.png)
+![NASK — PI Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-5 (1).png>)
 
 #### Step 4b — Tool Inputs
 
@@ -166,7 +166,7 @@ Select **Predictive Intelligence** → **Configure tool**.
 | `short_description` | string   | `{{record_from_incident_extend_table.short_description}}` |
 | `topNResult`        | —        | `3`                                                       |
 
-![NASK — PI Tool: Tool Inputs](../screenshots/NASKResolutionFinderUsingInternalData2-6.png)
+![NASK — PI Tool: Tool Inputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-6 (1).png>)
 
 #### Step 4c — Tool Outputs
 
@@ -174,23 +174,23 @@ Select **Predictive Intelligence** → **Configure tool**.
 | --------- | ------------- |
 | `outputs` | `json_object` |
 
-![NASK — PI Tool: Tool Outputs](../screenshots/NASKResolutionFinderUsingInternalData2-7.png)
+![NASK — PI Tool: Tool Outputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-7 (1).png>)
 
 #### Step 4d — Tool Conditions
 
 Type: **None (Always run)**
 
-![NASK — PI Tool: Tool Conditions](../screenshots/NASKResolutionFinderUsingInternalData2-8.png)
+![NASK — PI Tool: Tool Conditions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-8 (1).png>)
 
 #### Step 4e — Summary
 
 Verify and click **Save changes**.
 
-![NASK — PI Tool: Summary](../screenshots/NASKResolutionFinderUsingInternalData2-9.png)
+![NASK — PI Tool: Summary](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-9 (1).png>)
 
 > After saving, the canvas shows the FindSimilarIncidents node added below Start:
 
-![NASK — Canvas After PI Tool Added](../screenshots/NASKResolutionFinderUsingInternalData2-11.png)
+![NASK — Canvas After PI Tool Added](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-11 (1).png>)
 
 ***
 
@@ -198,11 +198,11 @@ Verify and click **Save changes**.
 
 Click the **+** on the **parallel branch from Start**. Select **Tool node** → **Add**.
 
-![NASK — Add Node Dialog: Tool Node](../screenshots/NASKResolutionFinderUsingInternalData2-12.png)
+![NASK — Add Node Dialog: Tool Node](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-12 (1).png>)
 
 Select **Skill**, check **Add as parallel node** → **Configure tool**.
 
-![NASK — Add Skill as Tool: Parallel Node Checked](../screenshots/NASKResolutionFinderUsingInternalData2-13.png)
+![NASK — Add Skill as Tool: Parallel Node Checked](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-13 (1).png>)
 
 #### Step 5a — General Info
 
@@ -213,7 +213,7 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 | Resource     | `CreateOptimalSearchQuery`                                                                                      |
 | Provider API | `Now LLM Generic`                                                                                               |
 
-![NASK — Skill Tool: General Info](../screenshots/NASKResolutionFinderUsingInternalData2-14.png)
+![NASK — Skill Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-14 (1).png>)
 
 #### Step 5b — Tool Inputs
 
@@ -221,7 +221,7 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 | ---------------------- | -------- | ---------------------------------------------- |
 | `incidentextendrecord` | string   | `{{record_from_incident_extend_table_string}}` |
 
-![NASK — Skill Tool: Tool Inputs](../screenshots/NASKResolutionFinderUsingInternalData2-15.png)
+![NASK — Skill Tool: Tool Inputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-15 (1).png>)
 
 #### Step 5c — Tool Outputs
 
@@ -235,19 +235,19 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 
 > `response` carries the optimised AI Search query string — this is what `RetrieveRelevantKBContent` uses as its search query input.
 
-![NASK — Skill Tool: Tool Outputs](../screenshots/NASKResolutionFinderUsingInternalData2-16.png)
+![NASK — Skill Tool: Tool Outputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-16 (1).png>)
 
 #### Step 5d — Tool Conditions
 
 Type: **None (Always run)**
 
-![NASK — Skill Tool: Tool Conditions](../screenshots/NASKResolutionFinderUsingInternalData2-17.png)
+![NASK — Skill Tool: Tool Conditions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-17 (1).png>)
 
 #### Step 5e — Summary
 
 Verify **Add as a parallel node: Yes** → click **Add tool**.
 
-![NASK — Skill Tool: Summary](../screenshots/NASKResolutionFinderUsingInternalData2-18.png)
+![NASK — Skill Tool: Summary](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-18 (1).png>)
 
 ***
 
@@ -271,7 +271,7 @@ FindSimilarIncidents        GenerateSearchQuery...
                     End
 ```
 
-![NASK — Canvas: Two Parallel Tools](../screenshots/NASKResolutionFinderUsingInternalData2-19.png)
+![NASK — Canvas: Two Parallel Tools](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-19 (1).png>)
 
 > At this point the Retriever has not yet been added. The next step inserts `RetrieveRelevantKBContent` between `GenerateSearchQueryAgainstAISearch` and the `Assess if solution exists` prompt. (Click on the (+) line where it is after the GeneratedSearchQueryAgainstAISearch node, not the one after Predictive Intelligence)
 
@@ -281,11 +281,11 @@ FindSimilarIncidents        GenerateSearchQuery...
 
 Click the **+** connector **between** the parallel merge and `Assess if solution exists`. Select **Tool node** → **Add**.
 
-![NASK — Add Node Dialog: Tool Node for Retriever](../screenshots/NASKResolutionFinderUsingInternalData2-20.png)
+![NASK — Add Node Dialog: Tool Node for Retriever](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-20 (1).png>)
 
 The tool type picker appears. Select **Retriever** → **Configure tool**.
 
-![NASK — Tool Type: Retriever](../screenshots/NASKResolutionFinderUsingInternalData2-21.png)
+![NASK — Tool Type: Retriever](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-21 (1).png>)
 
 The **Add retriever as a tool** wizard opens (5 steps).
 
@@ -299,7 +299,7 @@ The **Add retriever as a tool** wizard opens (5 steps).
 | Description | `This is capability which can be used to retrieve the results from multiple context(keyword, semantic, hybrid) based on the inputs provided.` |
 | Resource    | `RAG`                                                                                                                                         |
 
-![NASK — Retriever Tool: General Info](../screenshots/NASKResolutionFinderUsingInternalData2-22.png)
+![NASK — Retriever Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-22 (1).png>)
 
 > **Resource: RAG** is the platform's built-in Retrieval Augmented Generation engine. It handles the AI Search query, embedding, chunking, and re-ranking pipeline internally — the configuration below controls its behaviour for this specific retrieval.
 
@@ -326,7 +326,7 @@ The retriever tool inputs configure the full search pipeline. This is the most d
 | Embedding model   | `ServiceNow Embedding (E5)`                                                                                                             |
 | Semantic Indexes  | `body`, `title`                                                                                                                         |
 
-![NASK — Retriever Tool: Tool Inputs — Core Search Configuration](../screenshots/NASKResolutionFinderUsingInternalData2-23.png)
+![NASK — Retriever Tool: Tool Inputs — Core Search Configuration](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-23 (1).png>)
 
 > **Search query wired to the parallel skill output:** `{{GenerateSearchQueryAgainstAISearch.response}}` is the optimised query string produced by `CreateOptimalSearchQuery`. This is the critical data hand-off — the LLM-generated query drives the semantic KB search.
 >
@@ -344,7 +344,7 @@ The retriever tool inputs configure the full search pipeline. This is the most d
 | Expanded snippet size             | `750`                 |
 | Max number of chunks per document | `10`                  |
 
-![NASK — Retriever Tool: Advanced Settings — Chunking and Threshold](../screenshots/NASKResolutionFinderUsingInternalData2-24.png)
+![NASK — Retriever Tool: Advanced Settings — Chunking and Threshold](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-24 (1).png>)
 
 **Advanced settings — Re-Ranking:**
 
@@ -352,7 +352,7 @@ The retriever tool inputs configure the full search pipeline. This is the most d
 | ------------- | ----- |
 | Top K results | `3`   |
 
-![NASK — Retriever Tool: Advanced Settings — Chunking and Re-Ranking](../screenshots/NASKResolutionFinderUsingInternalData2-25.png)
+![NASK — Retriever Tool: Advanced Settings — Chunking and Re-Ranking](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-25 (1).png>)
 
 > **Chunking — Small to Big:** Documents are chunked into small units (750 words) for precise similarity scoring, then expanded to 750-word snippets when returned to the prompt — giving the LLM sufficient context around the matched passage.
 >
@@ -370,7 +370,7 @@ Click **Continue**.
 | ------------- | ------------- |
 | `Rag Results` | `json_object` |
 
-![NASK — Retriever Tool: Tool Outputs](../screenshots/NASKResolutionFinderUsingInternalData2-26.png)
+![NASK — Retriever Tool: Tool Outputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-26 (1).png>)
 
 > The `Rag Results` JSON object contains the top 3 re-ranked KB article chunks with their field values (`text`, `short_description`, `article_type`, `category`, `description`). The `Assess if solution exists` prompt receives this alongside `{{FindSimilarIncidents.outputs}}` to evaluate whether a resolution exists.
 
@@ -382,7 +382,7 @@ Click **Continue**.
 
 Type: **None (Always run)**
 
-![NASK — Retriever Tool: Tool Conditions](../screenshots/NASKResolutionFinderUsingInternalData2-27.png)
+![NASK — Retriever Tool: Tool Conditions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-27 (1).png>)
 
 Click **Continue**.
 
@@ -412,9 +412,9 @@ Verify the complete configuration before saving:
 | Outputs         | Rag Results                 | json\_object                                                                     |
 | Tool conditions | Type                        | none                                                                             |
 
-![NASK — Retriever Tool: Summary (Top)](../screenshots/NASKResolutionFinderUsingInternalData2-28.png)
+![NASK — Retriever Tool: Summary (Top)](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-28 (1).png>)
 
-![NASK — Retriever Tool: Summary (Bottom)](../screenshots/NASKResolutionFinderUsingInternalData2-29.png)
+![NASK — Retriever Tool: Summary (Bottom)](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-29 (1).png>)
 
 Click **Save changes**.
 
@@ -445,7 +445,7 @@ After all three tools are added, the canvas shows the complete four-node flow:
                          End
 ```
 
-![NASK — Final Canvas: Complete Skill Flow](../screenshots/NASKResolutionFinderUsingInternalData2-30.png)
+![NASK — Final Canvas: Complete Skill Flow](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-30 (1).png>)
 
 **Tools panel (left):**
 
@@ -469,7 +469,7 @@ A reference prompt for this skill is provided in the lab repository. Open the fi
 📁 ../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt
 ```
 
-1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt) in the lab repository
+1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt/) in the lab repository
 2. **Read through the entire prompt before pasting anything.** This prompt is more complex than the upstream skills — it must reason across two distinct data sources (RAG KB results and PI similar incidents) and make a binary determination (resolution found or not). Understand the evaluation logic, the grounding constraints, and the expected output structure before proceeding
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
 4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
@@ -502,16 +502,16 @@ Navigate to the **Edit prompt** tab → finalize the `Assess if solution exists 
 
 The **Publish Skill** dialog opens:
 
-| Field           | Value                                                                |
-| --------------- | -------------------------------------------------------------------- |
-| Workflow        | Other                                                                |
-| Product         | Not Applicable                                                       |
-| Feature         | Not Applicable                                                       |
-| Display Options | None                                                                 |
-| Provider        | Now LLM Service (Now LLM Generic) — Default provider                 |
-| Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅     |
+| Field           | Value                                                           |
+| --------------- | --------------------------------------------------------------- |
+| Workflow        | Other                                                           |
+| Product         | Not Applicable                                                  |
+| Feature         | Not Applicable                                                  |
+| Display Options | None                                                            |
+| Provider        | Now LLM Service (Now LLM Generic) — Default provider            |
+| Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅ |
 
-![NASK — Publish Skill Dialog](../screenshots/NASKResolutionFinderUsingInternalData2-31.png)
+![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31 (1).png>)
 
 Click **Publish**.
 
@@ -525,7 +525,7 @@ Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills �
 
 Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service) → click **Turn on** → confirm activation.
 
-![Now Assist Admin — Skills: ResolutionFinderUsingInternalData](../screenshots/NASKResolutionFinderUsingInternalData2-32.png)
+![Now Assist Admin — Skills: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
 
 > The skill card shows **Inactive** status — this is expected for a newly published skill before activation. Click **Turn on** to make it callable from Flow Designer as an Execute Skill action in the Fulfiller Flow workflow.
 

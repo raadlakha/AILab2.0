@@ -80,7 +80,7 @@ Navigate to **All → AI Agent Studio → Create and manage → AI Agents → Ne
 
 The wizard opens on **Define the specialty**.
 
-![Define the specialty — agent name and description](../screenshots/L1-Agent.png)
+![Define the specialty — agent name and description](<../.gitbook/assets/L1-Agent (1).png>)
 
 The page instructs: _"Using clear, precise language, write the name, description, role, and list of steps this AI agent completes. Writing a clear, distinct name and description is critical because the LLM relies on the wording to correctly identify and use this agent."_
 
@@ -101,7 +101,7 @@ Configure the following fields:
 
 The wizard advances to **Add tools and information**.
 
-![Add tools and information — tool list](../screenshots/L1-Agent2.png)
+![Add tools and information — tool list](<../.gitbook/assets/L1-Agent2 (1).png>)
 
 The page reads: _"Tools provide the essential functionality and data an AI agent needs to carry out its role. An AI agent selects a tool based on the tool's name and description, which need to be clearly written."_
 
@@ -117,7 +117,7 @@ From **Add tool ▼** select **Knowledge graph**.
 
 The **Add a Knowledge graph** dialog opens:
 
-![Add a Knowledge graph dialog](../screenshots/L1-agent-tool-kg1.png)
+![Add a Knowledge graph dialog](<../.gitbook/assets/L1-agent-tool-kg1 (1).png>)
 
 The dialog header explains: _"An AI agent uses a knowledge graph to understand the relationships between real-world entities to improve its outputs."_
 
@@ -146,9 +146,9 @@ From **Add tool ▼** select **File upload**.
 
 The **Add file upload** dialog opens:
 
-![Add file upload dialog — fields](../screenshots/L1-agent-tool4-file-upload.png)
+![Add file upload dialog — fields](<../.gitbook/assets/L1-agent-tool4-file-upload (1).png>)
 
-![Add file upload dialog — attachment](../screenshots/L1-agent-tool4-file-upload2.png)
+![Add file upload dialog — attachment](<../.gitbook/assets/L1-agent-tool4-file-upload2 (1).png>)
 
 The dialog header explains: _"An AI agent uses a file retrieval to search a specific set of files for specialized information."_
 
@@ -176,11 +176,11 @@ Click **Add**.
 
 From **Add tool ▼** select **Conversational topic**.
 
-![Add tool dropdown — Conversational topic highlighted](../screenshots/L1-Agent-Tool1.png)
+![Add tool dropdown — Conversational topic highlighted](<../.gitbook/assets/L1-Agent-Tool1 (1).png>)
 
 The **Add a conversational topic** dialog opens:
 
-![Add a conversational topic dialog](../screenshots/L1-agent-tool-conv-topic.png)
+![Add a conversational topic dialog](<../.gitbook/assets/L1-agent-tool-conv-topic (1).png>)
 
 The dialog header explains: _"An AI agent uses a conversational topic to accomplish a goal in a conversation that can take multiple paths."_
 
@@ -207,13 +207,13 @@ Click **Add**.
 
 From **Add tool ▼** select **Subflow**.
 
-![Add tool dropdown — Subflow highlighted](../screenshots/L1-agent-tool2.png)
+![Add tool dropdown — Subflow highlighted](<../.gitbook/assets/L1-agent-tool2 (1).png>)
 
 The **Add a subflow** dialog opens:
 
-![Add a subflow — subflow selection and inputs](../screenshots/L1-agent-tool2-subflow.png)
+![Add a subflow — subflow selection and inputs](<../.gitbook/assets/L1-agent-tool2-subflow (1).png>)
 
-![Add a subflow — tool name and description](../screenshots/L1-agent-tool2-subflow2.png)
+![Add a subflow — tool name and description](<../.gitbook/assets/L1-agent-tool2-subflow2 (1).png>)
 
 The dialog header explains: _"An AI agent uses a subflow to execute a set of steps that are part of a larger process."_
 
@@ -251,7 +251,7 @@ Click **Add**.
 
 The wizard advances to **Define security controls → Define user access**.
 
-![Define user access — role assignment](../screenshots/L1-agent-user-access.png)
+![Define user access — role assignment](<../.gitbook/assets/L1-agent-user-access (1).png>)
 
 The section heading reads: _"Define who can access this AI agent (ACLs)"_
 
@@ -270,7 +270,7 @@ Click **Save and continue**.
 
 The wizard advances to **Define data access**.
 
-![Define data access — user identity](../screenshots/L1-agent-data-access.png)
+![Define data access — user identity](<../.gitbook/assets/L1-agent-data-access (1).png>)
 
 The section heading reads: _"Select the user identity this AI agent will run as"_
 
@@ -289,7 +289,7 @@ Click **Save and continue**.
 
 The wizard advances to **Add triggers**.
 
-![Add triggers — trigger configuration](../screenshots/L1-agent-trigger.png)
+![Add triggers — trigger configuration](<../.gitbook/assets/L1-agent-trigger (1).png>)
 
 | Setting  | Value              |
 | -------- | ------------------ |
@@ -303,7 +303,7 @@ Click **Save and continue**.
 
 The wizard advances to **Select channels and status**.
 
-![Select channels and status](../screenshots/L1-agent-channel-status.png)
+![Select channels and status](<../.gitbook/assets/L1-agent-channel-status (1).png>)
 
 | Setting                             | Value                               |
 | ----------------------------------- | ----------------------------------- |

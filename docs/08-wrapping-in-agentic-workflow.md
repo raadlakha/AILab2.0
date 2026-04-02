@@ -68,7 +68,7 @@ Navigate to **All → AI Agent Studio → Create and manage → Agentic workflow
 
 The **Veritas Resolution Agentic Workflow** wizard opens on **Define key requirements**.
 
-![Define key requirements — workflow name and description](../screenshots/Agentic-WF-1.png)
+![Define key requirements — workflow name and description](<../.gitbook/assets/Agentic-WF-1 (1).png>)
 
 The page explains the LLM's three jobs: know _when_ to use the workflow, know the _steps_ to complete it, and know the _AI agents_ needed.
 
@@ -84,7 +84,7 @@ The page explains the LLM's three jobs: know _when_ to use the workflow, know th
 
 Still on **Define key requirements**, scroll down to the **"Add AI agents that can perform these steps"** section.
 
-![AI agents panel — Resolution Pathfinder and ObsAgent added](../screenshots/Agentic-WF-2.png)
+![AI agents panel — Resolution Pathfinder and ObsAgent added](<../.gitbook/assets/Agentic-WF-2 (1).png>)
 
 The platform explains: _"The LLM compares the terminology in an AI agent's name and description to a workflow step, looking for a match. That's how it chooses an AI agent to complete a given step."_
 
@@ -105,7 +105,7 @@ Click **Save and continue**.
 
 The wizard advances to **Define security controls → Define user access**.
 
-![Define user access — Users with specific roles, snc_internal](../screenshots/Agentic-WF-3.png)
+![Define user access — Users with specific roles, snc\_internal](<../.gitbook/assets/Agentic-WF-3 (1).png>)
 
 **Define who can access this agentic workflow (ACL):**
 
@@ -122,13 +122,13 @@ The wizard advances to **Define security controls → Define user access**.
 
 The wizard advances to **Define data access**.
 
-![Define data access — Dynamic user, itil approved role](../screenshots/Agentic-WF-4.png)
+![Define data access — Dynamic user, itil approved role](<../.gitbook/assets/Agentic-WF-4 (1).png>)
 
 **Select the entity this agentic workflow will run as:**
 
-| Field              | Value          |
-| ------------------ | -------------- |
-| User identity type | `Dynamic user` |
+| Field              | Value                                                         |
+| ------------------ | ------------------------------------------------------------- |
+| User identity type | `Dynamic user`                                                |
 | Approved role(s)   | `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
 
 > **Dynamic user** means the workflow runs as the user who triggered it — it inherits that user's roles and data permissions. This ensures the workflow cannot access data the triggering user couldn't access themselves. The **Approved role(s)** field caps the maximum privilege: even if the triggering user has admin, the workflow operates within `snc_internal, itil and x_snc_apacaienable.incident_extent_user` bounds. This is the correct governance model for a workflow that reads incident records and writes work notes.
@@ -141,7 +141,7 @@ The wizard advances to **Add triggers**. Click **+ Add trigger**.
 
 The **Add a trigger** dialog opens:
 
-![Add a trigger — Created, trigger name and objective](../screenshots/Agentic-WF-5.png)
+![Add a trigger — Created, trigger name and objective](<../.gitbook/assets/Agentic-WF-5 (1).png>)
 
 **Top section:**
 
@@ -162,7 +162,7 @@ The **Add a trigger** dialog opens:
 
 Scroll down in the **Edit a trigger** dialog to **Define when this trigger occurs**.
 
-![Edit trigger — Table and conditions](../screenshots/Agentic-WF-6.png)
+![Edit trigger — Table and conditions](<../.gitbook/assets/Agentic-WF-6 (1).png>)
 
 **Table and conditions:**
 
@@ -192,7 +192,7 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 
 Still in the **Edit a trigger** dialog, scroll down to **Define the user identity** and **Select where to show this launch**.
 
-![Edit trigger — User identity and channel](../screenshots/Agentic-WF-7.png)
+![Edit trigger — User identity and channel](<../.gitbook/assets/Agentic-WF-7 (1).png>)
 
 **Define the user identity of this trigger:**
 
@@ -220,7 +220,7 @@ Click **Save** to save the trigger.
 
 The wizard advances to the final step: **Select channels and status**.
 
-![Select channels and status](../screenshots/Agentic-WF-8.png)
+![Select channels and status](<../.gitbook/assets/Agentic-WF-8 (1).png>)
 
 Two channel options are presented:
 

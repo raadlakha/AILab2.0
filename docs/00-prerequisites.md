@@ -24,7 +24,7 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 2. In the **Application scope** dropdown, type `x_nava` in the filter field
 3. Select **x\_nava\_agentic\_lab** from the results
 
-![Change Application Scope to x\_nava\_agentic\_lab](../screenshots/change-scope-to-x_nava_agentic_lab.png)
+![Change Application Scope to x\_nava\_agentic\_lab](<../.gitbook/assets/change-scope-to-x_nava_agentic_lab (1).png>)
 
 4. Confirm the scope picker now displays **x\_nava\_agentic\_lab** as the active scope
 
@@ -33,66 +33,66 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 ***
 
 ## Pre-Requisite 2: Verify the Incident Extend Table, Update Numbering, and Confirm Sample Records
- 
+
 The lab scenario uses a **custom table called incident extend** (`x_snc_apacaienable_incident_extend`) that adds fields specific to the Veritas NetBackup triage use case — such as error codes, product, serial number, and barcode. This table must already exist on your instance. Before the lab begins, you need to verify the table exists, update its auto-numbering counter to avoid collisions with seed data, and confirm sample records are populated.
- 
+
 ### Steps
- 
+
 1. In the **Filter navigator** (left-hand sidebar), type `System defin`
 2. Under **System Definition**, click **Tables**
- 
-![Filter Navigator — System Definition > Tables](../screenshots/inc-extend-tbl1.png)
- 
+
+![Filter Navigator — System Definition > Tables](../.gitbook/assets/inc-extend-tbl1.png)
+
 3. In the **Tables** list, filter by **Label starts with `Incident Extend`**
 4. Confirm the **incident extend** table appears with the following details:
- 
-![Tables List — incident extend](../screenshots/inc-extend-tbl2.png)
- 
-| Field | Expected Value |
-|-------|----------------|
-| Label | `incident extend` |
-| Name | `x_snc_apacaienable_incident_extend` |
-| Extends table | `Incident` |
-| Application | `x_nava_agentic_lab` |
- 
+
+![Tables List — incident extend](../.gitbook/assets/inc-extend-tbl2.png)
+
+| Field         | Expected Value                       |
+| ------------- | ------------------------------------ |
+| Label         | `incident extend`                    |
+| Name          | `x_snc_apacaienable_incident_extend` |
+| Extends table | `Incident`                           |
+| Application   | `x_nava_agentic_lab`                 |
+
 5. Click on **incident extend** to open the Table Definition form
 6. Select the **Controls** tab
-7. Locate the **auto-numbering** section and update the **Number** field to `12,000` 
+7. Locate the **auto-numbering** section and update the **Number** field to `12,000`
 8. **Right-click** on the form header bar and select **Save** to save the change without navigating away from the page
- 
-![Table Definition — Controls Tab with Number Updated and Save](../screenshots/inc-extend-tbl3.png)
- 
+
+![Table Definition — Controls Tab with Number Updated and Save](../.gitbook/assets/inc-extend-tbl3.png)
+
 > Confirm the following fields on the Controls tab after saving:
- 
-| Field | Expected Value |
-|-------|----------------|
-| Prefix | `INCE` |
-| Number | `12,000` |
-| Number of digits | `7` |
-| Extensible | ✅ Checked |
-| Create access controls | ✅ Checked |
-| User role | `x_snc_apacaienable.incident_extend_user` |
- 
+
+| Field                  | Expected Value                            |
+| ---------------------- | ----------------------------------------- |
+| Prefix                 | `INCE`                                    |
+| Number                 | `12,000`                                  |
+| Number of digits       | `7`                                       |
+| Extensible             | ✅ Checked                                 |
+| Create access controls | ✅ Checked                                 |
+| User role              | `x_snc_apacaienable.incident_extend_user` |
+
 9. Scroll down to the **Related Links** section at the bottom of the Table Definition form
 10. Click **Show List** to open the incident extend records list view
- 
-![Table Definition — Related Links and Show List](../screenshots/inc-extend-tbl4.png)
- 
+
+![Table Definition — Related Links and Show List](../.gitbook/assets/inc-extend-tbl4.png)
+
 11. Confirm the **incident extends** list view loads and displays sample records
 12. Verify that records are populated with Veritas NetBackup-related data — you should see incidents with short descriptions referencing hardware overheating, error codes (e.g., error 84, error 37, status code 2817), and categories such as **Hardware** and **Software**
- 
-![Incident Extends — Sample Records](../screenshots/inc-extend-tbl-main.png)
- 
+
+![Incident Extends — Sample Records](<../.gitbook/assets/inc-extend-tbl-main (1).png>)
+
 > **What to look for:** The records should include a mix of categories, assignment groups (e.g., IT Operations Support, IT Client Systems Engineering), and states set to **Resolved**. These sample records are used by Predictive Intelligence for training and by the AI Agent for pattern matching during triage. If the table is empty or missing, the downstream Agentic Workflow will have no historical data to reference when generating resolution plans.
- 
-| Field | Expected Value |
-|-------|----------------|
-| Table name | `x_snc_apacaienable_incident_extend` |
-| List URL path | `x_snc_apacaienable_incident_extend_list.do` |
-| Number prefix | `INCE` |
-| Minimum sample records | 10+ |
-| Record categories | Hardware, Software, Inquiry / Help |
- 
+
+| Field                  | Expected Value                               |
+| ---------------------- | -------------------------------------------- |
+| Table name             | `x_snc_apacaienable_incident_extend`         |
+| List URL path          | `x_snc_apacaienable_incident_extend_list.do` |
+| Number prefix          | `INCE`                                       |
+| Minimum sample records | 10+                                          |
+| Record categories      | Hardware, Software, Inquiry / Help           |
+
 > **If the table is missing or empty:** Contact your lab administrator to import the Update Set that creates the `x_snc_apacaienable` scoped application and its seed data. The table and records are delivered as part of the lab instance provisioning — they are not created during the build exercises.
 
 ***
@@ -105,22 +105,22 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 1. In the **Filter navigator**, type `Predictive Intelli` and expand the **Predictive Intelligence** menu
 
-![Filter Navigator — Predictive Intelligence](../screenshots/PI-step1.png)
+![Filter Navigator — Predictive Intelligence](<../.gitbook/assets/PI-step1 (1).png>)
 
 2. Under **Similarity**, click **Solution Definitions**
 3. Open the definition labelled **Find possible resolution for similar Incident cases**
 
-![Similarity Definitions — List View](../screenshots/PI-step2.png)
+![Similarity Definitions — List View](<../.gitbook/assets/PI-step2 (1).png>)
 
 4. Review the Similarity Definition configuration and confirm the following fields match:
 
-![Similarity Definition — Configuration](../screenshots/PI-step3.png)
+![Similarity Definition — Configuration](<../.gitbook/assets/PI-step3 (1).png>)
 
 | Field                   | Expected Value                                                                                             |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Label                   | `Find possible resolution for similar Incident cases`                                                      |
 | Name                    | `ml_x_snc_x_snc_apacaienable_global_find_possibl..`                                                        |
-| Active                  | ✅ Checked                                                                                                 |
+| Active                  | ✅ Checked                                                                                                  |
 | Table                   | `Incident [incident]`                                                                                      |
 | Test Table              | `incident extend [x_snc_apacaienable_incid...]`                                                            |
 | Fields                  | Short description, Configuration item, Resolution code, Resolution notes, Category, Description            |
@@ -138,7 +138,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 6. Scroll down to the **ML Solutions** tab at the bottom of the form
 7. Wait for the solution to reach **Solution Complete** at **100%** progress
 
-![ML Solutions — Training Complete](../screenshots/PI-step4.png)
+![ML Solutions — Training Complete](<../.gitbook/assets/PI-step4 (1).png>)
 
 | Field     | Expected Value                                        |
 | --------- | ----------------------------------------------------- |
@@ -162,7 +162,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 2. Filter the list by **Short description contains `backup`**
 3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
 
-![Knowledge List — Veritas Backup Failure Article](../screenshots/Index-new-KB-article-0.png)
+![Knowledge List — Veritas Backup Failure Article](<../.gitbook/assets/Index-new-KB-article-0 (1).png>)
 
 > If the article is missing, contact your lab administrator. The KB article is delivered as part of the lab instance provisioning.
 
@@ -173,14 +173,14 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 1. In the **Filter navigator**, type `Indexed Sources`
 2. Under **AI Search** → **AI Search Index**, click **Indexed Sources**
 
-![Filter Navigator — Indexed Sources](../screenshots/Index-new-KB-article-1.png)
+![Filter Navigator — Indexed Sources](<../.gitbook/assets/Index-new-KB-article-1 (1).png>)
 
 > There are two **Indexed Sources** entries in the navigator — one under **Query Generation > Semantic Filter** and one under **AI Search > AI Search Index**. Use the **AI Search** path.
 
 3. In the **AI Search Indexed Sources** list, filter by **Name starts with `Knowledge Table`**
 4. Confirm the **Knowledge Table** record exists with the following values:
 
-![AI Search Indexed Sources — Knowledge Table](../screenshots/Index-new-KB-article-2.png)
+![AI Search Indexed Sources — Knowledge Table](<../.gitbook/assets/Index-new-KB-article-2 (1).png>)
 
 | Field  | Expected Value             |
 | ------ | -------------------------- |
@@ -196,18 +196,18 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 1. Click on **Knowledge Table** to open the Indexed Source record
 2. You will see the **AI Search Indexed Source — Knowledge Table** form with **Index All Tables** and **Index Selected Table/s** buttons in the top-right corner
 
-![AI Search Indexed Source — Knowledge Table Form](../screenshots/Index-new-KB-article-3.png)
+![AI Search Indexed Source — Knowledge Table Form](<../.gitbook/assets/Index-new-KB-article-3 (1).png>)
 
 > **Cross-scope notice:** You may see a banner stating _"This record is in the Global application, but x\_nava\_agentic\_lab is the current application."_ This is expected — the Indexed Source is a Global record. You can still trigger the index from here.
 
 3. Click **Index All Tables** to queue the indexing job
 4. The page will navigate to the **Indexed Source History** form. Initially, both **Keyword Ingestion State** and **Semantic Ingestion State** will show `not_started`
 
-![Indexed Source History — Queued](../screenshots/Index-new-KB-article-4.png)
+![Indexed Source History — Queued](<../.gitbook/assets/Index-new-KB-article-4 (1).png>)
 
 5. Refresh the page periodically until the indexing completes. When finished, the form should show:
 
-![Indexed Source History — Indexing Complete](../screenshots/Index-new-KB-article-5.png)
+![Indexed Source History — Indexing Complete](<../.gitbook/assets/Index-new-KB-article-5 (1).png>)
 
 | Field                    | Expected Value                           |
 | ------------------------ | ---------------------------------------- |
@@ -224,45 +224,45 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 ***
 
 ## Pre-Requisite 5: Change Subflow Run As to System User
- 
+
 The **Create and submit Incident record with image upload(s) subflow** is invoked by the L1 First Responder Operations Analyst Agent to create Incident records. By default, the subflow's **Run As** property is set to **User who initiates session** — meaning it executes with the permissions of the chat user (e.g., Alex Rai). This can cause permission failures when the subflow attempts to create records on tables that the chat user does not have write access to.
- 
+
 You need to change the **Run As** property to **System User** so the subflow executes with elevated permissions regardless of who initiated the chat session.
- 
+
 ### Steps
- 
+
 1. In the **Filter navigator**, type `workflow stu`
 2. Under **Process Automation**, click **Workflow Studio**
- 
-![Filter Navigator — Workflow Studio](../screenshots/flowaction-check1.png)
- 
+
+![Filter Navigator — Workflow Studio](../.gitbook/assets/flowaction-check1.png)
+
 3. In Workflow Studio, click the **Subflows** tab
 4. Filter the subflow list by **Name contains `Create and submit`**
- 
-![Workflow Studio — Subflows Tab with Filter](../screenshots/flowaction-check2.png)
- 
+
+![Workflow Studio — Subflows Tab with Filter](../.gitbook/assets/flowaction-check2.png)
+
 5. Confirm the subflow **Create and submit Incident record with image upload(s) subflow** appears — it should show **Published**, **Active: true**, and belong to the `x_nava_agentic_lab` application
- 
-![Subflows — Filtered Result](../screenshots/flowaction-check3.png)
- 
+
+![Subflows — Filtered Result](../.gitbook/assets/flowaction-check3.png)
+
 6. Click on the subflow name to open it
 7. Click on Edit subflow to begin editing the subflow
- 
-![Subflow — Inputs and Structure](../screenshots/flowaction-check4.png)
- 
+
+![Subflow — Inputs and Structure](../.gitbook/assets/flowaction-check4.png)
+
 8. Click the **kebab menu** (three-dot icon, top-right) and select **Properties**
- 
-![Subflow — Kebab Menu with Properties](../screenshots/flowaction-check5.png)
- 
+
+![Subflow — Kebab Menu with Properties](../.gitbook/assets/flowaction-check5.png)
+
 9. In the **Subflow properties** dialog, expand **Advanced Options**
 10. Change the **Run As** dropdown from `User who initiates session` to **`System User`**
- 
-![Subflow Properties — Run As Changed to System User](../screenshots/flowaction-check6.png)
- 
+
+![Subflow Properties — Run As Changed to System User](../.gitbook/assets/flowaction-check6.png)
+
 11. Click **Update** to save the change and finally, publish the subflow again
- 
+
 > **Why System User?** When the L1 Agent fires this subflow during a Virtual Agent chat session, the session runs as the end user (e.g., Alex Rai). If Run As is set to "User who initiates session", the subflow inherits that user's ACLs — which typically do not include write access to the Incident Extend table or permission to attach files programmatically. Setting Run As to **System User** ensures the subflow has the necessary permissions to create the Incident record, attach uploaded images, and set all required fields — regardless of who is chatting with the agent.
- 
+
 ***
 
 ## Checklist
@@ -274,6 +274,7 @@ You need to change the **Run As** property to **System User** so the subflow exe
 | 3 | Predictive Intelligence Similarity model trained (100%)               |
 | 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
 | 5 | Subflow Run As changed to System User                                 |
+
 ***
 
 ## Next Step
