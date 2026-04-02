@@ -68,7 +68,7 @@ Down the line Agentic Workflow can now evaluate trigger conditions:
 
 ### Step 1: Open Now Assist in Document Intelligence
 
-Navigate to **All** → search **Now Assist Admin** → **Platform** → **Search for 'Document'** → **Edit 'Extract information from documents'**
+Navigate to **All** → search **Now Assist Admin** → **Skills** → **Platform** → **Search for 'Document'** → **Edit 'Extract information from documents'**
 
 In the Now Assist skills for Platform screen, locate the **Extract Information from documents** skill.
 
