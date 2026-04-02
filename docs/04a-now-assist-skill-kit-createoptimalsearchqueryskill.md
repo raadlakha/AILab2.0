@@ -470,4 +470,4 @@ In NASK, prompts go through a two-stage lifecycle: **Finalize** locks the prompt
 
 → The published `CreateOptimalSearchQuery` skill outputs an optimised query string that feeds directly into the next step of the Fulfiller Flow.
 
-→ Continue to the next section to configure the `RetrieveRelevantKBContent` skill (Path A — Step 2), which takes this query and fetches ranked Knowledge Base results using the AI Search RAG retriever.
+→ Continue to the next section to configure the [04b - ResolutionFinderUsingInternalData](04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill.md) skill (Path A — Step 2), which takes this query and fetches ranked Knowledge Base results using the AI Search RAG retriever and PI.

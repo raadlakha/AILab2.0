@@ -6,11 +6,11 @@
 
 ## What This Doc Covers
 
-This document walks through building the **`GenerateWebSearchQnsForResolutionPlan`** skill — a custom Now Assist skill that bridges internal incident data and external internet search. It is the **fallback resolution path** in the Veritas workflow: invoked when AI Search (RAG over KB) has not produced a resolution.
+This document walks through building the **`GenerateWebSearchQnsForResolutionPlan`** skill — a custom Now Assist skill that bridges internal incident data and external internet search. It is the **fallback resolution path** in the Veritas workflow: invoked when AI Search (RAG over KB), PI or querying log entries within Elastic MCP Server has not produced a resolution.
 
 The skill does two things in sequence:
 
-1. Calls a **pre-processing tool** — another published NASK skill (`CreateOptimalSearchQuery`) — to retrieve a privacy-safe, LLM-optimised search query from the incident
+1. Calls a **pre-processing tool** — another published NASK skill (`CreateOptimalSearchQuery`) — to retrieve a privacy-safe, LLM-optimised search query from the Incident Extend record
 2. Passes that query to the **skill prompt** which generates a structured set of targeted web search questions to drive an actionable Resolution Plan
 
 This is a **skill-chaining** pattern: a skill calling another published skill as a tool — one of the most powerful composition patterns available in NASK from version 3.0.1 onward.
@@ -107,7 +107,7 @@ Available from NASK version **3.0.1** (Xanadu Patch 3). This allows a published 
 | -------------------------------- | -------------------------------------------------------------------- |
 | NASK plugin                      | `sn_now_assist_skill_kit` v3.0.1+ — Active                           |
 | `CreateOptimalSearchQuery` skill | Must be **published** (not just saved) — it is called as a tool here |
-| Extended Incident table          | `x_nava_agentic_lab_incident_extend` populated                       |
+| Incident Extend table          | `x_nava_agentic_lab_incident_extend` populated                         |
 | Role                             | `sn_skill_kit.admin` or `admin`                                      |
 | Now LLM Service                  | Configured and active on instance                                    |
 
