@@ -38,7 +38,6 @@ Path A — Result:
  
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
 
-Refer to diagram to understand topology
 ![NASK — Complete Canvas Topology: Parallel PI + Skill → Retriever → Prompt](../screenshots/NASKResolutionFinderUsingInternalData2-30.png)
  
 ---
