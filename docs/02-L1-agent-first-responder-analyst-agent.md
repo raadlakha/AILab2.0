@@ -74,7 +74,7 @@ Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extr
 
 ## Lab Exercise — Steps to Build
 
-### Wizard Step 1 — Define the Specialty
+### Step 1 — Define the Specialty
 
 Navigate to **All → AI Agent Studio → Create and manage → AI Agents → New**.
 
@@ -97,7 +97,7 @@ Configure the following fields:
 
 **List of Steps** Expectation: SC to build the prompt for the list of steps
 
-### Wizard Step 2 — Add Tools and Information
+### Step 2 — Add Tools and Information
 
 The wizard advances to **Add tools and information**.
 
@@ -247,7 +247,7 @@ Click **Add**.
 
 ***
 
-### Wizard Step 3 — Define User Access
+### Step 3 — Define User Access
 
 The wizard advances to **Define security controls → Define user access**.
 
@@ -266,7 +266,7 @@ Click **Save and continue**.
 
 ***
 
-### Wizard Step 4 — Define Data Access
+### Step 4 — Define Data Access
 
 The wizard advances to **Define data access**.
 
@@ -285,7 +285,29 @@ Click **Save and continue**.
 
 ***
 
-### Wizard Step 5 — Select Channels and Status
+### Step 5 — Add Triggers
+ 
+The wizard advances to **Add triggers**.
+ 
+![Add triggers — trigger configuration](../screenshots/L1-agent-trigger.png)
+ 
+The page explains: _"A trigger lets you launch an AI agent without needing a user's request. Triggers are optional, based on conditions or schedules you set, and launch agentic AI experiences."_
+ 
+The triggers table shows columns for Name, Trigger, Table, Conditions, Run as, Channel, Status, and Remove. For this agent, **no triggers are needed** — the table should show "No data to display."
+ 
+| Setting | Value |
+|---------|-------|
+| Triggers | None — leave empty |
+ 
+> **Why no triggers:** The First Responder Operations Analyst Agent is a **Chat agent** — it is invoked conversationally when a user sends a message through NAVA (Virtual Agent). It does not need to fire automatically based on record conditions or schedules. Triggers are used for agents that need to launch proactively (e.g., an agent that fires when an Incident reaches a certain state) — that pattern is used later in the lab for the Agentic Workflow, not here.
+>
+> The right-hand **FAQs** panel provides useful context: "What if I don't add any triggers?" — the agent simply responds when invoked via its configured channel (Virtual Agent). "When to add a trigger?" — when you want the agent to launch without a user request, based on conditions or schedules.
+ 
+Click **Save and continue**.
+ 
+***
+
+### Step 6 — Select Channels and Status
 
 The wizard advances to **Select channels and status**.
 
@@ -307,7 +329,7 @@ Click **Save and continue** to complete the agent configuration.
 
 ***
 
-### Wizard Step 6 — Test the Agent
+### Step 7 — Test the Agent
 
 Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Portal → Chat Widget**.
 
