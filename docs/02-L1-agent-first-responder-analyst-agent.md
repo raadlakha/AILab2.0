@@ -24,7 +24,8 @@ Tool 1 — Knowledge Graph (User Graph)
         │
         ▼
 Tool 2 — File Upload (Troubleshooting Resolution Guide)
-        L1/L2/L3 severity-tiered troubleshooting guide provided to the AI Agent to accurately categorise, diagnose and recommend suitable troubleshooting and resolution steps
+        L1/L2/L3 severity-tiered troubleshooting guide provided to the AI Agent to accurately categorise,
+        diagnose and recommend suitable troubleshooting and resolution steps
         User works through diagnostic steps
         │
         ▼
@@ -44,31 +45,32 @@ Tool 4 — Subflow (Create and submit Incident record with image upload(s))
         Images attached at creation time
         │
         ▼
-Now Assist in Document Intelligence (NADI) auto-triggers on attachments → extracts information such as error code, model details, product bar code, product name, serial number
+Now Assist in Document Intelligence (NADI) auto-triggers on attachments
+→ extracts: error code, model details, product bar code, product name, serial number
 ```
 
-> **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready. The Create and submit Incident record with image upload(s) subflow will still work as intended even if user decides to not upload any images for the issue. In our lab narrative, we require for images to be uploaded as we use the extract fields for our Agentic Workflow.
+> **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready.
 
 ***
 
 ## What the Agent Enables
 
-| Capability                    | Tool                        | How                                                                                                                      |
-| ----------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Silent user contextualisation | Tool 1 — Knowledge Graph    | Queries User Graph to get attributes related to the user                                                                 |
-| Guided troubleshooting        | Tool 2 — File Upload        | L1/L2/L3 severity-tiered guide from attached PDF; framework to guide the AI Agent's thinking and reasoning process       |
-| Deflection                    | —                           | Issue resolved in chat → conversation ends, no Incident created                                                          |
-| In-chat image upload          | Tool 3 — Conversation Topic | OOTB topic renders native in-chat image upload picker                                                                    |
-| Enriched Incident creation    | Tool 4 — Subflow            | Creates and submits Incident after images captured; `state changes from New to In Progress`; images attached; NADI-ready |
+| Capability | Tool | How |
+| --- | --- | --- |
+| Silent user contextualisation | Tool 1 — Knowledge Graph | Queries User Graph to get attributes related to the user |
+| Guided troubleshooting | Tool 2 — File Upload | L1/L2/L3 severity-tiered guide from attached PDF |
+| Deflection | — | Issue resolved in chat → conversation ends, no Incident created |
+| In-chat image upload | Tool 3 — Conversation Topic | OOTB topic renders native in-chat image upload picker |
+| Enriched Incident creation | Tool 4 — Subflow | Creates Incident after images captured; images attached; NADI-ready |
 
 ***
 
 ## Prerequisites
 
-| Requirement                         | Detail         |
-| ----------------------------------- | -------------- |
+| Requirement | Detail |
+| --- | --- |
 | New Virtual Agent assistant created | Complete steps |
-| Duplicate 'Upload Image' topic      | Complete steps |
+| Duplicate 'Upload Image' topic | Complete steps |
 
 ***
 
@@ -84,18 +86,19 @@ The wizard opens on **Define the specialty**.
 
 The page instructs: _"Using clear, precise language, write the name, description, role, and list of steps this AI agent completes. Writing a clear, distinct name and description is critical because the LLM relies on the wording to correctly identify and use this agent."_
 
-Configure the following fields:
+**AI agent name**
 
-| Field                                        | Value                                      |
-| -------------------------------------------- | ------------------------------------------ |
-| AI agent name                                | `First Responder Operations Analyst Agent` |
-| AI agent description _(Description for LLM)_ | See full text below                        |
+```
+First Responder Operations Analyst Agent
+```
 
-**AI agent description** Expectation: SC to build the prompt for the description
+**AI agent description** _(Description for LLM)_ — Expectation: SC to build the prompt for the description
 
-**AI agent role** Expectation: SC to build the prompt for the role
+**AI agent role** — Expectation: SC to build the prompt for the role
 
-**List of Steps** Expectation: SC to build the prompt for the list of steps
+**List of Steps** — Expectation: SC to build the prompt for the list of steps
+
+***
 
 ### Step 2 — Add Tools and Information
 
@@ -105,7 +108,7 @@ The wizard advances to **Add tools and information**.
 
 The page reads: _"Tools provide the essential functionality and data an AI agent needs to carry out its role. An AI agent selects a tool based on the tool's name and description, which need to be clearly written."_
 
-Four tools must be added to this AI Agent. Use the **Add tool ▼** dropdown to select the tool type for each.
+Four tools must be added. Use the **Add tool ▼** dropdown to select the tool type for each.
 
 > You can click **+ Recommend Tools** to get AI-suggested tools based on your agent description, or add each manually.
 
@@ -115,26 +118,35 @@ Four tools must be added to this AI Agent. Use the **Add tool ▼** dropdown to 
 
 From **Add tool ▼** select **Knowledge graph**.
 
-The **Add a Knowledge graph** dialog opens:
-
 ![Add a Knowledge graph dialog](<../.gitbook/assets/L1-agent-tool-kg1 (1).png>)
 
-The dialog header explains: _"An AI agent uses a knowledge graph to understand the relationships between real-world entities to improve its outputs."_
+**Select knowledge graph**
 
-Configure the following fields:
+```
+User Graph
+```
 
-| Field                                    | Value                                                                                                          |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Select knowledge graph                   | `User Graph`                                                                                                   |
-| Name                                     | `User related attributes Knowledge Graph`                                                                      |
-| Tool description _(Description for LLM)_ | `Use this Knowledge Graph to retrieve relevant information about the user who you are currently engaged with.` |
-| Query instruction                        | `Query to the knowledge graph. It should be a direct translation of request into a search query.`              |
-| Execution mode                           | `Autonomous`                                                                                                   |
-| Display Output                           | `No`                                                                                                           |
+**Name**
 
-> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question.
->
-> **Execution mode Autonomous** means the agent calls this tool without requesting user permission first — the user never sees it happen.
+```
+User related attributes Knowledge Graph
+```
+
+**Tool description** _(Description for LLM)_
+
+```
+Use this Knowledge Graph to retrieve relevant information about the user who you are currently engaged with.
+```
+
+**Query instruction**
+
+```
+Query to the knowledge graph. It should be a direct translation of request into a search query.
+```
+
+**Execution mode** → `Autonomous` | **Display Output** → `No`
+
+> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question. **Autonomous** mode means the user never sees the tool call happen.
 
 Click **Add**.
 
@@ -144,27 +156,27 @@ Click **Add**.
 
 From **Add tool ▼** select **File upload**.
 
-The **Add file upload** dialog opens:
-
 ![Add file upload dialog — fields](<../.gitbook/assets/L1-agent-tool4-file-upload (1).png>)
 
 ![Add file upload dialog — attachment](<../.gitbook/assets/L1-agent-tool4-file-upload2 (1).png>)
 
-The dialog header explains: _"An AI agent uses a file retrieval to search a specific set of files for specialized information."_
+**Name**
 
-Configure the following fields:
+```
+Troubleshooting Resolution Guide
+```
 
-| Field                                    | Value                                                                                                                                                                                                                                                                                                  |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Name                                     | `Troubleshooting Resolution Guide`                                                                                                                                                                                                                                                                     |
-| Tool description _(Description for LLM)_ | `This guide covers common enterprise backup appliance problems categorised into three severity tiers (L1, L2, L3), providing symptoms, likely causes, and diagnostic steps for each to help operations agents quickly triage issues and determine whether to resolve, escalate, or raise an Incident.` |
-| Execution mode                           | `Autonomous`                                                                                                                                                                                                                                                                                           |
-| Display output                           | `No`                                                                                                                                                                                                                                                                                                   |
-| Attachments                              | `troubleshooting-resolution-guide.pdf`                                                                                                                                                                                                                                                                 |
+**Tool description** _(Description for LLM)_
 
-> **Why this tool:** This is the deflection gate. The agent retrieves and presents the relevant L1/L2/L3 severity-tiered diagnostic steps from the attached PDF, with the PDF guide serving as a guidepost to steer and define the boundaries to which the AI Agent can interact within. If the user confirms the steps proposed by the AI Agent resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
->
-> The PDF must be uploaded as an attachment here — the agent cannot reference external URLs. Supported formats: PDF, DOCX, TXT (up to 5 files, 5 MB each).
+```
+This guide covers common enterprise backup appliance problems categorised into three severity tiers (L1, L2, L3), providing symptoms, likely causes, and diagnostic steps for each to help operations agents quickly triage issues and determine whether to resolve, escalate, or raise an Incident.
+```
+
+**Execution mode** → `Autonomous` | **Display output** → `No`
+
+**Attachments** → upload `troubleshooting-resolution-guide.pdf`
+
+> **Why this tool:** This is the deflection gate. If the user confirms the steps resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
 >
 > **Display output: No** — the agent presents content from the guide conversationally; it does not dump the raw file output into the chat.
 
@@ -178,26 +190,31 @@ From **Add tool ▼** select **Conversational topic**.
 
 ![Add tool dropdown — Conversational topic highlighted](<../.gitbook/assets/L1-Agent-Tool1 (1).png>)
 
-The **Add a conversational topic** dialog opens:
-
 ![Add a conversational topic dialog](<../.gitbook/assets/L1-agent-tool-conv-topic (1).png>)
 
-The dialog header explains: _"An AI agent uses a conversational topic to accomplish a goal in a conversation that can take multiple paths."_
+**Select topic**
 
-Configure the following fields:
+```
+Upload image x_nava_agentic_lab
+```
 
-| Field                                                    | Value                                                               |
-| -------------------------------------------------------- | ------------------------------------------------------------------- |
-| Select topic                                             | `Upload image x_nava_agentic_lab`                                   |
-| Selected topic description _(read-only, auto-populated)_ | `Use this topic to prompt the user to upload an image`              |
-| Name                                                     | `Upload image x_nava_agentic_lab`                                   |
-| Tool description _(Description for LLM)_                 | `This tool allows user to upload image to Now Assist Virtual Agent` |
-| Execution mode                                           | `Autonomous`                                                        |
-| Display output                                           | `Yes`                                                               |
+**Name**
 
-> **Why this tool:** This Virtual Agent conversation topic renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes in the next capability to extract the error code.
+```
+Upload image x_nava_agentic_lab
+```
+
+**Tool description** _(Description for LLM)_
+
+```
+This tool allows user to upload image to Now Assist Virtual Agent
+```
+
+**Execution mode** → `Autonomous` | **Display output** → `Yes`
+
+> **Why this tool:** Renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes to extract the error code.
 >
-> The topic `Upload image x_nava_agentic_lab` is scoped to the `x_nava_agentic_lab` application scope — ensure this scope is active and the Virtual Agent topic is published before testing. For this to work, ensure that you have duplicated the OOTB Topic 'Upload Image' within Virtual Agent Designer (due to cross-application scope reasons, you have to duplicate the OOTB topic and use it).
+> Ensure you have duplicated the OOTB Topic 'Upload Image' within Virtual Agent Designer and scoped it to `x_nava_agentic_lab` before testing.
 
 Click **Add**.
 
@@ -209,39 +226,41 @@ From **Add tool ▼** select **Subflow**.
 
 ![Add tool dropdown — Subflow highlighted](<../.gitbook/assets/L1-agent-tool2 (1).png>)
 
-The **Add a subflow** dialog opens:
-
 ![Add a subflow — subflow selection and inputs](<../.gitbook/assets/L1-agent-tool2-subflow (1).png>)
 
 ![Add a subflow — tool name and description](<../.gitbook/assets/L1-agent-tool2-subflow2 (1).png>)
 
-The dialog header explains: _"An AI agent uses a subflow to execute a set of steps that are part of a larger process."_
+**Select subflow**
 
-**Select the subflow and review its mandatory inputs:**
+```
+Create and submit Incident record with image upload(s) subflow
+```
 
-| Input field             | Internal name             | Data type | Source                                                           |
-| ----------------------- | ------------------------- | --------- | ---------------------------------------------------------------- |
-| Select subflow          | —                         | —         | `Create and submit Incident record with image upload(s) subflow` |
-| Category type           | `category_type`           | string    | Derived from the conversation context                            |
-| Chat user name          | `chat_user_name`          | string    | Retrieved by Tool 1 (Knowledge Graph)                            |
-| Short description input | `short_description_input` | string    | User-reported issue description                                  |
-| CI name input           | `ci_name_input`           | string    | Retrieved by Tool 1 (Knowledge Graph)                            |
-| Work notes details      | `work_notes_details`      | string    | Diagnostic notes from the troubleshooting session                |
+**Mandatory subflow inputs:**
 
-**Tool settings:**
+| Input field | Internal name | Data type | Source |
+| --- | --- | --- | --- |
+| Category type | `category_type` | string | Derived from conversation context |
+| Chat user name | `chat_user_name` | string | Retrieved by Tool 1 (Knowledge Graph) |
+| Short description input | `short_description_input` | string | User-reported issue description |
+| CI name input | `ci_name_input` | string | Retrieved by Tool 1 (Knowledge Graph) |
+| Work notes details | `work_notes_details` | string | Diagnostic notes from troubleshooting session |
 
-| Field                                    | Value                                                                                                                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Name                                     | `Create Incident Case`                                                                                                                                       |
-| Tool description _(Description for LLM)_ | `The Create Incident Case Tool is a subflow that takes in four inputs in order to raise the Incident case. All of the four inputs are mandatory parameters.` |
-| Execution mode                           | `Autonomous`                                                                                                                                                 |
-| Display output                           | `No`                                                                                                                                                         |
+**Name**
 
-> **Why this tool:** Creates and submits the Incident record — but only after Tool 3 (image upload) has completed. The sequencing is deliberate: the Incident is created with images already attached so NADI triggers immediately on the attachments and can extract `u_extracted_error_code`.
->
-> All inputs are mandatory. `chat_user_name` and `ci_name_input` come from Tool 1; `short_description_input` comes from the user's message; `category_type` and `work_notes_details` come from the troubleshooting session. The subflow will not fire until all inputs are populated.
->
-> **Display output: No** — the agent confirms Incident creation to the user via its own conversational response, not by surfacing the raw subflow output.
+```
+Create Incident Case
+```
+
+**Tool description** _(Description for LLM)_
+
+```
+The Create Incident Case Tool is a subflow that takes in four inputs in order to raise the Incident case. All of the four inputs are mandatory parameters.
+```
+
+**Execution mode** → `Autonomous` | **Display output** → `No`
+
+> **Why this tool:** Creates and submits the Incident record — but only after Tool 3 (image upload) has completed. The Incident is created with images already attached so NADI triggers immediately and can extract `u_extracted_error_code`.
 
 Click **Add**.
 
@@ -253,14 +272,15 @@ The wizard advances to **Define security controls → Define user access**.
 
 ![Define user access — role assignment](<../.gitbook/assets/L1-agent-user-access (1).png>)
 
-The section heading reads: _"Define who can access this AI agent (ACLs)"_
+**User access** → `Users with specific roles`
 
-| Field       | Value                       |
-| ----------- | --------------------------- |
-| User access | `Users with specific roles` |
-| Role(s)     | `snc_internal`              |
+**Role(s)**
 
-> Restricts agent access to users with the `snc_internal` role — authenticated IT service desk users. General platform users without this role cannot invoke the agent via NAVA.
+```
+snc_internal
+```
+
+> Restricts agent access to authenticated IT service desk users. General platform users without this role cannot invoke the agent via NAVA.
 
 Click **Save and continue**.
 
@@ -272,14 +292,15 @@ The wizard advances to **Define data access**.
 
 ![Define data access — user identity](<../.gitbook/assets/L1-agent-data-access (1).png>)
 
-The section heading reads: _"Select the user identity this AI agent will run as"_
+**User identity type** → `Dynamic user`
 
-| Field              | Value          |
-| ------------------ | -------------- |
-| User identity type | `Dynamic user` |
-| Approved role(s)   | `snc_internal` |
+**Approved role(s)**
 
-> **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `snc_internal` approved role sets the ceiling: the agent cannot exceed the permissions of the `snc_internal` role regardless of who is logged in. This prevents privilege escalation.
+```
+snc_internal
+```
+
+> **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `snc_internal` approved role sets the ceiling — the agent cannot exceed those permissions regardless of who is logged in.
 
 Click **Save and continue**.
 
@@ -287,13 +308,7 @@ Click **Save and continue**.
 
 ### Step 5 — Add Triggers
 
-The wizard advances to **Add triggers**.
-
-![Add triggers — trigger configuration](<../.gitbook/assets/L1-agent-trigger (1).png>)
-
-| Setting  | Value              |
-| -------- | ------------------ |
-| Triggers | None — leave empty |
+Navigate to **Add triggers** — leave empty, no triggers required for this agent.
 
 Click **Save and continue**.
 
@@ -305,17 +320,17 @@ The wizard advances to **Select channels and status**.
 
 ![Select channels and status](<../.gitbook/assets/L1-agent-channel-status (1).png>)
 
-| Setting                             | Value                               |
-| ----------------------------------- | ----------------------------------- |
-| Engage via the Now Assist panel     | `OFF`                               |
-| Engage via Virtual Agent assistants | `ON`                                |
-| Chat assistants                     | `Now Assist in Virtual Agent AlLab` |
+**Engage via the Now Assist panel** → `OFF`
 
-> The Requestor Flow is triggered through NAVA (Virtual Agent), not the Now Assist Panel — so the Virtual Agent channel is the correct one here. The Now Assist panel toggle stays **OFF** deliberately.
->
-> Under **Choose chat assistants**, select `Now Assist in Virtual Agent AlLab` — the Virtual Agent assistant created in Capability 01. The agent is only discoverable in NAVA sessions tied to this assistant.
->
-> The yellow informational banner — _"this AI agent is designed to be part of an agentic workflow that users can discover in the Now Assist panel"_ — does not require action for this lab.
+**Engage via Virtual Agent assistants** → `ON`
+
+**Chat assistants**
+
+```
+Now Assist in Virtual Agent AlLab
+```
+
+> The Requestor Flow is triggered through NAVA (Virtual Agent), not the Now Assist Panel — so the Virtual Agent channel is the correct one here. Select `Now Assist in Virtual Agent AlLab` — the assistant created in Capability 01.
 
 Click **Save and continue** to complete the agent configuration.
 
@@ -323,32 +338,32 @@ Click **Save and continue** to complete the agent configuration.
 
 ### Step 7 — Test the Agent
 
-Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Portal → Chat Widget**.
+**Impersonate as user Alex Rai → Service Portal → Chat Widget**
 
 1. Enter: _"I can't reach the backup server"_
-2. **Tool 1 check** — agent responds with caller context (username, full name, department, roles) without asking for it
-3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps from the guide based on the user's questions
-4. Reply _"resolved"_ → conversation ends, no Incident created (**deflection path confirmed**)
-5. Re-run. Reply _"not resolved"_ → **Tool 3 check** — in-chat image upload prompt appears
-6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `channel = chat`, all inputs populated, image attached
-7. Open the Incident case (from the Incident Extend table) — confirm NADI triggered and `u_extracted_error_code` is populated
+2. **Tool 1 check** — agent responds with caller context without asking for it
+3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps
+4. Reply _"resolved"_ → conversation ends, no Incident created (**deflection confirmed**)
+5. Re-run → reply _"not resolved"_ → **Tool 3 check** — image upload prompt appears
+6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `channel = chat`, image attached
+7. Open the Incident — confirm NADI triggered and `u_extracted_error_code` is populated
 
 ***
 
 ## Key Configuration Summary
 
-| Field            | Value                                                                                               |
-| ---------------- | --------------------------------------------------------------------------------------------------- |
-| Agent name       | `First Responder Operations Analyst Agent`                                                          |
-| Type             | `Chat`                                                                                              |
-| Tool 1           | `User related attributes Knowledge Graph` — Knowledge Graph — User Graph                           |
-| Tool 2           | `Troubleshooting Resolution Guide` — File Upload — `troubleshooting-resolution-guide.pdf`          |
-| Tool 3           | `Upload image x_nava_agentic_lab` — Conversational Topic                                           |
-| Tool 4           | `Create Incident Case` — Subflow — `Create and submit Incident record with image upload(s) subflow` |
-| User access      | `Users with specific roles` → `snc_internal`                                                       |
-| Data access      | `Dynamic user` → approved role: `snc_internal`                                                     |
-| Channel          | Virtual Agent — `Now Assist in Virtual Agent AlLab`                                                 |
-| Now Assist panel | `OFF`                                                                                               |
+| Field | Value |
+| --- | --- |
+| Agent name | `First Responder Operations Analyst Agent` |
+| Type | Chat |
+| Tool 1 | Knowledge Graph — `User related attributes Knowledge Graph` — User Graph |
+| Tool 2 | File Upload — `Troubleshooting Resolution Guide` |
+| Tool 3 | Conversational Topic — `Upload image x_nava_agentic_lab` |
+| Tool 4 | Subflow — `Create Incident Case` |
+| User access | Users with specific roles → `snc_internal` |
+| Data access | Dynamic user → approved role: `snc_internal` |
+| Channel | Virtual Agent — `Now Assist in Virtual Agent AlLab` |
+| Now Assist panel | OFF |
 
 ***
 
@@ -356,11 +371,9 @@ Steps for testing **Impersonate as the user Alex Rai → Navigate to Service Por
 
 ### Tool Execution Order
 
-The agent's instructions govern when each tool fires:
-
 1. **Tool 1 (Knowledge Graph)** — conversation start; silently builds user context
 2. **Tool 2 (File Upload)** — presents troubleshooting guide; deflection gate
-3. **Tool 3 (Conversational Topic)** — fires only if user confirms issue unresolved; triggers image upload
+3. **Tool 3 (Conversational Topic)** — fires only if issue unresolved; triggers image upload
 4. **Tool 4 (Subflow)** — fires only after Tool 3 completes; creates Incident with images already attached
 
 All subflow inputs are mandatory — the agent accumulates them across the conversation before invoking Tool 4.
@@ -378,4 +391,4 @@ All subflow inputs are mandatory — the agent accumulates them across the conve
 
 ## Next Steps
 
-→ [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md) — configure NADI, which auto-triggers on Incident attachments created by Tool 4 and populates important fields such as `u_extracted_error_code`
+→ [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md) — configure NADI, which auto-triggers on Incident attachments created by Tool 4 and populates `u_extracted_error_code`
