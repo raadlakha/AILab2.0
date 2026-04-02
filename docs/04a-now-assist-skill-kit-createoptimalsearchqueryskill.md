@@ -157,7 +157,7 @@ The 'Make input mandatory' is currently unchecked, but as you progressively firm
 
 ![NASK — Skill Input: incidentextendrecord](../screenshots/NASKCreateOptimalSearchQuery1-3.png)
 
-> `incidentextendrecord` is the identifier passed in by the Fulfiller Flow when the skill is invoked. It references the extended Incident record that `GetIncidentExtendDetail` will query. This input is threaded through to the Flow Action tool as `{{incidentextendrecord}}`.
+> `incidentextendrecord` is the identifier passed in by the Fulfiller Flow when the skill is invoked. It references the Incident extend record that `GetIncidentExtendDetail` will query. This input is threaded through to the Flow Action tool as `{{incidentextendrecord}}`.
 
 ***
 
@@ -215,7 +215,7 @@ The **Add flow action as a tool** wizard opens (5-step wizard: General info → 
 
 ![NASK — Flow Action Tool: General Info](../screenshots/NASKCreateOptimalSearchQuery1-6.png)
 
-> The **Resource** field references the Flow Action that reads the extended Incident table. Ensure ACLs are correctly configured on this resource — the platform shows a warning: _"Ensure that Access Control Lists (ACLs) are correctly configured for the resource so that the skill can access it."_
+> The **Resource** field references the Flow Action that reads the Incident extend table. Ensure ACLs are correctly configured on this resource — the platform shows a warning: _"Ensure that Access Control Lists (ACLs) are correctly configured for the resource so that the skill can access it."_
 
 Click **Continue**.
 
@@ -243,7 +243,7 @@ Click **Continue**.
 
 **Step 3 — Tool outputs:**
 
-The Flow Action returns the following outputs from the extended Incident table. All outputs flow into the prompt template as context variables:
+The Flow Action returns the following outputs from the Incident extend table. All outputs flow into the prompt template as context variables:
 
 | Output field         | Type       | Used for                                  |
 | -------------------- | ---------- | ----------------------------------------- |
@@ -427,7 +427,7 @@ Locate `CreateOptimalSearchQuery` under the **Other** workflow (it will show **C
 | Tool                    | `GetIncidentExtendDetail` — Flow Action                    |
 | Tool resource           | `Retrieval of Relevant Fields from Incident Extract table` |
 | Tool input              | `Incident Number` → `{{incidentextendrecord}}`             |
-| Tool outputs            | 11 fields from extended Incident table                     |
+| Tool outputs            | 11 fields from Incident extend table.                      |
 | Tool condition          | None (Always run)                                          |
 | Prompt                  | `GenerateOptimalPromptForRAG (v1)`                         |
 | Workflow (deployment)   | Other                                                      |
@@ -445,7 +445,7 @@ All 11 outputs from `GetIncidentExtendDetail` are available as template variable
 
 ### Why "Retrieval of Relevant Fields from Incident Extract table"?
 
-The standard Incident table does not contain the custom fields added by NADI (`u_extracted_error_code`, product barcode, serial number, etc.). The `GetIncidentExtendDetail` Flow Action reads from the **extended Incident table** (`x_nava_agentic_lab_incident_extend`) which stores these enriched fields — giving the LLM the full device and error context it needs to generate a precise query.
+The standard Incident table does not contain the custom fields added by NADI (`error_code`, product barcode, serial number, etc.). The `GetIncidentExtendDetail` Flow Action reads from the **Incident extend table** (`x_nava_agentic_lab_incident_extend`) which stores these enriched fields — giving the LLM the full device and error context it needs to generate a precise query.
 
 ### Tool Condition: None (Always run)
 
