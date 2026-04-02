@@ -23,3 +23,8 @@
 
 * [07 — External Agent Integration (A2A)](docs/07-external-agent-integration.md)
 * [08 — Veritas Resolution Agentic Workflow](docs/08-wrapping-in-agentic-workflow.md)
+
+## AI Agent Metadata Definition (Available for preview only to AI Lab Champions prior to E2E AI day)
+
+* [AI Agent Build definition, prompt and metadata](ai-agent-metadata-definition-available-for-preview-only-to-ai-lab-champions-prior-to-e2e-ai-day/ai-agent-build-definition-prompt-and-metadata/README.md)
+  * [AI Agents definition, prompts and build](https://github.com/raadlakha/AILab2.0/tree/main/AI%20Agents%20definition%20and%20prompts)
