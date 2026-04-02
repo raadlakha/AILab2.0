@@ -32,11 +32,14 @@ Path A — Step 3:
         │
         ▼
 Path A — Result:
-  YES → Resolution Plan built, written to Incident, Phase 3 continues
+  YES → Proposed Resolution Plan based on Internal Knowledge built
   NO  → fall through to Path B (privacy-safe web search)
 ```
  
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
+
+**Refer to diagram below to understand topology**
+![NASK — Complete Canvas Topology: Parallel PI + Skill → Retriever → Prompt](../screenshots/NASKResolutionFinderUsingInternalData2-30.png)
  
 ***
  
