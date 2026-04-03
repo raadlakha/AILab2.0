@@ -150,6 +150,10 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 > **Training time:** On most lab instances, training completes within 1–2 minutes given the small dataset. If the solution stays in _Training_ state for more than 5 minutes, check that the instance has the **Predictive Intelligence** plugin active and that there are sufficient resolved records in the Incident table matching the filter condition (State = Resolved).
 
+![ML Solutions — Unauthorized state](<../screenshots/PI-step5.png>)
+
+8. If the State = Unauthorized for the Machine Learning model that you are training, it is likely a training infrastructure issue. If you were to encounter this exact problem, spin up a new DemoHub instance and rerun the End-to-end AI Lab catalog again.
+
 ***
 
 ## Pre-Requisite 4: Verify the Knowledge Base Article and Index It in AI Search
