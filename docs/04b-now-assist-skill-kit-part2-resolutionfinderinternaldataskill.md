@@ -328,6 +328,8 @@ The retriever tool inputs configure the full search pipeline. This is the most d
 
 ![NASK — Retriever Tool: Tool Inputs — Core Search Configuration](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-23 (1).png>)
 
+> **If your 'Edit retriever tool' form does not look like the one above, it is likely a UI defect. Refer to [NASK Retriever workaround](nask-retriever-defect.md) for temporary workaround.
+
 > **Search query wired to the parallel skill output:** `{{GenerateSearchQueryAgainstAISearch.response}}` is the optimised query string produced by `CreateOptimalSearchQuery`. This is the critical data hand-off — the LLM-generated query drives the semantic KB search.
 >
 > **Search-profile-based** uses the `quick_action_kb_search_profile` search profile, which defines which KB sources and indexes are searched. **Semantic** criteria uses the E5FT embedding model to find semantically similar articles, not just keyword matches.
