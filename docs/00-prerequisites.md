@@ -152,7 +152,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 ![ML Solutions — Unauthorized state](<../screenshots/PI-step5.png>)
 
-8. If the State = Unauthorized for the Machine Learning model that you are training, it is likely a training infrastructure issue. If you were to encounter this exact problem, spin up a new DemoHub instance and rerun the End-to-end AI Lab catalog again.
+8. If the State becomes `Unauthorized` for the 'Find possible resolution for similar Incident cases' Predictive Intelligence model that you are training, it is likely a training infrastructure issue. If you were to encounter this exact problem, spin up a new DemoHub instance and rerun the End-to-end AI Lab catalog again.
 
 ***
 
