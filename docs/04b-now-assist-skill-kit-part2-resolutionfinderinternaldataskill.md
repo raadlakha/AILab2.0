@@ -70,7 +70,7 @@ Path A — Result:
 | PI solution                      | `Find possible resolution for similar Incident cases` — trained and active |
 | AI Search / RAG                  | Enabled — Search profile `quick_action_kb_search_profile` configured       |
 | KB articles                      | Indexed with E5FT embedding model on `body` and `title` semantic indexes   |
-| Incident Extend table            | `x_snc_nava_incident` — populated before skill fires                       |
+| Incident Extend table            | `x_snc_apacaienable_incident_extend` — populated before skill fires        |
 
 ***
 

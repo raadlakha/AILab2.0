@@ -346,7 +346,7 @@ Click **Save and continue** to complete the agent configuration.
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Agent name  | `Resolution Pathfinder for Incident case Agent`                                                                                  |
 | Type        | Chat                                                                                                                             |
-| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extract (x_snc_nava_incident_extend`                 |
+| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extract)`                 |
 | Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderUsingInternalData` — Autonomous                          |
 | Tool 3      | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes**                |
 | Tool 4      | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous                                                 |
