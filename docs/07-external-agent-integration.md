@@ -412,6 +412,21 @@ In **Step 3: Define the specialty**, configure the agent's runtime behaviour:
 
 ***
 
+### Step 13: Define the Specialty (Step 4 of Wizard)
+
+The wizard advances to **Select channels and status**.
+
+![Select channels and status](<../screenshots/ExternalAgent-channel-config.png>)
+
+| Setting                             | Value          |
+| ----------------------------------- | -------------- |
+| Engage via Now Assist panel         | **Allow: OFF** |
+| Engage via Virtual Agent assistants | **Allow: OFF** |
+
+Click **Save and continue** to complete the agent configuration.
+
+***
+
 ## Configuration Summary
 
 ### OAuth Chain
