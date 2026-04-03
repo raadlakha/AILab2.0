@@ -159,4 +159,40 @@ Each document follows a consistent structure: what the capability is, where it f
 
 ***
 
-_ServiceNow · Global Intelligent Automation SC Team · India · April 2026_
+## Working Without a Fully Configured Environment
+
+The lab is designed to deliver conceptual value at every step, even if your environment is not fully set up. Without a complete configuration, you can still:
+
+* Follow along to understand the architectural patterns and configuration steps
+* Use the provided screenshots and sample outputs as a reference
+* Adapt the exercises to your own data sources and systems
+
+### Guided Lab Sessions and Environment Provisioning
+
+Fully provisioned environments with all dependencies pre-configured are available through ServiceNow-led workshops and enablement sessions. Note that this lab relies on the latest ServiceNow components, custom AI Agents, and scoped objects — provisioning requires lead time.
+
+External integrations in this lab are specific to the scenario but can be adapted to other systems. Refer to the ServiceNow documentation for guidance on integrating external components.
+
+For availability, contact your ServiceNow representative or reach out to the lab author.
+
+***
+
+## Acknowledgements
+
+This lab would not have been possible without the support of exceptional colleagues at ServiceNow:
+
+* [Rajat Rakesh](https://www.linkedin.com/in/rajatrakesh/)
+* [Santosh Panda](https://www.linkedin.com/in/santosh-panda015/)
+* [Leo Francia](https://www.linkedin.com/in/leojmfrancia/)
+
+***
+
+## About the Authors
+
+This lab was created by **Rahul Adlakha** (AI Solution Architect, [LinkedIn](https://www.linkedin.com/in/rahuladlakha/)) and **Jia Khee Lim** (AI Solution Consultant, [LinkedIn](https://www.linkedin.com/in/jia-khee-lim-79427a151/)) at ServiceNow. It is not an official ServiceNow publication.
+
+Both authors are active members of the ServiceNow global AI presales organisation — feel free to reach out directly.
+
+***
+
+_ServiceNow · Global Intelligent Automation SC Team · APJ · April 2026_
