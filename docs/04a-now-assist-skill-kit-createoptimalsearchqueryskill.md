@@ -335,7 +335,7 @@ Navigate back to **Step 1: Edit prompt** in the NASK wizard tab bar. Click on th
 The prompt for this skill is provided in the lab repository. Copy the full prompt text from the following link listed in step 1 and paste it into the **Prompt** text area:
 
 
-1. Open the file at [`../NASKprompts/CreateOptimalSearchQuery-Prompt`](https://github.com/raadlakha/AILab2.0/blob/main/NASKprompts/CreateOptimalSearchQuery-Prompt#file-content) in the lab repository
+1. Open the file at <a href="https://github.com/raadlakha/AILab2.0/blob/main/NASKprompts/CreateOptimalSearchQuery-Prompt" target="_blank"><code>../NASKprompts/CreateOptimalSearchQuery-Prompt</code></a> in the lab repository
 2. Copy the **entire contents** of the file and read through the contents of the prompt. Remember that GenAI based systems are intelligent systems who adapt to their environment, and that every environment can differ. So read the prompt and see if there are things you want to include/exclude from it to best suit the environment that you are building. Do not copy blindly!
 3. In the NASK prompt editor, paste the copied text into the **Prompt** field
 4. Verify that the prompt references the Flow Action output variables using `{{GetIncidentExtendDetail.<field_name>}}` syntax — for example:
