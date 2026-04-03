@@ -244,14 +244,12 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 | Security — user access | User access        | Users with specific roles                                                   |
 | Security — user access | Role(s)            | `snc_internal`                                                              |
 | Security — data access | User identity type | Dynamic user                                                                |
-| Security — data access | Approved role(s)   | `snc_internal`                                                              |
-| Trigger                | Type               | Created                                                                     |
-| Trigger                | Name               | Trigger to resolve newly created Incident record from Incident Extend table |
-| Trigger                | Objective          | `Help me resolve Veritas Incident Number: ${number}`                        |
+| Security — data access | Approved role(s)   | `snc_internal, itil, x_snc_apacaienable.incident_extend_user`               |
+| Trigger                | Type               | Created or updated                                                          |
+| Trigger                | Name               | Trigger when an Incident Extend record is either being created or updated   |
+| Trigger                | Objective          | `Help me resolve ${number}`                                                 |
 | Trigger                | Table              | `incident extend`                                                           |
-| Trigger                | Condition 1        | State is In Progress                                                        |
-| Trigger                | Condition 2        | Channel is Chat                                                             |
-| Trigger                | Condition 3        | error code is not empty                                                     |
+| Trigger                | Condition 1        | Assigned to is not empty                                                    |
 | Trigger                | User identity      | Use an existing table → Assigned to \[task]                                 |
 | Trigger                | Channel            | Now Assist panel                                                            |
 | Trigger                | Show alert         | Yes                                                                         |
