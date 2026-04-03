@@ -412,7 +412,7 @@ In **Step 3: Define the specialty**, configure the agent's runtime behaviour:
 
 ***
 
-### Step 13: Define the Specialty (Step 4 of Wizard)
+### Step 13: Select Channels and Status (Step 4 of Wizard)
 
 The wizard advances to **Select channels and status**.
 
