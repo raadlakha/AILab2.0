@@ -7,7 +7,7 @@
  
 ## When to Use This Guide
  
-When configuring the **RetrieveRelevantKBContent** Retriever tool in Step 7b of [04b — ResolutionFinderInternalData](04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill.md), the standard instructions call for **Semantic** search criteria with the ServiceNow Embedding (E5) model, semantic indexes on `body` and `title`, and chunking with re-ranking.
+When configuring the **RetrieveRelevantKBContent** Retriever tool in Step 7b of [04b — ResolutionFinderInternalData](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-7b-tool-inputs), the standard instructions call for **Semantic** search criteria with the ServiceNow Embedding (E5) model, semantic indexes on `body` and `title`, and chunking with re-ranking.
  
 However, on some lab instances you may encounter the following when you reach the Tool Inputs screen:
  
