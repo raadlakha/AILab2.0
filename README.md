@@ -189,7 +189,7 @@ This lab would not have been possible without the support of exceptional colleag
 
 ## About the Authors
 
-This lab was created by **Rahul Adlakha** (AI Solution Architect, [LinkedIn](https://www.linkedin.com/in/rahuladlakha/)) and **Jia Khee Lim** (AI Solution Consultant, [LinkedIn](https://www.linkedin.com/in/jia-khee-lim-79427a151/)) at ServiceNow. It is not an official ServiceNow publication.
+This lab was created by **Rahul Adlakha** (AI Solution Architect, [LinkedIn](https://www.linkedin.com/in/rahuladlakha/)) and **Jia Khee Lim** (AI Solution Consultant, [LinkedIn](https://www.linkedin.com/in/jia-khee-lim-79427a151/)) at ServiceNow. **It is not an official ServiceNow publication.**
 
 Both authors are active members of the ServiceNow global AI presales organisation — feel free to reach out directly.
 
