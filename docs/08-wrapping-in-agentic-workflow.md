@@ -141,18 +141,18 @@ The wizard advances to **Add triggers**. Click **+ Add trigger**.
 
 The **Add a trigger** dialog opens:
 
-![Add a trigger — Created, trigger name and objective](<../.gitbook/assets/Agentic-WF-5 (1).png>)
+![Add a trigger — Created, trigger name and objective](<../screenshots/Agentic-WF-5.png>)
 
 **Top section:**
 
 | Field             | Value                                                                         |
 | ----------------- | ----------------------------------------------------------------------------- |
-| Select a trigger  | `Created`                                                                     |
-| Name              | `Trigger to resolve newly created Incident record from Incident Extend table` |
-| Trigger objective | `Help me resolve Veritas Incident Number: ${number}`                          |
-| Trigger is ON     | ✅ Enabled                                                                     |
+| Select a trigger  | `Created or updated`                                                          |
+| Name              | `Trigger when an Incident Extend record is either being created or updated`   |
+| Trigger objective | `Help me resolve ${number}`                                                   |
+| Trigger is ON     | ✅ Enabled                                                                    |
 
-> **Trigger objective** is the natural language message sent to the workflow's LLM when the trigger fires. It becomes the initial user message that activates the agentic workflow. The `${number}` is a dynamic variable — it is substituted with the actual incident number at runtime (e.g., `Help me resolve Veritas Incident Number: INCE0011002`). This is how the workflow LLM knows _which_ incident to work on.
+> **Trigger objective** is the natural language message sent to the workflow's LLM when the trigger fires. It becomes the initial user message that activates the agentic workflow. The `${number}` is a dynamic variable — it is substituted with the actual incident number at runtime (e.g., `Help me resolve Number: INCE0011002`). This is how the workflow LLM knows _which_ incident to work on.
 >
 > The platform note warns: _"Make sure this agentic workflow is ready to launch before turning on this trigger."_ Keep the trigger OFF until the full workflow is configured and tested.
 
@@ -162,7 +162,7 @@ The **Add a trigger** dialog opens:
 
 Scroll down in the **Edit a trigger** dialog to **Define when this trigger occurs**.
 
-![Edit trigger — Table and conditions](<../.gitbook/assets/Agentic-WF-6 (1).png>)
+![Edit trigger — Table and conditions](<../screenshots/Agentic-WF-6.png>)
 
 **Table and conditions:**
 
@@ -174,16 +174,8 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 
 | Field      | Operator     | Value         |
 | ---------- | ------------ | ------------- |
-| State      | is           | `In Progress` |
-| Channel    | is           | `Chat`        |
-| error code | is not empty | —             |
+| Assigned to| is           | `Not empty`.  |
 
-> These three conditions together define the Veritas trigger gate — they match the exact same conditions that drive the Fulfiller Flow in Phase 2:
->
-> * **State = In Progress** — incident has been acknowledged and is being worked
-> * **Channel = Chat** — incident arrived via the chat interface (NAVA → Virtual Agent)
-> * **error code is not empty** — NADI has extracted an error code; the workflow has structured data to work with
->
 > The trigger fires on the **`incident extend`** table (`x_nava_agentic_lab_incident_extend`), not the base `incident` table — because the error code and extended fields that drive the workflow live in the extend table, populated by NADI.
 
 ***
@@ -192,7 +184,7 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 
 Still in the **Edit a trigger** dialog, scroll down to **Define the user identity** and **Select where to show this launch**.
 
-![Edit trigger — User identity and channel](<../.gitbook/assets/Agentic-WF-7 (1).png>)
+![Edit trigger — User identity and channel](<../screenshots/Agentic-WF-7.png>)
 
 **Define the user identity of this trigger:**
 
