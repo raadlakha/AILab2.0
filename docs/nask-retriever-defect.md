@@ -7,7 +7,7 @@
  
 ## When to Use This Guide
  
-When configuring the **RetrieveRelevantKBContent** Retriever tool in Step 7b of [04b — ResolutionFinderInternalData](04b-nask-resolution-finder-internal-data.md), the standard instructions call for **Semantic** search criteria with the ServiceNow Embedding (E5) model, semantic indexes on `body` and `title`, and chunking with re-ranking.
+When configuring the **RetrieveRelevantKBContent** Retriever tool in Step 7b of [04b — ResolutionFinderInternalData](04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill.md), the standard instructions call for **Semantic** search criteria with the ServiceNow Embedding (E5) model, semantic indexes on `body` and `title`, and chunking with re-ranking.
  
 However, on some lab instances you may encounter the following when you reach the Tool Inputs screen:
  
@@ -15,12 +15,10 @@ However, on some lab instances you may encounter the following when you reach th
  
 **Symptoms that indicate you need this alternative path:**
  
-- The **Search Criteria** defaults to **Hybrid** and the **Semantic Indexes** fields are highlighted in red as mandatory — but no semantic indexes are available to select
-- A note appears stating _"The retriever will support search for only E5 embeddings"_ — but the Semantic Indexes picker is empty
-- The **Search sources** and **Fields returned** fields are empty even after selecting the Search profile
-- Selecting **Semantic** as the Search Criteria still requires Semantic Indexes that cannot be populated
+- Duplication of `Search sources, Fields returned and Semantic Indexes` fields on the form
+- When clicking onto Semantic Indexes, nothing shows up (usually body, title should appear)
  
-> **This is a known configuration limitation on some lab instances** where the E5 embedding model has not been fully provisioned or the semantic indexes on the `kb_knowledge` table have not been created. Rather than blocking progress, switch to **Keyword** search — which does not require embedding models or semantic indexes — and continue with the lab.
+> **This is UI defect that we are currently working with Now Support and Engineering on. For more details, see PRB2008944 and Dev task CSTASK1389575.
  
 ---
  
@@ -44,19 +42,6 @@ Replace the Semantic search configuration from the main 04b guide with the follo
 ![Retriever Tool Inputs — Keyword Search: Core Configuration (Top)](../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch1.png)
  
 ![Retriever Tool Inputs — Keyword Search: Core Configuration (Bottom)](../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch2.png)
- 
-> **Key difference from Semantic:** With **Keyword** search selected, the Semantic Indexes and Embedding model fields are not required and do not appear. The retriever uses traditional keyword matching (TF-IDF / BM25 style) against the `kb_knowledge` table rather than cosine similarity in embedding space. This means retrieval quality depends more heavily on the quality of the search query — which is why the upstream `CreateOptimalSearchQuery` skill is especially important in this configuration.
- 
-**What is NOT needed for Keyword search:**
- 
-| Field | Status |
-|-------|--------|
-| Embedding model | Not required — no embedding needed for keyword matching |
-| Semantic Indexes | Not required — keyword search uses inverted indexes, not vector indexes |
-| Chunking and Re-Ranking | Not available for Keyword search — the retriever returns full document matches ranked by keyword relevance |
-| Document matching threshold | Not applicable — keyword search uses its own relevance scoring |
- 
-Click **Continue** to proceed to Step 7c (Tool Outputs).
  
 ---
  
