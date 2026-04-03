@@ -136,7 +136,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 5. Click the **Update & Retrain** button in the top-right corner to trigger the training job
 6. Scroll down to the **ML Solutions** tab at the bottom of the form
-7. Wait for the solution to reach **Solution Complete** at **100%** progress
+7. Wait for the solution to reach **Solution Complete** at **100%** progress (Continue on with the lab - you can proceed on with the next steps as you are waiting for the model training to complete)
 
 ![ML Solutions — Training Complete](<../.gitbook/assets/PI-step4 (1).png>)
 
