@@ -194,7 +194,7 @@ Configure the following fields:
 | **Select topic** | `Upload image x_nava_agentic_lab` |
 | **Name** | `Upload image x_nava_agentic_lab` |
 | **Execution mode** | `Autonomous` |
-| **Display output** | `Yes` |
+| **Display output** | `Yes` (For the first time that you are testing this tool, it can be set to Yes. Subsequently, you can choose to set it to `No` once you have finalised that it works as expected) |
 
 **Tool description** _(Description for LLM)_
 
