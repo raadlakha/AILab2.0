@@ -48,7 +48,7 @@ Down the line Agentic Workflow can now evaluate trigger conditions:
   ✓ error_code ≠ empty   ← populated by NADI
 ```
 
-> **Why this matters:** `error_code` is a custom field on the extended Incident table. It is populated **exclusively** by NADI. If NADI is not configured or fails to extract, this field remains empty and the Resolution Pathfinder Agentic Workflow will not fire.
+> **Why this matters:** `error_code` is a custom field on the Incident extend table. It is populated **exclusively** by NADI. If NADI is not configured or fails to extract, this field remains empty and the Resolution Pathfinder Agentic Workflow will not fire.
 
 ***
 
@@ -116,11 +116,11 @@ Configure the following fields:
 | Field name              | `Error Code`                                                                                                                              |
 | Details                 | `This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.` |
 | Field type              | `Text`                                                                                                                                    |
-| Target table            | Extended Incident table                                                                                                                   |
+| Target table            | Incident extend table                                                                                                                   |
 | Target field            | `error_code`                                                                                                                              |
 | Required for extraction | ✅ Yes                                                                                                                                     |
 
-> **This is the critical field.** `error_code` is the gate for the downstream Agentic Workflow. It must be mapped to the correct target field on the extended Incident table.
+> **This is the critical field.** `error_code` is the gate for the downstream Agentic Workflow. It must be mapped to the correct target field on the Incident extend table.
 
 #### Field 2 — Model Details
 
@@ -211,7 +211,7 @@ Fill in:
 | Field            | Value                   |
 | ---------------- | ----------------------- |
 | Integration Name | `Veritas_Process`       |
-| Target Table     | Extended Incident table |
+| Target Table     | Incident extend table |
 | Integration type | `Process task`          |
 | Create Flow      | ✅ Checked               |
 
@@ -226,7 +226,7 @@ Flow name: DocIntel Extract Values Flow — Veritas Extract
 
 Trigger: Document Task Updated
   WHERE status changes to Done
-  AND source table = extended Incident table
+  AND source table = Incident extend table
   AND use case = Veritas Extract
 ```
 
@@ -292,7 +292,7 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 | ---------------- | ---------------------------------- |
 | Skill            | Extract Information from documents |
 | Use case name    | Veritas Extract                    |
-| Target table     | Extended Incident table            |
+| Target table     | Incident extend table            |
 | Extraction mode  | Full automation (no agent review)  |
 | Integration name | Veritas\_Process                   |
 | Integration type | Process task                       |
