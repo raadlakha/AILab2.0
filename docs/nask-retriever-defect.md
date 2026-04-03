@@ -66,4 +66,4 @@ Switching from Semantic to Keyword search changes how the retriever matches KB a
  
 Once you have configured the Keyword search Tool Inputs and clicked **Continue**, rejoin the main 04b guide at **Step 7c — Tool Outputs**. All subsequent steps (Tool Outputs, Tool Conditions, Summary, Final Canvas, Publish, Activate) are identical regardless of whether you used Semantic or Keyword search.
  
-→ Return to [04b — Step 7c: Tool Outputs](04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill.md)
+→ Return to [04b — Step 7c: Tool Outputs](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-7c-tool-outputs)
