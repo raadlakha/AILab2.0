@@ -120,6 +120,7 @@ The **Edit flow action** dialog opens:
 | Name                                     | `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extend) table`                                                                                                                                                                         |
 | Tool description _(Description for LLM)_ | `This tool retrieves out the following information based on the Incident_number (input) from the Incident Extract table: 1. Short Description, 2. Description, 3. Configuration Item, 4. Error Code, 5. Product Bar Code, 6. Product Name, 7. Serial Number, 8. Category, 9. Work Notes` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                           |
+| Display output                           | `No` |
 
 > **Why first:** This tool gives the agent all the structured Incident context it needs before any search begins — error code, CI, product details, and prior work notes. All subsequent tools draw on this context to form their queries.
 
