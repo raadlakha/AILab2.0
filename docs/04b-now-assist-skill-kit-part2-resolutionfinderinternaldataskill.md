@@ -465,13 +465,9 @@ Navigate back to **Step 1: Edit prompt** in the NASK wizard tab bar. Click on th
 
 This is the most critical prompt in the entire skill — it is the LLM reasoning step that evaluates whether a viable resolution exists based on the combined output of all three tools: the AI Search query, the RAG results from KB articles, and the Predictive Intelligence similar incidents.
 
-A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
+The prompt for this skill is provided in the lab repository. Copy the full prompt text from the following link listed in step 1 and paste it into the **Prompt** text area:
 
-```
-📁 ../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt
-```
-
-1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt/) in the lab repository
+1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](https://github.com/raadlakha/AILab2.0/blob/main/NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt#file-content) in the lab repository
 2. **Read through the entire prompt before pasting anything.** This prompt is more complex than the upstream skills — it must reason across two distinct data sources (RAG KB results and PI similar incidents) and make a binary determination (resolution found or not). Understand the evaluation logic, the grounding constraints, and the expected output structure before proceeding
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
 4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:

@@ -353,13 +353,9 @@ Navigate back to **Step 1: Edit prompt** to view and edit the prompt template. C
 
 ![Prompt editor — Generate Web Search Questions for Resolution Plan](<../.gitbook/assets/NASK-generatewebsearchquestion-step12 (1).png>)
 
-A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
+The prompt for this skill is provided in the lab repository. Copy the full prompt text from the following link listed in step 1 and paste it into the **Prompt** text area:
 
-```
-📁 ../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt
-```
-
-1. Open the file at [`../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt`](../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt/) in the lab repository
+1. Open the file at [`../NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt`](https://github.com/raadlakha/AILab2.0/blob/main/NASKprompts/GenerateWebSearchQnsForResolutionPlan-Prompt#file-content) in the lab repository
 2. **Read through the entire prompt before pasting anything.** Understand what the prompt is asking the LLM to do, how the input schema is structured, what privacy constraints are applied, and what the expected output format looks like
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
 4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems that adapt to their surroundings — the prompt should reflect your specific context. Consider the following as you review:
