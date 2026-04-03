@@ -261,7 +261,7 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 
 ### How the LLM Routes Steps to Agents
 
-The workflow description is the **system prompt** delivered to the orchestrating LLM at runtime. When the trigger fires with the objective `Help me resolve Veritas Incident Number: INCE0011002`, the LLM receives:
+The workflow description is the **system prompt** delivered to the orchestrating LLM at runtime. When the trigger fires with the objective `Help me resolve ${number}`, the LLM receives:
 
 1. The workflow description (with `<steps>` XML)
 2. The list of available agent names and descriptions
@@ -273,7 +273,7 @@ The XML `<steps>` tag convention in the description mirrors Anthropic's prompt e
 
 ### Why the Incident Extend Table as Trigger Source
 
-The trigger is placed on `incident extend` rather than `incident` for a precise reason: the `error code` field (extracted by NADI) is a custom field that only exists in the extend table. The standard `incident` table does not have this field. By triggering on `incident extend`, the condition `error code is not empty` can be evaluated directly — ensuring the workflow only fires when NADI has successfully extracted an error code from the chat conversation.
+The trigger is placed on `incident extend` rather than `incident` for a precise reason: the `error code` field (extracted by NADI) is a custom field that only exists in the extend table. The standard `incident` table does not have this field.
 
 ### Dynamic User vs System User
 
@@ -306,7 +306,7 @@ The Veritas workflow uses **Now Assist panel** because it targets the fulfiller 
 | Workflow triggers but wrong agent fires first        | LLM mismatches step to agent                                    | Align step language in workflow description with agent name/description     |
 | Trigger fires but no agentic response appears        | Now Assist panel not enabled                                    | Enable in Now Assist Admin → Experiences → Now Assist panel → Turn on       |
 | Trigger conditions never fire                        | trigger conditions not met                                      | Verify that all trigger conditions have been met                            |
-| "Access denied" when workflow tries to read incident | ACL misconfiguration                                            | Verify Dynamic user approved role includes `snc_internal`                   |
+| "Access denied" when workflow tries to read incident | ACL misconfiguration                                            | Verify Dynamic user approved role includes `snc_internal, itil, x_snc_apacaienable.incident_extend_user`                   |
 | ObsAgent step skipped entirely                       | Resolution Pathfinder returned no plan; web search is triggered | Expected behaviour (Path B)                                                 |
 | Trigger fires on wrong incidents                     | Condition too broad                                             | Review if there are other agentic workflows also utilising similar triggers |
 
