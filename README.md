@@ -159,4 +159,4 @@ Each document follows a consistent structure: what the capability is, where it f
 
 ***
 
-_ServiceNow · Global Intelligent Automation SC Team · India · April 2026_
+_ServiceNow · Global Intelligent Automation SC Team · APJ · April 2026_

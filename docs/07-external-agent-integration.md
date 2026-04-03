@@ -416,7 +416,7 @@ In **Step 3: Define the specialty**, configure the agent's runtime behaviour:
 
 The wizard advances to **Select channels and status**.
 
-![Select channels and status](<../screenshots/ExternalAgent-channel-config.png>)
+![Select channels and status](../.gitbook/assets/ExternalAgent-channel-config.png)
 
 | Setting                             | Value          |
 | ----------------------------------- | -------------- |

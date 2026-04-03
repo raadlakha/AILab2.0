@@ -141,16 +141,16 @@ The wizard advances to **Add triggers**. Click **+ Add trigger**.
 
 The **Add a trigger** dialog opens:
 
-![Add a trigger — Created, trigger name and objective](<../screenshots/Agentic-WF-5.png>)
+![Add a trigger — Created, trigger name and objective](<../.gitbook/assets/Agentic-WF-5 (2).png>)
 
 **Top section:**
 
-| Field             | Value                                                                         |
-| ----------------- | ----------------------------------------------------------------------------- |
-| Select a trigger  | `Created or updated`                                                          |
-| Name              | `Trigger when an Incident Extend record is either being created or updated`   |
-| Trigger objective | `Help me resolve ${number}`                                                   |
-| Trigger is ON     | ✅ Enabled                                                                    |
+| Field             | Value                                                                       |
+| ----------------- | --------------------------------------------------------------------------- |
+| Select a trigger  | `Created or updated`                                                        |
+| Name              | `Trigger when an Incident Extend record is either being created or updated` |
+| Trigger objective | `Help me resolve ${number}`                                                 |
+| Trigger is ON     | ✅ Enabled                                                                   |
 
 > **Trigger objective** is the natural language message sent to the workflow's LLM when the trigger fires. It becomes the initial user message that activates the agentic workflow. The `${number}` is a dynamic variable — it is substituted with the actual incident number at runtime (e.g., `Help me resolve Number: INCE0011002`). This is how the workflow LLM knows _which_ incident to work on.
 >
@@ -162,7 +162,7 @@ The **Add a trigger** dialog opens:
 
 Scroll down in the **Edit a trigger** dialog to **Define when this trigger occurs**.
 
-![Edit trigger — Table and conditions](<../screenshots/Agentic-WF-6.png>)
+![Edit trigger — Table and conditions](<../.gitbook/assets/Agentic-WF-6 (2).png>)
 
 **Table and conditions:**
 
@@ -172,9 +172,9 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 
 **Conditions (AND logic):**
 
-| Field      | Operator     | Value         |
-| ---------- | ------------ | ------------- |
-| Assigned to| is           | `Not empty`.  |
+| Field       | Operator | Value        |
+| ----------- | -------- | ------------ |
+| Assigned to | is       | `Not empty`. |
 
 > The trigger fires on the **`incident extend`** table (`x_nava_agentic_lab_incident_extend`), not the base `incident` table — because the error code and extended fields that drive the workflow live in the extend table, populated by NADI.
 
@@ -184,7 +184,7 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 
 Still in the **Edit a trigger** dialog, scroll down to **Define the user identity** and **Select where to show this launch**.
 
-![Edit trigger — User identity and channel](<../screenshots/Agentic-WF-7.png>)
+![Edit trigger — User identity and channel](<../.gitbook/assets/Agentic-WF-7 (2).png>)
 
 **Define the user identity of this trigger:**
 
@@ -236,24 +236,24 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 
 ## Configuration Summary
 
-| Section                | Field              | Value                                                                       |
-| ---------------------- | ------------------ | --------------------------------------------------------------------------- |
-| Key requirements       | Workflow name      | Veritas Resolution Agentic Workflow                                         |
-| Key requirements       | Description        | End-to-end Veritas incident resolution — KB, Elastic, web, A2A execution    |
-| Key requirements       | AI agents          | Resolution Pathfinder for Incident case Agent + ObsAgent                    |
-| Security — user access | User access        | Users with specific roles                                                   |
-| Security — user access | Role(s)            | `snc_internal`                                                              |
-| Security — data access | User identity type | Dynamic user                                                                |
-| Security — data access | Approved role(s)   | `snc_internal, itil, x_snc_apacaienable.incident_extend_user`               |
-| Trigger                | Type               | Created or updated                                                          |
-| Trigger                | Name               | Trigger when an Incident Extend record is either being created or updated   |
-| Trigger                | Objective          | `Help me resolve ${number}`                                                 |
-| Trigger                | Table              | `incident extend`                                                           |
-| Trigger                | Condition 1        | Assigned to is not empty                                                    |
-| Trigger                | User identity      | Use an existing table → Assigned to \[task]                                 |
-| Trigger                | Channel            | Now Assist panel                                                            |
-| Trigger                | Show alert         | Yes                                                                         |
-| Channels               | Now Assist panel   | Display ON                                                                  |
+| Section                | Field              | Value                                                                     |
+| ---------------------- | ------------------ | ------------------------------------------------------------------------- |
+| Key requirements       | Workflow name      | Veritas Resolution Agentic Workflow                                       |
+| Key requirements       | Description        | End-to-end Veritas incident resolution — KB, Elastic, web, A2A execution  |
+| Key requirements       | AI agents          | Resolution Pathfinder for Incident case Agent + ObsAgent                  |
+| Security — user access | User access        | Users with specific roles                                                 |
+| Security — user access | Role(s)            | `snc_internal`                                                            |
+| Security — data access | User identity type | Dynamic user                                                              |
+| Security — data access | Approved role(s)   | `snc_internal, itil, x_snc_apacaienable.incident_extend_user`             |
+| Trigger                | Type               | Created or updated                                                        |
+| Trigger                | Name               | Trigger when an Incident Extend record is either being created or updated |
+| Trigger                | Objective          | `Help me resolve ${number}`                                               |
+| Trigger                | Table              | `incident extend`                                                         |
+| Trigger                | Condition 1        | Assigned to is not empty                                                  |
+| Trigger                | User identity      | Use an existing table → Assigned to \[task]                               |
+| Trigger                | Channel            | Now Assist panel                                                          |
+| Trigger                | Show alert         | Yes                                                                       |
+| Channels               | Now Assist panel   | Display ON                                                                |
 
 ***
 
@@ -301,14 +301,14 @@ The Veritas workflow uses **Now Assist panel** because it targets the fulfiller 
 
 ## Troubleshooting
 
-| Symptom                                              | Likely cause                                                    | Fix                                                                         |
-| ---------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Workflow triggers but wrong agent fires first        | LLM mismatches step to agent                                    | Align step language in workflow description with agent name/description     |
-| Trigger fires but no agentic response appears        | Now Assist panel not enabled                                    | Enable in Now Assist Admin → Experiences → Now Assist panel → Turn on       |
-| Trigger conditions never fire                        | trigger conditions not met                                      | Verify that all trigger conditions have been met                            |
-| "Access denied" when workflow tries to read incident | ACL misconfiguration                                            | Verify Dynamic user approved role includes `snc_internal, itil, x_snc_apacaienable.incident_extend_user`                   |
-| ObsAgent step skipped entirely                       | Resolution Pathfinder returned no plan; web search is triggered | Expected behaviour (Path B)                                                 |
-| Trigger fires on wrong incidents                     | Condition too broad                                             | Review if there are other agentic workflows also utilising similar triggers |
+| Symptom                                              | Likely cause                                                    | Fix                                                                                                      |
+| ---------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Workflow triggers but wrong agent fires first        | LLM mismatches step to agent                                    | Align step language in workflow description with agent name/description                                  |
+| Trigger fires but no agentic response appears        | Now Assist panel not enabled                                    | Enable in Now Assist Admin → Experiences → Now Assist panel → Turn on                                    |
+| Trigger conditions never fire                        | trigger conditions not met                                      | Verify that all trigger conditions have been met                                                         |
+| "Access denied" when workflow tries to read incident | ACL misconfiguration                                            | Verify Dynamic user approved role includes `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
+| ObsAgent step skipped entirely                       | Resolution Pathfinder returned no plan; web search is triggered | Expected behaviour (Path B)                                                                              |
+| Trigger fires on wrong incidents                     | Condition too broad                                             | Review if there are other agentic workflows also utilising similar triggers                              |
 
 ***
 
