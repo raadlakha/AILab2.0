@@ -1,4 +1,4 @@
-# 04b-alt — Retriever Configuration: Keyword Search (Alternative Path)
+# 04b-alternative — Retriever Configuration: Keyword Search (Alternative Path)
  
 > **Applies to:** 04b — NASK: ResolutionFinderInternalData → Step 7b (Tool Inputs)
 > **Use this guide if:** Your instance does not support Semantic search in the Retriever tool configuration
@@ -42,12 +42,60 @@ Replace the Semantic search configuration from the main 04b guide with the follo
 ![Retriever Tool Inputs — Keyword Search: Core Configuration (Top)](../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch1.png)
  
 ![Retriever Tool Inputs — Keyword Search: Core Configuration (Bottom)](../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch2.png)
+
+---
+
+## Step 7c (Alternative): Tool Outputs
+
+| Output        | Type          |
+| ------------- | ------------- |
+| `Rag Results` | `string` |
+
+![NASK — Retriever Tool: Tool Outputs](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch3.png>)
+
+Click **Continue**.
+
+---
+
+## Step 7d (Alternative): Tool Conditions
+
+Type: **None (Always run)**
+
+![NASK — Retriever Tool: Tool Conditions](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch4.png>)
+
+Click **Continue**.
+
+---
+
+## Step 7e (Alternative) — Summary
+
+Verify the complete configuration before saving:
+
+| Section         | Field                       | Value                                                                            |
+| --------------- | --------------------------- | -------------------------------------------------------------------------------- |
+| Type            | —                           | Retriever                                                                        |
+| General info    | Name                        | `RetrieveRelevantKBContent`                                                      |
+| General info    | Resource                    | RAG                                                                              |
+| Inputs          | Search query                | `{{GenerateSearchQueryAgainstAISearch.response}}`                                |
+| Inputs          | Search space type           | Search-profile-based                                                             |
+| Inputs          | Search profile              | `quick_action_kb_search_profile`                                                 |
+| Inputs          | Search sources              | `kb_knowledge`                                                                   |
+| Inputs          | Fields returned             | kb\_knowledge.text, .short\_description, .article\_type, .category, .description |
+| Inputs          | Limit                       | 10                                                                               |
+| Inputs          | Search Criteria             | Keyword                                                                          |
+| Outputs         | Rag Results                 | string                                                                           |
+| Tool conditions | Type                        | none                                                                             |
+
+![NASK — Retriever Tool: Summary](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch5.png>)
+
+Click **Save changes**.
+
  
 ---
  
 ## Impact on Downstream Behaviour
  
-Switching from Semantic to Keyword search changes how the retriever matches KB articles, but does **not** change the rest of the skill flow. The output format (`Rag Results` as `json_object`) remains the same, and the `Assess if solution exists` prompt still receives the same data structure.
+Switching from Semantic to Keyword search changes how the retriever matches KB articles, but does **not** change the rest of the skill flow. The output object stays consistent as `Rag Results`, but it changes from `json_object` to `string`, and the `Assess if solution exists` prompt still receives the same data structure. This however does not have any impact on the overall flow of this skill creation.
  
 | Aspect | Semantic Search | Keyword Search |
 |--------|----------------|----------------|
@@ -66,4 +114,4 @@ Switching from Semantic to Keyword search changes how the retriever matches KB a
  
 Once you have configured the Keyword search Tool Inputs and clicked **Continue**, rejoin the main 04b guide at **Step 7c — Tool Outputs**. All subsequent steps (Tool Outputs, Tool Conditions, Summary, Final Canvas, Publish, Activate) are identical regardless of whether you used Semantic or Keyword search.
  
-→ Return to [04b — Step 7c: Tool Outputs](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-7c-tool-outputs)
+→ Return to [04b — Step 8: Final Canvas - Complete Skill Flow](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-8-final-canvas-complete-skill-flow)
