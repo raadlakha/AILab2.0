@@ -301,12 +301,12 @@ The wizard advances to **Define security controls → Define data access**.
 
 ![Define user access](<../.gitbook/assets/L2-agent-data-access (1).png>)
 
-| Field       | Value                                                    |
-| ----------- | -------------------------------------------------------- |
-| Data access | `Dynamic user`                                           |
-| Role(s)     | `snc_internal, itil, x_snc_apacaienable_incident_extend` |
+| Field       | Value                                                         |
+| ----------- | ------------------------------------------------------------- |
+| Data access | `Dynamic user`                                                |
+| Role(s)     | `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
 
-> Restricts agent invocation to `snc_internal, itil and x_snc_apacaienable_incident_extend` role. Additional roles are given here as the Custom Now Assist Skills are created in itil role and the AI Agent needs to have access to x\_snc\_apacaienable\_incident\_extend role in order to get data from the custom table.
+> Restricts agent invocation to `snc_internal, itil and x_snc_apacaienable.incident_extend_user` role. Additional roles are given here as the Custom Now Assist Skills are created in itil role and the AI Agent needs to have access to x\_snc\_apacaienable\_incident\_extend role in order to get data from the custom table.
 
 Click **Save and continue**.
 
