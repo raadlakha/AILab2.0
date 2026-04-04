@@ -169,4 +169,4 @@ The MCP `initialize` handshake negotiates the protocol version. ServiceNow's cli
 
 ## Next Step
 
-Continue to [06 — Fulfiller AI Agent: Resolution Pathfinder for Incident case Agent: CreateOptimalSearchQuery](06-fulfiller-ai-agent.md) to build out your fulfiller flow AI Agent (Resolution Pathfinder for Incident case Agent) now that you have all the components needed!
+Continue to [06 — Fulfiller AI Agent: Resolution Pathfinder](06-fulfiller-ai-agent.md) to build out your fulfiller flow AI Agent (Resolution Pathfinder for Incident case Agent) now that you have all the components needed!
