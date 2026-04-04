@@ -284,6 +284,7 @@ The lab scenario involves two key users — **Alex Rai** (the end user / request
 ***
  
 ### Part A: Verify Alex Rai's Roles
+Alex Rai is our requestor personna!
  
 3. In the **Users** list, filter by **User ID starts with `alex.rai`**
  
@@ -312,6 +313,7 @@ Confirm the following **roles** are assigned to Alex Rai:
 ***
  
 ### Part B: Verify Amelia Bryant's Roles
+Amelia Bryant is our fulfiller persona!
  
 6. Navigate back to the **Users** list
 7. Filter by **User ID starts with `amelia.bryant`**
