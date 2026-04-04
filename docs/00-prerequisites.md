@@ -306,7 +306,7 @@ Confirm the following **roles** are assigned to Alex Rai:
  
 `itil, snc_internal, x_snc_apacaienable.incident_extend_user, sn_cbs.requestor`
 
-> **If roles are missing:** Use the **Roles** tab on the user record (or click **Assign Roles** under Related Links) to add the missing role. Ensure the role State is **Active** and that the role is directly assigned (Inherited = `false`) to avoid dependency on group membership changes.
+> **If roles are missing:** Click **Assign Roles** under Related Links to add the missing role.
  
 ***
  
@@ -327,7 +327,7 @@ Confirm the following **role** is assigned to Amelia Bryant:
 
 `x_snc_apacaienable.incident_extend_user`
  
-> **If roles are missing:** Use the **Roles** tab on the user record (or click **Assign Roles** under Related Links) to add the missing role. Ensure the role State is **Active** and that the role is directly assigned (Inherited = `false`) to avoid dependency on group membership changes.
+> **If roles are missing:** Click **Assign Roles** under Related Links to add the missing role.
  
 ***
 
