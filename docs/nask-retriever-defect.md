@@ -37,7 +37,6 @@ Replace the Semantic search configuration from the main 04b guide with the follo
 | Fields returned | `kb_knowledge.text`, `kb_knowledge.short_description`, `kb_knowledge.category`, `kb_knowledge.description`, `kb_knowledge.article_type` |
 | Limit | `10` |
 | Search Criteria | **`Keyword`** |
-| Rewrite query | Unchecked |
  
 ![Retriever Tool Inputs — Keyword Search: Core Configuration (Top)](../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch1.png)
  
