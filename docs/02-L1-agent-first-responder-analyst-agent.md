@@ -390,37 +390,10 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
  
 ***
  
-#### 7.5 — Review the Issue Summary
+#### 7.5 — Trigger Image Upload
  
 13. Click **Yes** to confirm you want to raise an Incident
-14. Before proceeding to image upload and Incident creation, the agent presents a **summary of all information collected** during the conversation and asks for confirmation. You should see a structured summary that includes:
-    - **Issue type** — the category selected earlier (e.g., `Software`)
-    - **Affected product / system** — identified from the conversation context (e.g., `Veritas NetBackup`)
-    - **Hostname / IP address** — retrieved from the Knowledge Graph or conversation (e.g., `veritas-backup-01`)
-    - **Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
-    - **Screenshot** — upload status (e.g., `Uploaded`)
-    - **Issue description** — the user's reported symptoms (e.g., `Server overheating, LED lights turning from green to red`)
-15. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
- 
-![Chat — Issue summary presented with confirmation prompt](../screenshots/L1-agent-testing-9.png)
- 
-> **What to verify:**
->
-> | Check | Expected Behaviour |
-> | --- | --- |
-> | Summary completeness | Agent displays all key fields — issue type, product, hostname, time, screenshot status, description |
-> | Data accuracy | Summary reflects the information provided during the conversation and retrieved by Tool 1 (Knowledge Graph) |
-> | Confirmation prompt | Agent asks user to confirm with yes/no before proceeding to Incident creation |
->
-> **If the summary is incorrect:** Reply **'no'** — the agent should allow you to correct specific fields before re-confirming. This is a safeguard to ensure the Incident record is created with accurate data.
- 
-16. Reply **'yes'** to confirm the summary and proceed
- 
-***
- 
-#### 7.6 — Trigger Image Upload
- 
-17. The agent invokes **Tool 3 (Conversational Topic — Upload Image)** and the chat displays:
+14. The agent invokes **Tool 3 (Conversational Topic — Upload Image)** and the chat displays:
     - _"Please upload an image"_
     - A **"Click here to upload an image."** link/button rendered by the Virtual Agent topic
  
@@ -437,16 +410,16 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
  
 ***
  
-#### 7.7 — Upload the Image and Verify Processing
+#### 7.6 — Upload the Image
  
-18. Click **"Click here to upload an image."** to open the file picker
-19. Select an error screenshot image (e.g., a Veritas NetBackup error screen capture showing an error code) and upload it
-20. Observe the chat — you should see:
+15. Click **"Click here to upload an image."** to open the file picker
+16. Select an error screenshot image (e.g., a Veritas NetBackup error screen capture showing an error code) and upload it
+17. Observe the chat — you should see:
     - The uploaded image rendered as a thumbnail in the conversation
     - A confirmation message: _"The attachment is available in this link"_
-    - The agent shows a **"Processing..."** indicator as **Tool 4 (Subflow — Create Incident Case)** executes in the background
+    - The agent shows a **"Processing..."** indicator as it processes the uploaded image
  
-![Chat — Image uploaded, attachment confirmed, Incident creation processing](../screenshots/L1-agent-testing-7.png)
+![Chat — Image uploaded, attachment confirmed, processing](../screenshots/L1-agent-testing-7.png)
  
 > **What to verify:**
 >
@@ -454,13 +427,41 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
 > | --- | --- |
 > | Image upload | Image thumbnail appears in the chat conversation |
 > | Attachment confirmation | "The attachment is available in **this link**" message displayed |
-> | Tool 4 — Subflow | "Processing..." indicator visible — Incident creation in progress |
+> | Processing | "Processing..." indicator visible — agent is preparing the issue summary |
+ 
+***
+ 
+#### 7.7 — Review the Issue Summary
+ 
+18. Once processing completes, the agent presents a **summary of all information collected** during the conversation — including the uploaded screenshot — and asks for confirmation before raising the Incident. You should see a structured summary that includes:
+    - **Issue type** — the category selected earlier (e.g., `Software`)
+    - **Affected product / system** — identified from the conversation context (e.g., `Veritas NetBackup`)
+    - **Hostname / IP address** — retrieved from the conversation (e.g., `veritas-backup-01`)
+    - **Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
+    - **Screenshot** — upload status (e.g., `Uploaded`)
+    - **Issue description** — the user's reported symptoms (e.g., `Server overheating, LED lights turning from green to red`)
+19. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
+ 
+![Chat — Issue summary presented with confirmation prompt](../screenshots/L1-agent-testing-9.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Summary completeness | Agent displays all key fields — issue type, product, hostname, time, screenshot status, description |
+> | Data accuracy | Summary reflects the information provided during the conversation and retrieved by Tool 1 (Knowledge Graph) |
+> | Screenshot confirmed | Summary shows `Screenshot: Uploaded` — confirming the image from Step 16 was captured |
+> | Confirmation prompt | Agent asks user to confirm with yes/no before proceeding to Incident creation |
+>
+> **If the summary is incorrect:** Reply **'no'** — the agent should allow you to correct specific fields before re-confirming. This is a safeguard to ensure the Incident record is created with accurate data.
+ 
+20. Reply **'yes'** to confirm the summary and proceed with Incident creation
  
 ***
  
 #### 7.8 — Verify Incident Creation
  
-21. Wait for the processing to complete — the agent should respond with:
+21. The agent invokes **Tool 4 (Subflow — Create Incident Case)** and after processing completes, you should see:
     - A confirmation that the Incident has been successfully raised
     - The **Incident reference number** (e.g., `INCE0012003`)
     - A message indicating the support team will review the issue (e.g., _"Your incident has been successfully raised. Your reference number is INCE0012003. Our support team will review this and be in touch shortly."_)
