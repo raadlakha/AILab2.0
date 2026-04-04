@@ -82,9 +82,9 @@ Assistant Designer — Setup Wizard Order
 
 We will create a new Assistant for this lab and not reuse any of the existing Virtual Agent Assistants.
 
-Navigate to **Conversational Interfaces** → **Assistant Designer**
+To create a new assistant, navigate to **Conversational Interfaces** → **Assistant Designer**
 
-![Assistant Designer — Create Chat-Based Assistant](<../.gitbook/assets/nava-create-chat-based-assistant (1).png>)
+![Assistant Designer — Create Chat-Based Assistant](<../screenshots/nava-create-chat-based-assistant.png>)
 
 > The Assistant Designer shows the **Assistants** tab. The default assistant is **Now Assist for Virtual Agent**. Click **Edit** to open the setup wizard.
 
