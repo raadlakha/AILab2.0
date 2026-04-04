@@ -312,16 +312,213 @@ Click **Save and continue** to complete the agent configuration.
 ***
 
 ### Step 7 — Test the Agent
-
-**Impersonate as user Alex Rai → Service Portal → Chat Widget**
-
-1. Enter: _"I can't reach the backup server"_
-2. **Tool 1 check** — agent responds with caller context without asking for it
-3. **Tool 2 check** — agent presents L1/L2/L3 diagnostic steps
-4. Reply _"resolved"_ → conversation ends, no Incident created (**deflection confirmed**)
-5. Re-run → reply _"not resolved"_ → **Tool 3 check** — image upload prompt appears
-6. Upload a test image → **Tool 4 check** — Incident created with `state = New`, `channel = chat`, image attached
-7. Open the Incident — confirm NADI triggered and `u_extracted_error_code` is populated
+ 
+Now that the agent is fully configured, test the end-to-end Requestor Flow by impersonating Alex Rai and interacting with the Virtual Agent on Service Portal.
+ 
+***
+ 
+#### 7.1 — Impersonate Alex Rai
+ 
+1. In the ServiceNow platform UI, click on your **user avatar / profile icon** in the top-right banner
+2. From the dropdown menu, select **Impersonate user**
+ 
+![User Menu — Impersonate user option](../screenshots/L1-agent-testing-1.png)
+ 
+3. In the **Impersonate user** dialog, search for or select **alex rai** (`alex.rai`) from the user list
+4. Click **Impersonate user** to confirm
+ 
+![Impersonate user dialog — Alex Rai selected](../screenshots/L1-agent-testing-2.png)
+ 
+> **Why Alex Rai?** Alex Rai is the lab's designated requestor user with the required roles (`itil`, `snc_internal`, `x_snc_apacaienable.incident_extend_user`, `sn_cbs.requestor`). These roles were verified in Pre-Requisite 6. Impersonating Alex ensures the Virtual Agent session runs with the correct permissions and the agent can identify the caller via the Knowledge Graph.
+ 
+***
+ 
+#### 7.2 — Open the Service Portal and Start a Chat
+ 
+5. Navigate to your instance's **Service Portal** (`/sp`)
+6. Click the **chat icon** in the bottom-right corner to open the **Now Support** chat widget
+7. Verify that the widget loads and greets you with a message such as _"Hi alex, how can I help you?"_
+ 
+![Service Portal — Now Support chat widget open](../screenshots/L1-agent-testing-3.png)
+ 
+> **Checkpoint:** Confirm the top-right corner of the Service Portal shows **alex rai** as the logged-in user. If it still shows System Administrator or another user, the impersonation did not take effect — go back and re-impersonate.
+ 
+***
+ 
+#### 7.3 — Initiate the Conversation and Verify Agent Routing
+ 
+8. In the chat input field, type: **`Hi, I can't reach my backup server`** and press Enter
+9. Observe the agent response — you should see:
+   - A brief acknowledgement of the issue (e.g., _"Let me initiate diagnostics to help you with your backup server connectivity issue."_)
+   - A system message confirming **Started AI Agent "First Responder Operations Analyst Agent"**
+   - The agent addresses the user by name (_"Hello Alex Rai"_) — confirming **Tool 1 (Knowledge Graph)** fired silently and retrieved the user's identity
+   - The agent asks a clarification question to categorise the issue, presenting **Hardware** and **Software** as selectable options
+ 
+![Chat — Agent started, user identified, category options presented](../screenshots/L1-agent-testing-4.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Agent routing | System message shows "Started AI Agent **First Responder Operations Analyst Agent**" |
+> | Tool 1 — Knowledge Graph | Agent greets user by name without being told — user context retrieved silently |
+> | Category prompt | Hardware / Software buttons rendered as selectable options |
+ 
+***
+ 
+#### 7.4 — Describe the Issue and Verify Troubleshooting Guide
+ 
+10. Select **Hardware** (or type your selection)
+11. Provide additional detail about the issue, for example: **`I'm seeing that the server seems to be overheating in temperature, and the LED lights are turning from green to red colour`**
+12. Observe the agent response — you should see:
+    - A system message confirming the agent **Used the tool "Troubleshooting Resolution Guide"** — this confirms **Tool 2 (File Upload)** was invoked
+    - The agent attempts to match the symptoms against the L1/L2/L3 troubleshooting guide
+    - If no matching resolution steps are found, the agent informs the user and offers to raise an Incident (e.g., _"Unfortunately, I could not find any documented troubleshooting steps for the Veritas NetBackup server overheating and LED lights turning red."_)
+    - The agent presents **Yes** and **No** buttons asking whether to proceed with Incident creation
+ 
+![Chat — Troubleshooting Guide used, no resolution found, Incident offer](../screenshots/L1-agent-testing-5.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Tool 2 — Troubleshooting Guide | System message confirms "Used the tool **Troubleshooting Resolution Guide**" |
+> | Deflection logic | Agent evaluates the guide and reports whether steps were found |
+> | Escalation prompt | Agent asks the user whether to raise an Incident with Yes / No options |
+>
+> **Deflection test (optional):** To test the deflection path, start a new conversation and describe a symptom that _does_ match the troubleshooting guide (e.g., a known L1 backup failure error). Confirm the issue is resolved → the conversation should end without creating an Incident.
+ 
+***
+ 
+#### 7.5 — Review the Issue Summary
+ 
+13. Click **Yes** to confirm you want to raise an Incident
+14. Before proceeding to image upload and Incident creation, the agent presents a **summary of all information collected** during the conversation and asks for confirmation. You should see a structured summary that includes:
+    - **Issue type** — the category selected earlier (e.g., `Software`)
+    - **Affected product / system** — identified from the conversation context (e.g., `Veritas NetBackup`)
+    - **Hostname / IP address** — retrieved from the Knowledge Graph or conversation (e.g., `veritas-backup-01`)
+    - **Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
+    - **Screenshot** — upload status (e.g., `Uploaded`)
+    - **Issue description** — the user's reported symptoms (e.g., `Server overheating, LED lights turning from green to red`)
+15. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
+ 
+![Chat — Issue summary presented with confirmation prompt](../screenshots/L1-agent-testing-9.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Summary completeness | Agent displays all key fields — issue type, product, hostname, time, screenshot status, description |
+> | Data accuracy | Summary reflects the information provided during the conversation and retrieved by Tool 1 (Knowledge Graph) |
+> | Confirmation prompt | Agent asks user to confirm with yes/no before proceeding to Incident creation |
+>
+> **If the summary is incorrect:** Reply **'no'** — the agent should allow you to correct specific fields before re-confirming. This is a safeguard to ensure the Incident record is created with accurate data.
+ 
+16. Reply **'yes'** to confirm the summary and proceed
+ 
+***
+ 
+#### 7.6 — Trigger Image Upload
+ 
+17. The agent invokes **Tool 3 (Conversational Topic — Upload Image)** and the chat displays:
+    - _"Please upload an image"_
+    - A **"Click here to upload an image."** link/button rendered by the Virtual Agent topic
+ 
+![Chat — Image upload prompt rendered](../screenshots/L1-agent-testing-6.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Tool 3 — Upload Image topic | Chat renders the native file upload prompt |
+> | Upload link | "Click here to upload an image." is visible and clickable |
+>
+> **If the upload prompt does not appear:** Check that (a) the duplicated Upload Image topic is **Active** and scoped to `x_nava_agentic_lab`, (b) **Document uploads** is enabled in the NAVA Chat Features (Capability 01, Step 8), and (c) the topic is registered as a tool on this agent.
+ 
+***
+ 
+#### 7.7 — Upload the Image and Verify Processing
+ 
+18. Click **"Click here to upload an image."** to open the file picker
+19. Select an error screenshot image (e.g., a Veritas NetBackup error screen capture showing an error code) and upload it
+20. Observe the chat — you should see:
+    - The uploaded image rendered as a thumbnail in the conversation
+    - A confirmation message: _"The attachment is available in this link"_
+    - The agent shows a **"Processing..."** indicator as **Tool 4 (Subflow — Create Incident Case)** executes in the background
+ 
+![Chat — Image uploaded, attachment confirmed, Incident creation processing](../screenshots/L1-agent-testing-7.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Image upload | Image thumbnail appears in the chat conversation |
+> | Attachment confirmation | "The attachment is available in **this link**" message displayed |
+> | Tool 4 — Subflow | "Processing..." indicator visible — Incident creation in progress |
+ 
+***
+ 
+#### 7.8 — Verify Incident Creation
+ 
+21. Wait for the processing to complete — the agent should respond with:
+    - A confirmation that the Incident has been successfully raised
+    - The **Incident reference number** (e.g., `INCE0012003`)
+    - A message indicating the support team will review the issue (e.g., _"Your incident has been successfully raised. Your reference number is INCE0012003. Our support team will review this and be in touch shortly."_)
+    - The agent may also flag that the issue has been escalated for priority review
+    - A closing message: _"All done! Is there anything else I can help you with?"_
+ 
+![Chat — Incident created with reference number INCE0012003](../screenshots/L1-agent-testing-8.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Incident created | Agent confirms Incident raised with a reference number (e.g., `INCE0012003`) |
+> | Number prefix | Reference number starts with `INCE` — confirming it was created on the Incident Extend table |
+> | Conversation complete | Agent asks if anything else is needed — flow is complete |
+ 
+***
+ 
+#### 7.9 — Verify the Incident Record in the Platform
+ 
+22. End the impersonation session (or open a new browser tab as System Administrator)
+23. Navigate to the **incident extend** table: type `x_snc_apacaienable_incident_extend.list` in the Filter navigator
+24. Locate the newly created Incident by the reference number from Step 21 (e.g., `INCE0012003`)
+25. Open the Incident record and verify the following fields:
+ 
+| Field | Expected Value |
+| --- | --- |
+| Number | `INCE0012003` (or the number returned in chat) |
+| State | `New` |
+| Contact type | `chat` |
+| Category | `Hardware` (or the category selected in Step 10) |
+| Short description | Contains the user-reported issue description |
+| Caller | `Alex Rai` |
+| Attachments | Uploaded image(s) present on the record |
+ 
+26. Confirm **Now Assist Document Intelligence (NADI)** has triggered on the attachments — check the `u_extracted_error_code` field is populated (this is covered in detail in Capability 03)
+ 
+> **If the Incident was not created:** Check the following:
+>
+> - Subflow **Run As** is set to **System User** (Pre-Requisite 5)
+> - All four mandatory subflow inputs are being passed correctly by the agent
+> - The `x_nava_agentic_lab` application scope is active
+> - Alex Rai has the `x_snc_apacaienable.incident_extend_user` role (Pre-Requisite 6)
+>
+> **If `contact_type` is not `chat`:** The Virtual Agent session did not stamp the field correctly. Ensure the conversation was initiated via the Service Portal chat widget (not the platform UI or email).
+ 
+***
+ 
+### Test Summary
+ 
+| Step | Tool Verified | What to Confirm |
+| --- | --- | --- |
+| 7.3 | Tool 1 — Knowledge Graph | Agent greets user by name without asking; "Started AI Agent" system message |
+| 7.4 | Tool 2 — Troubleshooting Guide | "Used the tool Troubleshooting Resolution Guide" system message; deflection or escalation prompt |
+| 7.5 | Issue Summary confirmation | Agent presents structured summary of all collected information; user confirms before proceeding |
+| 7.6 | Tool 3 — Upload Image | Native file upload prompt rendered in chat |
+| 7.7–7.8 | Tool 4 — Create Incident Case | Image uploaded, Incident reference number returned (INCE prefix) |
+| 7.9 | Post-creation verification | Incident record fields correct; `contact_type = chat`; attachments present; NADI triggered |
 
 ***
 
