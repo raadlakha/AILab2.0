@@ -24,11 +24,11 @@ Resolution Pathfinder for Incident case Agent
         │          Calls ResolutionFinderUsingInternalData
         │          (PI similarity + KB RAG to determine if internal information is sufficient to provide a resolution plan)
         |
-        ├── Tool 3: MCP server tool — platform_core_get_index_mapping
+        ├── Tool 3: Elastic MCP server tool — platform_core_get_index_mapping
         │          Retrieves Elastic index mappings — helps agent understand schema
         │          before constructing queries
         │
-        ├── Tool 4: MCP server tool — platform_core_execute_esql
+        ├── Tool 4: Elastic MCP server tool — platform_core_execute_esql
         │          Runs ES|QL query against Elastic — returns log results in tabular format
         │          Must receive query from platform_core_generate_esql or user verbatim
         |
@@ -64,7 +64,7 @@ AI Agent generates appropriate resolution plan + source citation that is to be w
 | Requirement                    | Detail                                                                                                                                             |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Custom Now Assist Skills built | Custom Now Assist Skills for CreateOptimalSearchQuery, ResolutionFinderUsingInternalData and GenerateWebSearchQnsForResolutionPlan must be created |
-| Elastic MCP server             | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier)                                                 |
+| Elastic MCP server             | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier - 05 section)                                    |
 
 ***
 
@@ -117,10 +117,10 @@ The **Edit flow action** dialog opens:
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Select flow action                       | `Retrieval of Relevant Fields from Incident Extract table`                                                                                                                                                                                                                               |
 | Input — Incident Number                  | `incident_number` (string)                                                                                                                                                                                                                                                               |
-| Name                                     | `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extend) table`                                                                                                                                                                         |
+| Name                                     | `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extend) table`                                                                                                                                                                        |
 | Tool description _(Description for LLM)_ | `This tool retrieves out the following information based on the Incident_number (input) from the Incident Extract table: 1. Short Description, 2. Description, 3. Configuration Item, 4. Error Code, 5. Product Bar Code, 6. Product Name, 7. Serial Number, 8. Category, 9. Work Notes` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                           |
-| Display output                           | `No` |
+| Display output                           | `No`                                                                                                                                                                                                                                                                                     |
 
 > **Why first:** This tool gives the agent all the structured Incident context it needs before any search begins — error code, CI, product details, and prior work notes. All subsequent tools draw on this context to form their queries.
 
@@ -346,7 +346,7 @@ Click **Save and continue** to complete the agent configuration.
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Agent name  | `Resolution Pathfinder for Incident case Agent`                                                                                  |
 | Type        | Chat                                                                                                                             |
-| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extract)`                 |
+| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extract (x_snc_apacaienable_incident_extract)`       |
 | Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderUsingInternalData` — Autonomous                          |
 | Tool 3      | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes**                |
 | Tool 4      | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous                                                 |
