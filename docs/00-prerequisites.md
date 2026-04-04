@@ -150,7 +150,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 > **Training time:** On most lab instances, training completes within 1–2 minutes given the small dataset. If the solution stays in _Training_ state for more than 5 minutes, check that the instance has the **Predictive Intelligence** plugin active and that there are sufficient resolved records in the Incident table matching the filter condition (State = Resolved).
 
-![ML Solutions — Unauthorized state](<../screenshots/PI-step5.png>)
+![ML Solutions — Unauthorized state](../.gitbook/assets/PI-step5.png)
 
 8. If the State becomes `Unauthorized` for the 'Find possible resolution for similar Incident cases' Predictive Intelligence model that you are training, it is likely a training infrastructure issue. At this point, spin up a new DemoHub instance and rerun the End-to-end AI Lab catalog again.
 
@@ -162,7 +162,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ### Part A: Verify the KB Article Exists
 
-1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb_knowledge.list)
+1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb\_knowledge.list)
 2. Filter the list by **Short description contains `backup`**
 3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
 
