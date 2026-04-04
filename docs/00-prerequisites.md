@@ -278,7 +278,7 @@ The lab scenario involves two key users — **Alex Rai** (the end user / request
 1. In the **Filter navigator**, type `user admin`
 2. Under **User Administration**, click **Users**
  
-![Filter Navigator — User Administration > Users](../screenshots/check-user-permissions-5.png)
+![Filter Navigator — User Administration > Users](../screenshots/check-user-permissions-1.png)
  
 ***
  
@@ -286,12 +286,12 @@ The lab scenario involves two key users — **Alex Rai** (the end user / request
  
 3. In the **Users** list, filter by **User ID starts with `alex.rai`**
  
-![Users List — Filtered by alex.rai](../screenshots/check-user-permissions-2.png)
+![Users List — Filtered by alex.rai](../screenshots/check-user-permissions-4.png)
  
 4. Click on **alex.rai** to open the User record
 5. Confirm the user details and verify the **Roles** field displays the required roles
  
-![User Record — Alex Rai with Roles](../screenshots/check-user-permissions-1.png)
+![User Record — Alex Rai with Roles](../screenshots/check-user-permissions-5.png)
  
 | Field      | Expected Value |
 | ---------- | -------------- |
@@ -304,14 +304,9 @@ The lab scenario involves two key users — **Alex Rai** (the end user / request
  
 Confirm the following **roles** are assigned to Alex Rai:
  
-| Role                                          | Purpose                                                                                  |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `itil`                                        | Grants access to ITSM modules and the ability to interact with Incident records          |
-| `snc_internal`                                | Identifies the user as an internal ServiceNow user — required for Virtual Agent sessions |
-| `x_snc_apacaienable.incident_extend_user`     | Grants read/write access to the custom Incident Extend table                             |
-| `sn_cbs.requestor`                            | Enables the user to act as a requestor in Conversational Bot Sessions (Virtual Agent)    |
- 
-> **Why these roles matter for Alex Rai:** Alex Rai is the user who initiates the Virtual Agent chat session. The `sn_cbs.requestor` role is required for the Virtual Agent to recognise Alex as a valid chat participant. The `itil` role allows interaction with Incident records, `snc_internal` ensures the user is treated as an internal employee, and `x_snc_apacaienable.incident_extend_user` provides access to the custom fields on the Incident Extend table that the AI Agent populates during triage.
+`itil, snc_internal, x_snc_apacaienable.incident_extend_user, sn_cbs.requestor`
+
+> **If roles are missing:** Use the **Roles** tab on the user record (or click **Assign Roles** under Related Links) to add the missing role. Ensure the role State is **Active** and that the role is directly assigned (Inherited = `false`) to avoid dependency on group membership changes.
  
 ***
  
@@ -320,7 +315,7 @@ Confirm the following **roles** are assigned to Alex Rai:
 6. Navigate back to the **Users** list
 7. Filter by **User ID starts with `amelia.bryant`**
  
-![Users List — Filtered by amelia.bryant](../screenshots/check-user-permissions-4.png)
+![Users List — Filtered by amelia.bryant](../screenshots/check-user-permissions-2.png)
  
 8. Click on **amelia.bryant** to open the User record
 9. Scroll down to the **Roles** tab at the bottom of the form
@@ -329,12 +324,8 @@ Confirm the following **roles** are assigned to Alex Rai:
 ![User Record — Amelia Bryant with Roles Tab](../screenshots/check-user-permissions-3.png)
  
 Confirm the following **role** is assigned to Amelia Bryant:
- 
-| Role                                          | Purpose                                                                                        |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `x_snc_apacaienable.incident_extend_user`     | Grants read/write access to the custom Incident Extend table for incident fulfilment           |
- 
-> **Why this role matters for Amelia Bryant:** Amelia Bryant is the fulfilment user — incidents triaged by the AI Agent are assigned to her (or her assignment group). Without the `x_snc_apacaienable.incident_extend_user` role, Amelia would not have access to the custom fields on the Incident Extend table, and any updates she makes to the record (e.g., resolution notes, error code confirmation) would fail with an ACL error.
+
+`x_snc_apacaienable.incident_extend_user`
  
 > **If roles are missing:** Use the **Roles** tab on the user record (or click **Assign Roles** under Related Links) to add the missing role. Ensure the role State is **Active** and that the role is directly assigned (Inherited = `false`) to avoid dependency on group membership changes.
  
