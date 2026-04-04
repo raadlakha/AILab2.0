@@ -46,11 +46,11 @@ Replace the Semantic search configuration from the main 04b guide with the follo
 
 ## Step 7c (Alternative): Tool Outputs
 
+![NASK — Retriever Tool: Tool Outputs](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch3.png>)
+
 | Output        | Type          |
 | ------------- | ------------- |
-| `Rag Results` | `string` |
-
-![NASK — Retriever Tool: Tool Outputs](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch3.png>)
+| `Rag Results` | `string`      |
 
 Click **Continue**.
 
