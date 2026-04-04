@@ -80,6 +80,8 @@ Assistant Designer — Setup Wizard Order
 
 ### Step 1: Open the Assistant Designer
 
+We will create a new Assistant for this lab and not reuse any of the existing Virtual Agent Assistants.
+
 Navigate to **Conversational Interfaces** → **Assistant Designer**
 
 ![Assistant Designer — Create Chat-Based Assistant](<../.gitbook/assets/nava-create-chat-based-assistant (1).png>)
@@ -90,7 +92,7 @@ Navigate to **Conversational Interfaces** → **Assistant Designer**
 
 ### Step 2: Basic Details
 
-The first section in the wizard is **Basic details**.
+The first section in the configuration wizard is **Basic details**.
 
 ![NAVA Basic Details](<../.gitbook/assets/nava-basic-detail (1).png>)
 
@@ -105,7 +107,7 @@ Review and confirm:
 
 ### Step 3: Agentic Support
 
-The second section is **Agentic Support**.
+The second section in the configuration wizard is **Agentic Support**.
 
 ![NAVA Agentic Support](<../.gitbook/assets/nava-agentic-support (1).png>)
 
@@ -120,7 +122,7 @@ The second section is **Agentic Support**.
 
 ### Step 4: Search Sources
 
-The third section is **Search Sources**.
+The third section in the configuration wizard is **Search Sources**.
 
 ![NAVA Search Sources](<../.gitbook/assets/nava-search-source (1).png>)
 
@@ -128,7 +130,7 @@ No configuration needed on this page - Click "Save and Continue"
 
 ### Step 5: Knowledge Graphs
 
-The fourth section is **Knowledge Graphs**.
+The fourth section in the configuration wizard is **Knowledge Graphs**.
 
 ![NAVA Knowledge Graph](<../.gitbook/assets/nava-kg (1).png>)
 
@@ -140,7 +142,7 @@ No configuration needed on this page - Click "Save and Continue"
 
 ### Step 6: Assets
 
-The fifth section is **Assets**.
+The fifth section in the configuration wizard is **Assets**.
 
 ![NAVA Assets](<../.gitbook/assets/nava-assets (1).png>)
 
@@ -150,7 +152,7 @@ No configuration needed on this page - Click "Save and Continue"
 
 ### Step 7: Display Experience
 
-The sixth section is **Display Experience** — where NAVA is surfaced.
+The sixth section in the configuration wizard is **Display Experience** — where NAVA is surfaced.
 
 ![NAVA Display Experience](<../.gitbook/assets/nava-display (1).png>)
 
@@ -165,7 +167,7 @@ The sixth section is **Display Experience** — where NAVA is surfaced.
 
 ### Step 8: Chat Experience & Chat Features
 
-The eighth through tenth sections are **Branding**, **Chat experience**, and **Chat features**.
+The seventh through ninth sections in the configuration wizard are **Branding**, **Chat experience**, and **Chat features**.
 
 For this lab, **Branding** can be left at defaults, or you can choose a specific Branding theme that you like. The critical setting is in **Chat features**:
 
