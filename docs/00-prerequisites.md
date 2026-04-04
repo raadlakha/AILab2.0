@@ -319,7 +319,7 @@ Confirm the following **roles** are assigned to Alex Rai:
  
 8. Click on **amelia.bryant** to open the User record
 9. Scroll down to the **Roles** tab at the bottom of the form
-10. Filter the Roles related list by **Role Name >= `x_snc_apacaienable`** to locate the scoped role
+10. Filter the Roles related list by **Role Name contains `x_snc_apacaienable`** to locate the scoped role
  
 ![User Record — Amelia Bryant with Roles Tab](../screenshots/check-user-permissions-3.png)
  
