@@ -269,19 +269,6 @@ You need to change the **Run As** property to **System User** so the subflow exe
 
 ***
 
-## Checklist
-
-| # | Pre-Requisite                                                         |
-| - | --------------------------------------------------------------------- |
-| 1 | Application scope set to `x_nava_agentic_lab`                         |
-| 2 | Incident extend table exists with sample records                      |
-| 3 | Predictive Intelligence Similarity model trained (100%)               |
-| 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
-| 5 | Subflow Run As changed to System User                                 |
-| 6 | Alex Rai and Amelia Bryant roles verified                             |
-
-***
-
 ## Pre-Requisite 6: Verify User Permissions for Lab Users
  
 The lab scenario involves two key users — **Alex Rai** (the end user / requestor who interacts with the Virtual Agent) and **Amelia Bryant** (the fulfilment user who is assigned incidents). Both users must have the correct roles assigned for the Agentic Workflow to function end-to-end. If these roles are missing, the Virtual Agent session will encounter permission errors during incident creation, or the AI Agent will fail to assign and resolve records.
@@ -351,6 +338,19 @@ Confirm the following **role** is assigned to Amelia Bryant:
  
 > **If roles are missing:** Use the **Roles** tab on the user record (or click **Assign Roles** under Related Links) to add the missing role. Ensure the role State is **Active** and that the role is directly assigned (Inherited = `false`) to avoid dependency on group membership changes.
  
+***
+
+## Checklist
+
+| # | Pre-Requisite                                                         |
+| - | --------------------------------------------------------------------- |
+| 1 | Application scope set to `x_nava_agentic_lab`                         |
+| 2 | Incident extend table exists with sample records                      |
+| 3 | Predictive Intelligence Similarity model trained (100%)               |
+| 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
+| 5 | Subflow Run As changed to System User                                 |
+| 6 | Alex Rai and Amelia Bryant roles verified                             |
+
 ***
 
 ## Next Step
