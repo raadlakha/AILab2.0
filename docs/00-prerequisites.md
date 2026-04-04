@@ -209,7 +209,8 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ![Indexed Source History — Queued](<../.gitbook/assets/Index-new-KB-article-4 (1).png>)
 
-5. Refresh the page periodically until the indexing completes. When finished, the form should show:
+5. Refresh the page periodically until the indexing completes. When finished, the form should show: 
+**Note: You can't skip this!** Validate before moving to the next step.
 
 ![Indexed Source History — Indexing Complete](<../.gitbook/assets/Index-new-KB-article-5 (1).png>)
 
