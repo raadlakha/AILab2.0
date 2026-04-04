@@ -406,7 +406,7 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
 > | Tool 3 — Upload Image topic | Chat renders the native file upload prompt |
 > | Upload link | "Click here to upload an image." is visible and clickable |
 >
-> **If the upload prompt does not appear:** Check that (a) the duplicated Upload Image topic is **Active** and scoped to `x_nava_agentic_lab`, (b) **Document uploads** is enabled in the NAVA Chat Features (Capability 01, Step 8), and (c) the topic is registered as a tool on this agent.
+> **If the upload prompt does not appear:** Check that (a) the duplicated Upload Image topic is **Active** and scoped to `x_nava_agentic_lab`, (b) **File uploads** is enabled as one of the tools within the AI Agent, and (c) the topic is registered as a tool on this agent.
  
 ***
  
@@ -490,23 +490,19 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
 | Field | Expected Value |
 | --- | --- |
 | Number | `INCE0012003` (or the number returned in chat) |
-| State | `New` |
-| Contact type | `chat` |
-| Category | `Hardware` (or the category selected in Step 10) |
+| State | `In Progress` |
+| Channel | `chat` |
+| Category | `Software` (or the category selected in Step 10) |
 | Short description | Contains the user-reported issue description |
 | Caller | `Alex Rai` |
 | Attachments | Uploaded image(s) present on the record |
  
-26. Confirm **Now Assist Document Intelligence (NADI)** has triggered on the attachments — check the `u_extracted_error_code` field is populated (this is covered in detail in Capability 03)
- 
 > **If the Incident was not created:** Check the following:
->
 > - Subflow **Run As** is set to **System User** (Pre-Requisite 5)
 > - All four mandatory subflow inputs are being passed correctly by the agent
 > - The `x_nava_agentic_lab` application scope is active
 > - Alex Rai has the `x_snc_apacaienable.incident_extend_user` role (Pre-Requisite 6)
->
-> **If `contact_type` is not `chat`:** The Virtual Agent session did not stamp the field correctly. Ensure the conversation was initiated via the Service Portal chat widget (not the platform UI or email).
+
  
 ***
  
@@ -519,7 +515,7 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
 | 7.5 | Issue Summary confirmation | Agent presents structured summary of all collected information; user confirms before proceeding |
 | 7.6 | Tool 3 — Upload Image | Native file upload prompt rendered in chat |
 | 7.7–7.8 | Tool 4 — Create Incident Case | Image uploaded, Incident reference number returned (INCE prefix) |
-| 7.9 | Post-creation verification | Incident record fields correct; `contact_type = chat`; attachments present; NADI triggered |
+| 7.9 | Post-creation verification | Incident record fields correct; `channel = chat`; attachments present |
 
 ***
 
@@ -535,7 +531,7 @@ Now that the agent is fully configured, test the end-to-end Requestor Flow by im
 | Tool 4 | Subflow — `Create Incident Case` |
 | User access | Users with specific roles → `snc_internal` |
 | Data access | Dynamic user → approved role: `snc_internal` |
-| Channel | Virtual Agent — `Now Assist in Virtual Agent AlLab` |
+| Channel | Virtual Agent — `Now Assist in Virtual Agent - AlLab` |
 | Now Assist panel | OFF |
 
 ***
