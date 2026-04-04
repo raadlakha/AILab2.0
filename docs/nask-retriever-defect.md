@@ -58,9 +58,9 @@ Click **Continue**.
 
 ## Step 7d (Alternative): Tool Conditions
 
-Type: **None (Always run)**
-
 ![NASK — Retriever Tool: Tool Conditions](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch4.png>)
+
+Type: **None (Always run)**
 
 Click **Continue**.
 
