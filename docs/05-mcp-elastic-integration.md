@@ -108,7 +108,7 @@ Verify the record:
 
 Once registered, the `elasticMCPConn` MCP server's tools are available as **MCP server tool** type in the AI Agent Studio tool picker.
 
-To add an Elastic MCP tool to an AI Agent (to be added in section 06):
+To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolution Pathfinder Agent):
 
 1. Navigate to the AI Agent → **Add tools and information** tab
 2. Click **Add tool ▼** → select **MCP server tool**
