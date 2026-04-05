@@ -511,11 +511,8 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
    * `{{RetrieveRelevantKBContent.Rag Results}}` — the top 3 re-ranked KB article chunks
    * `{{FindSimilarIncidents.outputs}}` — the top 3 similar resolved incidents from PI
 6. Click **Save** to save the prompt
-7. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
  
 > **Do not copy blindly.** The provided prompt has been tested against the Veritas NetBackup triage scenario and represents a considered approach to multi-source resolution evaluation — but it is a starting point, not a finished product. The strength of an agentic system lies in its ability to adapt to the data and context it operates in. As you run end-to-end tests and observe how the LLM reasons across RAG and PI outputs, you will find areas where the prompt benefits from iteration: tighter grounding rules, adjusted evaluation thresholds, additional examples of what constitutes a "valid" resolution, or restructured output formatting. Finalize v1 now, test it, and create v2 when you have real execution data to inform improvements.
- 
-> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 11). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
  
 ***
  
@@ -587,6 +584,10 @@ If the RAG results and/or PI similar incidents contain relevant resolution infor
 > **Testing with different records:** Run the test with multiple Incident Extend records to observe both outcomes. Records with common error codes that match KB articles (e.g., error code 84 with a published Veritas Backup Failure article) should produce Outcome B. Records with uncommon or undocumented error codes should produce Outcome A. Testing both paths confirms the skill's evaluation logic is working correctly.
  
 7. If the response does not match the expected behaviour for either outcome, return to the prompt editor (Step 10) and adjust the evaluation logic, grounding constraints, or output structure — then re-finalize and re-test
+
+8. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
+
+> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 11). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
  
 ***
  
