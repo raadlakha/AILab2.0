@@ -273,7 +273,7 @@ The **Edit web search** dialog opens:
 | Execution mode                     | **Autonomous**                       |
 | Display output                     | **No**                               |
 
-> **Path B final fallback.** This tool is invoked only when both internal KB/PI search (Tool 2) and Elastic log analysis (Tools 4+5) fail to produce a conclusive resolution. The `query` input comes from Tool 3 (`Generate Web Search Question for Resolution Plan`) — the LLM-generated, privacy-safe search string. The **Gemini AI answer** provider uses Google Gemini to execute the web search and synthesise results.
+> **Path B final fallback.** This tool is invoked only when both internal KB/PI search (Tool 2) and Elastic log analysis (Tools 4+5) fail to produce a conclusive resolution. The `query` input comes from Tool 5 (`Generate Web Search Question for Resolution Plan`) — the LLM-generated, privacy-safe search string. The **Gemini AI answer** provider uses Google Gemini to execute the web search and synthesise results.
 
 Click **Save**.
 
@@ -347,7 +347,7 @@ Click **Save and continue** to complete the agent configuration.
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Agent name  | `Resolution Pathfinder for Incident case Agent`                                                                                  |
 | Type        | Chat                                                                                                                             |
-| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extend (x_snc_apacaienable_incident_extend)`         |
+| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extend table`         |
 | Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderInternalData` — Autonomous                               |
 | Tool 3      | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes**                |
 | Tool 4      | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous                                                 |
