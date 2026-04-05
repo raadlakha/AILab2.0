@@ -312,7 +312,7 @@ Click **Continue**.
 
 ### Step 9: Review Tool Summary
 
-![Add skill as a tool — Summary](<../.gitbook/assets/NASK-generatewebsearchquestion-step10 (1).png>)
+![Add skill as a tool — Summary](<../screenshots/NASK-generatewebsearchquestion-step10.png>)
 
 **Step 5 — Summary:**
 
@@ -322,7 +322,7 @@ Click **Continue**.
 | General info    | Name                 | `RetrieveGeneratedSearchQuerythatwasforAI`                                                                      |
 | General info    | Description          | `This skill is created to generate the optimal search query for AI Search to be returned with the best results` |
 | General info    | Resource             | `CreateOptimalSearchQuery`                                                                                      |
-| General info    | Provider API         | Now LLM Generic                                                                                                 |
+| General info    | Provider API         | Chat Completions                                                                                                |
 | Inputs          | incidentextendrecord | `{{incidentextendrecord}}`                                                                                      |
 | Outputs         | provider             | string                                                                                                          |
 | Outputs         | response             | string                                                                                                          |
