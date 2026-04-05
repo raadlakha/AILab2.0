@@ -54,13 +54,13 @@ Down the line Agentic Workflow can now evaluate trigger conditions:
 
 ## What NADI Enables in This Lab
 
-| Capability              | How NADI Delivers It                                                               |
-| ----------------------- | ---------------------------------------------------------------------------------- |
-| Auto-field population   | Error code and device details extracted from uploaded image — no manual copy-paste |
-| Agentic Workflow arming | `error_code` populated on the Incident, enabling the downstream trigger            |
-| Full automation mode    | No agent review required — GenAI writes directly to record fields                  |
-| Richer AI agent context | Extracted error code used by Resolution Pathfinder to search KB, logs, and web     |
-| Higher data quality     | AI reads directly from source image — eliminates transcription errors              |
+| Capability | How NADI Delivers It |
+| --- | --- |
+| Auto-field population | Error code and device details extracted from uploaded image — no manual copy-paste |
+| Agentic Workflow arming | `error_code` populated on the Incident, enabling the downstream trigger |
+| Full automation mode | No agent review required — GenAI writes directly to record fields |
+| Richer AI agent context | Extracted error code used by Resolution Pathfinder to search KB, logs, and web |
+| Higher data quality | AI reads directly from source image — eliminates transcription errors |
 
 ***
 
@@ -87,12 +87,12 @@ In the Now Assist skills for Platform screen, locate the **Extract Information f
 
 Fill in the use case details:
 
-| Field         | Value                                                        |
-| ------------- | ------------------------------------------------------------ |
-| Use case name | `Veritas Extract`                                            |
-| Target table  | Incident Extend table (`x_snc_apacaienable_incident_extend`) |
-| LLM           | `Azure OpenAI - GPT Large` (or your configured provider)     |
-| Image Mode    | yes                                                          |
+| Field | Value |
+| --- | --- |
+| **Use case name** | `Veritas Extract` |
+| **Target table** | `Incident Extend table (x_snc_apacaienable_incident_extend)` |
+| **LLM** | `Azure OpenAI - GPT Large` (or your configured provider) |
+| **Image Mode** | Yes |
 
 3. Click **Next**
 
@@ -112,14 +112,18 @@ Configure the following fields:
 
 ![NADI — Error Code Field](<../.gitbook/assets/NADI-5-error-code-field (1).png>)
 
-| Setting                 | Value                                                                                                                                     |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Field name              | `Error Code`                                                                                                                              |
-| Details                 | `This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.` |
-| Field type              | `Text`                                                                                                                                    |
-| Target table            | Incident extend table                                                                                                                     |
-| Target field            | `error_code`                                                                                                                              |
-| Required for extraction | ✅ Yes                                                                                                                                     |
+| Setting | Value |
+| --- | --- |
+| **Field name** | `Error Code` |
+| **Field type** | `Text` |
+| **Target field** | `error_code` |
+| **Required for extraction** | Yes |
+
+**Details**
+
+```
+This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.
+```
 
 > **This is the critical field.** `error_code` is the gate for the downstream Agentic Workflow. It must be mapped to the correct target field on the Incident extend table.
 
@@ -127,73 +131,140 @@ Configure the following fields:
 
 ![NADI — Model Details Field](<../.gitbook/assets/NADI-5-model-details-field (1).png>)
 
-| Setting                 | Value                                                          |
-| ----------------------- | -------------------------------------------------------------- |
-| Field name              | `Model Details`                                                |
-| Details                 | `This is Reg. Model Version, Alpha numeric field on the image` |
-| Field type              | `Text`                                                         |
-| Target field            | `model details`                                                |
-| Required for extraction | Optional                                                       |
+| Setting | Value |
+| --- | --- |
+| **Field name** | `Model Details` |
+| **Field type** | `Text` |
+| **Target field** | `model details` |
+| **Required for extraction** | Optional |
+
+**Details**
+
+```
+This is Reg. Model Version, Alpha numeric field on the image
+```
 
 #### Field 3 — Product Name
 
 ![NADI — Product Name Field](<../.gitbook/assets/NADI-5-product-name-field (1).png>)
 
-| Setting                 | Value                                                                                                           |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Field name              | `product name`                                                                                                  |
-| Details                 | `This is the product name which is mentioned on the device details image, generally mentioned below "Product:"` |
-| Field type              | `Text`                                                                                                          |
-| Target field            | `product name`                                                                                                  |
-| Required for extraction | Optional                                                                                                        |
+| Setting | Value |
+| --- | --- |
+| **Field name** | `product name` |
+| **Field type** | `Text` |
+| **Target field** | `product name` |
+| **Required for extraction** | Optional |
+
+**Details**
+
+```
+This is the product name which is mentioned on the device details image, generally mentioned below "Product:"
+```
 
 #### Field 4 — Serial Number
 
 ![NADI — Serial Number Field](<../.gitbook/assets/NADI-5-serial-number-field (1).png>)
 
-| Setting                 | Value                                                                                                     |
-| ----------------------- | --------------------------------------------------------------------------------------------------------- |
-| Field name              | `Serial Number`                                                                                           |
-| Details                 | `This is the SN number mentioned at the end of the image on th left side, mentioned after the text "SN:"` |
-| Field type              | `Text`                                                                                                    |
-| Target field            | `serial number`                                                                                           |
-| Required for extraction | Optional                                                                                                  |
+| Setting | Value |
+| --- | --- |
+| **Field name** | `Serial Number` |
+| **Field type** | `Text` |
+| **Target field** | `serial number` |
+| **Required for extraction** | Optional |
+
+**Details**
+
+```
+This is the SN number mentioned at the end of the image on the left side, mentioned after the text "SN:"
+```
 
 #### Field 5 — PN Bar Code
 
 ![NADI — PN Bar Code Field](<../.gitbook/assets/NADI-5-pn-bar-code-field (1).png>)
 
-| Setting                 | Value                                                                                    |
-| ----------------------- | ---------------------------------------------------------------------------------------- |
-| Field name              | `PN Bar Code`                                                                            |
-| Details                 | `This is the pn number above the bar code, which is alpha numeric also it is hyphenated` |
-| Field type              | `Text`                                                                                   |
-| Target field            | `product bar code`                                                                       |
-| Required for extraction | Optional                                                                                 |
+| Setting | Value |
+| --- | --- |
+| **Field name** | `PN Bar Code` |
+| **Field type** | `Text` |
+| **Target field** | `product bar code` |
+| **Required for extraction** | Optional |
+
+**Details**
+
+```
+This is the pn number above the bar code, which is alpha numeric also it is hyphenated
+```
 
 ***
 
 ### Step 4: Test the Extraction
 
-![NADI — Test screen](<../.gitbook/assets/NADI-6-test (1).png>)
+This step validates that NADI can correctly read your lab images and extract the configured fields before activating for production use.
 
-1. In the test dialog, choose:
-   * **Upload from this device** — upload a Veritas device label image directly
-2. Click **Continue**
+#### Step 4a — Upload the Test Images
 
-![NADI — Test Result 1](<../.gitbook/assets/NADI-7-test1 (1).png>)
+In the **Test output** step, an upload dialog appears.
 
-The Document Q\&A panel displays the extracted values. Verify:
+![NADI — Test upload dialog](<../.gitbook/assets/NADI-testing1 (1).png>)
 
-* `error_code` → numeric error value extracted from the image
-* `product` → product name as printed on the label
-* `serial_number` → serial number if present
-* `pn_bar_code` → product bar code if present
-* `model_details` → model details if present
+Select **Upload from this device** and click **+ Add file**.
 
-![NADI — Test Result 2](<../.gitbook/assets/NADI-7-test2 (1).png>)
+> **Add both lab images:**
+> - The **Error 37 screenshot** (error screen from the Veritas appliance)
+> - The **Veritas server details label** (device label with model, serial, product details)
+>
+> Both images are required to test all 5 extraction fields. If you missed downloading the lab resources, they are available in the Prerequisites section.
 
-> If extraction does not complete and the status stays **In Progress**, the document may still be processing. Click **Refresh**. If it stays stuck, check the execution logs.
+Click **Continue**.
+
+#### Step 4b — Review Extracted Fields
+
+NADI processes both images and opens the **Document Q&A** panel showing the extraction results.
+
+![NADI — Extracted fields pending review](<../.gitbook/assets/NADI-testing-mark-review1 (1).png>)
+
+The panel shows:
+- **All (5)** tab — all 5 configured fields
+- **To review (5)** tab — fields pending your review before submission
+- Each field shows its extracted value below the field name
+- Fields not yet reviewed appear with a grey spinner icon
+
+> **Results predicted by Now Assist.** Be sure to review AI generated results for accuracy before submitting.
+
+Example extracted values visible in the panel:
+- `error code` → `37`
+- `model detais` → `VER5000W`
+
+#### Step 4c — Mark All Fields as Reviewed
+
+For each field, click **Mark As Reviewed** to confirm the extracted value is correct.
+
+![NADI — Mark As Reviewed button](<../.gitbook/assets/NADI-testing-mark-review2 (1).png>)
+
+> Mark all 5 extracted fields as reviewed. Once you click **Mark As Reviewed** on each field, the field card turns green and the **To review** count decrements.
+
+#### Step 4d — Verify All Fields are Green
+
+After reviewing all fields, confirm the following state:
+
+![NADI — All fields reviewed and green](<../.gitbook/assets/NADI-testing-mark-review-validate (1).png>)
+
+- **All fields should be green** — each field card shows a green checkmark icon
+- **To review count should become 0** — the To review tab shows `(0)`, since you have reviewed them already
+
+> If any field shows an unexpected value, click the edit (pencil) icon to correct it before submitting.
+
+#### Step 4e — Confirm and Submit
+
+Click **Submit** (top right). The **Confirm field predictions** dialog appears.
+
+![NADI — Confirm and submit dialog](<../.gitbook/assets/NADI-confirm-submit-field (1).png>)
+
+The dialog reads: _"Confirm that you've reviewed all fields for accuracy before you submit."_
+
+Click **Confirm and submit**.
+
+> This confirms the test extraction is accurate. The extracted values will be written to the target fields on the Incident extend record. The **error code** field (`37` in this example) is the key value — this is what will populate `u_extracted_error_code` on the Incident and trigger the Resolution Pathfinder Agentic Workflow.
 
 ***
 
@@ -208,14 +279,24 @@ The integration tells NADI what to do once extraction is complete — specifical
 
 Fill in:
 
-| Field            | Value                 |
-| ---------------- | --------------------- |
-| Integration Name | `Veritas_Process`     |
-| Target Table     | Incident extend table |
-| Integration type | `Process task`        |
-| Create Flow      | ✅ Checked             |
+| Field | Value |
+| --- | --- |
+| **Integration Name** | `Veritas_Process` |
+| **Target Table** | `incident extend` |
+| **Integration type** | `Process task` |
+| **Create Flow** | ✅ Checked |
 
-3. Click **Save**
+**Condition** — configure the trigger condition for when the flow should fire:
+
+![NADI — Process integration condition](<../.gitbook/assets/NADI-process-integrate-condition (1).png>)
+
+| Field | Operator | Value |
+| --- | --- | --- |
+| `Number` | `is not empty` | — |
+
+> The condition `Number is not empty` ensures the integration only fires on records that have a valid incident number — preventing the flow from triggering on incomplete or test records.
+
+3. Ensure **Create Flow** is checked, then click **Save**
 
 ![NADI — Integration config 2](<../.gitbook/assets/NADI-8-integration2 (1).png>)
 
@@ -253,12 +334,12 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 ![NADI — Integration trigger config 1](<../.gitbook/assets/NADI-9-integration (1).png>)
 
-| Field            | Value             |
-| ---------------- | ----------------- |
-| Integration Name | `Veritas_Extract` |
-| Target Table     | incident extend   |
-| Integration type | `Extract Values`  |
-| Create Flow      | ✅ Checked         |
+| Field | Value |
+| --- | --- |
+| **Integration Name** | `Veritas_Extract` |
+| **Target Table** | `incident extend` |
+| **Integration type** | `Extract Values` |
+| **Create Flow** | ✅ Checked |
 
 ![NADI — Integration trigger config 2](<../.gitbook/assets/NADI-9-integration2 (1).png>)
 
@@ -272,7 +353,49 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 ***
 
-### Step 8: Verify Full Automation End-to-End
+### Step 8: Review and Activate the Use Case
+
+Before completing setup, review the full use case configuration on the **Review and activate** screen (Step 5 of the wizard).
+
+![NADI — Review and activate — use case summary](<../.gitbook/assets/NADI-setup-step5 (1).png>)
+
+Verify the following are correctly configured:
+
+**Use case details**
+
+| Field | Value |
+| --- | --- |
+| Use case name | `Veritas Extract` |
+| Target table | `incident extend` |
+
+**Fields (Single Fields) — all 5 must be present:**
+
+| Field name | Type | Required |
+| --- | --- | --- |
+| error code | Text | Yes |
+| model details | Text | Yes |
+| product name | Text | Yes |
+| serial number | Text | Yes |
+| pn bar code | Text | Yes |
+
+**Integrations — both must be present:**
+
+| Integration name | Type |
+| --- | --- |
+| `Veritas_Extract Integrations` | Extract Values |
+| `Veritas_Process` | Process Task |
+
+Once everything is confirmed, click **Complete setup**.
+
+The success confirmation appears:
+
+![NADI — Use case set successfully](<../.gitbook/assets/NADI-step5-complete (1).png>)
+
+> **"Your use case has been set"** — Get ready to get answers to your questions more efficiently. Click **Return to use cases**.
+
+***
+
+### Step 9: Verify Full Automation End-to-End
 
 1. Click the **Settings** (gear) icon on the use case
 2. Navigate to **Extraction mode**
@@ -288,14 +411,15 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 
 ## Key Configuration Fields
 
-| Field            | Value for This Lab                 |
-| ---------------- | ---------------------------------- |
-| Skill            | Extract Information from documents |
-| Use case name    | Veritas Extract                    |
-| Target table     | Incident extend table              |
-| Extraction mode  | Full automation (no agent review)  |
-| Integration name | Veritas\_Process                   |
-| Integration type | Process task                       |
+| Field | Value for This Lab |
+| --- | --- |
+| Skill | Extract Information from documents |
+| Use case name | `Veritas Extract` |
+| Target table | Incident extend table |
+| Extraction mode | Full automation (no agent review) |
+| Integration 1 name | `Veritas_Extract` — Extract Values |
+| Integration 2 name | `Veritas_Process` — Process Task |
+| Process condition | Number is not empty |
 
 ***
 
@@ -316,10 +440,10 @@ Without NADI running successfully, the workflow will never fire — regardless o
 
 ### Full Automation Mode vs. Agent Review Mode
 
-| Mode                | Behaviour                                                    | Use When                                                       |
-| ------------------- | ------------------------------------------------------------ | -------------------------------------------------------------- |
-| **Full automation** | GenAI extracts and writes fields immediately, no review      | Trusted document types with consistent layouts (device labels) |
-| **Agent review**    | GenAI extracts but a human reviews before values are written | Complex or variable documents where accuracy must be validated |
+| Mode | Behaviour | Use When |
+| --- | --- | --- |
+| **Full automation** | GenAI extracts and writes fields immediately, no review | Trusted document types with consistent layouts (device labels) |
+| **Agent review** | GenAI extracts but a human reviews before values are written | Complex or variable documents where accuracy must be validated |
 
 For this lab, **Full automation** is required — the Incident enrichment must happen immediately after image upload to enable the Agentic Workflow within the same session.
 
