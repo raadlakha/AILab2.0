@@ -177,7 +177,6 @@ Configure the following fields:
 ![NADI — Test screen](<../.gitbook/assets/NADI-6-test (1).png>)
 
 1. In the test dialog, choose:
-   * **Upload from record** — select an existing Incident with an image attached, or
    * **Upload from this device** — upload a Veritas device label image directly
 2. Click **Continue**
 

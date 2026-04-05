@@ -311,7 +311,7 @@ Click **Save and continue** to complete the agent configuration.
 
 ***
 
-### Step 7 — Test the Agent
+### Step 7 — Test the Agent (Before testing this first complete [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md))
 
 **Impersonate as user Alex Rai → Service Portal → Chat Widget**
 
