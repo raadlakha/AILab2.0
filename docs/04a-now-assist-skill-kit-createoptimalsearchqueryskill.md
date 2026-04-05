@@ -349,9 +349,6 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
    * `{{GetIncidentExtendDetail.category}}`
    * `{{GetIncidentExtendDetail.work_notes}}`
 5. Click **Save** to save the prompt
-6. Click **Manage prompt** → **Finalize prompt** to lock the prompt as version 1
-
-> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 15). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
 
 > **Prompt design note:** The prompt instructs the LLM to take the structured incident fields (error code, CI name, product details, work notes, description) and synthesise them into a single, keyword-optimised search query string suitable for AI Search. It is not a summarisation task — the output is a search query, not a summary. This distinction is critical for downstream KB retrieval quality.
 
@@ -400,6 +397,10 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 8. If the response does not follow the template or contains missing/incorrect sections, return to the prompt editor (Step 13) and adjust the prompt instructions — then re-finalize and re-test
  
 > **Tip:** You can also click the **Grounded prompt** tab to inspect the fully rendered prompt that was sent to the LLM — this shows the actual values substituted for each `{{GetIncidentExtendDetail.<field>}}` variable. The **Tools** tab shows the execution status of the `GetIncidentExtendDetail` Flow Action. Both are useful for debugging when the output does not match expectations.
+
+9. Once the tests are compeleted successfully, click on **Manage prompt** → **Finalize prompt** to lock the prompt as version 1
+
+> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
  
 ***
  
@@ -425,7 +426,7 @@ Click **Publish skill** (top right of the skill editor).
 The **Publish Skill** dialog opens:
  
 Review the deployment settings summary:
- 
+
 | Field           | Value          |
 | --------------- | -------------- |
 | Workflow        | Other          |
