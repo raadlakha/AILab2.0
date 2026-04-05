@@ -176,7 +176,7 @@ Scroll down in the **Edit a trigger** dialog to **Define when this trigger occur
 | ----------- | -------- | ------------ |
 | Assigned to | is       | `Not empty`. |
 
-> The trigger fires on the **`incident extend`** table (`x_nava_agentic_lab_incident_extend`), not the base `incident` table — because the error code and extended fields that drive the workflow live in the extend table, populated by NADI.
+> The trigger fires on the **`incident extend`** table (`x_snc_apacaienable_incident_extend`), not the base `incident` table — because the error code and extended fields that drive the workflow live in the extend table, populated by NADI.
 
 ***
 

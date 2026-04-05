@@ -136,7 +136,7 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 5. Click the **Update & Retrain** button in the top-right corner to trigger the training job
 6. Scroll down to the **ML Solutions** tab at the bottom of the form
-7. Wait for the solution to reach **Solution Complete** at **100%** progress (Continue on with the lab - you can proceed on with the next steps as you are waiting for the model training to complete)
+7. Wait for the solution to reach **Solution Complete** at **100%** progress (this may take a while, continue on with the lab - you can proceed on with the next steps as you are waiting for the model training to complete)
 
 ![ML Solutions — Training Complete](<../.gitbook/assets/PI-step4 (1).png>)
 
@@ -150,6 +150,10 @@ The AI Agent uses a **Predictive Intelligence Similarity** solution to find hist
 
 > **Training time:** On most lab instances, training completes within 1–2 minutes given the small dataset. If the solution stays in _Training_ state for more than 5 minutes, check that the instance has the **Predictive Intelligence** plugin active and that there are sufficient resolved records in the Incident table matching the filter condition (State = Resolved).
 
+![ML Solutions — Unauthorized state](../.gitbook/assets/PI-step5.png)
+
+8. If the State becomes `Unauthorized` for the 'Find possible resolution for similar Incident cases' Predictive Intelligence model that you are training, it is likely a training infrastructure issue. At this point, spin up a new DemoHub instance and rerun the End-to-end AI Lab catalog again.
+
 ***
 
 ## Pre-Requisite 4: Verify the Knowledge Base Article and Index It in AI Search
@@ -158,7 +162,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ### Part A: Verify the KB Article Exists
 
-1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb_knowledge.list)
+1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb\_knowledge.LIST)
 2. Filter the list by **Short description contains `backup`**
 3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
 
@@ -205,7 +209,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ![Indexed Source History — Queued](<../.gitbook/assets/Index-new-KB-article-4 (1).png>)
 
-5. Refresh the page periodically until the indexing completes. When finished, the form should show:
+5. Refresh the page periodically until the indexing completes. When finished, the form should show: **Note: You can't skip this!** Validate before moving to the next step.
 
 ![Indexed Source History — Indexing Complete](<../.gitbook/assets/Index-new-KB-article-5 (1).png>)
 
@@ -265,6 +269,72 @@ You need to change the **Run As** property to **System User** so the subflow exe
 
 ***
 
+## Pre-Requisite 6: Verify User Permissions for Lab Users
+
+The lab scenario involves two key users — **Alex Rai** (the end user / requestor who interacts with the Virtual Agent) and **Amelia Bryant** (the fulfilment user who is assigned incidents). Both users must have the correct roles assigned for the Agentic Workflow to function end-to-end. If these roles are missing, the Virtual Agent session will encounter permission errors during incident creation, or the AI Agent will fail to assign and resolve records.
+
+### Steps
+
+1. In the **Filter navigator**, type `user admin`
+2. Under **User Administration**, click **Users**
+
+![Filter Navigator — User Administration > Users](../.gitbook/assets/check-user-permissions-1.png)
+
+***
+
+### Part A: Verify Alex Rai's Roles
+
+Alex Rai is our requestor personna!
+
+3. In the **Users** list, filter by **User ID starts with `alex.rai`**
+
+![Users List — Filtered by alex.rai](../.gitbook/assets/check-user-permissions-4.png)
+
+4. Click on **alex.rai** to open the User record
+5. Confirm the user details and verify the **Roles** field displays the required roles
+
+![User Record — Alex Rai with Roles](../.gitbook/assets/check-user-permissions-5.png)
+
+| Field      | Expected Value |
+| ---------- | -------------- |
+| User ID    | `alex.rai`     |
+| First name | `alex`         |
+| Last name  | `rai`          |
+| Title      | `IT Analyst`   |
+| Department | `IT`           |
+| Active     | ✅ Checked      |
+
+Confirm the following **roles** are assigned to Alex Rai:
+
+`itil, snc_internal, x_snc_apacaienable.incident_extend_user, sn_cbs.requestor`
+
+> **If roles are missing:** Click **Assign Roles** under Related Links to add the missing role.
+
+***
+
+### Part B: Verify Amelia Bryant's Roles
+
+Amelia Bryant is our fulfiller persona!
+
+6. Navigate back to the **Users** list
+7. Filter by **User ID starts with `amelia.bryant`**
+
+![Users List — Filtered by amelia.bryant](../.gitbook/assets/check-user-permissions-2.png)
+
+8. Click on **amelia.bryant** to open the User record
+9. Scroll down to the **Roles** tab at the bottom of the form
+10. Filter the Roles related list by **Role Name contains `x_snc_apacaienable`** to locate the scoped role
+
+![User Record — Amelia Bryant with Roles Tab](../.gitbook/assets/check-user-permissions-3.png)
+
+Confirm the following **role** is assigned to Amelia Bryant:
+
+`x_snc_apacaienable.incident_extend_user`
+
+> **If roles are missing:** Click **Assign Roles** under Related Links to add the missing role.
+
+***
+
 ## Checklist
 
 | # | Pre-Requisite                                                         |
@@ -274,6 +344,7 @@ You need to change the **Run As** property to **System User** so the subflow exe
 | 3 | Predictive Intelligence Similarity model trained (100%)               |
 | 4 | KB article indexed in AI Search (Keyword Ingestion State = `indexed`) |
 | 5 | Subflow Run As changed to System User                                 |
+| 6 | Alex Rai and Amelia Bryant roles verified                             |
 
 ***
 

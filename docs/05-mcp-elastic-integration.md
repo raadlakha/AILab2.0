@@ -47,7 +47,7 @@ curl -X POST \
   -d '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"test-client","version":"1.0.0"},"capabilities":{},"protocolVersion":"2024-11-05"},"jsonrpc":"2.0"}'
 ```
 
-Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`). Note that the work ApiKey within the format is **must**.
+Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`). Note that the word ApiKey within the format is **must**.
 
 **Expected response:** A JSON-RPC 2.0 response containing the MCP server's `serverInfo`, `protocolVersion: "2024-11-05"`, and `capabilities` object — confirming the endpoint is live and the API key is authorised.
 
@@ -58,6 +58,8 @@ Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_
 ## Step 2: Navigate to Manage MCP Servers
 
 Navigate to **All → AI Agent Studio → Settings → Manage MCP servers**.
+
+![Navigate to MCP server setting](../.gitbook/assets/MCPConnect3.png)
 
 The **Manage Model Context Protocol servers** page lists all registered MCP server connections. This is the central registry for all external tool providers available to AI Agents in this instance.
 
@@ -92,15 +94,15 @@ Click **Add**.
 
 After adding, ServiceNow creates a **Model Context Protocol Server** record and a corresponding **Connection Alias**.
 
-![MCP server record — elasticMCPConn](<../.gitbook/assets/MCPConnect2 (1).png>)
+![MCP server record — elasticMCPConn](<../.gitbook/assets/MCPConnect2 (2).png>)
 
 Verify the record:
 
-| Field            | Value                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| Server name      | `elasticMCPConn` (or whatever you have decided to name it as)                       |
-| Connection Alias | `elasticMCPConn_1774940033699` _(auto-generated, can be different acros instances)_ |
-| Application      | `Global`                                                                            |
+| Field            | Value                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| Server name      | `elasticMCPconn` (or whatever you have decided to name it as)                                           |
+| Connection Alias | `x_snc_apacaienable.elasticMCPconn_1775179359877` _(auto-generated, can be different across instances)_ |
+| Application      | `x_nava_agentic_lab`                                                                                    |
 
 ***
 
@@ -108,11 +110,11 @@ Verify the record:
 
 Once registered, the `elasticMCPConn` MCP server's tools are available as **MCP server tool** type in the AI Agent Studio tool picker.
 
-To add an Elastic MCP tool to an AI Agent:
+To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolution Pathfinder Agent):
 
 1. Navigate to the AI Agent → **Add tools and information** tab
 2. Click **Add tool ▼** → select **MCP server tool**
-3. Select `elasticMCPConn` as the server
+3. Select `elasticMCPconn` as the server
 4. The available tools exposed by the Elastic MCP server will be listed — select the relevant log analysis or RCA tool
 5. Configure the tool inputs and conditions as required
 
@@ -124,12 +126,12 @@ To add an Elastic MCP tool to an AI Agent:
 
 | Field               | Value                                                                               |
 | ------------------- | ----------------------------------------------------------------------------------- |
-| MCP server name     | `elasticMCPConn`                                                                    |
+| MCP server name     | `elasticMCPconn`                                                                    |
 | Authentication type | API Key                                                                             |
 | MCP server URL      | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
 | API key             | _(your Elastic API key)_                                                            |
-| Connection Alias    | `elasticMCPConn_1774940033699` (auto-generated)                                     |
-| Application scope   | Global                                                                              |
+| Connection Alias    | `x_snc_apacaienable.elasticMCPconn_1775179359877` (auto-generated)                  |
+| Application scope   | x\_nava\_agentic\_lab                                                               |
 | Protocol version    | `2024-11-05`                                                                        |
 | Transport           | Streamable HTTP                                                                     |
 | Navigation          | All → AI Agent Studio → Settings → Manage MCP servers                               |
@@ -169,4 +171,4 @@ The MCP `initialize` handshake negotiates the protocol version. ServiceNow's cli
 
 ## Next Step
 
-Continue to [06 — Fulfiller AI Agent: Resolution Pathfinder for Incident case Agent: CreateOptimalSearchQuery](06-fulfiller-ai-agent.md) to build out your fulfiller flow AI Agent (Resolution Pathfinder for Incident case Agent) now that you have all the components needed!
+Continue to [06 — Fulfiller AI Agent: Resolution Pathfinder](06-fulfiller-ai-agent.md) to build out your fulfiller flow AI Agent (Resolution Pathfinder for Incident case Agent) now that you have all the components needed!

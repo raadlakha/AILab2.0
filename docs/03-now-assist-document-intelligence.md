@@ -89,9 +89,10 @@ Fill in the use case details:
 
 | Field         | Value                                                        |
 | ------------- | ------------------------------------------------------------ |
-| Use case name | ```Veritas Extract```                                        |
-| Target table  | Incident Extend table (`x_nava_agentic_lab_incident_extend`) |
+| Use case name | `Veritas Extract`                                            |
+| Target table  | Incident Extend table (`x_snc_apacaienable_incident_extend`) |
 | LLM           | `Azure OpenAI - GPT Large` (or your configured provider)     |
+| Image Mode    | yes                                                          |
 
 3. Click **Next**
 
@@ -116,7 +117,7 @@ Configure the following fields:
 | Field name              | `Error Code`                                                                                                                              |
 | Details                 | `This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.` |
 | Field type              | `Text`                                                                                                                                    |
-| Target table            | Incident extend table                                                                                                                   |
+| Target table            | Incident extend table                                                                                                                     |
 | Target field            | `error_code`                                                                                                                              |
 | Required for extraction | ✅ Yes                                                                                                                                     |
 
@@ -207,12 +208,12 @@ The integration tells NADI what to do once extraction is complete — specifical
 
 Fill in:
 
-| Field            | Value                   |
-| ---------------- | ----------------------- |
-| Integration Name | `Veritas_Process`       |
+| Field            | Value                 |
+| ---------------- | --------------------- |
+| Integration Name | `Veritas_Process`     |
 | Target Table     | Incident extend table |
-| Integration type | `Process task`          |
-| Create Flow      | ✅ Checked               |
+| Integration type | `Process task`        |
+| Create Flow      | ✅ Checked             |
 
 3. Click **Save**
 
@@ -291,7 +292,7 @@ This step wires NADI to auto-trigger when images are attached to an Incident cre
 | ---------------- | ---------------------------------- |
 | Skill            | Extract Information from documents |
 | Use case name    | Veritas Extract                    |
-| Target table     | Incident extend table            |
+| Target table     | Incident extend table              |
 | Extraction mode  | Full automation (no agent review)  |
 | Integration name | Veritas\_Process                   |
 | Integration type | Process task                       |

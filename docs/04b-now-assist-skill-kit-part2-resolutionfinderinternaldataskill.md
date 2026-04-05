@@ -6,7 +6,7 @@
 
 ## What It Is
 
-`ResolutionFinderUsingInternalData` is the **orchestrating skill** for Path A of the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
+`ResolutionFinderInternalData` is the **orchestrating skill** for the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
 
 This skill covers **all three steps of Path A**:
 
@@ -31,8 +31,8 @@ Path A — Step 3:
         │
         ▼
 Path A — Result:
-  YES → Proposed Resolution Plan based on Internal Knowledge built
-  NO  → fall through to Path B (privacy-safe web search)
+  YES → Proposed Resolution Plan based on Internal Knowledge built (after consulting Elastic MCP log records as well)
+  NO  → fall through to Path B - after consulting Elastic MCP log records as well (privacy-safe web search)
 ```
 
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
@@ -80,14 +80,14 @@ Path A — Result:
 
 Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 
-| Field                | Value                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Skill name           | `ResolutionFinderUsingInternalData`                                                                                                                                                                                                                                                                                                                                                                                                     |
-| Description          | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) [Ignore the discrepancy with the screenshot - intent is to input the name of your Incident Extend table] by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
-| Default provider     | `Azure OpenAI`                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| Default provider API | `Chat Completions`                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Field                | Value                                                                                                                                                                                                                                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Skill name           | `ResolutionFinderInternalData`                                                                                                                                                                                                                                                                                                 |
+| Description          | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
+| Default provider     | `Azure OpenAI`                                                                                                                                                                                                                                                                                                                 |
+| Default provider API | `Chat Completions`                                                                                                                                                                                                                                                                                                             |
 
-![NASK — General Info: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-1 (1).png>)
+![NASK — General Info: ResolutionFinderInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-1 (1).png>)
 
 ***
 
@@ -134,7 +134,30 @@ Two inputs are required — one per tool type.
 
 ***
 
-### Step 4: Add Tool 1 — Predictive Intelligence (FindSimilarIncidents)
+### Step 4: Rename the Prompt
+
+When the skill is created, NASK auto-generates a default prompt named **Incident Summarization**. This default name is misleading — this skill does not summarise incidents. It evaluates whether a viable resolution exists based on internal knowledge sources. The prompt must be renamed to reflect its actual purpose.
+
+1. In the **Skill contents** panel (left side), expand **Prompts** → **Azure OpenAI** → **Chat Completions**
+2. Click on **Incident Summarization** to select it
+
+![NASK — Edit Prompt: Default Name (Incident Summarization)](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-33.png)
+
+3. Click the **pencil icon** next to the prompt name to open the **Edit prompt name** dialog
+4. Change the **Name** from `Incident Summarization` to `Assess if solution exists within Internal Knowledge sources`
+
+![NASK — Edit Prompt Name Dialog](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-34.png)
+
+5. Click **Save changes**
+6. Confirm the prompt name now displays as **Assess if solution exists within Internal Knowledge sources** in the Skill contents panel and the prompt editor header
+
+![NASK — Prompt Renamed to Assess if solution exists within Internal Knowledge sources](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-35.png)
+
+> The prompt name appears throughout the skill — on the canvas (as the Skill prompt node label), in the Publish dialog, and in the finalized prompt selector. Renaming it now ensures consistency across all surfaces. This is also the prompt name that appears when you publish the skill in Step 11.
+
+***
+
+### Step 5: Add Tool 1 — Predictive Intelligence (FindSimilarIncidents)
 
 Navigate to the **Add tools** tab. Click **+** on the canvas → **Tool node** → **Add**.
 
@@ -142,7 +165,7 @@ Select **Predictive Intelligence** → **Configure tool**.
 
 ![NASK — Tool Type: Predictive Intelligence](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-4 (1).png>)
 
-#### Step 4a — General Info
+#### Step 5a — General Info
 
 | Field            | Value                                                                                    |
 | ---------------- | ---------------------------------------------------------------------------------------- |
@@ -153,7 +176,7 @@ Select **Predictive Intelligence** → **Configure tool**.
 
 ![NASK — PI Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-5 (1).png>)
 
-#### Step 4b — Tool Inputs
+#### Step 5b — Tool Inputs
 
 | Input name          | Datatype | Value                                                     |
 | ------------------- | -------- | --------------------------------------------------------- |
@@ -168,7 +191,7 @@ Select **Predictive Intelligence** → **Configure tool**.
 
 ![NASK — PI Tool: Tool Inputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-6 (1).png>)
 
-#### Step 4c — Tool Outputs
+#### Step 5c — Tool Outputs
 
 | Output    | Type          |
 | --------- | ------------- |
@@ -176,13 +199,13 @@ Select **Predictive Intelligence** → **Configure tool**.
 
 ![NASK — PI Tool: Tool Outputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-7 (1).png>)
 
-#### Step 4d — Tool Conditions
+#### Step 5d — Tool Conditions
 
 Type: **None (Always run)**
 
 ![NASK — PI Tool: Tool Conditions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-8 (1).png>)
 
-#### Step 4e — Summary
+#### Step 5e — Summary
 
 Verify and click **Save changes**.
 
@@ -190,11 +213,11 @@ Verify and click **Save changes**.
 
 > After saving, the canvas shows the FindSimilarIncidents node added below Start:
 
-![NASK — Canvas After PI Tool Added](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-11 (1).png>)
+![NASK — Canvas After PI Tool Added](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-11 (2).png>)
 
 ***
 
-### Step 5: Add Tool 2 — Skill (GenerateSearchQueryAgainstAISearch) as Parallel Node
+### Step 6: Add Tool 2 — Skill (GenerateSearchQueryAgainstAISearch) as Parallel Node
 
 Click the **+** on the **parallel branch from Start**. Select **Tool node** → **Add**.
 
@@ -204,18 +227,18 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 
 ![NASK — Add Skill as Tool: Parallel Node Checked](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-13 (1).png>)
 
-#### Step 5a — General Info
+#### Step 6a — General Info
 
 | Field        | Value                                                                                                           |
 | ------------ | --------------------------------------------------------------------------------------------------------------- |
 | Name         | `GenerateSearchQueryAgainstAISearch`                                                                            |
 | Description  | `This skill is created to generate the optimal search query for AI Search to be returned with the best results` |
 | Resource     | `CreateOptimalSearchQuery`                                                                                      |
-| Provider API | `Now LLM Generic`                                                                                               |
+| Provider API | `Chat Completions`                                                                                              |
 
-![NASK — Skill Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-14 (1).png>)
+![NASK — Skill Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-14 (2).png>)
 
-#### Step 5b — Tool Inputs
+#### Step 6b — Tool Inputs
 
 | Input                  | Datatype | Value                                          |
 | ---------------------- | -------- | ---------------------------------------------- |
@@ -223,7 +246,7 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 
 ![NASK — Skill Tool: Tool Inputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-15 (1).png>)
 
-#### Step 5c — Tool Outputs
+#### Step 6c — Tool Outputs
 
 | Output      | Type   |
 | ----------- | ------ |
@@ -237,21 +260,21 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 
 ![NASK — Skill Tool: Tool Outputs](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-16 (1).png>)
 
-#### Step 5d — Tool Conditions
+#### Step 6d — Tool Conditions
 
 Type: **None (Always run)**
 
 ![NASK — Skill Tool: Tool Conditions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-17 (1).png>)
 
-#### Step 5e — Summary
+#### Step 6e — Summary
 
 Verify **Add as a parallel node: Yes** → click **Add tool**.
 
-![NASK — Skill Tool: Summary](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-18 (1).png>)
+![NASK — Skill Tool: Summary](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-18 (2).png>)
 
 ***
 
-### Step 6: Canvas State After Two Parallel Tools
+### Step 7: Canvas State After Two Parallel Tools
 
 With both parallel tools added, the canvas shows:
 
@@ -273,13 +296,13 @@ FindSimilarIncidents        GenerateSearchQuery...
 
 ![NASK — Canvas: Two Parallel Tools](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-19 (1).png>)
 
-> At this point the Retriever has not yet been added. The next step inserts `RetrieveRelevantKBContent` between `GenerateSearchQueryAgainstAISearch` and the `Assess if solution exists` prompt. (Click on the (+) line where it is after the GeneratedSearchQueryAgainstAISearch node, not the one after Predictive Intelligence)
+> At this point the Retriever has not yet been added. The next step inserts `RetrieveRelevantKBContent` between `GenerateSearchQueryAgainstAISearch` and the `Assess if solution exists` prompt. Click on the **(+)** connector on the line **after the GenerateSearchQueryAgainstAISearch node** — not the one after Predictive Intelligence.
 
 ***
 
-### Step 7: Add Tool 3 — Retriever (RetrieveRelevantKBContent)
+### Step 8: Add Tool 3 — Retriever (RetrieveRelevantKBContent)
 
-Click the **+** connector **between** the parallel merge and `Assess if solution exists`. Select **Tool node** → **Add**.
+Click the **+** connector on the `GenerateSearchQueryAgainstAISearch` branch (as described above). Select **Tool node** → **Add**.
 
 ![NASK — Add Node Dialog: Tool Node for Retriever](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-20 (1).png>)
 
@@ -291,7 +314,7 @@ The **Add retriever as a tool** wizard opens (5 steps).
 
 ***
 
-#### Step 7a — General Info
+#### Step 8a — General Info
 
 | Field       | Value                                                                                                                                         |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -307,7 +330,7 @@ Click **Continue**.
 
 ***
 
-#### Step 7b — Tool Inputs
+#### Step 8b — Tool Inputs
 
 The retriever tool inputs configure the full search pipeline. This is the most detailed configuration step in the skill.
 
@@ -328,7 +351,11 @@ The retriever tool inputs configure the full search pipeline. This is the most d
 
 ![NASK — Retriever Tool: Tool Inputs — Core Search Configuration](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-23 (1).png>)
 
+> \*\*If your 'Edit retriever tool' form does not look like the one above, it is likely a UI defect. Refer to [NASK Retriever workaround](nask-retriever-defect.md) for temporary workaround.
+
 > **Search query wired to the parallel skill output:** `{{GenerateSearchQueryAgainstAISearch.response}}` is the optimised query string produced by `CreateOptimalSearchQuery`. This is the critical data hand-off — the LLM-generated query drives the semantic KB search.
+>
+> **Rewrite query must be disabled.** The upstream `CreateOptimalSearchQuery` skill has already optimised the query using the full Incident context and the structured `ISSUE → SYMPTOMS → ERROR → SYSTEM → CATEGORY → DESCRIPTION` template. Enabling Rewrite query would allow the RAG engine to rewrite the query with its own LLM pass — discarding the carefully constructed upstream output. Keep this unchecked.
 >
 > **Search-profile-based** uses the `quick_action_kb_search_profile` search profile, which defines which KB sources and indexes are searched. **Semantic** criteria uses the E5FT embedding model to find semantically similar articles, not just keyword matches.
 
@@ -364,7 +391,7 @@ Click **Continue**.
 
 ***
 
-#### Step 7c — Tool Outputs
+#### Step 8c — Tool Outputs
 
 | Output        | Type          |
 | ------------- | ------------- |
@@ -378,7 +405,7 @@ Click **Continue**.
 
 ***
 
-#### Step 7d — Tool Conditions
+#### Step 8d — Tool Conditions
 
 Type: **None (Always run)**
 
@@ -388,7 +415,7 @@ Click **Continue**.
 
 ***
 
-#### Step 7e — Summary
+#### Step 8e — Summary
 
 Verify the complete configuration before saving:
 
@@ -420,7 +447,7 @@ Click **Save changes**.
 
 ***
 
-### Step 8: Final Canvas — Complete Skill Flow
+### Step 9: Final Canvas — Complete Skill Flow
 
 After all three tools are added, the canvas shows the complete four-node flow:
 
@@ -457,22 +484,18 @@ After all three tools are added, the canvas shows the complete four-node flow:
 
 ***
 
-### Step 9: Author the Prompt
+### Step 10: Author the Prompt
 
 Navigate back to **Step 1: Edit prompt** in the NASK wizard tab bar. Click on the **Assess if solution exists within Internal Knowledge sources** prompt in the Skill contents panel to open the prompt editor.
 
 This is the most critical prompt in the entire skill — it is the LLM reasoning step that evaluates whether a viable resolution exists based on the combined output of all three tools: the AI Search query, the RAG results from KB articles, and the Predictive Intelligence similar incidents.
 
-A reference prompt for this skill is provided in the lab repository. Open the file and use it as your **starting point**:
+The prompt for this skill is provided in the lab repository. Copy the full prompt text from the following link listed in step 1 and paste it into the **Prompt** text area:
 
-```
-📁 ../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt
-```
-
-1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt/) in the lab repository
+1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](https://raw.githubusercontent.com/raadlakha/AILab2.0/main/NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt) in the lab repository
 2. **Read through the entire prompt before pasting anything.** This prompt is more complex than the upstream skills — it must reason across two distinct data sources (RAG KB results and PI similar incidents) and make a binary determination (resolution found or not). Understand the evaluation logic, the grounding constraints, and the expected output structure before proceeding
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
-4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
+4. **Review and adapt the prompt to your environment.** Agentic AI systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
 
 | Area to Review                  | What to Consider                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -488,15 +511,86 @@ A reference prompt for this skill is provided in the lab repository. Open the fi
    * `{{RetrieveRelevantKBContent.Rag Results}}` — the top 3 re-ranked KB article chunks
    * `{{FindSimilarIncidents.outputs}}` — the top 3 similar resolved incidents from PI
 6. Click **Save** to save the prompt
-7. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
 
 > **Do not copy blindly.** The provided prompt has been tested against the Veritas NetBackup triage scenario and represents a considered approach to multi-source resolution evaluation — but it is a starting point, not a finished product. The strength of an agentic system lies in its ability to adapt to the data and context it operates in. As you run end-to-end tests and observe how the LLM reasons across RAG and PI outputs, you will find areas where the prompt benefits from iteration: tighter grounding rules, adjusted evaluation thresholds, additional examples of what constitutes a "valid" resolution, or restructured output formatting. Finalize v1 now, test it, and create v2 when you have real execution data to inform improvements.
 
-> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 10). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
+***
+
+### Step 11: Test the Prompt
+
+Before publishing, use the built-in **Test prompt** feature to validate that the skill's three tools execute correctly and that the LLM produces an appropriate resolution evaluation. This skill is more complex to test than `CreateOptimalSearchQuery` — it involves three tools converging (PI, Skill, and Retriever), so the test validates the entire pipeline end-to-end.
+
+1. In the NASK skill editor, locate the **Test prompt** panel (right-hand side of the prompt editor)
+2. Click the **Run test** button — the **Run test** dialog opens
+3. This skill requires **two inputs** (unlike the upstream skill which had one). Enter the same Incident Extend record number in both fields:
+
+| Input field                                | Type   | Value         |
+| ------------------------------------------ | ------ | ------------- |
+| `Record from Incident Extend table`        | Record | `INCE0012001` |
+| `Record from Incident Extend table String` | String | `INCE0012001` |
+
+4. Ensure **Test prompt after applying security controls** is checked
+5. Click **Run test**
+
+![NASK — Run Test Dialog: Two Inputs and Security Controls](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-36.png)
+
+> **Both inputs must reference the same record.** The Record input feeds the PI tool (which reads fields directly from the table), and the String input feeds the Skill tool (which passes the incident number to `CreateOptimalSearchQuery`). Using different values would cause the PI and RAG paths to evaluate different incidents — producing an incoherent result at the prompt merge.
+
+6. Wait for the test to complete — the **Response** tab in the Test prompt panel will display the LLM-generated evaluation. The result will fall into one of two outcomes:
 
 ***
 
-### Step 10: Publish the Skill
+#### Outcome A — No Resolution Found (Path B fallthrough)
+
+If the RAG results and PI similar incidents do not contain sufficient evidence to resolve the issue, the LLM will indicate that no internal resolution was found. The response will typically:
+
+* Acknowledge the reported issue, error code, and affected system
+* State that no internal knowledge or previous incident resolution matches the specific error and symptoms
+* Indicate that the issue appears to be new or not yet documented
+* Recommend next steps such as gathering additional data (e.g., log analysis)
+
+![NASK — Test Prompt Response: No Resolution Found](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-37.png)
+
+> **What this means:** The downstream Agentic Workflow will fall through to **Path B** if searching log entries through Elastic MCP server does not return anything conclusive as well — a privacy-safe web search with PII stripped. This is the expected behaviour when the KB, historical incidents and log entries do not contain a matching resolution.
+
+***
+
+#### Outcome B — Resolution Found (Path A success)
+
+If the RAG results and/or PI similar incidents contain relevant resolution information, the LLM will construct a resolution response. The response will typically include:
+
+* An **Acknowledgment** confirming the reported issue, error code, affected system, and hostname
+* **Resolution Steps** — a numbered, actionable set of steps derived from the KB articles and/or similar incident resolution notes (e.g., reviewing log entries, verifying server validity, updating configuration, restarting services)
+* **Prerequisites / Warnings** — any conditions or caveats for executing the resolution steps
+
+![NASK — Test Prompt Response: Resolution Found with Steps](../.gitbook/assets/NASKResolutionFinderUsingInternalData2-38.png)
+
+> **What this means:** The downstream Agentic Workflow will proceed with **Path A** — the resolution is written to the Incident work notes as a proposed Resolution Plan, and the flow continues to Phase 3.
+
+***
+
+#### What to verify across both outcomes
+
+| Check                    | Expected Behaviour                                                                                                                                    |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| All three tools executed | Click the **Tools** tab to confirm `FindSimilarIncidents`, `GenerateSearchQueryAgainstAISearch`, and `RetrieveRelevantKBContent` all ran successfully |
+| Grounding constraint     | The response references only data from the KB articles (RAG) and/or similar incidents (PI) — no hallucinated external information                     |
+| Error code accuracy      | The response correctly identifies the error code from the Incident record (e.g., error code 37)                                                       |
+| System identification    | The response identifies the correct product and hostname (e.g., Veritas NetBackup Appliance 5240, veritas-backup-01)                                  |
+| Binary determination     | The response clearly indicates whether a resolution was found or not — there should be no ambiguity                                                   |
+
+> **Tip:** Click the **Grounded prompt** tab to inspect the fully rendered prompt sent to the LLM — this shows the actual RAG Results and PI outputs that were substituted into the prompt. The **Tools** tab shows the execution status and output of each tool individually. Both are essential for debugging when the response does not match expectations.
+>
+> **Testing with different records:** Run the test with multiple Incident Extend records to observe both outcomes. Records with common error codes that match KB articles (e.g., error code 84 with a published Veritas Backup Failure article) should produce Outcome B. Records with uncommon or undocumented error codes should produce Outcome A. Testing both paths confirms the skill's evaluation logic is working correctly.
+
+7. If the response does not match the expected behaviour for either outcome, return to the prompt editor (Step 10) and adjust the evaluation logic, grounding constraints, or output structure — then re-finalize and re-test
+8. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
+
+> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 11). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
+
+***
+
+### Step 12: Publish the Skill
 
 Navigate to the **Edit prompt** tab → finalize the `Assess if solution exists within Internal Knowledge sources` prompt → click **Publish skill**.
 
@@ -508,24 +602,22 @@ The **Publish Skill** dialog opens:
 | Product         | Not Applicable                                                  |
 | Feature         | Not Applicable                                                  |
 | Display Options | None                                                            |
-| Provider        | Now LLM Service (Now LLM Generic) — Default provider            |
+| Provider        | Azure OpenAI                                                    |
 | Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅ |
 
-![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31 (1).png>)
+![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31 (2).png>)
 
 Click **Publish**.
 
-> The prompt is labelled `v2` — indicating it has been finalized twice. Only finalized prompts appear in the publish dialog. If your prompt shows `v1`, that is correct for a first-time publish; select it and proceed.
-
 ***
 
-### Step 11: Activate the Skill
+### Step 13: Activate the Skill
 
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
 
-Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service) → click **Turn on** → confirm activation.
+Locate `ResolutionFinderInternalData` → click **Turn on** → confirm activation.
 
-![Now Assist Admin — Skills: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
+![Now Assist Admin — Skills: ResolutionFinderInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
 
 > The skill card shows **Inactive** status — this is expected for a newly published skill before activation. Click **Turn on** to make it callable from Flow Designer as an Execute Skill action in the Fulfiller Flow workflow.
 
@@ -535,7 +627,7 @@ Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service)
 
 | Field               | Value                                                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------- |
-| Skill name          | `ResolutionFinderUsingInternalData`                                                                 |
+| Skill name          | `ResolutionFinderInternalData`                                                                      |
 | Skill type          | Custom skill                                                                                        |
 | Default provider    | Azure OpenAI / Chat Completions                                                                     |
 | Input 1             | `Record from Incident Extend table` — Record (table: incident extend)                               |
@@ -545,7 +637,7 @@ Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service)
 | Tool 3              | `RetrieveRelevantKBContent` — Retriever — RAG — Semantic — E5FT — Top K: 3                          |
 | Search query source | `{{GenerateSearchQueryAgainstAISearch.response}}`                                                   |
 | Search profile      | `quick_action_kb_search_profile`                                                                    |
-| Prompt              | `Assess if solution exists within Internal Knowledge sources`.                                      |
+| Prompt              | `Assess if solution exists within Internal Knowledge sources`                                       |
 | User access         | Select roles → `itil`                                                                               |
 | Role restrictions   | `itil`                                                                                              |
 | Deployment workflow | Other                                                                                               |
@@ -572,7 +664,11 @@ A threshold of 0.8 (out of 1.0 cosine similarity) is deliberately high — only 
 
 ### Prompt — Grounding Constraint
 
-The `Assess if solution exists within Internal Knowledge sources` prompt operates under a strict grounding constraint (visible in the background of the Publish Skill screenshot): the LLM must base its evaluation **exclusively** on the three provided inputs — the AI Search Query, the RAG Results, and the Predictive Intelligence Results. It must not reference any external source of information. This prevents hallucination and ensures the skill only confirms resolutions that are actually present in the instance's KB or historical incidents.
+The `Assess if solution exists within Internal Knowledge sources` prompt operates under a strict grounding constraint: the LLM must base its evaluation **exclusively** on the three provided inputs — the AI Search Query, the RAG Results, and the Predictive Intelligence Results. It must not reference any external source of information. This prevents hallucination and ensures the skill only confirms resolutions that are actually present in the instance's KB or historical incidents.
+
+### Rewrite Query — Why It Must Be Disabled
+
+The `Rewrite query` setting in the Retriever tool controls whether the RAG engine applies its own LLM pass to rewrite the search query before executing the semantic search. For this skill, it must remain **unchecked**. The upstream `CreateOptimalSearchQuery` skill has already transformed the raw Incident data into a structured, template-driven query optimised for AI Search retrieval. Enabling Rewrite query would allow the RAG engine to overwrite this carefully constructed query with its own interpretation — potentially losing the structured `ISSUE → SYMPTOMS → ERROR → SYSTEM → CATEGORY → DESCRIPTION` format that maximises multi-facet retrieval quality.
 
 ***
 
@@ -586,7 +682,7 @@ The `Assess if solution exists within Internal Knowledge sources` prompt operate
 
 ## Next Steps
 
-→ With `ResolutionFinderUsingInternalData` published and active, it is invocable from Flow Designer via the **Execute Now Assist Skill** action in the Fulfiller Flow.
+→ With `ResolutionFinderInternalData` published and active, it is invocable from Flow Designer via the **Execute Now Assist Skill** action in the Fulfiller Flow.
 
 → If `Assess if solution exists` confirms a resolution: the workflow builds a Resolution Plan, writes it to the Incident work notes, and continues to Phase 3 (External Integration / VM Remediation).
 
