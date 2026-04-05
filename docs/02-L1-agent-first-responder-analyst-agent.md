@@ -313,7 +313,7 @@ Click **Save and continue** to complete the agent configuration.
 
 ### Step 7 — Test the Agent (Before testing this first complete [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md))
 
-Now that the agent is fully configured, test the end-to-end Requestor Flow by impersonating Alex Rai and interacting with the Virtual Agent on Service Portal.
+Now that the NA docintel use case and the first responder analyst agent is fully configured, test the end-to-end Requestor Flow by impersonating Alex Rai and interacting with the Virtual Agent on Service Portal.
 
 ***
 

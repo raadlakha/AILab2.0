@@ -397,7 +397,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 > **Tip:** You can also click the **Grounded prompt** tab to inspect the fully rendered prompt that was sent to the LLM — this shows the actual values substituted for each `{{GetIncidentExtendDetail.<field>}}` variable. The **Tools** tab shows the execution status of the `GetIncidentExtendDetail` Flow Action. Both are useful for debugging when the output does not match expectations.
 
-9. Once the tests are compeleted successfully, click on **Manage prompt** → **Finalize prompt** to lock the prompt as version 1
+9. Once the tests are compeleted successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 1
 
 > **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
 

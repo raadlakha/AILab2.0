@@ -1,0 +1,12 @@
+[     837ms] ReferenceError: require is not defined
+    at <anonymous>:13:12
+    at f (https://code.claude.com/docs/_next/static/chunks/90471-91c0eff0ba0bed06.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:5299)
+    at https://code.claude.com/docs/_next/static/chunks/90471-91c0eff0ba0bed06.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:6113
+    at o1 (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:88955)
+    at uE (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104847)
+    at ux (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104731)
+    at uE (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104827)
+    at ux (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104731)
+    at uE (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104892)
+    at ux (https://code.claude.com/docs/_next/static/chunks/87c73c54-dd8d81ac9604067c.js?dpl=dpl_DXVVnAzpFsZcvemZFPqFNcgdfRoC:1:104731)
+[    5391ms] [WARNING] The resource https://mintcdn.com/claude-code/c5r9_6tjPMzFdDDT/images/vs-code-spark-icon.svg?fit=max&auto=format&n=c5r9_6tjPMzFdDDT&q=85&s=3ca45e00deadec8c8f4b4f807da94505 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://code.claude.com/docs/en/vs-code:0
