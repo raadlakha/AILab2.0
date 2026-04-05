@@ -167,38 +167,51 @@ Click **Continue**.
 
 ***
 
-### Step 3: Skill Published — Prompt Canvas
+### Step 3: Add Skill Input and Rename the Prompt
 
-After creation the skill lands on **Step 1: Edit prompt**.
+After creation, the skill lands on **Step 1: Edit prompt**. Before authoring the prompt or adding tools, two setup tasks are required: defining the skill input and renaming the default prompt.
 
-![Skill editor — prompt canvas showing published status](<../screenshots/NASK-generatewebsearchquestion-step3.png>)
+***
 
-Note the **Published** badge in the header — this skill was published as part of a prior iteration. For a new build, status will show **Draft** at this point. The skill editor has four tabs:
+#### Step 3a — Add the Skill Input
 
-| Tab                              | Purpose                                                  |
-| -------------------------------- | -------------------------------------------------------- |
-| 1. Edit prompt                   | Author the LLM prompt, define inputs and outputs         |
-| 2. Add tools                     | Add pre-processing tool nodes to the execution canvas    |
-| 3. Optimize and evaluate         | Test the prompt, review grounded prompt and tool outputs |
-| 4. Deployment and skill settings | Configure workflow placement, security, and publish      |
+The Skill contents panel on the left initially shows **Inputs: None added**. Click the **+** next to Inputs to open the **Add skill input** dialog.
 
-The **Skill contents** panel on the left shows:
+![NASK — Add Skill Input: incidentextendrecord](../screenshots/NASK-generatewebsearchquestion-step3.png)
 
-* **inputs (1):** `incidentextendrecord` (String)
-* **Outputs (5):** provider, response, error, errorCode, status
-* **Prompts (1):** Now LLM Service → Now LLM Generic → Change from `Incident Summarization` to `Generate Web Search Questions for Resolution Plan`
-
-The **input modal** (shown in this screenshot) confirms:
+Configure the following fields:
 
 | Field                | Value                                      |
 | -------------------- | ------------------------------------------ |
-| Datatype             | String                                     |
+| Datatype             | `String`                                   |
 | Name                 | `incidentextendrecord`                     |
 | Description          | `Record Number from Incident Extend table` |
 | Make input mandatory | Unchecked                                  |
 | Allow truncation     | Unchecked                                  |
 
-> `incidentextendrecord` is the runtime identifier — the Incident record number — passed in when the Veritas agent invokes this skill. It threads through to the tool as `{{incidentextendrecord}}`.
+Click **Add skill input**.
+
+> `incidentextendrecord` is the runtime identifier — the Incident record number — passed in when the Agentic Workflow invokes this skill. It threads through to the tool as `{{incidentextendrecord}}`.
+
+***
+
+#### Step 3b — Rename the Prompt
+
+With the input added, the Skill contents panel now shows **inputs (1)** with `incidentextendrecord` listed. The prompt still shows the NASK default name **Incident Summarization** — this is misleading, as this skill generates web search questions, not incident summaries.
+
+1. In the **Skill contents** panel, expand **Prompts** → **Now LLM Service** → **Now LLM Generic**
+2. Click on **Incident Summarization** to select it
+3. Click the **pencil icon** next to the prompt name to open the **Edit prompt name** dialog
+
+![NASK — Edit Prompt Name: Incident Summarization with pencil icon](../screenshots/NASK-generatewebsearchquestion-step17.png)
+
+4. Change the **Name** from `Incident Summarization` to `Generate Web Search Questions for Resolution Plan`
+5. Click **Save changes**
+6. Confirm the prompt name now displays as **Generate Web Search Questions for Resolution Plan** in both the Skill contents panel and the prompt editor header
+
+![NASK — Prompt Renamed to Generate Web Search Questions for Resolution Plan](../screenshots/NASK-generatewebsearchquestion-step18.png)
+
+> The prompt name appears throughout the skill — on the canvas (as the Skill prompt node label), in the Publish dialog, and in the finalized prompt selector. Renaming it now ensures consistency across all surfaces.
 
 ***
 
