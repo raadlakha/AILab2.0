@@ -12,7 +12,7 @@ The agent uses six tools covering all three search paths:
 
 ```
 Fulfiller Flow — Phase 2 trigger:
-  state = In Progress AND channel = chat AND u_extracted_error_code ≠ empty
+  state = In Progress AND channel = chat AND error_code ≠ empty
         │
         ▼
 Resolution Pathfinder for Incident case Agent

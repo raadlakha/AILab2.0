@@ -332,7 +332,7 @@ This is a **platform behaviour** — no manual configuration needed. However it 
 Agentic Workflow trigger conditions:
   ✓ state = In Progress (2)
   ✓ channel = chat
-  ✓ u_extracted_error_code ≠ empty
+  ✓ error_code ≠ empty
 ```
 
 If `channel` is not `chat` (e.g., incident created via email or form), the Agentic Workflow will not trigger.

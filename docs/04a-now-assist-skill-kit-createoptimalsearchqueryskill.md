@@ -26,7 +26,7 @@ This section covers building the **`CreateOptimalSearchQuery`** skill — the fi
 ```
 Fulfiller Flow — Phase 2 (triggered when state = In Progress AND
                           channel = chat AND
-                          u_extracted_error_code ≠ empty)
+                          error_code ≠ empty)
         │
         ▼
 Path A — Step 1 (parallel fire from workflow Start node):
@@ -391,7 +391,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 > | --- | --- |
 > | Template adherence | Response follows the `ISSUE → SYMPTOMS → ERROR → SYSTEM → CATEGORY → DESCRIPTION` structure |
 > | Field population | Each section contains data derived from the Incident Extend record — not generic or hallucinated content |
-> | Error code accuracy | The `ERROR:` section reflects the actual `u_extracted_error_code` value from the record |
+> | Error code accuracy | The `ERROR:` section reflects the actual `error_code` value from the record |
 > | System identification | The `SYSTEM:` section includes the product name, model, and CI/hostname from the record |
 > | Query suitability | The overall output reads as a structured search query — not a conversational summary or a narrative paragraph |
 >
