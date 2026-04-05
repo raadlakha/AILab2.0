@@ -495,7 +495,7 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
 1. Open the file at [`../NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt`](https://raw.githubusercontent.com/raadlakha/AILab2.0/main/NASKprompts/ResolutionFinderInternalData-CustomNASK-Prompt) in the lab repository
 2. **Read through the entire prompt before pasting anything.** This prompt is more complex than the upstream skills — it must reason across two distinct data sources (RAG KB results and PI similar incidents) and make a binary determination (resolution found or not). Understand the evaluation logic, the grounding constraints, and the expected output structure before proceeding
 3. Copy the prompt text and paste it into the **Prompt** field in the NASK editor
-4. **Review and adapt the prompt to your environment.** Agentic Workflow systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
+4. **Review and adapt the prompt to your environment.** Agentic AI systems are intelligent systems — the prompts that drive them should not be treated as static artefacts to be copied verbatim. The provided prompt is a proven starting point, but your environment, data, and use case may warrant adjustments. Consider the following as you review:
  
 | Area to Review                  | What to Consider                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -519,7 +519,78 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
  
 ***
  
-### Step 11: Publish the Skill
+### Step 11: Test the Prompt
+ 
+Before publishing, use the built-in **Test prompt** feature to validate that the skill's three tools execute correctly and that the LLM produces an appropriate resolution evaluation. This skill is more complex to test than `CreateOptimalSearchQuery` — it involves three tools converging (PI, Skill, and Retriever), so the test validates the entire pipeline end-to-end.
+ 
+1. In the NASK skill editor, locate the **Test prompt** panel (right-hand side of the prompt editor)
+2. Click the **Run test** button — the **Run test** dialog opens
+3. This skill requires **two inputs** (unlike the upstream skill which had one). Enter the same Incident Extend record number in both fields:
+ 
+| Input field                              | Type   | Value          |
+| ---------------------------------------- | ------ | -------------- |
+| `Record from Incident Extend table`      | Record | `INCE0012001`  |
+| `Record from Incident Extend table String` | String | `INCE0012001`  |
+ 
+4. Ensure **Test prompt after applying security controls** is checked
+5. Click **Run test**
+ 
+![NASK — Run Test Dialog: Two Inputs and Security Controls](../screenshots/NASKResolutionFinderUsingInternalData2-36.png)
+ 
+> **Both inputs must reference the same record.** The Record input feeds the PI tool (which reads fields directly from the table), and the String input feeds the Skill tool (which passes the incident number to `CreateOptimalSearchQuery`). Using different values would cause the PI and RAG paths to evaluate different incidents — producing an incoherent result at the prompt merge.
+ 
+6. Wait for the test to complete — the **Response** tab in the Test prompt panel will display the LLM-generated evaluation. The result will fall into one of two outcomes:
+ 
+***
+ 
+#### Outcome A — No Resolution Found (Path B fallthrough)
+ 
+If the RAG results and PI similar incidents do not contain sufficient evidence to resolve the issue, the LLM will indicate that no internal resolution was found. The response will typically:
+ 
+- Acknowledge the reported issue, error code, and affected system
+- State that no internal knowledge or previous incident resolution matches the specific error and symptoms
+- Indicate that the issue appears to be new or not yet documented
+- Recommend next steps such as gathering additional data (e.g., log analysis)
+ 
+![NASK — Test Prompt Response: No Resolution Found](../screenshots/NASKResolutionFinderUsingInternalData2-37.png)
+ 
+> **What this means:** The downstream Agentic Workflow will fall through to **Path B** — a privacy-safe web search with PII stripped. This is the expected behaviour when the KB and historical incidents do not contain a matching resolution.
+ 
+***
+ 
+#### Outcome B — Resolution Found (Path A success)
+ 
+If the RAG results and/or PI similar incidents contain relevant resolution information, the LLM will construct a resolution response. The response will typically include:
+ 
+- An **Acknowledgment** confirming the reported issue, error code, affected system, and hostname
+- **Resolution Steps** — a numbered, actionable set of steps derived from the KB articles and/or similar incident resolution notes (e.g., reviewing log entries, verifying server validity, updating configuration, restarting services)
+- **Prerequisites / Warnings** — any conditions or caveats for executing the resolution steps
+ 
+![NASK — Test Prompt Response: Resolution Found with Steps](../screenshots/NASKResolutionFinderUsingInternalData2-38.png)
+ 
+> **What this means:** The downstream Agentic Workflow will proceed with **Path A** — the resolution is written to the Incident work notes as a proposed Resolution Plan, and the flow continues to Phase 3.
+ 
+***
+ 
+#### What to verify across both outcomes
+ 
+| Check | Expected Behaviour |
+| --- | --- |
+| All three tools executed | Click the **Tools** tab to confirm `FindSimilarIncidents`, `GenerateSearchQueryAgainstAISearch`, and `RetrieveRelevantKBContent` all ran successfully |
+| Grounding constraint | The response references only data from the KB articles (RAG) and/or similar incidents (PI) — no hallucinated external information |
+| Error code accuracy | The response correctly identifies the error code from the Incident record (e.g., error code 37) |
+| System identification | The response identifies the correct product and hostname (e.g., Veritas NetBackup Appliance 5240, veritas-backup-01) |
+| Binary determination | The response clearly indicates whether a resolution was found or not — there should be no ambiguity |
+ 
+> **Tip:** Click the **Grounded prompt** tab to inspect the fully rendered prompt sent to the LLM — this shows the actual RAG Results and PI outputs that were substituted into the prompt. The **Tools** tab shows the execution status and output of each tool individually. Both are essential for debugging when the response does not match expectations.
+>
+> **Testing with different records:** Run the test with multiple Incident Extend records to observe both outcomes. Records with common error codes that match KB articles (e.g., error code 84 with a published Veritas Backup Failure article) should produce Outcome B. Records with uncommon or undocumented error codes should produce Outcome A. Testing both paths confirms the skill's evaluation logic is working correctly.
+ 
+7. If the response does not match the expected behaviour for either outcome, return to the prompt editor (Step 10) and adjust the evaluation logic, grounding constraints, or output structure — then re-finalize and re-test
+ 
+***
+ 
+### Step 12: Publish the Skill
  
 Navigate to the **Edit prompt** tab → finalize the `Assess if solution exists within Internal Knowledge sources` prompt → click **Publish skill**.
  
@@ -542,7 +613,7 @@ Click **Publish**.
  
 ***
  
-### Step 12: Activate the Skill
+### Step 13: Activate the Skill
  
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
  

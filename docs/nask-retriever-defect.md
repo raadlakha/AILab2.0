@@ -94,7 +94,7 @@ Click **Save changes**.
  
 ## Impact on Downstream Behaviour
  
-Switching from Semantic to Keyword search changes how the retriever matches KB articles, but does **not** change the rest of the skill flow. The output object stays consistent as `Rag Results`, but it changes from `json_object` to `string`, and the `Assess if solution exists` prompt still receives the same data structure. This however does not have any impact on the overall flow of this skill creation.
+Switching from Semantic to Keyword search changes how the retriever matches KB articles, but does **not** change the rest of the skill flow. The output object stays consistent as `Rag Results`, but it changes from `json_object` to `string`, and the `Assess if solution exists within Internal Knowledge sources` prompt still receives the same data structure. This however does not have any impact on the overall flow of this skill creation.
  
 | Aspect | Semantic Search | Keyword Search |
 |--------|----------------|----------------|
