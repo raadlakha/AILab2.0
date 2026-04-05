@@ -31,8 +31,8 @@ Path A — Step 3:
         │
         ▼
 Path A — Result:
-  YES → Proposed Resolution Plan based on Internal Knowledge built
-  NO  → fall through to Path B (privacy-safe web search)
+  YES → Proposed Resolution Plan based on Internal Knowledge built (after consulting Elastic MCP log records as well)
+  NO  → fall through to Path B - after consulting Elastic MCP log records as well (privacy-safe web search)
 ```
 
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
@@ -551,7 +551,7 @@ If the RAG results and PI similar incidents do not contain sufficient evidence t
  
 ![NASK — Test Prompt Response: No Resolution Found](../screenshots/NASKResolutionFinderUsingInternalData2-37.png)
  
-> **What this means:** The downstream Agentic Workflow will fall through to **Path B** — a privacy-safe web search with PII stripped. This is the expected behaviour when the KB and historical incidents do not contain a matching resolution.
+> **What this means:** The downstream Agentic Workflow will fall through to **Path B** if searching log entries through Elastic MCP server does not return anything conclusive as well — a privacy-safe web search with PII stripped. This is the expected behaviour when the KB, historical incidents and log entries do not contain a matching resolution.
  
 ***
  
