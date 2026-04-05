@@ -107,7 +107,7 @@ Available from NASK version **3.0.1** (Xanadu Patch 3). This allows a published 
 | -------------------------------- | -------------------------------------------------------------------- |
 | Now LLM Service or Azure OpenAI  | LLM provider configured in the instance                              |
 | `CreateOptimalSearchQuery` skill | Must be **published** (not just saved) — it is called as a tool here |
-| Incident Extend table            | `x_nava_agentic_lab_incident_extend` populated                       |
+| Incident Extend table            | `x_snc_apacaienable_incident_extend` populated                       |
 
 ***
 
@@ -547,7 +547,7 @@ Common issues:
 | Tool output is empty                    | `CreateOptimalSearchQuery` not published or inactive        | Publish and activate the upstream skill                           |
 | ACL warning on Resource field           | Skill ACL mismatch                                          | Ensure both skills have matching role restrictions (`itil`)       |
 | Skill not appearing in Now Assist Admin | Not activated                                               | Run Turn on in Now Assist Admin → Other                           |
-| Empty response from skill               | `incidentextendrecord` test value not found in extend table | Verify INCE0011002 exists in `x_nava_agentic_lab_incident_extend` |
+| Empty response from skill               | `incidentextendrecord` test value not found in extend table | Verify INCE0011002 exists in `x_snc_apacaienable_incident_extend` |
 
 ***
 

@@ -72,7 +72,7 @@ The skill takes one input — `incidentextendrecord` (the Incident record identi
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Now LLM Service or Azure OpenAI (We are using Azure OpenAI to build this skill in this lab document)       | LLM provider configured in the instance                                                              |
 | `GetIncidentExtendDetail` Flow Action | Must exist — this is the Flow Action resource referenced by the tool                                 |
-| Incident Extend table                 | `x_nava_agentic_lab_incident_extend` (or equivalent) — must be populated by the time the skill fires |
+| Incident Extend table                 | `x_snc_apacaienable_incident_extend` (or equivalent) — must be populated by the time the skill fires |
 
 ***
 
@@ -441,7 +441,7 @@ All 11 outputs from `GetIncidentExtendDetail` are available as template variable
 
 ### Why "Retrieval of Relevant Fields from Incident Extract table"?
 
-The standard Incident table does not contain the custom fields added by NADI (`error_code`, product barcode, serial number, etc.). The `GetIncidentExtendDetail` Flow Action reads from the **Incident extend table** (`x_nava_agentic_lab_incident_extend`) which stores these enriched fields — giving the LLM the full device and error context it needs to generate a precise query.
+The standard Incident table does not contain the custom fields added by NADI (`error_code`, product barcode, serial number, etc.). The `GetIncidentExtendDetail` Flow Action reads from the **Incident extend table** (`x_snc_apacaienable_incident_extend`) which stores these enriched fields — giving the LLM the full device and error context it needs to generate a precise query.
 
 ### Tool Condition: None (Always run)
 
