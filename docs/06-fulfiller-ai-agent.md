@@ -12,16 +12,16 @@ The agent uses six tools covering all three search paths:
 
 ```
 Fulfiller Flow — Phase 2 trigger:
-  state = In Progress AND channel = chat AND error_code ≠ empty
+  'Assigned to' is not empty
         │
         ▼
 Resolution Pathfinder for Incident case Agent
         │
         ├── Tool 1: Flow action — Retrieve relevant fields from Incident Extend table
-        │          Reads incident context: error code, CI, product, description, work notes
+        │          Reads incident context: error code, CI, product, short description, work notes
         │
         ├── Tool 2: Now Assist skill — Resolution Finder Internal Data
-        │          Calls ResolutionFinderUsingInternalData
+        │          Calls ResolutionFinderInternalData
         │          (PI similarity + KB RAG to determine if internal information is sufficient to provide a resolution plan)
         |
         ├── Tool 3: Elastic MCP server tool — platform_core_get_index_mapping
@@ -51,10 +51,10 @@ AI Agent generates appropriate resolution plan + source citation that is to be w
 | Capability                  | Tool                                   | How                                                                                                                           |
 | --------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Incident context retrieval  | Tool 1 — Flow action                   | Retrieves and reads all relevant fields from the Incident extend record before any search begins                              |
-| Internal KB + PI resolution | Tool 2 — Now Assist skill              | Searches similar resolved incidents (Predictive Intelligence) + KB articles via RAG                                           |
+| Internal KB + PI resolution | Tool 2 — Now Assist skill              | Searches similar resolved incidents and internal Knowledge articles (Predictive Intelligence) + KB articles via RAG                                           |
 | Elastic index discovery     | Tool 3 — MCP server tool               | Retrieves index mappings so agent can understand log schema before querying                                                   |
 | Elastic log query execution | Tool 4 — MCP server tool               | Executes ES\|QL queries against Elastic log indices — must use a pre-generated query                                          |
-| Web search query generation | Tool 5 — Now Assist skill (Supervised) | Generates a privacy-safe, optimised query for web search — supervised to ensure PII and all sensitive information is stripped |
+| Web search query generation | Tool 5 — Now Assist skill              | Generates a privacy-safe, optimised query for web search — supervised to ensure PII and all sensitive information is stripped |
 | Web search                  | Tool 6 — Web search                    | Gemini AI answer — searches the internet when internal and log sources yield no resolution                                    |
 
 ***
@@ -63,7 +63,7 @@ AI Agent generates appropriate resolution plan + source citation that is to be w
 
 | Requirement                    | Detail                                                                                                                                             |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Custom Now Assist Skills built | Custom Now Assist Skills for CreateOptimalSearchQuery, ResolutionFinderUsingInternalData and GenerateWebSearchQnsForResolutionPlan must be created |
+| Custom Now Assist Skills built | Custom Now Assist Skills for CreateOptimalSearchQuery, ResolutionFinderInternalData and GenerateWebSearchQnsForResolutionPlan must be created |
 | Elastic MCP server             | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier - 05 section)                                    |
 
 ***
@@ -136,20 +136,20 @@ From **Add tool ▼** select **Now Assist skill**.
 
 The **Edit Now Assist skill** dialog opens:
 
-![Edit Now Assist skill — ResolutionFinderUsingInternalData (top)](<../.gitbook/assets/L2-agent-tool2-2 (1).png>)
+![Edit Now Assist skill — ResolutionFinderInternalData (top)](<../.gitbook/assets/L2-agent-tool2-2 (1).png>)
 
-![Edit Now Assist skill — ResolutionFinderUsingInternalData (scrolled)](<../.gitbook/assets/L2-agent-tool2-3 (1).png>)
+![Edit Now Assist skill — ResolutionFinderInternalData (scrolled)](<../.gitbook/assets/L2-agent-tool2-3 (1).png>)
 
 | Field                                    | Value                                                                                                                                                                                                                                         |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Select skill                             | `ResolutionFinderUsingInternalData`                                                                                                                                                                                                           |
+| Select skill                             | `ResolutionFinderInternalData`                                                                                                                                                                                                           |
 | Selected skill description               | `Retrieve Relevant Fields from Incident Extend table`                                                                                                                                                                                        |
 | Name                                     | `Resolution Finder Internal Data`                                                                                                                                                                                                             |
 | Tool description _(Description for LLM)_ | `This tool searches internal Knowledge Contents (Predictive Intelligence using Similarity Searches for Past Resolved Cases) as well as relevant Knowledge Base articles to determine if there is a solution to a newly raised Incident case.` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                |
 | Display output                           | **No**                                                                                                                                                                                                                                        |
 
-> This is the first search path that the AI Agent will take to solve the Incident case — it calls `ResolutionFinderUsingInternalData` which runs `FindSimilarIncidents` (PI) and `RetrieveRelevantKBContent` (RAG) in parallel. If a probable resolution is confirmed by the `Assess if solution exists` prompt within that skill, the suggested Resolution Plan is shared back with the AI Agent.
+> This is the first search path that the AI Agent will take to solve the Incident case — it calls `ResolutionFinderInternalData` which runs `FindSimilarIncidents` (PI) and `RetrieveRelevantKBContent` (RAG) in parallel. If a probable resolution is confirmed by the `Assess if solution exists` prompt within that skill, the suggested Resolution Plan is shared back with the AI Agent.
 
 Click **Save**.
 
@@ -299,14 +299,14 @@ Click **Save and continue**.
 
 The wizard advances to **Define security controls → Define data access**.
 
-![Define user access](<../.gitbook/assets/L2-agent-data-access (1).png>)
+![Define data access](<../.gitbook/assets/L2-agent-data-access (1).png>)
 
 | Field       | Value                                                         |
 | ----------- | ------------------------------------------------------------- |
 | Data access | `Dynamic user`                                                |
 | Role(s)     | `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
 
-> Restricts agent invocation to `snc_internal, itil and x_snc_apacaienable.incident_extend_user` role. Additional roles are given here as the Custom Now Assist Skills are created in itil role and the AI Agent needs to have access to x\_snc\_apacaienable\_incident\_extend role in order to get data from the custom table.
+> Restricts agent's maximum data access privilege to `snc_internal, itil and x_snc_apacaienable.incident_extend_user` roles. Additional roles are given here as the Custom Now Assist Skills are created in itil role and the AI Agent needs to have access to x\_snc\_apacaienable\_incident\_extend role in order to get data from the custom table.
 
 Click **Save and continue**.
 
@@ -347,7 +347,7 @@ Click **Save and continue** to complete the agent configuration.
 | Agent name  | `Resolution Pathfinder for Incident case Agent`                                                                                  |
 | Type        | Chat                                                                                                                             |
 | Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extend (x_snc_apacaienable_incident_extend)`       |
-| Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderUsingInternalData` — Autonomous                          |
+| Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderInternalData` — Autonomous                          |
 | Tool 3      | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes**                |
 | Tool 4      | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous                                                 |
 | Tool 5      | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
@@ -379,9 +379,9 @@ The `platform_core_execute_esql` tool description contains hard instructions tel
 
 The agent's description and instructions define a strict search hierarchy:
 
-1. **1. Internal:** `ResolutionFinderUsingInternalData` (PI + KB RAG)
-2. **2. Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql`
-3. **3. Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`
+**1. Internal:** `ResolutionFinderInternalData` (PI + KB RAG)
+**2. Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql`
+**3. Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`
 
 If all three paths yield nothing, the agent writes a structured "no resolution found" note documenting what was searched — arming L2 engineers with full context on what the AI already tried.
 
