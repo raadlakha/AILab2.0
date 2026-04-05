@@ -489,6 +489,7 @@ Run a second test with a different record to validate the path where internal kn
 | Tool 5      | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
 | Tool 6      | Web search — `Search the web` — Gemini AI answer — Autonomous                                                                    |
 | User access | `Users with specific roles` → `snc_internal`                                                                                     |
+| Data access | `Dynamic user → snc_internal, itil, x_snc_apacaienable.incident_extend_user`                                                                                     |
  
 ***
  
