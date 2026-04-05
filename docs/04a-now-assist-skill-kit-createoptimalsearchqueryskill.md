@@ -70,7 +70,7 @@ The skill takes one input — `incidentextendrecord` (the Incident record identi
 
 | Requirement                           | Detail                                                                                               |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Now LLM Service or Azure OpenAI       | LLM provider configured in the instance                                                              |
+| Now LLM Service or Azure OpenAI (We are using Azure OpenAI to build this skill in this lab document)       | LLM provider configured in the instance                                                              |
 | `GetIncidentExtendDetail` Flow Action | Must exist — this is the Flow Action resource referenced by the tool                                 |
 | Incident Extend table                 | `x_nava_agentic_lab_incident_extend` (or equivalent) — must be populated by the time the skill fires |
 
