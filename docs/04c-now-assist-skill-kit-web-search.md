@@ -1,6 +1,6 @@
 # 04c — NASK: GenerateWebSearchQnsForResolutionPlan
 
-> **Release:** Zurich | **NASK Plugin Version:** 3.1.3+ (Xanadu Patch 7 / Yokohama Patch 1 minimum for Web Search tool) **Flow:** Veritas Resolution Agentic Workflow — Fallback Path (after internal KB and Elastic log analysis) **Sources:** [NASK Tool & Deployment Options — ServiceNow Community](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-tool-and-deployment-options/ta-p/3284803) | [Now Assist Skill Kit Docs — Zurich](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-skill-kit/concept/now-assist-skill-kit-landing.html)
+> **Release:** Zurich | **Flow:** Veritas Resolution Agentic Workflow — Fallback Path (after internal KB and Elastic log analysis) **Sources:** [NASK Tool & Deployment Options — ServiceNow Community](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-tool-and-deployment-options/ta-p/3284803) | [Now Assist Skill Kit Docs — Zurich](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-skill-kit/concept/now-assist-skill-kit-landing.html)
 
 ***
 
@@ -13,7 +13,7 @@ The skill does two things in sequence:
 1. Calls a **pre-processing tool** — another published NASK skill (`CreateOptimalSearchQuery`) — to retrieve a privacy-safe, LLM-optimised search query from the Incident Extend record
 2. Passes that query to the **skill prompt** which generates a structured set of targeted web search questions to drive an actionable Resolution Plan
 
-This is a **skill-chaining** pattern: a skill calling another published skill as a tool — one of the most powerful composition patterns available in NASK from version 3.0.1 onward.
+This is a **skill-chaining** pattern: a skill calling another published skill as a tool — one of the most powerful composition patterns.
 
 ***
 
@@ -86,7 +86,7 @@ NASK introduced a native **Web Search** tool type in version **3.1.3** (Xanadu P
 
 **Important constraint:** The native Web Search tool requires your organisation to **provide and maintain its own API keys** for the external search service (e.g. Bing Search API, Google Custom Search API, Brave Search, etc.). ServiceNow does not provide search API credentials.
 
-> **Why this matters for the lab:** In this AILab2.0 setup, instead of using the native Web Search tool directly (which requires a paid external API key), the skill uses a **skill-chaining approach** — calling `CreateOptimalSearchQuery` as a tool to retrieve the pre-generated query, then constructing targeted web search questions via the LLM prompt. The actual web search execution is handled downstream in the Veritas agent workflow (Capability 10: Web Search Tool).
+> **Why this matters for the lab:** In this AILab2.0 setup, instead of using the native Web Search tool directly (which requires a paid external API key), the skill uses a **skill-chaining approach** — calling `CreateOptimalSearchQuery` as a tool to retrieve the pre-generated query, then constructing targeted web search questions via the LLM prompt. The actual web search execution is handled downstream in the Resolution Pathfinder for Incident case Agent (Fulfiller Agent).
 
 ### Skill as a Tool (Skill Chaining)
 
@@ -171,7 +171,7 @@ Click **Continue**.
 
 After creation the skill lands on **Step 1: Edit prompt**.
 
-![Skill editor — prompt canvas showing published status](<../.gitbook/assets/NASK-generatewebsearchquestion-step3 (1).png>)
+![Skill editor — prompt canvas showing published status](<../screenshots/NASK-generatewebsearchquestion-step3.png>)
 
 Note the **Published** badge in the header — this skill was published as part of a prior iteration. For a new build, status will show **Draft** at this point. The skill editor has four tabs:
 
