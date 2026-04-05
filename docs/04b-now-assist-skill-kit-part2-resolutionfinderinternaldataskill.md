@@ -616,9 +616,9 @@ Click **Publish**.
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
 
 Locate `ResolutionFinderInternalData` → click **Turn on** → confirm activation.
-
-![Now Assist Admin — Skills: ResolutionFinderInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
-
+ 
+![Now Assist Admin — Skills: ResolutionFinderInternalData](<../screenshots/NASKResolutionFinderUsingInternalData2-32.png>)
+ 
 > The skill card shows **Inactive** status — this is expected for a newly published skill before activation. Click **Turn on** to make it callable from Flow Designer as an Execute Skill action in the Fulfiller Flow workflow.
 
 ***
