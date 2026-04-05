@@ -230,15 +230,13 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 
 > For the Veritas workflow, **Now Assist panel** with Display ON is the correct channel — it allows both the auto-trigger (from the trigger condition) and manual invocation (from the fulfiller typing in Now Assist panel on an incident record). The UI Actions option is available for additional manual-trigger scenarios.
 
-> The **FAQs** panel on the right provides inline guidance: "How does this agentic workflow get triggered?", "What's an agentic response?", "Do users know they're interacting with AI?" — useful for understanding the end-user experience before publishing.
-
 ***
 
 ### Step 9: Test the End-to-End Agentic Workflow
  
 This is where everything comes together.
  
-In Section 06, you tested the Resolution Pathfinder agent in **isolation** using the Manual Test console — simulating a task and observing tool execution in a sandbox. That validated the agent's three-path search logic. Now, you are testing the **full Agentic Workflow as it would run in production** — triggered by a real record update on the Incident Extend table, surfaced in the **Now Assist panel** on the fulfiller's workspace, with the Resolution Pathfinder Agent and the ObsAgent (A2A external agent) working in concert under a single orchestrated workflow.
+In Section 06 (06 - Fulfiller AI Agent (Resolution PathFinder)), you tested the Resolution Pathfinder agent in **isolation** using the Manual Test console — simulating a task and observing tool execution in a sandbox. That validated the agent's three-path search logic. Now, you are testing the **full Agentic Workflow as it would run in production** — triggered by a real record update on the Incident Extend table, surfaced in the **Now Assist panel** on the fulfiller's workspace, with the Resolution Pathfinder Agent and the ObsAgent (A2A external agent) working in concert under a single orchestrated workflow.
  
 The key difference: this test validates not just the agent, but the **trigger conditions, the channel delivery, the LLM orchestration across two agents, and the A2A external integration** — the complete chain from incident assignment to resolution execution.
  
@@ -267,9 +265,9 @@ The key difference: this test validates not just the agent, but the **trigger co
 5. After impersonation, navigate to **Workspaces → Service Operations Workspace** to access Amelia Bryant's fulfiller view
 6. In the left navigation panel, scroll down to **Incidents** and click **Unassigned**
  
-![Service Operations Workspace — My Incidents](../screenshots/Agentic-WF-testing-3.png)
- 
 ![Left navigation — Incidents > Unassigned](../screenshots/Agentic-WF-testing-4.png)
+
+![Service Operations Workspace — My Incidents](../screenshots/Agentic-WF-testing-3.png)
  
 7. The **Incidents — Unassigned** list loads, showing all incidents without an assigned user. Locate the two Incident Extend records created during earlier testing:
  
@@ -280,13 +278,13 @@ The key difference: this test validates not just the agent, but the **trigger co
  
 ![Incidents — Unassigned list with INCE0012001 and INCE0012002](../screenshots/Agentic-WF-testing-6.png)
  
-> These are the same Incident Extend records you tested against in earlier sections. They were created by the L1 Agent (Section 02), enriched by NADI (Section 03), and tested individually against the Resolution Pathfinder (Section 06). Now they will be processed by the full Agentic Workflow — with the trigger, orchestration, and A2A integration all active.
+> These are the same Incident Extend records I had tested against in earlier sections. They were created by the L1 First Responder Operations Analyst Agent (Section 02 - L1 First Responder Operations Analyst Agent), enriched by Now Assist in Document Intelligence (NADI, Section 03), and tested individually against the Resolution Pathfinder (Section 06 - Fulfiller AI Agent (Resolution Pathfinder)). Now they will be processed by the full Agentic Workflow — with the trigger, orchestration, and A2A integration all active.
  
 ***
  
 #### 9.3 — Test Scenario A: INCE0012001 — Internal Resolution + ObsAgent (A2A)
  
-This scenario demonstrates the **ideal outcome** of the Veritas architecture: internal knowledge and Elastic log analysis produce a credible resolution plan, and the **ObsAgent (Azure AI Foundry) is triggered via A2A to execute the remediation actions** — completing the full loop from incident detection to automated resolution without human intervention.
+This scenario demonstrates the **ideal outcome** of the Veritas Resolution Agentic Workflow: internal knowledge and Elastic log analysis produce a credible resolution plan, and the **ObsAgent (Azure AI Foundry) is triggered via A2A to execute the remediation actions** — completing the full loop from incident detection to automated resolution without human intervention.
  
 ***
  
@@ -429,7 +427,7 @@ This scenario demonstrates the **fallback path**: internal knowledge and Elastic
 | A — Internal + A2A | `INCE0012001` | Internal KB/PI + Elastic logs | ✅ Triggered — executed remediation | Automated resolution — ObsAgent confirms actions taken, workflow completes |
 | B — Web search fallback | `INCE0012002` | Web search (Gemini AI answer) | ❌ Not triggered | Resolution Plan delivered to fulfiller for manual action — no automated remediation |
  
-> **The distinction between Scenario A and Scenario B is the most important design decision in the entire Veritas architecture.** It answers the question: _when should an AI system be allowed to act autonomously on infrastructure, and when should it only advise?_ The answer implemented here is clear — only resolutions grounded in the organisation's own internal knowledge and log evidence are trusted enough for automated execution. Everything else is guidance for a human to evaluate.
+> **The distinction between Scenario A and Scenario B is the most important design decision in the entire Veritas Resolution Agentic Workflow.** It answers the question: _when should an AI system be allowed to act autonomously on infrastructure, and when should it only advise?_ The answer implemented here is clear — only resolutions grounded in the organisation's own internal knowledge and log evidence are trusted enough for automated execution. Everything else is guidance for a human to evaluate.
 >
 > But the deeper point is this: **the goal of an Agentic Workflow is not to stop at recommendations.** Recommendations are valuable, but they still require a human to read, interpret, and manually execute each step — which is the bottleneck agentic AI is designed to eliminate. The Veritas architecture demonstrates that when the confidence threshold is met (credible internal evidence, verified log data, grounded resolution steps), the workflow should **take precise, automated action** — not just suggest it. This is what separates an agentic system from a traditional AI assistant: the ability to reason about risk, determine when action is appropriate, and then execute that action end-to-end.
 >
