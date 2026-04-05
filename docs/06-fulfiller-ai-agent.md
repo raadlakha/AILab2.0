@@ -112,6 +112,7 @@ From **Add tool ▼** select **Flow action**.
 The **Edit flow action** dialog opens:
 
 ![Edit flow action (1) — Incident Extend fields](<../screenshots/L2-agent-tool1-2.png>)
+
 ![Edit flow action (2) — Incident Extend fields](<../screenshots/L2-agent-tool1-3.png>)
 
 | Field                                    | Value                                                                                                                                                                                                                                                                                    |
