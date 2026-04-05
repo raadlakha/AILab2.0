@@ -137,8 +137,6 @@ Configure the skill identity:
 
 The available models shown under Now LLM Generic include the full NowLLM model family: `llm_generic_small_v2`, `llm_generic_small_v1`, `llm_generic_large`, `llm_generic_small`, `pii_anonymize_v2`, `llm_generic_large_v1`, `llm_generic_large_v2`.
 
-> **Now LLM Generic** is flagged as "Recommended" — it is specialised for enterprise tasks, data analysis, and complex reasoning. For India-region instances, NowLLM routes to the appropriate regional cluster. See the [Now LLM availability guide](08-now-assist-ai-search-deep-dive.md) for region-specific LLM routing details.
-
 ***
 
 ### Step 2: Configure Security Controls
