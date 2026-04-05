@@ -84,7 +84,7 @@ We will create a new Assistant for this lab and not reuse any of the existing Vi
 
 To create a new assistant, navigate to **Conversational Interfaces** → **Assistant Designer**
 
-![Assistant Designer — Create Chat-Based Assistant](<../screenshots/nava-create-chat-based-assistant.png>)
+![Assistant Designer — Create Chat-Based Assistant](<../.gitbook/assets/nava-create-chat-based-assistant (2).png>)
 
 > The Assistant Designer shows the **Assistants** tab. The default assistant is **Now Assist for Virtual Agent**. Click **Edit** to open the setup wizard.
 

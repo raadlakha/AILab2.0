@@ -59,7 +59,7 @@ Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_
 
 Navigate to **All → AI Agent Studio → Settings → Manage MCP servers**.
 
-![Navigate to MCP server setting](<../screenshots/MCPConnect3.png>)
+![Navigate to MCP server setting](../.gitbook/assets/MCPConnect3.png)
 
 The **Manage Model Context Protocol servers** page lists all registered MCP server connections. This is the central registry for all external tool providers available to AI Agents in this instance.
 
@@ -94,15 +94,15 @@ Click **Add**.
 
 After adding, ServiceNow creates a **Model Context Protocol Server** record and a corresponding **Connection Alias**.
 
-![MCP server record — elasticMCPConn](<../screenshots/MCPConnect2.png>)
+![MCP server record — elasticMCPConn](<../.gitbook/assets/MCPConnect2 (2).png>)
 
 Verify the record:
 
-| Field            | Value                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| Server name      | `elasticMCPconn` (or whatever you have decided to name it as)                       |
+| Field            | Value                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| Server name      | `elasticMCPconn` (or whatever you have decided to name it as)                                           |
 | Connection Alias | `x_snc_apacaienable.elasticMCPconn_1775179359877` _(auto-generated, can be different across instances)_ |
-| Application      | `x_nava_agentic_lab`                                                                            |
+| Application      | `x_nava_agentic_lab`                                                                                    |
 
 ***
 
@@ -131,7 +131,7 @@ To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolutio
 | MCP server URL      | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
 | API key             | _(your Elastic API key)_                                                            |
 | Connection Alias    | `x_snc_apacaienable.elasticMCPconn_1775179359877` (auto-generated)                  |
-| Application scope   | x_nava_agentic_lab                                                                  |
+| Application scope   | x\_nava\_agentic\_lab                                                               |
 | Protocol version    | `2024-11-05`                                                                        |
 | Transport           | Streamable HTTP                                                                     |
 | Navigation          | All → AI Agent Studio → Settings → Manage MCP servers                               |
