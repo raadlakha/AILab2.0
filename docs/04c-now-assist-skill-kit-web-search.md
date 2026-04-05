@@ -608,9 +608,6 @@ Common issues:
 * [NASK FAQ — ServiceNow Community](https://www.servicenow.com/community/now-assist-articles/now-assist-skill-kit-nask-faq/ta-p/3007953)
 * [Add a tool — ServiceNow Docs](https://www.servicenow.com/docs/csh?topicname=add-a-tool.html\&version=latest)
 * [Add Web Search tool — ServiceNow Docs](https://www.servicenow.com/docs/csh?topicname=add-web-search.html\&version=latest)
-* [03 — CreateOptimalSearchQuery (upstream skill)](03-now-assist-skill-kit.md)
-* [09 — Web Search Query Generator (agent-level)](09-web-search-query-generator.md)
-* [10 — Web Search Tool (Veritas agent)](10-web-search-tool.md)
 
 ***
 
