@@ -211,7 +211,7 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 | Name         | `GenerateSearchQueryAgainstAISearch`                                                                            |
 | Description  | `This skill is created to generate the optimal search query for AI Search to be returned with the best results` |
 | Resource     | `CreateOptimalSearchQuery`                                                                                      |
-| Provider API | `Azure OpenAI`                                                                                                  |
+| Provider API | `Chat Completions`                                                                                                  |
 
 ![NASK — Skill Tool: General Info](<../screenshots/NASKResolutionFinderUsingInternalData2-14.png>)
 
