@@ -400,74 +400,112 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
 
 ***
 
-### Step 12: Publish the Skill
-
+### Step 12: Test the Prompt
+ 
+Before publishing, use the built-in **Test prompt** feature to validate that the skill-chaining pipeline executes correctly and that the LLM produces a well-formed web search query.
+ 
+1. In the NASK skill editor, locate the **Test prompt** panel (right-hand side of the prompt editor)
+2. Click the **Run test** button — the **Run test** dialog opens
+3. In the `incidentextendrecord` input field, enter an existing Incident Extend record number — for example: **`INCE0012002`**
+4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration allows the test to execute correctly
+5. Click **Run test**
+ 
+![NASK — Run Test Dialog: Input and Security Controls](../screenshots/NASK-generatewebsearchquestion-step19.png)
+ 
+> **Which record to use?** Use an Incident Extend record that has been processed by NADI and has populated fields (error code, product name, CI, etc.). Records created during the L1 Agent testing (e.g., `INCE0012002`) are ideal. The upstream `CreateOptimalSearchQuery` skill needs populated fields to generate a meaningful query — testing with an empty record will produce a sparse or generic output.
+ 
+6. Wait for the test to complete — the **Response** tab in the Test prompt panel will display the LLM-generated output
+7. Review the response and verify that it is a **single, web-search-optimised query string** — not a list of questions, not a conversational paragraph, and not an incident summary
+ 
+![NASK — Test Prompt Response: Web Search Query](../screenshots/NASK-generatewebsearchquestion-step20.png)
+ 
+> **What to verify:**
+>
+> | Check | Expected Behaviour |
+> | --- | --- |
+> | Output format | A single concise query string — suitable for pasting directly into a search engine |
+> | Product identification | Query includes the product name and model (e.g., `Veritas NetBackup Appliance 5240`) |
+> | Error code inclusion | Query includes the error code in a search-friendly format (e.g., `"status code 84"` with quotes for exact matching) |
+> | Problem context | Query includes the fault type and intent (e.g., `hardware fault troubleshooting resolution`) |
+> | Privacy safety | Query does not contain internal hostnames, IP addresses, serial numbers, or user names — only product, error, and problem descriptors |
+> | Skill chaining | Click the **Tools** tab to confirm `RetrieveGeneratedSearchQuerythatwasforAI` executed successfully — this validates that the upstream `CreateOptimalSearchQuery` skill was invoked and returned a response |
+>
+> **Why a single query string?** The downstream Fulfiller Agent's Web Search tool expects a single search query as input — not a list of questions. The prompt is specifically designed to produce a search-engine-optimised string that combines the product, error code, and problem context into one query that maximises relevance when executed against the internet. If the response contains multiple questions or a narrative paragraph, revisit the prompt (Step 11) and tighten the output format instructions.
+ 
+8. If the response does not match the expected format, return to the prompt editor (Step 11) and adjust the output constraints — then re-finalize and re-test
+ 
+> **Tip:** Click the **Grounded prompt** tab to inspect the fully rendered prompt sent to the LLM — this shows the actual value substituted for `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}`. If the substituted value is empty or malformed, the issue is in the upstream `CreateOptimalSearchQuery` skill, not in this skill's prompt.
+ 
+***
+ 
+### Step 13: Publish the Skill
+ 
 Navigate to **Step 4: Deployment and skill settings** → click **Publish skill** (top right).
-
+ 
 The **Publish Skill** dialog opens:
-
+ 
 ![Publish Skill dialog](<../.gitbook/assets/NASK-generatewebsearchquestion-step13 (1).png>)
-
+ 
 Review deployment settings:
-
+ 
 | Field           | Value          |
 | --------------- | -------------- |
 | Workflow        | Other          |
 | Product         | Not Applicable |
 | Feature         | Not Applicable |
 | Display Options | None           |
-
+ 
 Under **Select which finalized prompts to include in the Published skill:**
-
+ 
 | Provider                                             | Prompt                                                   | Action    |
 | ---------------------------------------------------- | -------------------------------------------------------- | --------- |
 | Now LLM Service (Now LLM Generic) — Default provider | `Generate Web Search Questions for Resolution Plan (v2)` | ✅ Checked |
-
+ 
 Click **Publish**.
-
+ 
 > A prompt must be **finalized** before it appears here. Finalization locks a prompt version (v1, v2, etc.). Publishing deploys the skill to the Now Assist ecosystem. These are separate actions — you can have multiple finalized versions and choose which to publish.
-
+ 
 ***
-
-### Step 13: Configure Deployment Settings
-
+ 
+### Step 14: Configure Deployment Settings
+ 
 In **Step 4: Deployment and skill settings**, select **Deployment settings** from the left nav.
-
+ 
 ![Deployment settings — Workflow = Other](<../.gitbook/assets/NASK-generatewebsearchquestion-step14 (1).png>)
-
+ 
 | Field    | Value         |
 | -------- | ------------- |
 | Workflow | `Other`       |
 | Product  | (leave blank) |
-
+ 
 > **Workflow = Other** places the skill in the **Now Assist Skills → Other** category in Now Assist Admin. This is the correct placement for custom skills that are used programmatically (by agents or flows) rather than being deployed to a specific product surface (ITSM, HRSD, etc.).
-
+ 
 ***
-
-### Step 14: Activate the Skill
-
+ 
+### Step 15: Activate the Skill
+ 
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other**.
-
+ 
 ![Now Assist Admin — Skills — Other — GenerateWebSearchQnsForResolutionPlan](<../.gitbook/assets/NASK-generatewebsearchquestion-step15 (1).png>)
-
+ 
 Locate `GenerateWebSearchQnsForResolutionPlan` under the **Available** tab in the **Other** workflow. Status shows **Custom | Inactive | Now LLM Service**.
-
+ 
 Click **Turn on**.
-
+ 
 ![Successfully activated confirmation](<../.gitbook/assets/NASK-generatewebsearchquestion-step16 (1).png>)
-
+ 
 The **"Successfully activated"** confirmation dialog appears:
-
+ 
 > **GenerateWebSearchQnsForResolutionPlan is now active**
-
+ 
 Click **Done**.
-
+ 
 > **Publishing alone is not sufficient.** The skill must be **Active** in Now Assist Admin for it to be callable by agents, flows, or as a tool by other skills. Activation creates the runtime link between the published skill and the Now Assist execution engine.
-
+ 
 ***
-
+ 
 ## Key Configuration Summary
-
+ 
 | Field                 | Value                                                       |
 | --------------------- | ----------------------------------------------------------- |
 | Skill name            | `GenerateWebSearchQnsForResolutionPlan`                     |
@@ -486,36 +524,36 @@ Click **Done**.
 | User access           | Any authenticated user                                      |
 | Role restrictions     | `itil`                                                      |
 | Final status          | Active                                                      |
-
+ 
 ***
-
+ 
 ## Technical Deep Dive
-
+ 
 ### Skill Chaining: How Output Variables Flow
-
+ 
 When NASK executes a skill-as-tool, the child skill's outputs become available as template variables in the parent prompt using dot notation:
-
+ 
 ```
 {{<tool_name>.<output_field>}}
-
+ 
 Example:
 {{RetrieveGeneratedSearchQuerythatwasforAI.response}}
 ```
-
+ 
 This is how the parent prompt receives the optimal query string generated by `CreateOptimalSearchQuery`. The LLM processing the parent prompt sees the query inline within the prompt context — not as a separate API call.
-
+ 
 ### Execution Order and Token Budget
-
+ 
 The tool node fires **before** the LLM processes the prompt. The grounded prompt (what the LLM actually receives) contains the fully resolved tool outputs substituted into the template. This means:
-
+ 
 * Tool execution failures surface before the LLM is called
 * Token budget must accommodate both the prompt template **and** all tool output values
 * For this skill: the `CreateOptimalSearchQuery` response is a short query string (typically 5–15 words) — minimal token overhead
-
+ 
 ### Why Not Use the Native Web Search Tool?
-
+ 
 The native NASK Web Search tool (v3.1.3+) directly calls an external search API. In the Veritas lab context:
-
+ 
 | Factor                    | Native Web Search                  | Skill-Chaining Approach                                           |
 | ------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
 | External API key required | Yes — org must provide and manage  | No — no external dependency                                       |
@@ -523,13 +561,13 @@ The native NASK Web Search tool (v3.1.3+) directly calls an external search API.
 | Query optimisation        | Passes raw input to search API     | LLM-generated, privacy-safe query from `CreateOptimalSearchQuery` |
 | Privacy control           | Must configure domain restrictions | LLM strips internal identifiers in the upstream skill             |
 | Suitable for              | Standalone web-augmented skills    | Multi-agent workflows where search is a separate agent action     |
-
+ 
 > In a production agentic workflow, the two approaches are complementary: the native Web Search tool is ideal for self-contained skills that need real-time web grounding; the skill-chaining pattern is ideal when web search is one step in a larger orchestrated resolution workflow.
-
+ 
 ### Decision Nodes — Advanced Pattern
-
+ 
 For production hardening of this skill, consider adding a **Decision Node** (available from NASK v3.0.1) between the tool node and the prompt node:
-
+ 
 ```
 Start
   │
@@ -541,27 +579,27 @@ Decision Node: did tool return a non-empty response?
   ├── TRUE → Skill prompt (generate web search questions)
   └── FALSE → End (or fallback skill)
 ```
-
+ 
 This prevents the LLM prompt from firing if `CreateOptimalSearchQuery` failed or returned an empty response — saving LLM calls and producing a cleaner error state.
-
+ 
 ### Troubleshooting
-
+ 
 Use the **Test prompt** section in Step 3 (Optimize and evaluate) to debug:
-
+ 
 | Tab                 | What it shows                                                                                                                                                              |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Grounded prompt** | The full prompt delivered to the LLM, with all tool outputs substituted in — use this to verify `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}` resolved correctly |
 | **Tools**           | Input sent to and response received from each tool individually — use this to verify `CreateOptimalSearchQuery` is returning a valid query                                 |
-
+ 
 Common issues:
-
+ 
 | Symptom                                 | Likely cause                                                | Fix                                                               |
 | --------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------- |
 | Tool output is empty                    | `CreateOptimalSearchQuery` not published or inactive        | Publish and activate the upstream skill                           |
 | ACL warning on Resource field           | Skill ACL mismatch                                          | Ensure both skills have matching role restrictions (`itil`)       |
 | Skill not appearing in Now Assist Admin | Not activated                                               | Run Turn on in Now Assist Admin → Other                           |
 | Empty response from skill               | `incidentextendrecord` test value not found in extend table | Verify INCE0011002 exists in `x_snc_apacaienable_incident_extend` |
-
+ 
 ***
 
 ## Reference
