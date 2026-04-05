@@ -430,7 +430,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 >
 > **Why a single query string?** The downstream Fulfiller Agent's Web Search tool expects a single search query as input — not a list of questions. The prompt is specifically designed to produce a search-engine-optimised string that combines the product, error code, and problem context into one query that maximises relevance when executed against the internet. If the response contains multiple questions or a narrative paragraph, revisit the prompt (Step 11) and tighten the output format instructions.
  
-8. If the response does not match the expected format, return to the prompt editor (Step 11) and adjust the output constraints — then re-finalize and re-test
+9. If the response does not match the expected format, return to the prompt editor (Step 11) and adjust the output constraints — then re-finalize and re-test
  
 > **Tip:** Click the **Grounded prompt** tab to inspect the fully rendered prompt sent to the LLM — this shows the actual value substituted for `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}`. If the substituted value is empty or malformed, the issue is in the upstream `CreateOptimalSearchQuery` skill, not in this skill's prompt.
 
@@ -469,7 +469,7 @@ Click **Publish**.
  
 ### Step 14: Configure Deployment Settings
  
-In **Step 14: Deployment and skill settings**, select **Deployment settings** from the left nav.
+In **Step 4: Deployment and skill settings**, select **Deployment settings** from the left nav.
  
 ![Deployment settings — Workflow = Other](<../.gitbook/assets/NASK-generatewebsearchquestion-step14 (1).png>)
  
@@ -511,7 +511,7 @@ Click **Done**.
 | Skill name            | `GenerateWebSearchQnsForResolutionPlan`                     |
 | Skill type            | Custom skill                                                |
 | Default provider      | Now LLM Service → Now LLM Generic                           |
-| Skill input           | `incidentextendrecord` (String) — test value: `INCE0011002` |
+| Skill input           | `incidentextendrecord` (String) — test value: `INCE0012002` |
 | Tool type             | Skill (skill-chaining)                                      |
 | Tool name             | `RetrieveGeneratedSearchQuerythatwasforAI`                  |
 | Tool resource         | `CreateOptimalSearchQuery` (published skill)                |
@@ -598,7 +598,7 @@ Common issues:
 | Tool output is empty                    | `CreateOptimalSearchQuery` not published or inactive        | Publish and activate the upstream skill                           |
 | ACL warning on Resource field           | Skill ACL mismatch                                          | Ensure both skills have matching role restrictions (`itil`)       |
 | Skill not appearing in Now Assist Admin | Not activated                                               | Run Turn on in Now Assist Admin → Other                           |
-| Empty response from skill               | `incidentextendrecord` test value not found in extend table | Verify INCE0011002 exists in `x_snc_apacaienable_incident_extend` |
+| Empty response from skill               | `incidentextendrecord` test value not found in extend table | Verify INCE0012002 exists in `x_snc_apacaienable_incident_extend` |
  
 ***
 
