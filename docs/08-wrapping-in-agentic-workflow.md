@@ -234,8 +234,215 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 
 ***
 
+### Step 9: Test the End-to-End Agentic Workflow
+ 
+This is where everything comes together.
+ 
+In Section 06, you tested the Resolution Pathfinder agent in **isolation** using the Manual Test console — simulating a task and observing tool execution in a sandbox. That validated the agent's three-path search logic. Now, you are testing the **full Agentic Workflow as it would run in production** — triggered by a real record update on the Incident Extend table, surfaced in the **Now Assist panel** on the fulfiller's workspace, with the Resolution Pathfinder Agent and the ObsAgent (A2A external agent) working in concert under a single orchestrated workflow.
+ 
+The key difference: this test validates not just the agent, but the **trigger conditions, the channel delivery, the LLM orchestration across two agents, and the A2A external integration** — the complete chain from incident assignment to resolution execution.
+ 
+***
+ 
+#### 9.1 — Impersonate Amelia Bryant
+ 
+**Amelia Bryant** is the lab's designated **Support Agent (fulfiller)**. In a real-world scenario, Amelia is responsible for monitoring unassigned Incident tickets in the Service Operations Workspace, triaging them, and routing them to the appropriate team — or assigning them to herself for resolution. It is this act of assignment — setting the `Assigned to` field — that triggers the Veritas Resolution Agentic Workflow.
+ 
+1. In the ServiceNow platform UI, click on your **user avatar / profile icon** in the top-right banner
+2. From the dropdown menu, select **Impersonate user**
+ 
+![User Menu — Impersonate user option](../screenshots/Agentic-WF-testing-1.png)
+ 
+3. In the **Impersonate user** dialog, select **Amelia Bryant** (`amelia.bryant`)
+4. Click **Impersonate user** to confirm
+ 
+![Impersonate user dialog — Amelia Bryant selected](../screenshots/Agentic-WF-testing-2.png)
+ 
+> **Why Amelia Bryant?** Amelia has the `x_snc_apacaienable.incident_extend_user` role (verified in Pre-Requisite 6) which grants her access to the Incident Extend table. She represents the fulfiller persona — the ITIL user who works incidents from the operations side. The Agentic Workflow is designed to assist fulfillers like Amelia by automatically generating resolution plans the moment an incident lands on their queue.
+ 
+***
+ 
+#### 9.2 — Navigate to the Unassigned Incidents Queue
+ 
+5. After impersonation, navigate to **Workspaces → Service Operations Workspace** to access Amelia Bryant's fulfiller view
+6. In the left navigation panel, scroll down to **Incidents** and click **Unassigned**
+ 
+![Service Operations Workspace — My Incidents](../screenshots/Agentic-WF-testing-3.png)
+ 
+![Left navigation — Incidents > Unassigned](../screenshots/Agentic-WF-testing-4.png)
+ 
+7. The **Incidents — Unassigned** list loads, showing all incidents without an assigned user. Locate the two Incident Extend records created during earlier testing:
+ 
+| Number | Short description | Caller | Priority | State |
+| --- | --- | --- | --- | --- |
+| `INCE0012001` | Hardware issue affecting Veritas NetBackup device (hostname: 192.168.99.1)... | alex rai | 2 – High | In Progress |
+| `INCE0012002` | Hardware issue on Veritas Netbackup server. Error code 84 encountered... | alex rai | 3 – Moderate | In Progress |
+ 
+![Incidents — Unassigned list with INCE0012001 and INCE0012002](../screenshots/Agentic-WF-testing-6.png)
+ 
+> These are the same Incident Extend records you tested against in earlier sections. They were created by the L1 Agent (Section 02), enriched by NADI (Section 03), and tested individually against the Resolution Pathfinder (Section 06). Now they will be processed by the full Agentic Workflow — with the trigger, orchestration, and A2A integration all active.
+ 
+***
+ 
+#### 9.3 — Test Scenario A: INCE0012001 — Internal Resolution + ObsAgent (A2A)
+ 
+This scenario demonstrates the **ideal outcome** of the Veritas architecture: internal knowledge and Elastic log analysis produce a credible resolution plan, and the **ObsAgent (Azure AI Foundry) is triggered via A2A to execute the remediation actions** — completing the full loop from incident detection to automated resolution without human intervention.
+ 
+***
+ 
+**Trigger the workflow:**
+ 
+8. Click on **INCE0012001** to open the Incident record
+9. Scroll down to the **Assignment** section
+10. In the **Assigned to** field, search for and select **Amelia Bryant**
+ 
+![INCE0012001 — Assigning to Amelia Bryant](../screenshots/Agentic-WF-testing-5.png)
+ 
+11. Click **Save** to save the record
+ 
+> **This is the trigger.** The moment the `Assigned to` field is populated and the record is saved, the Agentic Workflow's trigger condition (`Assigned to is not empty`) is met. The workflow fires automatically in the background — Amelia does not need to click anything or type a message. The trigger objective `Help me resolve ${number}` is sent to the orchestrating LLM, which begins planning and dispatching agents.
+ 
+***
+ 
+**Observe the workflow in the Now Assist panel:**
+ 
+12. After saving, look at the **Now Assist panel** on the right side of the workspace. A new active chat appears:
+ 
+![Now Assist panel — Active: INCE0012001 - Veritas Resolution Agentic Workflow](../screenshots/Agentic-WF-testing-9.png)
+ 
+13. Click on the active chat to open it. The Now Assist panel shows the workflow executing in real time:
+ 
+![Now Assist — Resolution Pathfinder agent starting, tools firing](../screenshots/Agentic-WF-testing-10.png)
+ 
+> **What you're seeing:** The orchestrating LLM has read the workflow description, matched the first step to the **Resolution Pathfinder for Incident case Agent**, and started it. The tool execution trace shows the agent working through its tools: retrieving incident fields, calling Resolution Finder Internal Data (PI + KB RAG), and querying Elastic logs.
+ 
+***
+ 
+**Review the Resolution Plan:**
+ 
+14. The Resolution Pathfinder agent completes its analysis and generates a **Resolution Plan** grounded in internal knowledge and Elastic log evidence:
+ 
+![Now Assist — Resolution Plan for INCE0012001 with numbered steps](../screenshots/Agentic-WF-testing-11.png)
+ 
+15. Scroll down to review the complete Resolution Plan. It should include:
+    - Numbered **resolution steps** derived from log evidence (e.g., reviewing /etc/hosts, verifying SERVER= entries in bp.conf, restarting bprd service)
+    - **Source citations** referencing the Elastic MCP log entries and incident work notes
+    - A confirmation prompt: *"Would you like to update anything within this Resolution Plan before it is finalized and written to the incident record?"*
+ 
+![Now Assist — Full Resolution Plan with steps, source citations, and confirmation](../screenshots/Agentic-WF-testing-12.png)
+ 
+> **Why the confirmation prompt?** The workflow is designed to give the fulfiller a chance to review and adjust the plan before it is committed. This is a governance safeguard — the AI proposes, the human approves. Reply **Yes** to edit, or **No** to proceed as-is.
+ 
+***
+ 
+**ObsAgent (A2A) executes the remediation:**
+ 
+16. Reply **No** to proceed with the Resolution Plan as-is
+17. The orchestrating LLM now matches the next workflow step to the **ObsAgent** — the external Azure AI Foundry agent registered via A2A in Section 07. The workflow dispatches the resolution plan to the ObsAgent for execution.
+ 
+![Now Assist — ObsAgent Observability Validation results](../screenshots/Agentic-WF-testing-13.png)
+ 
+18. The ObsAgent returns its execution results — an **Observability Validation** report confirming each remediation action was performed:
+ 
+![Now Assist — ObsAgent execution complete, actions confirmed](../screenshots/Agentic-WF-testing-14.png)
+ 
+> **What just happened:** The Resolution Pathfinder agent found a credible resolution from internal sources (Elastic logs + KB/PI). Because the resolution was grounded in internal evidence — not a web search — the orchestrating LLM determined it was reliable enough to act on and dispatched it to the ObsAgent via A2A. The ObsAgent (running on Azure AI Foundry) executed the prescribed remediation steps against the target infrastructure and reported back. The workflow confirms: *"The failed backup on the Veritas server has been successfully initiated. This completes the resolution workflow for your incident."*
+>
+> **This is Phase 3 in action** — the full chain from trigger → Resolution Pathfinder → ObsAgent (A2A) → automated resolution, with no manual intervention required beyond Amelia's initial assignment and plan approval.
+ 
+***
+ 
+#### 9.4 — Test Scenario B: INCE0012002 — Web Search Fallback (No ObsAgent)
+ 
+This scenario demonstrates the **fallback path**: internal knowledge and Elastic logs do not contain sufficient evidence, so the agent falls through to web search. Critically, because the resolution comes from an external web search rather than credible internal sources, the **ObsAgent is NOT triggered** — the workflow stops after delivering the web-sourced Resolution Plan.
+ 
+***
+ 
+**Trigger the workflow:**
+ 
+19. Navigate back to the **Incidents — Unassigned** list
+ 
+![Incidents — Unassigned list](../screenshots/Agentic-WF-testing-15.png)
+ 
+20. Click on **INCE0012002** to open the Incident record
+21. In the **Assigned to** field, search for and select **Amelia Bryant**
+ 
+![INCE0012002 — Assigning to Amelia Bryant](../screenshots/Agentic-WF-testing-16.png)
+ 
+22. Click **Save** to trigger the workflow
+ 
+***
+ 
+**Observe the workflow in the Now Assist panel:**
+ 
+23. The Now Assist panel shows a new active chat for INCE0012002:
+ 
+![Now Assist panel — Active: INCE0012002 - Veritas Resolution Agentic Workflow](../screenshots/Agentic-WF-testing-18.png)
+ 
+24. Click the active chat. The Resolution Pathfinder agent begins executing — retrieving incident fields, searching internal knowledge, and querying Elastic logs:
+ 
+![Now Assist — Resolution Pathfinder agent executing for INCE0012002](../screenshots/Agentic-WF-testing-19.png)
+ 
+25. The agent reports that no actionable resolution could be found from internal sources or server logs, and asks whether to proceed with a web search:
+ 
+![Now Assist — No internal resolution found, web search prompt](../screenshots/Agentic-WF-testing-20.png)
+ 
+***
+ 
+**Supervised web search flow:**
+ 
+26. Reply **Yes** to approve the web search
+27. The agent asks for confirmation to generate the optimised web search query:
+ 
+![Now Assist — Web search query approval (first confirmation)](../screenshots/Agentic-WF-testing-21.png)
+ 
+28. Reply **Yes** — the agent generates and displays the privacy-safe web search query, then asks for final confirmation before executing:
+ 
+![Now Assist — Web search query displayed, final confirmation](../screenshots/Agentic-WF-testing-22.png)
+ 
+> **Notice the supervised checkpoints.** The web search path requires **two approvals** before any data leaves the ServiceNow instance: first to generate the query (Tool 5 — Supervised), then to execute the search. This is by design — web search queries are external-facing, so the fulfiller must confirm that no PII, internal hostnames, or sensitive identifiers are present in the query before it is sent to the internet.
+ 
+29. Reply **Yes** to execute the web search
+ 
+***
+ 
+**Resolution Plan from web search:**
+ 
+30. The agent executes the web search and generates a **Resolution Plan** sourced from vendor documentation and community resources:
+ 
+![Now Assist — Resolution Plan from web search: issue summary and common causes](../screenshots/Agentic-WF-testing-23.png)
+ 
+31. Scroll down to review the complete plan — numbered troubleshooting steps and source links:
+ 
+![Now Assist — Full troubleshooting steps and source references](../screenshots/Agentic-WF-testing-24.png)
+ 
+> **Why the ObsAgent does NOT trigger here:** The Resolution Plan for INCE0012002 is derived from a web search — not from internal knowledge or Elastic log evidence. The orchestrating LLM recognises that web-sourced resolutions are informational guidance (not verified against the organisation's own infrastructure data) and therefore **not reliable enough to execute automated remediation against**. The workflow delivers the plan to the fulfiller for manual action and stops. The ObsAgent is never called.
+>
+> **This is the correct design behaviour.** The A2A integration is a privilege reserved for high-confidence resolutions grounded in internal data. Web search results help the fulfiller investigate further, but they do not trigger automated remediation — preventing the risk of executing unverified steps against production infrastructure.
+ 
+***
+ 
+#### Test Summary
+ 
+| Scenario | Record | Resolution Source | ObsAgent (A2A) | Outcome |
+| --- | --- | --- | --- | --- |
+| A — Internal + A2A | `INCE0012001` | Internal KB/PI + Elastic logs | ✅ Triggered — executed remediation | Automated resolution — ObsAgent confirms actions taken, workflow completes |
+| B — Web search fallback | `INCE0012002` | Web search (Gemini AI answer) | ❌ Not triggered | Resolution Plan delivered to fulfiller for manual action — no automated remediation |
+ 
+> **The distinction between Scenario A and Scenario B is the most important design decision in the entire Veritas architecture.** It answers the question: _when should an AI system be allowed to act autonomously on infrastructure, and when should it only advise?_ The answer implemented here is clear — only resolutions grounded in the organisation's own internal knowledge and log evidence are trusted enough for automated execution. Everything else is guidance for a human to evaluate.
+>
+> But the deeper point is this: **the goal of an Agentic Workflow is not to stop at recommendations.** Recommendations are valuable, but they still require a human to read, interpret, and manually execute each step — which is the bottleneck agentic AI is designed to eliminate. The Veritas architecture demonstrates that when the confidence threshold is met (credible internal evidence, verified log data, grounded resolution steps), the workflow should **take precise, automated action** — not just suggest it. This is what separates an agentic system from a traditional AI assistant: the ability to reason about risk, determine when action is appropriate, and then execute that action end-to-end.
+>
+> In this lab, ServiceNow acts as the **primary (orchestrating) agent** — it owns the workflow, evaluates the evidence, builds the resolution plan, and decides whether automated execution is warranted. When it is, ServiceNow hands off to the **ObsAgent (Azure AI Foundry) as the secondary (execution) agent** via A2A, which carries out the prescribed remediation actions and reports back. ServiceNow never loses governance — it controls what gets dispatched, under what conditions, and validates the result.
+>
+> The reverse scenario is equally possible: an external platform (Azure, AWS, Google Cloud, or any A2A-compliant orchestrator) can act as the **primary agent** and call **ServiceNow AI Agents as secondary agents** — delegating ITSM actions like incident creation, change request submission, or knowledge article updates to ServiceNow while the external platform manages the broader workflow. This bidirectional A2A capability means ServiceNow is not locked into a single role — it can orchestrate or be orchestrated, depending on where the workflow logic lives in your enterprise architecture.
+ 
+> **Explore further.** Try assigning other Incident Extend records to Amelia Bryant and observe which path the workflow takes. The behaviour depends entirely on what the Resolution Pathfinder agent finds in its three-path search — and every incident will produce a different result. This is the nature of agentic systems: the same workflow, the same tools, but adaptive reasoning that produces different outcomes based on the evidence available.
+ 
+***
+ 
 ## Configuration Summary
-
+ 
 | Section                | Field              | Value                                                                     |
 | ---------------------- | ------------------ | ------------------------------------------------------------------------- |
 | Key requirements       | Workflow name      | Veritas Resolution Agentic Workflow                                       |
@@ -254,53 +461,53 @@ How it works: Users select a UI Action on a record → this agentic workflow is 
 | Trigger                | Channel            | Now Assist panel                                                          |
 | Trigger                | Show alert         | Yes                                                                       |
 | Channels               | Now Assist panel   | Display ON                                                                |
-
+ 
 ***
-
+ 
 ## Technical Deep Dive
-
+ 
 ### How the LLM Routes Steps to Agents
-
+ 
 The workflow description is the **system prompt** delivered to the orchestrating LLM at runtime. When the trigger fires with the objective `Help me resolve ${number}`, the LLM receives:
-
+ 
 1. The workflow description (with `<steps>` XML)
 2. The list of available agent names and descriptions
 3. The trigger objective as the user message
-
+ 
 It then plans which agent to invoke first, calls that agent, receives the result, decides whether to invoke the second agent, and composes the final response. This is the **ReAct (Reasoning + Acting)** pattern baked into ServiceNow's agentic framework.
-
-The XML `<steps>` tag convention in the description mirrors Anthropic's prompt engineering best practices — using structured XML to separate distinct logical sections makes it easier for the LLM to parse and follow multi-step instructions reliably.
-
+ 
+The XML `<steps>` tag convention in the description mirrors widely adopted prompt engineering best practices — using structured XML to separate distinct logical sections makes it easier for the LLM to parse and follow multi-step instructions reliably.
+ 
 ### Why the Incident Extend Table as Trigger Source
-
+ 
 The trigger is placed on `incident extend` rather than `incident` for a precise reason: the `error code` field (extracted by NADI) is a custom field that only exists in the extend table. The standard `incident` table does not have this field.
-
+ 
 ### Dynamic User vs System User
-
+ 
 | Setting      | Runs as                                             | Use when                                                   |
 | ------------ | --------------------------------------------------- | ---------------------------------------------------------- |
 | Dynamic user | The user who triggered it (or `Assigned to [task]`) | Standard — workflow should respect user's data permissions |
 | System user  | A fixed service account                             | Workflow needs elevated access beyond the triggering user  |
-
+ 
 The Veritas workflow uses **Dynamic user → Assigned to \[task]** because: the assigned ITIL user already has the permissions needed to read the incident and write work notes; the workflow should not have broader access than the human it is assisting; and audit trails are cleaner when actions trace back to a real user.
-
+ 
 ### Trigger Objective Variable Syntax
-
+ 
 The `${number}` syntax in the trigger objective is ServiceNow's dynamic variable substitution for triggers. At runtime, `${number}` is replaced with the `number` field value from the triggering record. Other available variables follow the same pattern — `${field_name}` — where `field_name` is any field on the trigger table.
-
+ 
 ### Now Assist Panel vs Virtual Agent Channel
-
+ 
 | Channel              | How invoked                                 | Best for                                              |
 | -------------------- | ------------------------------------------- | ----------------------------------------------------- |
 | **Now Assist panel** | Auto-trigger OR user message in the sidebar | Fulfiller-facing — runs alongside the incident record |
 | **Virtual Agent**    | User conversation in the VA chat widget     | Requestor-facing — conversational resolution flow     |
-
+ 
 The Veritas workflow uses **Now Assist panel** because it targets the fulfiller (ITIL user) working the incident — not the end user who submitted it.
-
+ 
 ***
-
+ 
 ## Troubleshooting
-
+ 
 | Symptom                                              | Likely cause                                                    | Fix                                                                                                      |
 | ---------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | Workflow triggers but wrong agent fires first        | LLM mismatches step to agent                                    | Align step language in workflow description with agent name/description                                  |
@@ -309,17 +516,17 @@ The Veritas workflow uses **Now Assist panel** because it targets the fulfiller 
 | "Access denied" when workflow tries to read incident | ACL misconfiguration                                            | Verify Dynamic user approved role includes `snc_internal, itil, x_snc_apacaienable.incident_extend_user` |
 | ObsAgent step skipped entirely                       | Resolution Pathfinder returned no plan; web search is triggered | Expected behaviour (Path B)                                                                              |
 | Trigger fires on wrong incidents                     | Condition too broad                                             | Review if there are other agentic workflows also utilising similar triggers                              |
-
+ 
 ***
-
+ 
 ## Reference
-
+ 
 * [Create an agentic workflow — Zurich Docs](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/task/configure-use-case-ai-agents.html)
 * [General guidelines for creating AI agents and agentic workflows](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/gg-creating-aia.html)
 * [Get Familiar with Agentic Workflows & AI Agents — Community Lab](https://www.servicenow.com/community/developer-articles/get-familiar-with-agentic-workflows-amp-ai-agent/ta-p/3326559)
-
+ 
 ***
-
+ 
 ## Next Steps
-
-→ With the Veritas Resolution Agentic Workflow configured and both agents added, the full Veritas Agentic Workflow is complete. Congratulations!
+ 
+→ With the Veritas Resolution Agentic Workflow configured, tested, and both agents validated end-to-end, the full Veritas Agentic Workflow architecture is complete. Congratulations!
