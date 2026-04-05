@@ -6,7 +6,7 @@
 
 ## What It Is
 
-`ResolutionFinderUsingInternalData` is the **orchestrating skill** for the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
+`ResolutionFinderInternalData` is the **orchestrating skill** for the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
 
 This skill covers **all three steps of Path A**:
 
@@ -82,12 +82,12 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 
 | Field                | Value                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Skill name           | `ResolutionFinderUsingInternalData`                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Skill name           | `ResolutionFinderInternalData`                                                                                                                                                                                                                                                                                                                                                                                                     |
 | Description          | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
 | Default provider     | `Azure OpenAI`                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Default provider API | `Chat Completions`                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-![NASK — General Info: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-1 (1).png>)
+![NASK — General Info: ResolutionFinderInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-1 (1).png>)
 
 ***
 
@@ -616,9 +616,9 @@ Click **Publish**.
  
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
  
-Locate `ResolutionFinderUsingInternalData` → click **Turn on** → confirm activation.
+Locate `ResolutionFinderInternalData` → click **Turn on** → confirm activation.
  
-![Now Assist Admin — Skills: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
+![Now Assist Admin — Skills: ResolutionFinderInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
  
 > The skill card shows **Inactive** status — this is expected for a newly published skill before activation. Click **Turn on** to make it callable from Flow Designer as an Execute Skill action in the Fulfiller Flow workflow.
  
@@ -628,7 +628,7 @@ Locate `ResolutionFinderUsingInternalData` → click **Turn on** → confirm act
  
 | Field               | Value                                                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------- |
-| Skill name          | `ResolutionFinderUsingInternalData`                                                                 |
+| Skill name          | `ResolutionFinderInternalData`                                                                 |
 | Skill type          | Custom skill                                                                                        |
 | Default provider    | Azure OpenAI / Chat Completions                                                                     |
 | Input 1             | `Record from Incident Extend table` — Record (table: incident extend)                               |
@@ -683,7 +683,7 @@ The `Rewrite query` setting in the Retriever tool controls whether the RAG engin
  
 ## Next Steps
  
-→ With `ResolutionFinderUsingInternalData` published and active, it is invocable from Flow Designer via the **Execute Now Assist Skill** action in the Fulfiller Flow.
+→ With `ResolutionFinderInternalData` published and active, it is invocable from Flow Designer via the **Execute Now Assist Skill** action in the Fulfiller Flow.
  
 → If `Assess if solution exists` confirms a resolution: the workflow builds a Resolution Plan, writes it to the Incident work notes, and continues to Phase 3 (External Integration / VM Remediation).
  
