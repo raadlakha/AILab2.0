@@ -6,7 +6,7 @@
 
 ## What It Is
 
-`ResolutionFinderUsingInternalData` is the **orchestrating skill** for Path A of the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
+`ResolutionFinderUsingInternalData` is the **orchestrating skill** for the Fulfiller Flow. It combines three tools — two running in parallel and one sequentially — then feeds all their outputs into a single LLM reasoning step that determines whether a viable resolution exists.
 
 This skill covers **all three steps of Path A**:
 
@@ -83,7 +83,7 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 | Field                | Value                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Skill name           | `ResolutionFinderUsingInternalData`                                                                                                                                                                                                                                                                                                                                                                                                     |
-| Description          | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) [Ignore the discrepancy with the screenshot - intent is to input the name of your Incident Extend table] by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
+| Description          | `This skill is meant to find possible resolution(s) for an Incident case (x_snc_apacaienable_incident_extend) by going through information internal to the ServiceNow instance. Specifically, it goes through Knowledge Bases (configured through Search Profiles) and recommendations generated from Predictive Intelligence` |
 | Default provider     | `Azure OpenAI`                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Default provider API | `Chat Completions`                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
@@ -211,9 +211,9 @@ Select **Skill**, check **Add as parallel node** → **Configure tool**.
 | Name         | `GenerateSearchQueryAgainstAISearch`                                                                            |
 | Description  | `This skill is created to generate the optimal search query for AI Search to be returned with the best results` |
 | Resource     | `CreateOptimalSearchQuery`                                                                                      |
-| Provider API | `Now LLM Generic`                                                                                               |
+| Provider API | `Azure OpenAI`                                                                                                  |
 
-![NASK — Skill Tool: General Info](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-14 (1).png>)
+![NASK — Skill Tool: General Info](<../screenshots/NASKResolutionFinderUsingInternalData2-14.png>)
 
 #### Step 5b — Tool Inputs
 
@@ -500,13 +500,13 @@ Navigate to the **Edit prompt** tab → finalize the `Assess if solution exists 
 
 The **Publish Skill** dialog opens:
 
-| Field           | Value                                                           |
-| --------------- | --------------------------------------------------------------- |
-| Workflow        | Other                                                           |
-| Product         | Not Applicable                                                  |
-| Feature         | Not Applicable                                                  |
-| Display Options | None                                                            |
-| Provider        | Now LLM Service (Now LLM Generic) — Default provider            |
+| Field           | Value                                                            |
+| --------------- | ---------------------------------------------------------------- |
+| Workflow        | Other                                                            |
+| Product         | Not Applicable                                                   |
+| Feature         | Not Applicable                                                   |
+| Display Options | None                                                             |
+| Provider        | Azure OpenAI                                                     |
 | Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅ |
 
 ![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31 (1).png>)
@@ -521,7 +521,7 @@ Click **Publish**.
 
 Navigate to **All → Admin Center → Now Assist Admin → Now Assist Skills → Other → Available**.
 
-Locate `ResolutionFinderUsingInternalData` (Custom | Inactive | Now LLM Service) → click **Turn on** → confirm activation.
+Locate `ResolutionFinderUsingInternalData` → click **Turn on** → confirm activation.
 
 ![Now Assist Admin — Skills: ResolutionFinderUsingInternalData](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-32 (1).png>)
 
