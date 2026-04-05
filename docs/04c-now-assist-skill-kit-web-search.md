@@ -383,11 +383,8 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
 
 5. Verify that the prompt references the tool output variable `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}` — this is how the optimised query from the upstream `CreateOptimalSearchQuery` skill is injected into the prompt context
 6. Click **Save** to save the prompt
-7. Click **Manage prompt** → **Finalize prompt** to lock the prompt version
 
 > **Do not copy blindly.** The provided prompt is a proven starting point (\~1026 words) that has been tested against the Veritas NetBackup triage scenario — but it is not immutable. The strength of an agentic system lies in its ability to adapt. As you build out the full workflow and observe how the LLM responds to real incident data in your lab instance, you will likely find areas where the prompt benefits from refinement: tighter constraints, additional examples, adjusted output formatting, or domain-specific terminology. Treat prompt authoring as an iterative process — finalize v1 now, test it end-to-end, and create v2 when you identify improvements.
-
-> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 12). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
 
 **Key prompt design decisions:**
 
@@ -416,6 +413,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
  
 6. Wait for the test to complete — the **Response** tab in the Test prompt panel will display the LLM-generated output
 7. Review the response and verify that it is a **single, web-search-optimised query string** — not a list of questions, not a conversational paragraph, and not an incident summary
+8. Once the prompt is finalised and testing of the skill is successful, click on **Manage prompt** → **Finalize prompt** to lock the prompt version
  
 ![NASK — Test Prompt Response: Web Search Query](../screenshots/NASK-generatewebsearchquestion-step20.png)
  
@@ -435,6 +433,8 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 8. If the response does not match the expected format, return to the prompt editor (Step 11) and adjust the output constraints — then re-finalize and re-test
  
 > **Tip:** Click the **Grounded prompt** tab to inspect the fully rendered prompt sent to the LLM — this shows the actual value substituted for `{{RetrieveGeneratedSearchQuerythatwasforAI.response}}`. If the substituted value is empty or malformed, the issue is in the upstream `CreateOptimalSearchQuery` skill, not in this skill's prompt.
+
+> **Finalize vs. Save:** Saving preserves your edits as a working draft. Finalizing locks the prompt as an immutable version (`v1`, `v2`, etc.) that can be selected for publishing. You must finalize at least one version before the prompt appears in the Publish dialog (Step 12). You can continue editing the draft after finalizing — subsequent finalizations create new versions without overwriting previous ones.
  
 ***
  
