@@ -606,11 +606,9 @@ The **Publish Skill** dialog opens:
 | Provider        | Azure OpenAI                                                     |
 | Prompt          | `Assess if solution exists within Internal Knowledge sources` ✅ |
  
-![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-31 (1).png>)
+![NASK — Publish Skill Dialog](<../screenshots/NASKResolutionFinderUsingInternalData2-31.png>)
  
 Click **Publish**.
- 
-> The prompt is labelled `v2` — indicating it has been finalized twice. Only finalized prompts appear in the publish dialog. If your prompt shows `v1`, that is correct for a first-time publish; select it and proceed.
  
 ***
  
