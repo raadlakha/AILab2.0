@@ -94,7 +94,7 @@ Click **Add**.
 
 After adding, ServiceNow creates a **Model Context Protocol Server** record and a corresponding **Connection Alias**.
 
-![MCP server record — elasticMCPConn](<../.gitbook/assets/MCPConnect2 (1).png>)
+![MCP server record — elasticMCPConn](<../screenshots/MCPConnect2.png>)
 
 Verify the record:
 
@@ -114,7 +114,7 @@ To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolutio
 
 1. Navigate to the AI Agent → **Add tools and information** tab
 2. Click **Add tool ▼** → select **MCP server tool**
-3. Select `elasticMCPConn` as the server
+3. Select `elasticMCPconn` as the server
 4. The available tools exposed by the Elastic MCP server will be listed — select the relevant log analysis or RCA tool
 5. Configure the tool inputs and conditions as required
 
