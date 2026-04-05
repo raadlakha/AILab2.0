@@ -213,8 +213,8 @@ Verify and click **Save changes**.
  
 > After saving, the canvas shows the FindSimilarIncidents node added below Start:
  
-![NASK — Canvas After PI Tool Added](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-11 (1).png>)
- 
+![NASK — Canvas After PI Tool Added](<../screenshots/NASKResolutionFinderUsingInternalData2-11.png>)
+
 ***
  
 ### Step 6: Add Tool 2 — Skill (GenerateSearchQueryAgainstAISearch) as Parallel Node
@@ -270,7 +270,7 @@ Type: **None (Always run)**
  
 Verify **Add as a parallel node: Yes** → click **Add tool**.
  
-![NASK — Skill Tool: Summary](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-18 (1).png>)
+![NASK — Skill Tool: Summary](<../screenshots/NASKResolutionFinderUsingInternalData2-18.png>)
  
 ***
  

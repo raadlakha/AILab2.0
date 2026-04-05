@@ -22,7 +22,7 @@ However, on some lab instances you may encounter the following when you reach th
  
 ---
  
-## Step 7b (Alternative): Configure Tool Inputs — Keyword Search
+## Step 8b (Alternative): Configure Tool Inputs — Keyword Search
  
 Replace the Semantic search configuration from the main 04b guide with the following Keyword search configuration.
  
@@ -44,7 +44,7 @@ Replace the Semantic search configuration from the main 04b guide with the follo
 
 ---
 
-## Step 7c (Alternative): Tool Outputs
+## Step 8c (Alternative): Tool Outputs
 
 ![NASK — Retriever Tool: Tool Outputs](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch3.png>)
 
@@ -56,7 +56,7 @@ Click **Continue**.
 
 ---
 
-## Step 7d (Alternative): Tool Conditions
+## Step 8d (Alternative): Tool Conditions
 
 ![NASK — Retriever Tool: Tool Conditions](<../screenshots/NASKResolutionFinderUsingInternalData-keywordsearch4.png>)
 
@@ -66,7 +66,7 @@ Click **Continue**.
 
 ---
 
-## Step 7e (Alternative) — Summary
+## Step 8e (Alternative) — Summary
 
 Verify the complete configuration before saving:
 
@@ -111,6 +111,6 @@ Switching from Semantic to Keyword search changes how the retriever matches KB a
  
 ## After This Step
  
-Once you have configured the Keyword search Tool Inputs and clicked **Continue**, rejoin the main 04b guide at **Step 7c — Tool Outputs**. All subsequent steps (Tool Outputs, Tool Conditions, Summary, Final Canvas, Publish, Activate) are identical regardless of whether you used Semantic or Keyword search.
+Once you have configured the Keyword search Tool Inputs and clicked **Continue**, rejoin the main 04b guide at **Step 9: Final Canvas - Complete Skill Flow**.
  
-→ Return to [04b — Step 8: Final Canvas - Complete Skill Flow](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-8-final-canvas-complete-skill-flow)
+→ Return to [04b — Step 9: Final Canvas - Complete Skill Flow](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-9-final-canvas-complete-skill-flow)
