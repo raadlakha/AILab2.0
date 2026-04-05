@@ -100,9 +100,9 @@ Verify the record:
 
 | Field            | Value                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------- |
-| Server name      | `elasticMCPConn` (or whatever you have decided to name it as)                       |
-| Connection Alias | `elasticMCPConn_1774940033699` _(auto-generated, can be different across instances)_ |
-| Application      | `Global`                                                                            |
+| Server name      | `elasticMCPconn` (or whatever you have decided to name it as)                       |
+| Connection Alias | `x_snc_apacaienable.elasticMCPconn_1775179359877` _(auto-generated, can be different across instances)_ |
+| Application      | `x_nava_agentic_lab`                                                                            |
 
 ***
 
@@ -126,12 +126,12 @@ To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolutio
 
 | Field               | Value                                                                               |
 | ------------------- | ----------------------------------------------------------------------------------- |
-| MCP server name     | `elasticMCPConn`                                                                    |
+| MCP server name     | `elasticMCPconn`                                                                    |
 | Authentication type | API Key                                                                             |
 | MCP server URL      | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
 | API key             | _(your Elastic API key)_                                                            |
-| Connection Alias    | `elasticMCPConn_1774940033699` (auto-generated)                                     |
-| Application scope   | Global                                                                              |
+| Connection Alias    | `x_snc_apacaienable.elasticMCPconn_1775179359877` (auto-generated)                  |
+| Application scope   | x_nava_agentic_lab                                                                  |
 | Protocol version    | `2024-11-05`                                                                        |
 | Transport           | Streamable HTTP                                                                     |
 | Navigation          | All → AI Agent Studio → Settings → Manage MCP servers                               |
