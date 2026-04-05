@@ -138,9 +138,9 @@ From **Add tool ▼** select **Now Assist skill**.
 
 The **Edit Now Assist skill** dialog opens:
 
-![Edit Now Assist skill — ResolutionFinderInternalData (top)](<../.gitbook/assets/L2-agent-tool2-2 (1).png>)
+![Edit Now Assist skill — ResolutionFinderInternalData (top)](<../screenshots/L2-agent-tool2-2.png>)
 
-![Edit Now Assist skill — ResolutionFinderInternalData (scrolled)](<../.gitbook/assets/L2-agent-tool2-3 (1).png>)
+![Edit Now Assist skill — ResolutionFinderInternalData (scrolled)](<../screenshots/L2-agent-tool2-3.png>)
 
 | Field                                    | Value                                                                                                                                                                                                                                         |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
