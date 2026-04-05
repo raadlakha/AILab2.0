@@ -48,23 +48,23 @@ AI Agent generates appropriate resolution plan + source citation that is to be w
 
 ## What the Agent Enables
 
-| Capability                  | Tool                                   | How                                                                                                                           |
-| --------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Incident context retrieval  | Tool 1 — Flow action                   | Retrieves and reads all relevant fields from the Incident extend record before any search begins                              |
-| Internal KB + PI resolution | Tool 2 — Now Assist skill              | Searches similar resolved incidents and internal Knowledge articles (Predictive Intelligence) + KB articles via RAG                                           |
-| Elastic index discovery     | Tool 3 — MCP server tool               | Retrieves index mappings so agent can understand log schema before querying                                                   |
-| Elastic log query execution | Tool 4 — MCP server tool               | Executes ES\|QL queries against Elastic log indices — must use a pre-generated query                                          |
-| Web search query generation | Tool 5 — Now Assist skill              | Generates a privacy-safe, optimised query for web search — supervised to ensure PII and all sensitive information is stripped |
-| Web search                  | Tool 6 — Web search                    | Gemini AI answer — searches the internet when internal and log sources yield no resolution                                    |
+| Capability                  | Tool                      | How                                                                                                                           |
+| --------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Incident context retrieval  | Tool 1 — Flow action      | Retrieves and reads all relevant fields from the Incident extend record before any search begins                              |
+| Internal KB + PI resolution | Tool 2 — Now Assist skill | Searches similar resolved incidents and internal Knowledge articles (Predictive Intelligence) + KB articles via RAG           |
+| Elastic index discovery     | Tool 3 — MCP server tool  | Retrieves index mappings so agent can understand log schema before querying                                                   |
+| Elastic log query execution | Tool 4 — MCP server tool  | Executes ES\|QL queries against Elastic log indices — must use a pre-generated query                                          |
+| Web search query generation | Tool 5 — Now Assist skill | Generates a privacy-safe, optimised query for web search — supervised to ensure PII and all sensitive information is stripped |
+| Web search                  | Tool 6 — Web search       | Gemini AI answer — searches the internet when internal and log sources yield no resolution                                    |
 
 ***
 
 ## Prerequisites
 
-| Requirement                    | Detail                                                                                                                                             |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Requirement                    | Detail                                                                                                                                        |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | Custom Now Assist Skills built | Custom Now Assist Skills for CreateOptimalSearchQuery, ResolutionFinderInternalData and GenerateWebSearchQnsForResolutionPlan must be created |
-| Elastic MCP server             | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier - 05 section)                                    |
+| Elastic MCP server             | `elastic mcp server` registered in AI Agent Studio → Settings → Manage MCP servers (built earlier - 05 section)                               |
 
 ***
 
@@ -111,18 +111,18 @@ From **Add tool ▼** select **Flow action**.
 
 The **Edit flow action** dialog opens:
 
-![Edit flow action (1) — Incident Extend fields](<../screenshots/L2-agent-tool1-2.png>)
+![Edit flow action (1) — Incident Extend fields](<../.gitbook/assets/L2-agent-tool1-2 (2).png>)
 
-![Edit flow action (2) — Incident Extend fields](<../screenshots/L2-agent-tool1-3.png>)
+![Edit flow action (2) — Incident Extend fields](../.gitbook/assets/L2-agent-tool1-3.png)
 
-| Field                                    | Value                                                                                                                                                                                                                                                                                    |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Select flow action                       | `Retrieval of Relevant Fields from Incident Extract table`                                                                                                                                                                                                                               |
-| Input — Incident Number                  | `incident_number` (string)                                                                                                                                                                                                                                                               |
-| Name                                     | `Retrieve relevant field values from a record within Incident Extend  table`                                                                                                                                                                        |
+| Field                                    | Value                                                                                                                                                                                                                                                                                   |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Select flow action                       | `Retrieval of Relevant Fields from Incident Extract table`                                                                                                                                                                                                                              |
+| Input — Incident Number                  | `incident_number` (string)                                                                                                                                                                                                                                                              |
+| Name                                     | `Retrieve relevant field values from a record within Incident Extend table`                                                                                                                                                                                                             |
 | Tool description _(Description for LLM)_ | `This tool retrieves out the following information based on the Incident number (input) from the Incident Extend table: 1. Short Description, 2. Description, 3. Configuration Item, 4. Error Code, 5. Product Bar Code, 6. Product Name, 7. Serial Number, 8. Category, 9. Work Notes` |
-| Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                           |
-| Display output                           | `No`                                                                                                                                                                                                                                                                                     |
+| Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                          |
+| Display output                           | `No`                                                                                                                                                                                                                                                                                    |
 
 > **Why first:** This tool gives the agent all the structured Incident context it needs before any search begins — error code, CI, product details, and prior work notes. All subsequent tools draw on this context to form their queries.
 
@@ -144,8 +144,8 @@ The **Edit Now Assist skill** dialog opens:
 
 | Field                                    | Value                                                                                                                                                                                                                                         |
 | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Select skill                             | `ResolutionFinderInternalData`                                                                                                                                                                                                           |
-| Selected skill description               | `Retrieve Relevant Fields from Incident Extend table`                                                                                                                                                                                        |
+| Select skill                             | `ResolutionFinderInternalData`                                                                                                                                                                                                                |
+| Selected skill description               | `Retrieve Relevant Fields from Incident Extend table`                                                                                                                                                                                         |
 | Name                                     | `Resolution Finder Internal Data`                                                                                                                                                                                                             |
 | Tool description _(Description for LLM)_ | `This tool searches internal Knowledge Contents (Predictive Intelligence using Similarity Searches for Past Resolved Cases) as well as relevant Knowledge Base articles to determine if there is a solution to a newly raised Incident case.` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                |
@@ -234,7 +234,7 @@ The **Edit Now Assist skill** dialog opens:
 | Field                                    | Value                                                                                                                                                                                                                                                                                                                                                          |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Select skill                             | `GenerateWebSearchQnsForResolutionPlan`                                                                                                                                                                                                                                                                                                                        |
-| Selected skill description               | `Retrieve Relevant Fields from Incident Extend table`                                                                                                                                                                                                                                                                                                         |
+| Selected skill description               | `Retrieve Relevant Fields from Incident Extend table`                                                                                                                                                                                                                                                                                                          |
 | Input — Incidentextendrecord             | `incidentextendrecord` (string)                                                                                                                                                                                                                                                                                                                                |
 | Name                                     | `Generate Web Search Question for Resolution Plan`                                                                                                                                                                                                                                                                                                             |
 | Tool description _(Description for LLM)_ | `The 'Generate Web Search Question for Resolution Plan' tool generates a search query that is optimised for web search engines. The output of this tool call is used to build an actionable resolution plan that Support Agents can use to resolve support issues much faster down the line, as some pre-work has already been done for them by the AI agent.` |
@@ -348,8 +348,8 @@ Click **Save and continue** to complete the agent configuration.
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | Agent name  | `Resolution Pathfinder for Incident case Agent`                                                                                  |
 | Type        | Chat                                                                                                                             |
-| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extend (x_snc_apacaienable_incident_extend)`       |
-| Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderInternalData` — Autonomous                          |
+| Tool 1      | Flow action — `Retrieve relevant field values from a record within Incident Extend (x_snc_apacaienable_incident_extend)`         |
+| Tool 2      | Now Assist skill — `Resolution Finder Internal Data` → `ResolutionFinderInternalData` — Autonomous                               |
 | Tool 3      | MCP server tool — `platform_core_get_index_mapping` — elastic mcp server — **Supervised**, Display output **Yes**                |
 | Tool 4      | MCP server tool — `platform_core_execute_esql` — elastic mcp server — Autonomous                                                 |
 | Tool 5      | Now Assist skill — `Generate Web Search Question for Resolution Plan` → `GenerateWebSearchQnsForResolutionPlan` — **Supervised** |
@@ -381,9 +381,7 @@ The `platform_core_execute_esql` tool description contains hard instructions tel
 
 The agent's description and instructions define a strict search hierarchy:
 
-**1. Internal:** `ResolutionFinderInternalData` (PI + KB RAG)
-**2. Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql`
-**3. Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`
+**1. Internal:** `ResolutionFinderInternalData` (PI + KB RAG) **2. Elastic logs:** `platform_core_get_index_mapping` + `platform_core_execute_esql` **3. Path B — Web:** `GenerateWebSearchQnsForResolutionPlan` (supervised) + `Search the web`
 
 If all three paths yield nothing, the agent writes a structured "no resolution found" note documenting what was searched — arming L2 engineers with full context on what the AI already tried.
 
