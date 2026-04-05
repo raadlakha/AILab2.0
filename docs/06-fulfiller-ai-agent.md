@@ -111,14 +111,15 @@ From **Add tool ▼** select **Flow action**.
 
 The **Edit flow action** dialog opens:
 
-![Edit flow action — Incident Extend fields](<../.gitbook/assets/L2-agent-tool1-2 (1).png>)
+![Edit flow action (1) — Incident Extend fields](<../screenshots/L2-agent-tool1-2.png>)
+![Edit flow action (2) — Incident Extend fields](<../screenshots/L2-agent-tool1-3.png>)
 
 | Field                                    | Value                                                                                                                                                                                                                                                                                    |
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Select flow action                       | `Retrieval of Relevant Fields from Incident Extend table`                                                                                                                                                                                                                               |
+| Select flow action                       | `Retrieval of Relevant Fields from Incident Extract table`                                                                                                                                                                                                                               |
 | Input — Incident Number                  | `incident_number` (string)                                                                                                                                                                                                                                                               |
-| Name                                     | `Retrieve relevant field values from a record within Incident Extend (x_snc_apacaienable_incident_extend) table`                                                                                                                                                                        |
-| Tool description _(Description for LLM)_ | `This tool retrieves out the following information based on the Incident_number (input) from the Incident Extend table: 1. Short Description, 2. Description, 3. Configuration Item, 4. Error Code, 5. Product Bar Code, 6. Product Name, 7. Serial Number, 8. Category, 9. Work Notes` |
+| Name                                     | `Retrieve relevant field values from a record within Incident Extend  table`                                                                                                                                                                        |
+| Tool description _(Description for LLM)_ | `This tool retrieves out the following information based on the Incident number (input) from the Incident Extend table: 1. Short Description, 2. Description, 3. Configuration Item, 4. Error Code, 5. Product Bar Code, 6. Product Name, 7. Serial Number, 8. Category, 9. Work Notes` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                           |
 | Display output                           | `No`                                                                                                                                                                                                                                                                                     |
 
