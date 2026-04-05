@@ -47,7 +47,7 @@ curl -X POST \
   -d '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"test-client","version":"1.0.0"},"capabilities":{},"protocolVersion":"2024-11-05"},"jsonrpc":"2.0"}'
 ```
 
-Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`). Note that the work ApiKey within the format is **must**.
+Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_id:api_key>`). Note that the word ApiKey within the format is **must**.
 
 **Expected response:** A JSON-RPC 2.0 response containing the MCP server's `serverInfo`, `protocolVersion: "2024-11-05"`, and `capabilities` object — confirming the endpoint is live and the API key is authorised.
 
@@ -58,6 +58,8 @@ Replace `<key>` with the Elastic API key value (format: `ApiKey <base64_encoded_
 ## Step 2: Navigate to Manage MCP Servers
 
 Navigate to **All → AI Agent Studio → Settings → Manage MCP servers**.
+
+![Navigate to MCP server setting](<../screenshots/MCPConnect3.png>)
 
 The **Manage Model Context Protocol servers** page lists all registered MCP server connections. This is the central registry for all external tool providers available to AI Agents in this instance.
 
@@ -99,7 +101,7 @@ Verify the record:
 | Field            | Value                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------- |
 | Server name      | `elasticMCPConn` (or whatever you have decided to name it as)                       |
-| Connection Alias | `elasticMCPConn_1774940033699` _(auto-generated, can be different acros instances)_ |
+| Connection Alias | `elasticMCPConn_1774940033699` _(auto-generated, can be different across instances)_ |
 | Application      | `Global`                                                                            |
 
 ***
