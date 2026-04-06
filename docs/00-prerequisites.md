@@ -12,6 +12,8 @@ Complete every step below in order before proceeding to [01 — Now Assist for V
 
 Lab resources that you will need in order to complete the lab: [Lab resources folder](../Lab%20resources/)
 
+Testing commit to new GitBook
+
 ***
 
 ### Pre-Requisite 1: Switch to the `x_nava_agentic_lab` Application Scope
