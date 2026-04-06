@@ -128,11 +128,11 @@ Scroll down on the General info page to reach **Configure security controls**.
 
 | Field     | Value  |
 | --------- | ------ |
-| **Roles** | `itil` |
+| **Roles** | `itil, x_snc_apacaienable.incident_extend_user` |
 
-![NASK — Security Controls: User Access and Role Restrictions](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-2 (1).png>)
+![NASK — Security Controls: User Access and Role Restrictions](<../screenshots/NASKCreateOptimalSearchQuery1-2.png>)
 
-> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits.
+> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within limits.
 
 Click **Continue** to proceed to prompt creation.
 
@@ -372,7 +372,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 1. In the NASK skill editor, locate the **Test prompt** panel (right-hand side of the prompt editor)
 2. Click the **Run test** button — the **Run test** dialog opens
 3. In the `incidentextendrecord` input field, enter an existing Incident Extend record number — for example: **`INCE0012002`**
-4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration (`itil` role) allows the test to execute correctly
+4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration (`itil, x_snc_apacaienable.incident_extend_user` roler) allows the test to execute correctly
 5. Click **Run test**
 
 ![NASK — Run Test Dialog: Input and Security Controls](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-18 (1).png>)
@@ -489,7 +489,7 @@ Locate `CreateOptimalSearchQuery` under the **Other** workflow. Click **Turn on*
 | Prompt                  | `GenerateOptimalPromptForRAG (v1)`                         |
 | Workflow (deployment)   | Other                                                      |
 | User access             | Select roles → `itil`                                      |
-| Role restrictions       | `itil`                                                     |
+| Role restrictions       | `itil, x_snc_apacaienable.incident_extend_user`            |
 | Status after activation | Active                                                     |
 
 ***
