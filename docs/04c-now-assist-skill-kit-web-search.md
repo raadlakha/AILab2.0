@@ -19,35 +19,7 @@ This is a **skill-chaining** pattern: a skill calling another published skill as
 
 ## Where This Fits in the Agentic Workflow (Veritas Architecture)
 
-```
-Veritas Resolution Agentic Workflow
-        │
-        ▼
-Phase 1: AI Search (KB RAG) + Similarity PI — CreateOptimalSearchQuery → RetrieveRelevantKBContent + FindSimilarIncidents
-        │
-        ▼ (no resolution found)
-Phase 2: Elastic Log Analysis — Elastic MCP Server connectivity (to be built in later parts of the lab, not yet introduced)
-        │
-        ▼ (no resolution found)
-Phase 3: Internet Fallback ← YOU ARE HERE
-        │
-  ┌─────────────────────────────────────────────────────────────┐
-  │  GenerateWebSearchQnsForResolutionPlan skill fires          │
-  │                                                             │
-  │  Tool node: RetrieveGeneratedSearchQuerythatwasforAI        │
-  │  → calls CreateOptimalSearchQuery skill (published)         │
-  │  → input: {{incidentextendrecord}}                          │
-  │  → output: response (the optimised query string)            │
-  │                                                             │
-  │  Skill prompt: Generate Web Search Questions for            │
-  │  Resolution Plan                                            │
-  │  → takes tool output + incident context                     │
-  │  → generates optimised web search question                  │
-  └─────────────────────────────────────────────────────────────┘
-        │
-        ▼
-  Output: optimised web search question → searches the web with 'web search' tool → Attempts to create and generate an actionable resolution plan
-```
+![NASK Web Search Flow Overview](../screenshots/flow-NASK-web-search-query.png)
 
 ***
 
@@ -343,7 +315,7 @@ After adding the tool, the canvas updates to show the full skill execution flow:
 Start
   │
   ▼
-RetrieveGeneratedSearchQuerythatwas...   ← Skill tool node (calls CreateOptimalSearchQuery)
+RetrieveGeneratedSearchQuerythaswas...   ← Skill tool node (calls CreateOptimalSearchQuery)
   │
   ▼
 Generate Web Search ...                  ← Skill prompt node
