@@ -10,39 +10,7 @@ The **Resolution Pathfinder for Incident case Agent** is a Chat AI Agent that op
 
 The agent uses six tools covering all three search paths:
 
-```
-Fulfiller Flow — Phase 2 trigger:
-  'Assigned to' is not empty
-        │
-        ▼
-Resolution Pathfinder for Incident case Agent
-        │
-        ├── Tool 1: Flow action — Retrieve relevant fields from Incident Extend table
-        │          Reads incident context: error code, CI, product, short description, work notes
-        │
-        ├── Tool 2: Now Assist skill — Resolution Finder Internal Data
-        │          Calls ResolutionFinderInternalData
-        │          (PI similarity + KB RAG to determine if internal information is sufficient to provide a resolution plan)
-        |
-        ├── Tool 3: Elastic MCP server tool — platform_core_get_index_mapping
-        │          Retrieves Elastic index mappings — helps agent understand schema
-        │          before constructing queries
-        │
-        ├── Tool 4: Elastic MCP server tool — platform_core_execute_esql
-        │          Runs ES|QL query against Elastic — returns log results in tabular format
-        │          Must receive query from platform_core_generate_esql or user verbatim
-        |
-        ├── Tool 5: Now Assist skill — Generate Web Search Question for Resolution Plan
-        │          Calls GenerateWebSearchQnsForResolutionPlan
-        │          Generates optimised web search query (Path B fallback)
-        │
-        └── Tool 6: Web search — Search the web
-                   Gemini AI answer provider
-                   Privacy-safe web search (Path B final fallback)
-        │
-        ▼
-AI Agent generates appropriate resolution plan + source citation that is to be written into the Incident case work notes regardless of outcome
-```
+![Fulfiller Agent Flow Overview](../screenshots/flow-fulfiller.png)
 
 ***
 
@@ -208,7 +176,7 @@ The tool settings section:
 | Field                                    | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Name                                     | `platform_core_execute_esql`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| Tool description _(Description for LLM)_ | `Execute an ES\|QL query and return the results in a tabular format. **IMPORTANT**: This tool only **runs** queries; it does not write them. Think of this as the final step after a query has been prepared. You **must** get the query from one of two sources before calling this tool: 1. The output of the \`platform.core.generate\_esql\` tool (if the tool is available). 2. A verbatim query provided directly by the user. Under no circumstances should you invent, guess, or modify a query yourself for this tool. If you need a query, use the \`platform.core.generate\_esql\` tool first.\` |
+| Tool description _(Description for LLM)_ | `Execute an ES\|QL query and return the results in a tabular format. **IMPORTANT**: This tool only **runs** queries; it does not write them. Think of this as the final step after a query has been prepared. You **must** get the query from one of two sources before calling this tool: 1. The output of the \`platform.core.generate\_esql\` tool (if the tool is available). 2. A verbatim query provided directly by the user. Under no circumstances should you invent, guess, or modify a query yourself for this tool. If you need a query, use the \`platform.core.generate\_esql\` tool first.\`` |
 | Execution mode                           | **Autonomous**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Display output                           | **No**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
