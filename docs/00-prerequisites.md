@@ -312,11 +312,11 @@ Confirm the following **roles** are assigned to Alex Rai:
 
 6. Scroll down to the Roles section and select **Edit**
 
-![User Record — Alex Rai with Roles (2)](../screenshots/check-user-permissions-6.png)
+![User Record — Alex Rai with Roles (2)](../.gitbook/assets/check-user-permissions-6.png)
 
-6. Ensure **snc_external** role is not assigned to Alex Rai as well. If it is, remove **snc_external** role from Alex Rai's roles. A user can only be either snc_internal or snc_external. It cannot be both.
+6. Ensure **snc\_external** role is not assigned to Alex Rai as well. If it is, remove **snc\_external** role from Alex Rai's roles. A user can only be either snc\_internal or snc\_external. It cannot be both.
 
-![Check for snc_external role)](../screenshots/check-user-permissions-7.png)
+![Check for snc\_external role)](../.gitbook/assets/check-user-permissions-7.png)
 
 ***
 
