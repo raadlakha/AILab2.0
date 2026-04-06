@@ -19,36 +19,7 @@ The configuration covers two distinct setup layers:
 
 ## Phase 3 Flow Overview
 
-```
-Phase 3 — External Integration — Observability & Action Agent via A2A
-        │
-        Trigger: Path A of Fulfiller Flow (Resolution Pathfinder for Incident case Agent) produces a resolution plan
-        (Does NOT trigger on Path B)
-        │
-        ▼
-Step 1: Observability & Action Agent (ServiceNow — primary orchestrator)
-        receives the resolution plan → constructs structured remediation action set
-        │
-        ▼
-Step 2: Remediation plan serialised and dispatched to Azure AI Foundry
-        via A2A protocol
-        ServiceNow = orchestrator | Azure AI Foundry = remote execution agent
-        │
-        ▼
-Step 3: Azure AI Foundry executes prescribed remediation actions
-        (service restart, config patch, queue flush, etc.)
-        Execution telemetry streams back to ServiceNow
-        │
-        ├── Path 3A — Success:
-        │   Incident auto-resolved, resolution notes + execution outcome
-        │   generated and ready to be written to incident record, ticket closed
-        │   No human intervention required
-        │
-        └── Path 3B — Fail / Partial:
-            Full execution log, attempted steps, and failure reason
-            generated and ready to be written to incident work notes
-            Incident escalated to L2 with complete context
-```
+![External Agent A2A Flow Overview](../screenshots/flow-external-agent.png)
 
 ***
 
