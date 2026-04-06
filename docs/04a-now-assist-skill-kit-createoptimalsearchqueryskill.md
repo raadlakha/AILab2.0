@@ -395,7 +395,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 ![NASK — Test Prompt Response: Structured Output](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-19 (1).png>)
 
-> **What to verify:**
+> **What to verify (if your test outcome result is successful):**
 
 | Check                 | Expected Behaviour                                                                                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
