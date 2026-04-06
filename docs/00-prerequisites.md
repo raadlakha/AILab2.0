@@ -93,6 +93,10 @@ The lab scenario uses a **custom table called incident extend** (`x_snc_apacaien
 | Minimum sample records | 10+                                          |
 | Record categories      | Hardware, Software, Inquiry / Help           |
 
+13. To view the custom fields on the list, click the **settings icon (⚙)** in the top-right of the list view to open **Personalize List Columns**. In the **Available** column, scroll down and select the following fields: `error code`, `model details`, `product bar code`, `product name`, and `serial number`. Use the **>** arrow to move them to the **Selected** column, then click **OK** to apply.
+
+![Incident Extends — Personalize List Columns](../screenshots/move-table-columns.png)
+
 ***
 
 ## Pre-Requisite 3: Train the Predictive Intelligence Similarity Model
