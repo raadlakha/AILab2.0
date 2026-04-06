@@ -17,7 +17,7 @@ ServiceNow AI Agent (MCP Client)
         │
         ▼
 Elastic Kibana MCP Server
-https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp
+https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp
         │
         ▼
 Veritas NetBackup log indices → RCA tools exposed as MCP tool definitions
@@ -40,7 +40,7 @@ Before registering the MCP server in ServiceNow, verify the Elastic endpoint is 
 
 ```bash
 curl -X POST \
-  "https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp" \
+  "https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp" \
   -H "Authorization: <key>" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
@@ -71,7 +71,7 @@ The **Manage Model Context Protocol servers** page lists all registered MCP serv
 
 Click **Add MCP server**. The **Add MCP server** dialog opens.
 
-![Add MCP server — elasticMCPConn](<../.gitbook/assets/MCPConnect1 (1).png>)
+![Add MCP server — elasticMCPConn](/screenshots/elastic-mcp-server-new.png)
 
 Configure the following fields:
 
@@ -79,7 +79,7 @@ Configure the following fields:
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Name                | `elasticMCPConn`                                                                                                                                |
 | Authentication type | `API Key`                                                                                                                                       |
-| MCP server URL      | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp`                                                             |
+| MCP server URL      | `https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp`                                                             |
 | API key             | _(enter your Elastic API key — it will be provided during lab day itself, or reach out to the Lab instructors to provide you with the API key)_ |
 
 > **Authentication type — API Key:** ServiceNow's MCP client supports three authentication modes: OAuth 2.1 (recommended for production), API Key, and Authless. API Key is used here because Elastic Kibana's MCP endpoint uses API key authentication. The key is stored securely as a Connection & Credential Alias — it is not stored in plaintext.
@@ -128,7 +128,7 @@ To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolutio
 | ------------------- | ----------------------------------------------------------------------------------- |
 | MCP server name     | `elasticMCPconn`                                                                    |
 | Authentication type | API Key                                                                             |
-| MCP server URL      | `https://my-deployment-9ddd25.kb.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
+| MCP server URL      | `https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
 | API key             | _(your Elastic API key)_                                                            |
 | Connection Alias    | `x_snc_apacaienable.elasticMCPconn_1775179359877` (auto-generated)                  |
 | Application scope   | x\_nava\_agentic\_lab                                                               |
