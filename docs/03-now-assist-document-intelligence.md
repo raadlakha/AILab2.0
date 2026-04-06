@@ -16,31 +16,7 @@ In this lab, NADI is configured with a use case called **Veritas Extract**. When
 
 ## Role in the Requestor Flow
 
-```
-[Steps 5 & 6 — Requestor Flow]
-
-Step 5: Incident created (state = In Progress)
-        │  uploaded images attached to the record
-        ▼
-Step 6: Now Assist in Document Intelligence auto-triggers
-        │  on each image attachment present on the Incident
-        ▼
-  Use Case: Veritas Extract
-  Target table: Incident Extend (x_snc_apacaienable_incident_extend)
-        │
-        ▼
-  GenAI reads image, extracts:
-    • error_code  <- KEY FIELD — gates the Agentic Workflow as it is the most reliable indicator for resolution troubleshooting.
-    • Additional fields (model, product name, serial number, barcode) as configured
-        │
-        ▼
-  Document task status -> Done
-        │
-        ▼
-  Auto-generated Flow fires:
-    "DocIntel Extract Values Flow — Veritas Extract"
-    Writes extracted values to Incident Extend record fields
-```
+![NADI Flow Overview](../screenshots/flow-NADI.png)
 
 ***
 

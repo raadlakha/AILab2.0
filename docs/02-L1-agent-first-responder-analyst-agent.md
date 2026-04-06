@@ -14,40 +14,7 @@ This section covers building the **AI Agent** only.
 
 ## Role in the Requestor Flow
 
-```
-NAVA receives user message (contact_type = chat stamped)
-        │
-        ▼
-Tool 1 — Knowledge Graph (User Graph)
-        Silently identifies who the user is and related information about the user
-        No questions asked to the user
-        │
-        ▼
-Tool 2 — File Upload (Troubleshooting Resolution Guide)
-        L1/L2/L3 severity-tiered troubleshooting guide provided to the AI Agent to accurately categorise,
-        diagnose and recommend suitable troubleshooting and resolution steps
-        User works through diagnostic steps
-        │
-        ▼
-   Issue resolved?
-   YES → Deflect. Conversation ends. No Incident created.
-   NO  → Continue
-        │
-        ▼
-Tool 3 — Conversation Topic (Upload image Topic)
-        OOTB topic prompts user to upload error screenshot + device image
-        In-chat file picker rendered via Virtual Agent
-        │
-        ▼
-Tool 4 — Subflow (Create and submit Incident record with image upload(s))
-        Gets triggered after images are uploaded
-        Creates Incident record with all mandatory inputs
-        Images attached at creation time
-        │
-        ▼
-Now Assist in Document Intelligence (NADI) auto-triggers on attachments
-→ extracts: error code, model details, product bar code, product name, serial number
-```
+![L1 Agent Flow Overview](../screenshots/flow-L1-agent.png)
 
 > **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready.
 
