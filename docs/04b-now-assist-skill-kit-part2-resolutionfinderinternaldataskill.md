@@ -10,30 +10,7 @@
 
 This skill covers **all three steps of Path A**:
 
-```
-Path A — Step 1 (parallel from Start):
-  ├── FindSimilarIncidents (Predictive Intelligence)
-  │   ML similarity — returns top 3 similar resolved incidents as json_object
-  └── GenerateSearchQueryAgainstAISearch (Skill — parallel node)
-      Calls CreateOptimalSearchQuery → returns optimised AI Search query string
-        │
-        ▼ (GenerateSearchQuery output feeds Retriever)
-Path A — Step 2:
-  RetrieveRelevantKBContent (Retriever — RAG)
-  Uses optimised query to fetch ranked KB articles via AI Search (Semantic)
-  Returns Rag Results as json_object
-        │
-        ▼ (Retriever + FindSimilarIncidents outputs merge)
-Path A — Step 3:
-  Assess if solution exists (Skill Prompt)
-  LLM evaluates combined RAG + PI context
-  Determines whether a viable resolution exists
-        │
-        ▼
-Path A — Result:
-  YES → Proposed Resolution Plan based on Internal Knowledge built (after consulting Elastic MCP log records as well)
-  NO  → fall through to Path B - after consulting Elastic MCP log records as well (privacy-safe web search)
-```
+![NASK ResolutionFinderInternalData Flow Overview](../screenshots/flow-NASK-resolution-plan.png)
 
 > **Correct canvas topology:** `FindSimilarIncidents` and `GenerateSearchQueryAgainstAISearch` fire in parallel. `GenerateSearchQueryAgainstAISearch.response` feeds directly into `RetrieveRelevantKBContent` as the search query. `FindSimilarIncidents` output bypasses the Retriever and merges at the `Assess if solution exists` prompt together with the RAG results.
 
@@ -286,7 +263,7 @@ With both parallel tools added, the canvas shows:
 FindSimilarIncidents        GenerateSearchQuery...
 (Predictive Intelligence)   (Skill — parallel node)
           │                       │
-          └──────────+────────────┘
+          └──────────+──────────┘
                      │
               Assess if solution exist...
               (Skill Prompt)
