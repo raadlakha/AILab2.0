@@ -24,9 +24,7 @@ This section covers building the **`CreateOptimalSearchQuery`** skill — the fi
 ## Role in the Fulfiller Flow
 
 ```
-Fulfiller Flow — Phase 2 (triggered when state = In Progress AND
-                          channel = chat AND
-                          error_code ≠ empty)
+Fulfiller Flow — Phase 2 (triggered when 'Assigned to' is not empty)
         │
         ▼
 Path A — Step 1 (parallel fire from workflow Start node):
