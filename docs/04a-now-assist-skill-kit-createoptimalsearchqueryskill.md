@@ -23,29 +23,7 @@ This section covers building the **`CreateOptimalSearchQuery`** skill — the fi
 
 ## Role in the Fulfiller Flow
 
-```
-Fulfiller Flow — Phase 2 (triggered when 'Assigned to' is not empty)
-        │
-        ▼
-Path A — Step 1 (parallel fire from workflow Start node):
-
-  ┌────────────────────────────────────────────────────┐
-  │  CreateOptimalSearchQuery skill fires              │
-  │  ↓                                                 │
-  │  GetIncidentExtendDetail (Flow Action)             │
-  │  → reads Incident extend table fields              │
-  │  → outputs: short_description, error_code, CI,     │
-  │    description, product_name, serial_number, etc.  │
-  │  ↓                                                 │
-  │  GenerateOptimalPromptForRAG (Skill Prompt)        │
-  │  → LLM constructs an optimised AI Search query     │
-  │    from the incident context                       │
-  └────────────────────────────────────────────────────┘
-        │
-        ▼  (output: optimised search query string ready for AI Search)
-Path A — Step 2: RetrieveRelevantKBContent skill
-        (receives the query → fetches ranked KB results via AI Search RAG)
-```
+![NASK CreateOptimalSearchQuery Flow Overview](../screenshots/flow-nask-query.png)
 
 > **Why this skill exists:** Raw error codes and messy incident case records make poor search queries. This skill transforms the structured incident data (error code, CI name, product, description) into an LLM-optimised query string that AI Search can rank meaningfully — improving KB retrieval quality significantly.
 

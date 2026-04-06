@@ -10,17 +10,7 @@
 
 In this lab, ServiceNow acts as the **MCP client** and Elastic (Kibana) acts as the **MCP server**. The Elastic MCP server exposes the Veritas NetBackup log analysis and RCA tools — allowing the `Resolution Pathfinder for Incident case Agent` (Fulfiller flow) to query Elastic directly as a named tool, without needing a custom REST integration.
 
-<pre><code>ServiceNow AI Agent (MCP Client)
-        │
-        │  JSON-RPC 2.0 over HTTPS (Streamable HTTP transport)
-        │
-        ▼
-Elastic Kibana MCP Server
-https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp
-        │
-        ▼
-Veritas NetBackup log indices → RCA tools exposed as MCP tool definitions
-</code></pre>
+![Elastic MCP Integration Flow Overview](../screenshots/flow-mcp.png)
 
 ***
 
