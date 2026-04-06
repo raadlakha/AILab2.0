@@ -57,10 +57,10 @@ Path A — Step 2: RetrieveRelevantKBContent skill
 
 The skill has two nodes on its canvas, executed in sequence:
 
-| Node | Type | Purpose |
-| --- | --- | --- |
-| `GetIncidentExtendDetail` | Flow Action | Pre-processing tool — reads all relevant fields from the Incident extend record and outputs them as structured data for the prompt |
-| `GenerateOptimalPromptForRAG` | Skill Prompt | LLM prompt — takes the Flow Action outputs as context and generates an optimised AI Search query string |
+| Node                          | Type         | Purpose                                                                                                                            |
+| ----------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `GetIncidentExtendDetail`     | Flow Action  | Pre-processing tool — reads all relevant fields from the Incident extend record and outputs them as structured data for the prompt |
+| `GenerateOptimalPromptForRAG` | Skill Prompt | LLM prompt — takes the Flow Action outputs as context and generates an optimised AI Search query string                            |
 
 The skill takes one input — `incidentextendrecord` (the Incident record identifier) — and outputs a query string ready for the AI Search retriever in the next step.
 
@@ -68,11 +68,11 @@ The skill takes one input — `incidentextendrecord` (the Incident record identi
 
 ## Prerequisites
 
-| Requirement | Detail |
-| --- | --- |
-| Now LLM Service or Azure OpenAI (We are using Azure OpenAI to build this skill in this lab document) | LLM provider configured in the instance |
-| `GetIncidentExtendDetail` Flow Action | Must exist — this is the Flow Action resource referenced by the tool |
-| Incident Extend table | `x_snc_apacaienable_incident_extend` (or equivalent) — must be populated by the time the skill fires |
+| Requirement                                                                                          | Detail                                                                                               |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Now LLM Service or Azure OpenAI (We are using Azure OpenAI to build this skill in this lab document) | LLM provider configured in the instance                                                              |
+| `GetIncidentExtendDetail` Flow Action                                                                | Must exist — this is the Flow Action resource referenced by the tool                                 |
+| Incident Extend table                                                                                | `x_snc_apacaienable_incident_extend` (or equivalent) — must be populated by the time the skill fires |
 
 ***
 
@@ -90,9 +90,9 @@ The **New skill** wizard opens on **General info**.
 
 Fill in the skill identity:
 
-| Field | Value |
-| --- | --- |
-| **Skill name** | `CreateOptimalSearchQuery` |
+| Field           | Value                                                                                                           |
+| --------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Skill name**  | `CreateOptimalSearchQuery`                                                                                      |
 | **Description** | `This skill is created to generate the optimal search query for AI Search to be returned with the best results` |
 
 > Skill names must use letters, numbers, dashes, and underscores only — no spaces or symbols.
@@ -103,11 +103,11 @@ The page presents a model picker. **Now LLM generic** is the recommended default
 
 For this lab, the following provider is selected:
 
-| Field | Value |
-| --- | --- |
-| **Default provider** | `Azure OpenAI` |
-| **Default provider API** | `Chat Completions` |
-| **Available models** | gpt\_small, gpt-4-turbo, gpt-4o-mini, gpt-4o, gpt\_large, gpt4 |
+| Field                    | Value                                                          |
+| ------------------------ | -------------------------------------------------------------- |
+| **Default provider**     | `Azure OpenAI`                                                 |
+| **Default provider API** | `Chat Completions`                                             |
+| **Available models**     | gpt\_small, gpt-4-turbo, gpt-4o-mini, gpt-4o, gpt\_large, gpt4 |
 
 ![NASK — General Info: Skill Name, Description, and Provider](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-1 (1).png>)
 
@@ -121,15 +121,15 @@ Scroll down on the General info page to reach **Configure security controls**.
 
 **Define user access with an Access Control List (ACL):**
 
-| Field | Value |
-| --- | --- |
+| Field           | Value          |
+| --------------- | -------------- |
 | **User access** | `Select roles` |
-| **Roles** | `itil` |
+| **Roles**       | `itil`         |
 
 **Apply role restrictions to skill:**
 
-| Field | Value |
-| --- | --- |
+| Field     | Value  |
+| --------- | ------ |
 | **Roles** | `itil` |
 
 ![NASK — Security Controls: User Access and Role Restrictions](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-2 (1).png>)
@@ -144,7 +144,7 @@ Click **Continue** to proceed to prompt creation.
 
 After clicking Continue from General info, the wizard advances to **Start prompt creation**.
 
-![NASK — Start prompt creation](<../screenshots/NASK01-skill-setup-step2.png>)
+![NASK — Start prompt creation](../.gitbook/assets/NASK01-skill-setup-step2.png)
 
 Select **Write from scratch** (selected by default) and click **Next**.
 
@@ -152,21 +152,21 @@ Select **Write from scratch** (selected by default) and click **Next**.
 
 The wizard advances to **Add skill inputs**.
 
-![NASK — Add skill inputs: empty state](../screenshots/NASK01-skill-setup-step3.png)
+![NASK — Add skill inputs: empty state](../.gitbook/assets/NASK01-skill-setup-step3.png)
 
 Click **+ Add** to add the skill input.
 
 Fill in the input details:
 
-| Field | Value |
-| --- | --- |
-| **Datatype** | `String` |
-| **Name** | `incidentextendrecord` |
-| **Description** | `record from incident extend table` |
-| **Make input mandatory** | Unchecked |
-| **Allow truncation** | Unchecked |
+| Field                    | Value                               |
+| ------------------------ | ----------------------------------- |
+| **Datatype**             | `String`                            |
+| **Name**                 | `incidentextendrecord`              |
+| **Description**          | `record from incident extend table` |
+| **Make input mandatory** | Unchecked                           |
+| **Allow truncation**     | Unchecked                           |
 
-![NASK — Add skill inputs: incidentextendrecord filled](../screenshots/NASK01-skill-setup-step3-details.png)
+![NASK — Add skill inputs: incidentextendrecord filled](../.gitbook/assets/NASK01-skill-setup-step3-details.png)
 
 ![NASK — Skill Input: incidentextendrecord](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-3 (1).png>)
 
@@ -225,9 +225,9 @@ The **Add flow action as a tool** wizard opens (5-step wizard: General info → 
 
 **Step 1 — General info:**
 
-| Field | Value |
-| --- | --- |
-| **Name** | `GetIncidentExtendDetail` |
+| Field        | Value                                                      |
+| ------------ | ---------------------------------------------------------- |
+| **Name**     | `GetIncidentExtendDetail`                                  |
 | **Resource** | `Retrieval of Relevant Fields from Incident Extract table` |
 
 ![NASK — Flow Action Tool: General Info](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-6 (1).png>)
@@ -242,11 +242,11 @@ Click **Continue**.
 
 **Step 2 — Tool inputs:**
 
-| Field | Value |
-| --- | --- |
-| **Name** | `Incident Number` |
-| **Datatype** | `String` |
-| **Value** | `{{incidentextendrecord}}` |
+| Field        | Value                      |
+| ------------ | -------------------------- |
+| **Name**     | `Incident Number`          |
+| **Datatype** | `String`                   |
+| **Value**    | `{{incidentextendrecord}}` |
 
 ![NASK — Flow Action Tool: Tool Inputs](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-7 (1).png>)
 
@@ -262,19 +262,19 @@ Click **Continue**.
 
 The Flow Action returns the following outputs from the Incident extend table:
 
-| Output field | Type | Used for |
-| --- | --- | --- |
-| Action Status | Object | Execution status of the Flow Action |
-| Short Description | String | Incident short description |
-| Don't Treat as Error | True/False | Error handling flag |
-| Description | String | Full incident description |
-| Configuration Item | String | Affected CI name |
-| Error Code | String | Extracted error code (from NADI) |
-| Product Bar Code | String | Device barcode |
-| Product Name | String | Device product name |
-| Serial Number | String | Device serial number |
-| Category | String | Incident category |
-| Work Notes | String | Diagnostic notes from the L1 conversation |
+| Output field         | Type       | Used for                                  |
+| -------------------- | ---------- | ----------------------------------------- |
+| Action Status        | Object     | Execution status of the Flow Action       |
+| Short Description    | String     | Incident short description                |
+| Don't Treat as Error | True/False | Error handling flag                       |
+| Description          | String     | Full incident description                 |
+| Configuration Item   | String     | Affected CI name                          |
+| Error Code           | String     | Extracted error code (from NADI)          |
+| Product Bar Code     | String     | Device barcode                            |
+| Product Name         | String     | Device product name                       |
+| Serial Number        | String     | Device serial number                      |
+| Category             | String     | Incident category                         |
+| Work Notes           | String     | Diagnostic notes from the L1 conversation |
 
 ![NASK — Flow Action Tool: Tool Outputs](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-8 (1).png>)
 
@@ -288,8 +288,8 @@ Click **Continue**.
 
 **Step 4 — Tool conditions (optional):**
 
-| Field | Value |
-| --- | --- |
+| Field    | Value               |
+| -------- | ------------------- |
 | **Type** | `None (Always run)` |
 
 ![NASK — Flow Action Tool: Tool Conditions](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-9 (1).png>)
@@ -304,14 +304,14 @@ Click **Continue** → review the Summary → click **Add tool**.
 
 **Step 5 — Summary:**
 
-| Section | Field | Value |
-| --- | --- | --- |
-| Summary | Type | Flow Action |
-| General info | Name | `GetIncidentExtendDetail` |
-| General info | Resource | `Retrieval of Relevant Fields from Incident Extract table` |
-| Inputs | Incident Number | `{{incidentextendrecord}}` |
-| Outputs | (all 11 fields) | String / Object / True/False as defined |
-| Tool conditions | Type | none |
+| Section         | Field           | Value                                                      |
+| --------------- | --------------- | ---------------------------------------------------------- |
+| Summary         | Type            | Flow Action                                                |
+| General info    | Name            | `GetIncidentExtendDetail`                                  |
+| General info    | Resource        | `Retrieval of Relevant Fields from Incident Extract table` |
+| Inputs          | Incident Number | `{{incidentextendrecord}}`                                 |
+| Outputs         | (all 11 fields) | String / Object / True/False as defined                    |
+| Tool conditions | Type            | none                                                       |
 
 ![NASK — Flow Action Tool: Summary](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-10 (1).png>)
 
@@ -352,15 +352,15 @@ The prompt for this skill is provided in the lab repository. Copy the full promp
 2. Copy the **entire contents** of the file and read through the contents of the prompt. Remember that GenAI based systems are intelligent systems who adapt to their environment, and that every environment can differ. So read the prompt and see if there are things you want to include/exclude/modify from it to best suit the environment that you are building. Do not copy blindly!
 3. In the NASK prompt editor, paste the copied text into the **Prompt** field
 4. Verify that the prompt references the Flow Action output variables using `{{GetIncidentExtendDetail.<field_name>}}` syntax — for example:
-   - `{{GetIncidentExtendDetail.short_description}}`
-   - `{{GetIncidentExtendDetail.description}}`
-   - `{{GetIncidentExtendDetail.configuration_item}}`
-   - `{{GetIncidentExtendDetail.error_code}}`
-   - `{{GetIncidentExtendDetail.product_bar_code}}`
-   - `{{GetIncidentExtendDetail.product_name}}`
-   - `{{GetIncidentExtendDetail.serial_number}}`
-   - `{{GetIncidentExtendDetail.category}}`
-   - `{{GetIncidentExtendDetail.work_notes}}`
+   * `{{GetIncidentExtendDetail.short_description}}`
+   * `{{GetIncidentExtendDetail.description}}`
+   * `{{GetIncidentExtendDetail.configuration_item}}`
+   * `{{GetIncidentExtendDetail.error_code}}`
+   * `{{GetIncidentExtendDetail.product_bar_code}}`
+   * `{{GetIncidentExtendDetail.product_name}}`
+   * `{{GetIncidentExtendDetail.serial_number}}`
+   * `{{GetIncidentExtendDetail.category}}`
+   * `{{GetIncidentExtendDetail.work_notes}}`
 5. Click **Save** to save the prompt
 
 > **Prompt design note:** The prompt instructs the LLM to take the structured incident fields (error code, CI name, product details, work notes, description) and synthesise them into a single, keyword-optimised search query string suitable for AI Search. It is not a summarisation task — the output is a search query, not a summary. This distinction is critical for downstream KB retrieval quality.
@@ -377,33 +377,33 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration (`itil` role) allows the test to execute correctly
 5. Click **Run test**
 
-![NASK — Run Test Dialog: Input and Security Controls](../screenshots/NASKCreateOptimalSearchQuery1-18.png)
+![NASK — Run Test Dialog: Input and Security Controls](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-18 (1).png>)
 
 > **Which record to use?** Use any Incident Extend record that has been processed by NADI and has populated fields (error code, product name, CI, etc.). Records created during the L1 Agent testing (e.g., `INCE0012002`, `INCE0012003`) are ideal candidates. If you use a record with empty fields, the LLM will generate a sparse query with limited context — this is expected but not useful for validating prompt quality.
 
 6. Wait for the test to complete — the **Response** tab in the Test prompt panel will display the LLM-generated output
 7. Review the response and verify that it follows the **structured template** defined in the prompt. The output should contain the following sections in order:
 
-| Section | What It Should Contain |
-| --- | --- |
-| `ISSUE:` | A concise summary of the problem combining the error code, product, and affected system |
-| `SYMPTOMS:` | Observable symptoms from the short description and work notes — what the user reported seeing |
-| `ERROR:` | The specific error code and its context (e.g., `Status Code 84 — error code 84 encountered on Veritas NetBackup appliance`) |
-| `SYSTEM:` | The affected system — product name, model, and hostname/CI (e.g., `Veritas NetBackup Appliance 5240 (netbackup-server-01)`) |
-| `CATEGORY:` | The incident category and subcategory (e.g., `Hardware / Appliance Fault`) |
-| `DESCRIPTION:` | A synthesised description combining all available context into a detailed narrative |
+| Section        | What It Should Contain                                                                                                      |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `ISSUE:`       | A concise summary of the problem combining the error code, product, and affected system                                     |
+| `SYMPTOMS:`    | Observable symptoms from the short description and work notes — what the user reported seeing                               |
+| `ERROR:`       | The specific error code and its context (e.g., `Status Code 84 — error code 84 encountered on Veritas NetBackup appliance`) |
+| `SYSTEM:`      | The affected system — product name, model, and hostname/CI (e.g., `Veritas NetBackup Appliance 5240 (netbackup-server-01)`) |
+| `CATEGORY:`    | The incident category and subcategory (e.g., `Hardware / Appliance Fault`)                                                  |
+| `DESCRIPTION:` | A synthesised description combining all available context into a detailed narrative                                         |
 
-![NASK — Test Prompt Response: Structured Output](../screenshots/NASKCreateOptimalSearchQuery1-19.png)
+![NASK — Test Prompt Response: Structured Output](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-19 (1).png>)
 
 > **What to verify:**
 
-| Check | Expected Behaviour |
-| --- | --- |
-| Template adherence | Response follows the `ISSUE → SYMPTOMS → ERROR → SYSTEM → CATEGORY → DESCRIPTION` structure |
-| Field population | Each section contains data derived from the Incident Extend record — not generic or hallucinated content |
-| Error code accuracy | The `ERROR:` section reflects the actual `error_code` value from the record |
-| System identification | The `SYSTEM:` section includes the product name, model, and CI/hostname from the record |
-| Query suitability | The overall output reads as a structured search query — not a conversational summary or a narrative paragraph |
+| Check                 | Expected Behaviour                                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Template adherence    | Response follows the `ISSUE → SYMPTOMS → ERROR → SYSTEM → CATEGORY → DESCRIPTION` structure                   |
+| Field population      | Each section contains data derived from the Incident Extend record — not generic or hallucinated content      |
+| Error code accuracy   | The `ERROR:` section reflects the actual `error_code` value from the record                                   |
+| System identification | The `SYSTEM:` section includes the product name, model, and CI/hostname from the record                       |
+| Query suitability     | The overall output reads as a structured search query — not a conversational summary or a narrative paragraph |
 
 > **Why this template matters:** This structured output is what gets passed to the `RetrieveRelevantKBContent` skill in the next step of the Fulfiller Flow. AI Search performs significantly better when the query is organised into distinct facets (issue, error, system, category) rather than a single unstructured sentence.
 
@@ -413,7 +413,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 9. Once the tests are completed successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 1
 
-![NASK — Finalize prompt dialog](../screenshots/NASK01-prompt-finalize.png)
+![NASK — Finalize prompt dialog](../.gitbook/assets/NASK01-prompt-finalize.png)
 
 > **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
 >
@@ -425,10 +425,10 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 Navigate to **Step 4: Deployment and skill settings** → select **Deployment settings** from the left nav.
 
-| Field | Value |
-| --- | --- |
-| **Workflow** | `Other` |
-| **Product** | (leave blank — not applicable) |
+| Field        | Value                          |
+| ------------ | ------------------------------ |
+| **Workflow** | `Other`                        |
+| **Product**  | (leave blank — not applicable) |
 
 ![NASK — Deployment Settings: Workflow](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-13 (1).png>)
 
@@ -442,17 +442,17 @@ Click **Publish skill** (top right of the skill editor).
 
 The **Publish Skill** dialog opens:
 
-| Field | Value |
-| --- | --- |
-| Workflow | Other |
-| Product | Not Applicable |
-| Feature | Not Applicable |
-| Display Options | None |
+| Field           | Value          |
+| --------------- | -------------- |
+| Workflow        | Other          |
+| Product         | Not Applicable |
+| Feature         | Not Applicable |
+| Display Options | None           |
 
 Under **Select which finalized prompts to include in the Published skill:**
 
-| Provider | Prompt | Action |
-| --- | --- | --- |
+| Provider     | Prompt                                              | Action  |
+| ------------ | --------------------------------------------------- | ------- |
 | Azure OpenAI | `GenerateOptimalPromptForRAG (v1)` — Default prompt | Checked |
 
 ![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-12 (1).png>)
@@ -477,22 +477,22 @@ Locate `CreateOptimalSearchQuery` under the **Other** workflow. Click **Turn on*
 
 ## Key Configuration Summary
 
-| Field | Value |
-| --- | --- |
-| Skill name | `CreateOptimalSearchQuery` |
-| Skill type | Custom skill |
-| Default provider | Azure OpenAI / Now LLM generic |
-| Skill input | `incidentextendrecord` (String) |
-| Tool | `GetIncidentExtendDetail` — Flow Action |
-| Tool resource | `Retrieval of Relevant Fields from Incident Extract table` |
-| Tool input | `Incident Number` → `{{incidentextendrecord}}` |
-| Tool outputs | 11 fields from Incident extend table |
-| Tool condition | None (Always run) |
-| Prompt | `GenerateOptimalPromptForRAG (v1)` |
-| Workflow (deployment) | Other |
-| User access | Select roles → `itil` |
-| Role restrictions | `itil` |
-| Status after activation | Active |
+| Field                   | Value                                                      |
+| ----------------------- | ---------------------------------------------------------- |
+| Skill name              | `CreateOptimalSearchQuery`                                 |
+| Skill type              | Custom skill                                               |
+| Default provider        | Azure OpenAI / Now LLM generic                             |
+| Skill input             | `incidentextendrecord` (String)                            |
+| Tool                    | `GetIncidentExtendDetail` — Flow Action                    |
+| Tool resource           | `Retrieval of Relevant Fields from Incident Extract table` |
+| Tool input              | `Incident Number` → `{{incidentextendrecord}}`             |
+| Tool outputs            | 11 fields from Incident extend table                       |
+| Tool condition          | None (Always run)                                          |
+| Prompt                  | `GenerateOptimalPromptForRAG (v1)`                         |
+| Workflow (deployment)   | Other                                                      |
+| User access             | Select roles → `itil`                                      |
+| Role restrictions       | `itil`                                                     |
+| Status after activation | Active                                                     |
 
 ***
 
