@@ -409,11 +409,11 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 > **Tip:** You can also click the **Grounded prompt** tab to inspect the fully rendered prompt that was sent to the LLM — this shows the actual values substituted for each `{{GetIncidentExtendDetail.<field>}}` variable. The **Tools** tab shows the execution status of the `GetIncidentExtendDetail` Flow Action. Both are useful for debugging when the output does not match expectations.
 
-9. Once the tests are completed successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 1
+9. Once the tests are completed successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 2
 
 ![NASK — Finalize prompt dialog](../.gitbook/assets/NASK01-prompt-finalize.png)
 
-> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
+> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version — you can continue editing the draft and finalize again to create subsequent versions. Only finalized versions are available for publishing.
 >
 > Once finalized, you won't be able to edit this version of the prompt. You can always update and create a new version, or clone and create a new prompt.
 
@@ -451,9 +451,9 @@ Under **Select which finalized prompts to include in the Published skill:**
 
 | Provider     | Prompt                                              | Action  |
 | ------------ | --------------------------------------------------- | ------- |
-| Azure OpenAI | `GenerateOptimalPromptForRAG (v1)` — Default prompt | Checked |
+| Azure OpenAI | `GenerateOptimalPromptForRAG (v2)` — Default prompt | Checked |
 
-![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-12 (1).png>)
+![NASK — Publish Skill Dialog](../screenshots/NASK01-nowLLM-issue.png)
 
 Click **Publish**.
 
@@ -486,7 +486,7 @@ Locate `CreateOptimalSearchQuery` under the **Other** workflow. Click **Turn on*
 | Tool input              | `Incident Number` → `{{incidentextendrecord}}`             |
 | Tool outputs            | 11 fields from Incident extend table                       |
 | Tool condition          | None (Always run)                                          |
-| Prompt                  | `GenerateOptimalPromptForRAG (v1)`                         |
+| Prompt                  | `GenerateOptimalPromptForRAG (v2)`                         |
 | Workflow (deployment)   | Other                                                      |
 | User access             | Select roles → `itil`                                      |
 | Role restrictions       | `itil, x_snc_apacaienable.incident_extend_user`            |
