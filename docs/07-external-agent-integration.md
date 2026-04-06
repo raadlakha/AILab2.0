@@ -178,7 +178,7 @@ Navigate to **All → IntegrationHub → Connections & Credentials → Credentia
 
 Click **New > OAuth 2.0 Credentials** and configure:
 
-![OAuth 2.0 Credentials — FoundryOAuthCreds (new record)](<../.gitbook/assets/a2a-oauth-cred (1).png>)
+![OAuth 2.0 Credentials — FoundryOAuthCreds (new record)](../screenshots/a2a-oauth-cred.png)
 
 | Field                                 | Value                                                                       |
 | ------------------------------------- | --------------------------------------------------------------------------- |
@@ -191,7 +191,25 @@ Click **New > OAuth 2.0 Credentials** and configure:
 
 > The **OAuth Entity Profile** field links this credential record to the `FoundryOAuth` Application Registry created in Step 2. It references the `default_profile` that ServiceNow auto-generates when you create the Application Registry. This is the record that actually holds the live OAuth token once it's fetched.
 
-Save the record.
+Save the record (right-click header → **Save**).
+
+> **Tip:** After saving, click the **info icon (ℹ)** next to the OAuth Entity Profile field and select **Open the OAuth Entity Profile in new tab** to verify the profile before proceeding to the next step.
+
+***
+
+> #### ✅ Validation Check — OAuth Entity Profile Scope
+>
+> Before testing the token, open the **FoundryOauth default\_profile** OAuth Entity Profile and confirm the **OAuth Entity Scope** is present. Navigate to the **Entity Profile Scopes** section and verify the following row exists:
+>
+> | OAuth Entity Scope          | OAuth scope                                    |
+> | --------------------------- | ---------------------------------------------- |
+> | `FoundryOauthOutboundScope` | `api://45067447-9ccd-46a6-8ab1-c74875f043ba/...` |
+>
+> **Make sure the OAuthEntityScope is present — if not, please add it.**
+>
+> ![OAuth Entity Profile — FoundryOauthOutboundScope validation](../screenshots/OauthEntityScopeCheck.png)
+>
+> If the scope row is missing, click **Insert a new row...** in the Entity Profile Scopes table and add the scope as defined in Step 3 before proceeding.
 
 ***
 
