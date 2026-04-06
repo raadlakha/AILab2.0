@@ -322,21 +322,6 @@ You should now see **two** topics:
 
 ## Technical Notes
 
-### `contact_type = chat` — How It Gets Stamped
-
-When a user interacts with NAVA via the Service Portal chat widget, ServiceNow automatically stamps `contact_type = chat` on the virtual agent session.
-
-This is a **platform behaviour** — no manual configuration needed. However it is critical to verify post-incident creation, as it is one of three conditions that gate the Resolution Pathfinder Agentic Workflow:
-
-```
-Agentic Workflow trigger conditions:
-  ✓ state = In Progress (2)
-  ✓ channel = chat
-  ✓ error_code ≠ empty
-```
-
-If `channel` is not `chat` (e.g., incident created via email or form), the Agentic Workflow will not trigger.
-
 ### Agentic Reasoning
 
 From Zurich Patch 2, the following default behaviours change:

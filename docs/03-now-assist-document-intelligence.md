@@ -30,7 +30,7 @@ Step 6: Now Assist in Document Intelligence auto-triggers
         │
         ▼
   GenAI reads image, extracts:
-    • error_code  <- KEY FIELD — gates the Agentic Workflow
+    • error_code  <- KEY FIELD — gates the Agentic Workflow as it is the most reliable indicator for resolution troubleshooting.
     • Additional fields (model, product name, serial number, barcode) as configured
         │
         ▼
@@ -40,15 +40,7 @@ Step 6: Now Assist in Document Intelligence auto-triggers
   Auto-generated Flow fires:
     "DocIntel Extract Values Flow — Veritas Extract"
     Writes extracted values to Incident Extend record fields
-        │
-        ▼
-Agentic Workflow can now evaluate trigger conditions:
-  ✓ state = In Progress
-  ✓ channel = chat
-  ✓ error_code != empty   <- populated by NADI
 ```
-
-> **Why this matters:** `error_code` is populated **exclusively** by NADI. If NADI is not configured or fails to extract, the Resolution Pathfinder Agentic Workflow will not fire.
 
 ***
 
@@ -57,7 +49,7 @@ Agentic Workflow can now evaluate trigger conditions:
 | Capability              | How NADI Delivers It                                                               |
 | ----------------------- | ---------------------------------------------------------------------------------- |
 | Auto-field population   | Error code and device details extracted from uploaded image — no manual copy-paste |
-| Agentic Workflow arming | `error_code` populated on the Incident, enabling the downstream trigger            |
+| Agentic Workflow arming | `error_code` populated on the Incident, enabling downstream resolution             |
 | Full automation mode    | No agent review required — GenAI writes directly to record fields                  |
 | Richer AI agent context | Extracted error code used by Resolution Pathfinder to search KB, logs, and web     |
 | Higher data quality     | AI reads directly from source image — eliminates transcription errors              |
@@ -119,7 +111,7 @@ On the **Fields** step, click **Add a field** — select **Field** (not question
 This is the error code mentioned in the image, example of error code text is "0xE00052", however, we only want to extract 52 from this.
 ```
 
-> **This is the critical field.** `error_code` gates the downstream Agentic Workflow.
+> **This is the critical field.** `error_code` gates the downstream Agentic Workflow as it is the most reliable indicator for resolution troubleshooting.
 
 #### Field 2 — Model Details
 
@@ -397,17 +389,6 @@ Click **Complete setup**.
 ***
 
 ## Technical Notes
-
-### Why `error_code` is the Critical Field
-
-```
-Agentic Workflow trigger conditions:
-  ✓ state = In Progress       <- set when L1 Agent creates the Incident
-  ✓ contact_type = chat       <- stamped by NAVA
-  ✓ error_code != empty       <- populated by NADI (this capability)
-```
-
-Without NADI running successfully, the workflow will never fire.
 
 ### Full Automation Mode vs. Agent Review Mode
 

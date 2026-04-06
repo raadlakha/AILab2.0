@@ -97,9 +97,9 @@ Navigate to **All → Now Assist Skill Kit → Home → Create skill**.
 | ------------------------------- | -------------- |
 | User access                     | `Select roles` |
 | Roles                           | `itil`         |
-| Apply role restrictions — Roles | `itil`         |
+| Apply role restrictions — Roles | `itil, x_snc_apacaienable.incident_extend_user`         |
 
-![NASK — Security Controls: User Access and Role Restrictions](<../.gitbook/assets/NASKResolutionFinderUsingInternalData2-2 (1).png>)
+![NASK — Security Controls: User Access and Role Restrictions](<../screenshots/NASKResolutionFinderUsingInternalData2-2.png>)
 
 ***
 
@@ -639,7 +639,7 @@ Locate `ResolutionFinderInternalData` → click **Turn on** → confirm activati
 | Search profile      | `quick_action_kb_search_profile`                                                                    |
 | Prompt              | `Assess if solution exists within Internal Knowledge sources`                                       |
 | User access         | Select roles → `itil`                                                                               |
-| Role restrictions   | `itil`                                                                                              |
+| Role restrictions   | `itil, x_snc_apacaienable.incident_extend_user`                                                                                              |
 | Deployment workflow | Other                                                                                               |
 
 ***

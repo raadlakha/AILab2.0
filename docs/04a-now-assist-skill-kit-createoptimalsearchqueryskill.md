@@ -24,9 +24,7 @@ This section covers building the **`CreateOptimalSearchQuery`** skill — the fi
 ## Role in the Fulfiller Flow
 
 ```
-Fulfiller Flow — Phase 2 (triggered when state = In Progress AND
-                          channel = chat AND
-                          error_code ≠ empty)
+Fulfiller Flow — Phase 2 (triggered when 'Assigned to' is not empty)
         │
         ▼
 Path A — Step 1 (parallel fire from workflow Start node):
@@ -130,11 +128,11 @@ Scroll down on the General info page to reach **Configure security controls**.
 
 | Field     | Value  |
 | --------- | ------ |
-| **Roles** | `itil` |
+| **Roles** | `itil, x_snc_apacaienable.incident_extend_user` |
 
-![NASK — Security Controls: User Access and Role Restrictions](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-2 (1).png>)
+![NASK — Security Controls: User Access and Role Restrictions](<../screenshots/NASKCreateOptimalSearchQuery1-2.png>)
 
-> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within `itil` limits.
+> **User access** controls who can invoke this skill. **Role restrictions** set the maximum privilege level the skill can inherit when it executes — even if the invoking user has broader roles, the skill operates within limits.
 
 Click **Continue** to proceed to prompt creation.
 
@@ -374,7 +372,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 1. In the NASK skill editor, locate the **Test prompt** panel (right-hand side of the prompt editor)
 2. Click the **Run test** button — the **Run test** dialog opens
 3. In the `incidentextendrecord` input field, enter an existing Incident Extend record number — for example: **`INCE0012002`**
-4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration (`itil` role) allows the test to execute correctly
+4. Ensure **Test prompt after applying security controls** is checked — this validates that the skill's ACL configuration (`itil, x_snc_apacaienable.incident_extend_user` roler) allows the test to execute correctly
 5. Click **Run test**
 
 ![NASK — Run Test Dialog: Input and Security Controls](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-18 (1).png>)
@@ -395,7 +393,7 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 ![NASK — Test Prompt Response: Structured Output](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-19 (1).png>)
 
-> **What to verify:**
+> **What to verify (if your test outcome result is successful):**
 
 | Check                 | Expected Behaviour                                                                                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -411,11 +409,11 @@ Before publishing, use the built-in **Test prompt** feature to validate that the
 
 > **Tip:** You can also click the **Grounded prompt** tab to inspect the fully rendered prompt that was sent to the LLM — this shows the actual values substituted for each `{{GetIncidentExtendDetail.<field>}}` variable. The **Tools** tab shows the execution status of the `GetIncidentExtendDetail` Flow Action. Both are useful for debugging when the output does not match expectations.
 
-9. Once the tests are completed successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 1
+9. Once the tests are completed successfully, click on **Lock Icon** → **Finalize prompt** to lock the prompt as version 2
 
 ![NASK — Finalize prompt dialog](../.gitbook/assets/NASK01-prompt-finalize.png)
 
-> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version (`GenerateOptimalPromptForRAG (v1)`) — you can continue editing the draft and finalize again to create v2, v3, etc. Only finalized versions are available for publishing.
+> **Why finalize?** The prompt must be finalized before it can be selected in the Publish dialog (Step 16). Finalizing creates an immutable version — you can continue editing the draft and finalize again to create subsequent versions. Only finalized versions are available for publishing.
 >
 > Once finalized, you won't be able to edit this version of the prompt. You can always update and create a new version, or clone and create a new prompt.
 
@@ -453,9 +451,9 @@ Under **Select which finalized prompts to include in the Published skill:**
 
 | Provider     | Prompt                                              | Action  |
 | ------------ | --------------------------------------------------- | ------- |
-| Azure OpenAI | `GenerateOptimalPromptForRAG (v1)` — Default prompt | Checked |
+| Azure OpenAI | `GenerateOptimalPromptForRAG (v2)` — Default prompt | Checked |
 
-![NASK — Publish Skill Dialog](<../.gitbook/assets/NASKCreateOptimalSearchQuery1-12 (1).png>)
+![NASK — Publish Skill Dialog](../screenshots/NASK01-nowLLM-issue.png)
 
 Click **Publish**.
 
@@ -488,10 +486,10 @@ Locate `CreateOptimalSearchQuery` under the **Other** workflow. Click **Turn on*
 | Tool input              | `Incident Number` → `{{incidentextendrecord}}`             |
 | Tool outputs            | 11 fields from Incident extend table                       |
 | Tool condition          | None (Always run)                                          |
-| Prompt                  | `GenerateOptimalPromptForRAG (v1)`                         |
+| Prompt                  | `GenerateOptimalPromptForRAG (v2)`                         |
 | Workflow (deployment)   | Other                                                      |
 | User access             | Select roles → `itil`                                      |
-| Role restrictions       | `itil`                                                     |
+| Role restrictions       | `itil, x_snc_apacaienable.incident_extend_user`            |
 | Status after activation | Active                                                     |
 
 ***

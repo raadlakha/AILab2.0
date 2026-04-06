@@ -93,8 +93,6 @@ The lab scenario uses a **custom table called incident extend** (`x_snc_apacaien
 | Minimum sample records | 10+                                          |
 | Record categories      | Hardware, Software, Inquiry / Help           |
 
-> **If the table is missing or empty:** Contact your lab administrator to import the Update Set that creates the `x_snc_apacaienable` scoped application and its seed data. The table and records are delivered as part of the lab instance provisioning — they are not created during the build exercises.
-
 ***
 
 ## Pre-Requisite 3: Train the Predictive Intelligence Similarity Model
