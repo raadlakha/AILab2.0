@@ -321,7 +321,7 @@ Now that the NA docintel use case and the first responder analyst agent is fully
    * The agent addresses the user by name (_"Hello Alex Rai"_) — confirming **Tool 1 (Knowledge Graph)** fired silently and retrieved the user's identity
    * The agent asks a clarification question to categorise the issue, presenting **Hardware** and **Software** as selectable options
 
-![Chat — Agent started, user identified, category options presented](../.gitbook/assets/L1-agent-testing-4.png)
+![Chat — Agent started, user identified, category options presented](../screenshots/testing-agent1-hw-sw.png)
 
 > **What to verify:**
 
@@ -333,11 +333,38 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 ***
 
+#### 7.3a — Agent Gathers Structured Context
+
+After the category selection, the agent continues collecting the structured context it needs before invoking the Troubleshooting Guide. The screenshots below show this information-gathering sequence:
+
+10. Select **Hardware** — the agent then asks which specific product or system is affected. Reply **`Veritas NetBackup`**.
+11. The agent asks for the hostname of the affected device. Reply with the hostname (e.g., **`vnb-01-sn1`**).
+
+![Chat — Hardware selected, product identified as Veritas NetBackup, hostname provided](../screenshots/testing-agent1-pn-hn.png)
+
+12. The agent then asks when the issue first occurred — select the date and time using the calendar (e.g., **Saturday, April 4, 2026 2:44 PM**).
+13. The agent asks whether this is affecting a single device or multiple devices. Reply **`Single device`**.
+
+![Chat — Date and time selected, device scope confirmed as single device](../screenshots/testing-agent1-datetime-devicetype.png)
+
+> **What to verify:**
+
+| Check               | Expected Behaviour                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| Category collected  | Agent records the selected category (Hardware) and proceeds to product identification             |
+| Product identified  | Agent correctly captures `Veritas NetBackup` as the affected product                             |
+| Hostname captured   | Agent records the hostname provided by the user (e.g., `vnb-01-sn1`)                             |
+| Date/time collected | Agent presents a date-time picker and records the selected occurrence time                        |
+| Device scope        | Agent confirms whether the issue is isolated to a single device or affects multiple devices       |
+
+> **Note:** The exact questions the agent asks and their order may vary depending on how you have authored the agent's description, role, and list of steps. The agent uses its LLM reasoning to determine which context fields it still needs before proceeding — these screenshots reflect one representative flow.
+
+***
+
 #### 7.4 — Describe the Issue and Verify Troubleshooting Guide
 
-10. Select **Hardware** (or type your selection)
-11. Provide additional detail about the issue, for example: **`I'm seeing that the server seems to be overheating in temperature, and the LED lights are turning from green to red colour`**
-12. Observe the agent response — you should see:
+14. Provide additional detail about the issue, for example: **`I'm seeing that the server seems to be overheating in temperature, and the LED lights are turning from green to red colour`**
+15. Observe the agent response — you should see:
     * A system message confirming the agent **Used the tool "Troubleshooting Resolution Guide"** — this confirms **Tool 2 (File Upload)** was invoked
     * The agent attempts to match the symptoms against the L1/L2/L3 troubleshooting guide
     * If no matching resolution steps are found, the agent informs the user and offers to raise an Incident (e.g., _"Unfortunately, I could not find any documented troubleshooting steps for the Veritas NetBackup server overheating and LED lights turning red."_)
@@ -359,8 +386,8 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 #### 7.5 — Trigger Image Upload
 
-13. Click **Yes** to confirm you want to raise an Incident
-14. The agent invokes **Tool 3 (Conversational Topic — Upload Image)** and the chat displays:
+16. Click **Yes** to confirm you want to raise an Incident
+17. The agent invokes **Tool 3 (Conversational Topic — Upload Image)** and the chat displays:
     * _"Please upload an image"_
     * A **"Click here to upload an image."** link/button rendered by the Virtual Agent topic
 
@@ -379,9 +406,9 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 #### 7.6 — Upload the Image
 
-15. Click **"Click here to upload an image."** to open the file picker
-16. Select an error screenshot image (e.g., a Veritas NetBackup error screen capture showing an error code) and upload it
-17. Observe the chat — you should see:
+18. Click **"Click here to upload an image."** to open the file picker
+19. Select an error screenshot image (e.g., a Veritas NetBackup error screen capture showing an error code) and upload it
+20. Observe the chat — you should see:
     * The uploaded image rendered as a thumbnail in the conversation
     * A confirmation message: _"The attachment is available in this link"_
     * The agent shows a **"Processing..."** indicator as it processes the uploaded image
@@ -400,14 +427,14 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 #### 7.7 — Review the Issue Summary
 
-18. Once processing completes, the agent presents a **summary of all information collected** during the conversation — including the uploaded screenshot — and asks for confirmation before raising the Incident. You should see a structured summary that includes:
+21. Once processing completes, the agent presents a **summary of all information collected** during the conversation — including the uploaded screenshot — and asks for confirmation before raising the Incident. You should see a structured summary that includes:
     * **Issue type** — the category selected earlier (e.g., `Software`)
     * **Affected product / system** — identified from the conversation context (e.g., `Veritas NetBackup`)
     * **Hostname / IP address** — retrieved from the conversation (e.g., `veritas-backup-01`)
     * **Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
     * **Screenshot** — upload status (e.g., `Uploaded`)
     * **Issue description** — the user's reported symptoms (e.g., `Server overheating, LED lights turning from green to red`)
-19. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
+22. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
 
 ![Chat — Issue summary presented with confirmation prompt](../.gitbook/assets/L1-agent-testing-9.png)
 
@@ -417,18 +444,18 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 | -------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Summary completeness | Agent displays all key fields — issue type, product, hostname, time, screenshot status, description         |
 | Data accuracy        | Summary reflects the information provided during the conversation and retrieved by Tool 1 (Knowledge Graph) |
-| Screenshot confirmed | Summary shows `Screenshot: Uploaded` — confirming the image from Step 16 was captured                       |
+| Screenshot confirmed | Summary shows `Screenshot: Uploaded` — confirming the image from Step 19 was captured                       |
 | Confirmation prompt  | Agent asks user to confirm with yes/no before proceeding to Incident creation                               |
 
 > **If the summary is incorrect:** Reply **'no'** — the agent should allow you to correct specific fields before re-confirming. This is a safeguard to ensure the Incident record is created with accurate data.
 
-20. Reply **'yes'** to confirm the summary and proceed with Incident creation
+23. Reply **'yes'** to confirm the summary and proceed with Incident creation
 
 ***
 
 #### 7.8 — Verify Incident Creation
 
-21. The agent invokes **Tool 4 (Subflow — Create Incident Case)** and after processing completes, you should see:
+24. The agent invokes **Tool 4 (Subflow — Create Incident Case)** and after processing completes, you should see:
     * A confirmation that the Incident has been successfully raised
     * The **Incident reference number** (e.g., `INCE0012003`)
     * A message indicating the support team will review the issue (e.g., _"Your incident has been successfully raised. Your reference number is INCE0012003. Our support team will review this and be in touch shortly."_)
@@ -449,10 +476,10 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 #### 7.9 — Verify the Incident Record in the Platform
 
-22. End the impersonation session (or open a new browser tab as System Administrator)
-23. Navigate to the **incident extend** table: type `x_snc_apacaienable_incident_extend.list` in the Filter navigator
-24. Locate the newly created Incident by the reference number from Step 21 (e.g., `INCE0012003`)
-25. Open the Incident record and verify the following fields:
+25. End the impersonation session (or open a new browser tab as System Administrator)
+26. Navigate to the **incident extend** table: type `x_snc_apacaienable_incident_extend.list` in the Filter navigator
+27. Locate the newly created Incident by the reference number from Step 24 (e.g., `INCE0012003`)
+28. Open the Incident record and verify the following fields:
 
 | Field             | Expected Value                                   |
 | ----------------- | ------------------------------------------------ |
@@ -475,14 +502,15 @@ Now that the NA docintel use case and the first responder analyst agent is fully
 
 ### Test Summary
 
-| Step    | Tool Verified                  | What to Confirm                                                                                  |
-| ------- | ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| 7.3     | Tool 1 — Knowledge Graph       | Agent greets user by name without asking; "Started AI Agent" system message                      |
-| 7.4     | Tool 2 — Troubleshooting Guide | "Used the tool Troubleshooting Resolution Guide" system message; deflection or escalation prompt |
-| 7.5     | Issue Summary confirmation     | Agent presents structured summary of all collected information; user confirms before proceeding  |
-| 7.6     | Tool 3 — Upload Image          | Native file upload prompt rendered in chat                                                       |
-| 7.7–7.8 | Tool 4 — Create Incident Case  | Image uploaded, Incident reference number returned (INCE prefix)                                 |
-| 7.9     | Post-creation verification     | Incident record fields correct; `channel = chat`; attachments present                            |
+| Step      | Tool Verified                  | What to Confirm                                                                                  |
+| --------- | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 7.3       | Tool 1 — Knowledge Graph       | Agent greets user by name without asking; "Started AI Agent" system message                      |
+| 7.3a      | Context gathering              | Agent collects category, product, hostname, date/time, and device scope before troubleshooting   |
+| 7.4       | Tool 2 — Troubleshooting Guide | "Used the tool Troubleshooting Resolution Guide" system message; deflection or escalation prompt |
+| 7.5       | Issue Summary confirmation     | Agent presents structured summary of all collected information; user confirms before proceeding  |
+| 7.6       | Tool 3 — Upload Image          | Native file upload prompt rendered in chat                                                       |
+| 7.7–7.8   | Tool 4 — Create Incident Case  | Image uploaded, Incident reference number returned (INCE prefix)                                 |
+| 7.9       | Post-creation verification     | Incident record fields correct; `channel = chat`; attachments present                            |
 
 ***
 
