@@ -164,7 +164,7 @@ The First Responder Operations Analyst Agent uses **AI Search** to retrieve Know
 
 ### Part A: Verify the KB Article Exists
 
-1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb\_knowledge.LIST)
+1. In the **Filter navigator**, type `Knowledge` and open the **Knowledge** list (kb\_knowledge.LIST) / In the browser URL, assuming that your instance's URL is **'https://demoalectriallwfza145278.service-now.com/'**, append `kb_knowledge_list.do` at the end - **'https://demoalectriallwfza145278.service-now.com/kb_knowledge_list.do'** and go to this URL.
 2. Filter the list by **Short description contains `backup`**
 3. Confirm the article **KB0010065 — Veritas Backup Failure** is present and in **Published** workflow state
 
