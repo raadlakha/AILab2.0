@@ -98,7 +98,7 @@ This is the error code mentioned in the image, example of error code text is "0x
 | **Field name**              | `Model Details` |
 | **Field type**              | `Text`          |
 | **Target field**            | `model details` |
-| **Required for extraction** | Optional        |
+| **Required for extraction** | Yes        |
 
 **Details**
 
@@ -115,7 +115,7 @@ This is Reg. Model Version, Alpha numeric field on the image
 | **Field name**              | `product name` |
 | **Field type**              | `Text`         |
 | **Target field**            | `product name` |
-| **Required for extraction** | Optional       |
+| **Required for extraction** | Yes.           |
 
 **Details**
 
@@ -132,7 +132,7 @@ This is the product name which is mentioned on the device details image, general
 | **Field name**              | `Serial Number` |
 | **Field type**              | `Text`          |
 | **Target field**            | `serial number` |
-| **Required for extraction** | Optional        |
+| **Required for extraction** | Yes             |
 
 **Details**
 
@@ -149,7 +149,7 @@ This is the SN number mentioned at the end of the image on the left side, mentio
 | **Field name**              | `PN Bar Code`      |
 | **Field type**              | `Text`             |
 | **Target field**            | `product bar code` |
-| **Required for extraction** | Optional           |
+| **Required for extraction** | Yes.               |
 
 **Details**
 
