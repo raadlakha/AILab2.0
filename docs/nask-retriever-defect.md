@@ -113,4 +113,4 @@ Switching from Semantic to Keyword search changes how the retriever matches KB a
  
 Once you have configured the Keyword search Tool Inputs and clicked **Continue**, rejoin the main 04b guide at **Step 9: Final Canvas - Complete Skill Flow**.
  
-→ Return to [04b — Step 9: Final Canvas - Complete Skill Flow](https://sn-ai-platform.gitbook.io/sn-ai-lab/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-9-final-canvas-complete-skill-flow)
+→ Return to [04b — Step 9: Final Canvas - Complete Skill Flow](https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-9-final-canvas-complete-skill-flow)
