@@ -244,7 +244,7 @@ The wizard advances to **Define data access**.
 | Field                  | Value          |
 | ---------------------- | -------------- |
 | **User identity type** | `Dynamic user` |
-| **Approved role(s)**   | `snc_internal` |
+| **Approved role(s)**   | `snc_internal`, `itil`, `x_snc_apacaienable.incident_extend_user`  |
 
 > **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `snc_internal` approved role sets the ceiling — the agent cannot exceed those permissions regardless of who is logged in.
 
