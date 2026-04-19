@@ -218,7 +218,7 @@ Navigate to **AI Agent Studio → Testing** and configure a new test:
  
 If the Testing tab displays a banner reading _"Now Assist Panel Disabled. To start testing, you need to turn on the Now Assist panel by going to Now Assist Admin."_ — follow these steps:
  
-1. Click **Edit this setting** (or navigate to **All → Now Assist → Now Assist Admin → Now Assist Experiences → Now Assist panel**)
+1. Click **Edit this setting** from the Testing page
 ![Now Assist Admin — Now Assist panel with Turn on button](../screenshots/customise-ootb-ai-agent-13.png)
  
 2. Click **Turn on**
@@ -230,17 +230,19 @@ If the Testing tab displays a banner reading _"Now Assist Panel Disabled. To sta
  
 ### Step 12 — Activate the Now Assist Panel Assistant (If Required)
  
-After enabling the Now Assist panel, the Testing tab may display a second banner: _"Now Assist Panel is not configured. To start testing, you need to set up the default assistant for Now Assist Panel."_
+After enabling the Now Assist panel, refresh the Testing tab again and it will display a second banner: _"Now Assist Panel is not configured. To start testing, you need to set up the default assistant for Now Assist Panel."_
  
 ![Testing tab — Now Assist Panel is not configured banner](../screenshots/customise-ootb-ai-agent-15.png)
  
-1. Click **Set up** (or navigate to **All → Conversational Interfaces → Assistant Designer**)
+1. Click **Set up**
 2. Open the **Now Assist Panel - Platform (default)** assistant — it will show as **Inactive**
 ![Assistant Designer — Now Assist Panel - Platform (default) Inactive](../screenshots/customise-ootb-ai-agent-16.png)
  
 3. Click **Activate** in the top-right corner
 4. Confirm the activation — a banner confirms _"Now Assist Panel - Platform (default) was activated"_
 ![Assistant Designer — Now Assist Panel - Platform (default) Activated](../screenshots/customise-ootb-ai-agent-17.png)
+
+5. Return back to the Testing tab in AI Agent Studio to test your AI Agent.
  
 ***
  
@@ -259,32 +261,61 @@ Return to **AI Agent Studio → Testing** and configure the test:
 Click **Continue to Test Chat Response** to launch the test conversation.
  
 ***
+
+### Step 14 — Review the Test Results
  
-### What to Verify
+The Testing tab displays three panels: the **chat transcript** (left), the **agent execution map** (centre), and the **AI agent decision logs** (right).
  
-| Check                              | Expected Behaviour                                                                                                     |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Tool 1 — Get details of Incident   | Agent retrieves and displays Incident details (short description, state, priority, caller) from the Incident Extend table |
-| Tool 3 — Knowledge articles        | Agent retrieves relevant knowledge articles related to the incident description                                         |
-| Tool 4 — Similar incidents         | Agent surfaces similar historical incidents to inform the resolution approach                                           |
-| Tool 2 — Resolution plan           | Agent generates and adds a structured resolution plan to the incident's work notes                                     |
-| Custom table query                 | All data returned is from `x_snc_apacaienable_incident_extend`, not the standard `incident` table                      |
+#### 14.1 — Resolution Plan Generated Successfully
+ 
+When the agent finds sufficient context — from similar incidents, knowledge articles, or both — it generates a resolution plan and adds it to the incident's work notes.
+ 
+![Test result — resolution plan successfully added to work notes](../screenshots/customise-ootb-ai-agent-19.png)
+ 
+> **What to verify:**
+ 
+| Check                                     | Expected Behaviour                                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Tool — Get details of Incident            | Completed — agent retrieved incident details from the Incident Extend table                              |
+| Tool — Get similar incidents              | Completed — agent searched for similar historical incidents                                              |
+| Tool — Get relevant knowledge articles    | Completed — agent retrieved matching knowledge articles via RAG                                          |
+| Tool — Add a resolution plan to work notes| Completed — output confirms _"The resolution plan has been successfully added to the work notes"_        |
+| Decision logs                             | All steps show green checkmarks; execution map shows all five tools invoked                              |
+ 
+#### 14.2 — Resolution Plan Could Not Be Generated
+ 
+When neither similar incidents nor relevant knowledge articles are found (or both), the agent informs the user that a resolution plan cannot be generated due to insufficient resources.
+ 
+![Test result — resolution plan could not be generated due to insufficient resources](../screenshots/customise-ootb-ai-agent-20.png)
+ 
+> **What to verify:**
+ 
+| Check                                     | Expected Behaviour                                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Tool — Get details of Incident            | Completed — agent retrieved incident details successfully                                                |
+| Tool — Get similar incidents              | Completed — but returned no matching incidents                                                           |
+| Tool — Get relevant knowledge articles    | Completed — but returned no matching articles                                                            |
+| Agent reasoning                           | Decision log shows the agent's thought process: _"neither similar incidents nor relevant knowledge articles were found... a resolution plan cannot be generated due to insufficient resources"_ |
+| Chat response                             | Agent informs the user: _"I couldn't come up with a incident resolution plan as I didn't have the required resources."_ |
+ 
+> **This is expected behaviour.** The agent's ability to generate a resolution plan depends on the knowledge base and incident history available on the instance. In a production environment, a well-populated knowledge base and incident history will significantly improve resolution plan quality.
  
 ***
+
  
 ## Key Configuration Summary
  
 | Field                | Value                                                                            |
 | -------------------- | -------------------------------------------------------------------------------- |
-| Source agent         | `ITSM incident resolution investigation AI agent` (OOTB)                         |
+| Source agent         | `ITSM incident resolution investigation AI agent` (Out Of The Box)               |
 | Customised agent     | `ITSM incident resolution investigation AI agent (Copy)`                         |
 | Type                 | Chat                                                                             |
-| Tool 1               | Scripted tool — `Get details of Incident` — **modified to query Incident Extend** |
+| Tool 1               | Scripted tool — `Get details of Incident` — **modified to query Incident Extend**|
 | Tool 2               | Scripted tool — `Add a resolution plan to incident's work notes`                 |
 | Tool 3               | Search retrieval — `Get relevant knowledge articles`                             |
 | Tool 4               | Search retrieval — `Get similar incidents`                                       |
 | User access          | Users with specific roles → `itil`, `sn_service_desk_agent`, `admin`             |
-| Data access          | Dynamic user → approved roles: `itil`, `sn_service_desk_agent`, `x_snc_apacaienable.incident_extend_user` |
+| Data access          | Dynamic user → approved roles: `itil`, `sn_service_desk_agent`, `x_snc_apacaienable.incident_extend_user`|
 | Channel              | Now Assist Panel (Testing)                                                       |
  
 ***
