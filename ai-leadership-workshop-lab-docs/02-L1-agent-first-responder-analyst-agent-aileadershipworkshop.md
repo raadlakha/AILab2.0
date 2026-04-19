@@ -51,7 +51,7 @@ Navigate to **All → AI Agent Studio → Create and manage → AI Agents → Ad
 
 The wizard opens on **Define the specialty**.
 
-![Define the specialty — agent name and description](<../.gitbook/assets/L1-Agent (1).png>)
+![Define the specialty — agent name and description](<../screenshots/L1-Agent.png>)
 
 The page instructs: _"Using clear, precise language, write the name, description, role, and list of steps this AI agent completes. Writing a clear, distinct name and description is critical because the LLM relies on the wording to correctly identify and use this agent."_
 
