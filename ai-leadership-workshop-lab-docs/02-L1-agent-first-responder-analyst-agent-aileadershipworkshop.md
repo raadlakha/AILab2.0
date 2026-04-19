@@ -60,11 +60,11 @@ Configure the following fields:
 | Field                                            | Value                                      |
 | ------------------------------------------------ | ------------------------------------------ |
 | **AI agent name**                                | `First Responder Operations Analyst Agent` |
-| **AI agent description** _(Description for LLM)_ | See attachment link below                  |
-| **AI agent role**                                | See attachment link below                  |
-| **List of Steps**                                | See attachment link below                  |
+| **AI agent description** _(Description for LLM)_ | Definition in **AI Agent definition**      |
+| **AI agent role**                                | Definition in **AI Agent definition**      |
+| **List of Steps**                                | Definition in **AI Agent definition**      |
 
-**AI Agent Description, role and List of steps** [AI Agent definition](https://github.com/raadlakha/AILab2.0/blob/main/AI%20Agents%20definition%20and%20prompts/First-responder-operations-analyst-agent-definition)
+**Retrieve AI Agent Description, role and List of steps:** [AI Agent definition](https://github.com/raadlakha/AILab2.0/blob/main/AI%20Agents%20definition%20and%20prompts/First-responder-operations-analyst-agent-definition)
 
 ***
 
