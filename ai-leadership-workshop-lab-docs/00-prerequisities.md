@@ -8,7 +8,7 @@
 
 Before building the Agentic Workflow and AI Agents in this lab, there are a few instance-level prerequisites that must be in place. Skipping these steps can result in cross-scope errors, missing components, or silent failures during the build exercises.
 
-Complete every step below in order before proceeding to [01 — Now Assist for Virtual Agent (NAVA)](01-now-assist-virtual-agent.md).
+Complete every step below in order before proceeding to [01 — Now Assist for Virtual Agent (NAVA)](01-now-assist-virtual-agent-aileadershipworkshop.md).
 
 Lab resources that you will need in order to complete the lab: [Lab resources folder](../Lab%20resources/)
 
@@ -34,7 +34,7 @@ All lab artefacts — topics, agents, agentic workflows, flow actions, and table
 
 ## Pre-Requisite 2: Change Subflow Run As to System User
 
-The **Create and submit Incident record with image upload(s) subflow** is invoked by the L1 First Responder Operations Analyst Agent to create Incident records. By default, the subflow's **Run As** property is set to **User who initiates session** — meaning it executes with the permissions of the chat user. This can cause permission failures when the subflow attempts to create records on tables that the chat user does not have write access to.
+The **Create and submit Incident record with image upload(s) subflow** is invoked by the First Responder Operations Analyst Agent to create Incident records. By default, the subflow's **Run As** property is set to **User who initiates session** — meaning it executes with the permissions of the chat user. This can cause permission failures when the subflow attempts to create records on tables that the chat user does not have write access to.
 
 You need to change the **Run As** property to **System User** so the subflow executes with elevated permissions regardless of who initiated the chat session.
 
@@ -87,8 +87,6 @@ You need to change the **Run As** property to **System User** so the subflow exe
 
 ### Navigate to Admin user
 
-Alex Rai is our requestor personna!
-
 3. In the **Users** list, filter by **User ID starts with `admin`**
 
 ![Users List — Filtered by admin](../screenshots/check-user-permissions-8.png)
@@ -120,4 +118,4 @@ Alex Rai is our requestor personna!
 
 ## Next Step
 
-Continue to [01 — Now Assist for Virtual Agent (NAVA)](01-now-assist-virtual-agent.md) to configure the conversational entry point for the lab.
+Continue to [01 — Now Assist for Virtual Agent (NAVA)](01-now-assist-virtual-agent-aileadershipworkshop.md) to configure the conversational entry point for the lab.
