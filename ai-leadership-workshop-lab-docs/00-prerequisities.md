@@ -104,6 +104,8 @@ You need to change the **Run As** property to **System User** so the subflow exe
 
 ![Save role changes to Admin user)](../screenshots/check-user-permissions-11.png)
 
+7. **Log out of your instance and relog back in to ensure that the updated role ACLs are being picked up. It is mandatory for this step to be completed.**
+
 ***
 
 ## Checklist

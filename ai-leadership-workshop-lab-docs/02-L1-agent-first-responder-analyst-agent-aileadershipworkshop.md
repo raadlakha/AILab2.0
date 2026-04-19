@@ -103,13 +103,7 @@ Configure the following fields:
 Use this Knowledge Graph to retrieve relevant information about the user who you are currently engaged with.
 ```
 
-**Query instruction**
-
-```
-Query to the knowledge graph. It should be a direct translation of request into a search query.
-```
-
-> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question. **Autonomous** mode means the user never sees the tool call happen.
+> **Why this tool:** Fires silently at the start of every conversation. The User Graph gives the AI Agent the caller's related user attributes — so it can personalise the response and pre-populate Incident fields without asking the user a single identity question. **Autonomous** mode means the user never sees the tool call happen.
 
 Click **Add**.
 
@@ -138,7 +132,7 @@ Configure the following fields:
 This guide covers common enterprise backup appliance problems categorised into three severity tiers (L1, L2, L3), providing symptoms, likely causes, and diagnostic steps for each to help operations agents quickly triage issues and determine whether to resolve, escalate, or raise an Incident.
 ```
 
-> **Why this tool:** This is the deflection gate. If the user confirms the steps resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue to image collection.
+> **Why this tool:** This is the deflection gate. If the user confirms the steps resolved their issue, the conversation ends — no Incident is created. Only unresolved issues continue on in the flow.
 
 Click **Add**.
 
@@ -159,7 +153,7 @@ Configure the following fields:
 | **Select topic**   | `Upload image x_nava_agentic_lab`                                                                                                                                                 |
 | **Name**           | `Upload image x_nava_agentic_lab`                                                                                                                                                 |
 | **Execution mode** | `Autonomous`                                                                                                                                                                      |
-| **Display output** | `Yes` (For the first time that you are testing this tool, it can be set to Yes. Subsequently, you can choose to set it to `No` once you have finalised that it works as expected) |
+| **Display output** | `No` |
 
 **Tool description** _(Description for LLM)_
 
@@ -167,7 +161,7 @@ Configure the following fields:
 This tool allows user to upload image to Now Assist Virtual Agent
 ```
 
-> **Why this tool:** Renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue. The images uploaded here are what NADI processes to extract the error code.
+> **Why this tool:** Renders the native in-chat file picker. The agent invokes it only after the user confirms the Troubleshooting Guide did not resolve their issue.
 >
 > Ensure you have duplicated the OOTB Topic 'Upload Image' within Virtual Agent Designer and scoped it to `x_nava_agentic_lab` before testing.
 
@@ -196,13 +190,12 @@ Configure the following fields:
 
 **Mandatory subflow inputs:**
 
-| Input field             | Internal name             | Data type | Source                                        |
-| ----------------------- | ------------------------- | --------- | --------------------------------------------- |
-| Category type           | `category_type`           | string    | Derived from conversation context             |
-| Chat user name          | `chat_user_name`          | string    | Retrieved by Tool 1 (Knowledge Graph)         |
-| Short description input | `short_description_input` | string    | User-reported issue description               |
-| CI name input           | `ci_name_input`           | string    | Retrieved by Tool 1 (Knowledge Graph)         |
-| Work notes details      | `work_notes_details`      | string    | Diagnostic notes from troubleshooting session |
+| Input field             | Internal name             | Data type | Source                                         |
+| ----------------------- | ------------------------- | --------- | -----------------------------------------------|
+| Category type           | `category_type`           | string    | Derived from conversation context              |
+| Chat user name          | `chat_user_name`          | string    | Retrieved by Tool 1 (Knowledge Graph)          |
+| Short description input | `short_description_input` | string    | User-reported issue description (LLM summarise)|
+| Work notes details      | `work_notes_details`      | string    | Diagnostic notes from troubleshooting session  |
 
 **Tool description** _(Description for LLM)_
 
@@ -210,7 +203,7 @@ Configure the following fields:
 The Create Incident Case Tool is a subflow that takes in four inputs in order to raise the Incident case. All of the four inputs are mandatory parameters.
 ```
 
-> **Why this tool:** Creates and submits the Incident record — but only after Tool 3 (image upload) has completed. The Incident is created with images already attached so NADI triggers immediately and can extract `u_extracted_error_code`.
+> **Why this tool:** Creates and submits the Incident record — but only after Image Upload tool has completed invocation. The Incident is created with images already attached (optional).
 
 Click **Add**.
 
@@ -220,14 +213,11 @@ Click **Add**.
 
 The wizard advances to **Define security controls → Define user access**.
 
-![Define user access — role assignment](<../.gitbook/assets/L1-agent-user-access (1).png>)
+![Define user access — Any authenticated user](<../screenshots/L1-agent-user-access-2.png>)
 
 | Field           | Value                       |
 | --------------- | --------------------------- |
-| **User access** | `Users with specific roles` |
-| **Role(s)**     | `snc_internal`              |
-
-> Restricts agent access to authenticated IT service desk users. General platform users without this role cannot invoke the agent via NAVA.
+| **User access** | `Any authenticated user`    |
 
 Click **Save and continue**.
 
@@ -237,14 +227,12 @@ Click **Save and continue**.
 
 The wizard advances to **Define data access**.
 
-![Define data access — user identity](<../.gitbook/assets/L1-agent-data-access (1).png>)
+![Define data access — user identity](<../screenshots/L1-agent-data-access-2.png>)
 
 | Field                  | Value          |
 | ---------------------- | -------------- |
 | **User identity type** | `Dynamic user` |
-| **Approved role(s)**   | `snc_internal`, `itil`, `x_snc_apacaienable.incident_extend_user`  |
-
-> **Dynamic user** means the agent runs as the logged-in user's identity — it inherits their ACLs for every read and write operation. The `snc_internal` approved role sets the ceiling — the agent cannot exceed those permissions regardless of who is logged in.
+| **Approved role(s)**   | `admin`, `x_snc_apacaienable.incident_extend_user`  |
 
 Click **Save and continue**.
 
@@ -262,23 +250,21 @@ Click **Save and continue**.
 
 The wizard advances to **Select channels and status**.
 
-![Select channels and status](<../.gitbook/assets/L1-agent-channel-status (1).png>)
+![Select channels and status](<../screenshots/L1-agent-channel-status.png>)
 
 | Field                                   | Value                               |
 | --------------------------------------- | ----------------------------------- |
 | **Engage via the Now Assist panel**     | `OFF`                               |
 | **Engage via Virtual Agent assistants** | `ON`                                |
-| **Chat assistants**                     | `Now Assist in Virtual Agent AlLab` |
+| **Chat assistants**                     | `Now Assist in Virtual Agent - AI Lab` |
 
-> Select `Now Assist in Virtual Agent AlLab` — the assistant created in Capability 01. The Now Assist panel toggle stays **OFF** deliberately — this agent is triggered through NAVA, not the panel.
+> Select `Now Assist in Virtual Agent - AI Lab` — the assistant created in Capability 01. The Now Assist panel toggle stays **OFF** deliberately — this agent is triggered through NAVA, not the panel.
 
 Click **Save and continue** to complete the agent configuration.
 
 ***
 
-### Step 7 — Test the Agent (Before testing this first complete [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md))
-
-Now that the NA docintel use case and the first responder analyst agent is fully configured, test the end-to-end Requestor Flow by impersonating Alex Rai and interacting with the Virtual Agent on Service Portal.
+### Step 7 — Test the Agent
 
 ***
 
