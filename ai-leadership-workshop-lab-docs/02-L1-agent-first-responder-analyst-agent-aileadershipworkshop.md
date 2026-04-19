@@ -525,4 +525,4 @@ All subflow inputs are mandatory — the agent accumulates them across the conve
 
 ## Next Steps
 
-→ [03 — Now Assist Document Intelligence](03-now-assist-document-intelligence.md) — configure NADI, which auto-triggers on Incident attachments created by Tool 4 and populates `error_code`
+→ [03 — Customising an Out Of The Box Platform AI Agent as the Incident Resolution AI Agent](03-L2-resolution-agent-customising-ootb.md)
