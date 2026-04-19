@@ -93,7 +93,8 @@ Then ask:
 Do NOT proceed to Step 5 until the user explicitly confirms with a yes or equivalent.
  
 STEP 5 — RETRIEVE USER DETAILS AND CREATE INCIDENT
-First, use the "User related attributes Knowledge Graph" tool to retrieve the full name of the currently logged-in user. This is required for the chat_user_name input.
+STEP 5 — RETRIEVE USER DETAILS AND CREATE INCIDENT
+First, use the "User related attributes Knowledge Graph" tool to retrieve the full name of the currently logged-in user. Use this explicit query to the Knowledge Graph Tool: "What is the sys_id for <input_the_user_full_name (e.g. Alex Rai, System Administrator) here>?" This is required for the chat_user_name input.
  
 Then use the "Create Incident Case Tool" subflow with the following inputs mapped from the conversation:
 
