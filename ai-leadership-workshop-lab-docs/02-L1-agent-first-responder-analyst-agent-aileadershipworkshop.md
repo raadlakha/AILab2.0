@@ -16,8 +16,6 @@ This section covers building the **AI Agent** only.
 
 ![L1 Agent Flow Overview](../screenshots/flow-L1-agent.png)
 
-> **Tool 4 fires only after Tool 3 completes.** The Incident creation subflow is sequenced after image upload so the record is created with images already attached — making it immediately NADI-ready.
-
 ***
 
 ## What the Agent Enables
@@ -28,7 +26,7 @@ This section covers building the **AI Agent** only.
 | Guided troubleshooting        | Tool 2 — File Upload        | L1/L2/L3 severity-tiered guide from attached PDF                    |
 | Deflection                    | —                           | Issue resolved in chat → conversation ends, no Incident created     |
 | In-chat image upload          | Tool 3 — Conversation Topic | OOTB topic renders native in-chat image upload picker               |
-| Enriched Incident creation    | Tool 4 — Subflow            | Creates Incident after images captured; images attached; NADI-ready |
+| Enriched Incident creation    | Tool 4 — Subflow            | Creates Incident after images captured; images attached             |
 
 ***
 
@@ -266,8 +264,6 @@ Click **Save and continue** to complete the agent configuration.
 
 ### Step 7 — Test the Agent
 
-***
-
 #### 7.1 — Impersonate Alex Rai
 
 1. In the ServiceNow platform UI, click on your **user avatar / profile icon** in the top-right banner
@@ -280,7 +276,7 @@ Click **Save and continue** to complete the agent configuration.
 
 ![Impersonate user dialog — Alex Rai selected](../.gitbook/assets/L1-agent-testing-2.png)
 
-> **Why Alex Rai?** Alex Rai is the lab's designated requestor user with the required roles (`itil`, `snc_internal`, `x_snc_apacaienable.incident_extend_user`, `sn_cbs.requestor`). These roles were verified in Pre-Requisite 6. Impersonating Alex ensures the Virtual Agent session runs with the correct permissions and the agent can identify the caller via the Knowledge Graph.
+> **Why impersonate Alex Rai?** Running this evaluation as a non System Administrator user allows us to see the Knowledge Graph in action, as well as AI Agent discovery (only authenticated users can see this AI Agent).
 
 ***
 
@@ -322,24 +318,14 @@ Click **Save and continue** to complete the agent configuration.
 After the category selection, the agent continues collecting the structured context it needs before invoking the Troubleshooting Guide. The screenshots below show this information-gathering sequence:
 
 10. Select **Hardware** — the agent then asks which specific product or system is affected. Reply **`Veritas NetBackup`**.
-11. The agent asks for the hostname of the affected device. Reply with the hostname (e.g., **`vnb-01-sn1`**).
+11. The agent asks for the hostname of the affected device. Reply with the any hostname (e.g., **`vnb-01-sn1`**, there is no fixed hostname).
 
 ![Chat — Hardware selected, product identified as Veritas NetBackup, hostname provided](../screenshots/testing-agent1-pn-hn.png)
 
-12. The agent then asks when the issue first occurred — select the date and time using the calendar (e.g., **Saturday, April 4, 2026 2:44 PM**).
-13. The agent asks whether this is affecting a single device or multiple devices. Reply **`Single device`**.
+12. The agent then asks when the issue first occurred — select the date and time using the calendar (e.g., **Saturday, April 14, 2026 2:44 PM**).
+13. The agent asks whether this is affecting a single device or multiple devices. Reply either **`Single device`** or **`Multiple device`**.
 
 ![Chat — Date and time selected, device scope confirmed as single device](../screenshots/testing-agent1-datetime-devicetype.png)
-
-> **What to verify:**
-
-| Check               | Expected Behaviour                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------- |
-| Category collected  | Agent records the selected category (Hardware) and proceeds to product identification             |
-| Product identified  | Agent correctly captures `Veritas NetBackup` as the affected product                             |
-| Hostname captured   | Agent records the hostname provided by the user (e.g., `vnb-01-sn1`)                             |
-| Date/time collected | Agent presents a date-time picker and records the selected occurrence time                        |
-| Device scope        | Agent confirms whether the issue is isolated to a single device or affects multiple devices       |
 
 > **Note:** The exact questions the agent asks and their order may vary depending on how you have authored the agent's description, role, and list of steps. The agent uses its LLM reasoning to determine which context fields it still needs before proceeding — these screenshots reflect one representative flow.
 
@@ -347,7 +333,7 @@ After the category selection, the agent continues collecting the structured cont
 
 #### 7.4 — Describe the Issue and Verify Troubleshooting Guide
 
-14. Provide additional detail about the issue, for example: **`I'm seeing that the server seems to be overheating in temperature, and the LED lights are turning from green to red colour`**
+14. Provide additional detail about the issue, **for example: `I'm seeing that the server seems to be overheating in temperature, and the LED lights are turning from green to red colour`**
 15. Observe the agent response — you should see:
     * A system message confirming the agent **Used the tool "Troubleshooting Resolution Guide"** — this confirms **Tool 2 (File Upload)** was invoked
     * The agent attempts to match the symptoms against the L1/L2/L3 troubleshooting guide
@@ -415,7 +401,7 @@ After the category selection, the agent continues collecting the structured cont
     * **Issue type** — the category selected earlier (e.g., `Software`)
     * **Affected product / system** — identified from the conversation context (e.g., `Veritas NetBackup`)
     * **Hostname / IP address** — retrieved from the conversation (e.g., `veritas-backup-01`)
-    * **Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
+    * **Date/Time of occurrence** — when the issue was reported (e.g., `04-03-2026 11:11:00`)
     * **Screenshot** — upload status (e.g., `Uploaded`)
     * **Issue description** — the user's reported symptoms (e.g., `Server overheating, LED lights turning from green to red`)
 22. The agent asks: _"Is all of the above information correct? Shall I go ahead and raise an incident on your behalf? Please reply 'yes' to confirm or 'no' to make changes."_
@@ -428,7 +414,7 @@ After the category selection, the agent continues collecting the structured cont
 | -------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Summary completeness | Agent displays all key fields — issue type, product, hostname, time, screenshot status, description         |
 | Data accuracy        | Summary reflects the information provided during the conversation and retrieved by Tool 1 (Knowledge Graph) |
-| Screenshot confirmed | Summary shows `Screenshot: Uploaded` — confirming the image from Step 19 was captured                       |
+| Screenshot confirmed (if uploaded) | Summary shows `Screenshot: Uploaded` or `image file names` — confirming the image(s) was captured |
 | Confirmation prompt  | Agent asks user to confirm with yes/no before proceeding to Incident creation                               |
 
 > **If the summary is incorrect:** Reply **'no'** — the agent should allow you to correct specific fields before re-confirming. This is a safeguard to ensure the Incident record is created with accurate data.

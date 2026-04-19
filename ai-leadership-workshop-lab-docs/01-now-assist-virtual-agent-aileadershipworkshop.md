@@ -305,4 +305,4 @@ From Zurich Patch 2, the following default behaviours change:
 
 ## Next Step
 
-Continue to [02 — First Responder Operations Analyst Agent](02-L1-agent-first-responder-analyst-agent.md) to configure the Requestor AI Agent: First Responder Operations Analyst Agent.
+Continue to [02 — First Responder Operations Analyst Agent](02-L1-agent-first-responder-analyst-agent-aileadershipworkshop.md) to configure the Requestor AI Agent: First Responder Operations Analyst Agent.
