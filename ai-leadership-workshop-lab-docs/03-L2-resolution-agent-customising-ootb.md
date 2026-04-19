@@ -345,11 +345,3 @@ The AI Agent Studio Testing tab uses the Now Assist panel as its chat surface. I
 Both steps are one-time instance configuration — once completed, all subsequent agent testing from AI Agent Studio will work without further setup.
  
 ***
- 
-## Reference
- 
-* [ServiceNow Zurich — AI Agent Studio](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/ai-agent-studio.html)
-* [ServiceNow Zurich — Platform AI agents and skills](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/concept/platform-ai-agents-skills.html)
-* [ServiceNow Zurich — Duplicate an AI agent](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/task/duplicate-ai-agent.html)
-* [ServiceNow Zurich — Test an AI agent](https://www.servicenow.com/docs/bundle/zurich-intelligent-experiences/page/administer/now-assist-ai-agents/task/test-ai-agent.html)
-***
