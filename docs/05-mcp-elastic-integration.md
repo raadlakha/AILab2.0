@@ -68,7 +68,7 @@ Configure the following fields:
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Name                | `elasticMCPConn`                                                                                                                                |
 | Authentication type | `API Key`                                                                                                                                       |
-| MCP server URL      | `https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp`                                                             |
+| MCP server URL      | `https://b221c428a7b54a0ab8e12a6469693ba1.us-central1.gcp.cloud.es.io/api/agent_builder/mcp`                                                             |
 | API key             | _(enter your Elastic API key — it will be provided during lab day itself, or reach out to the Lab instructors to provide you with the API key)_ |
 
 > **Authentication type — API Key:** ServiceNow's MCP client supports three authentication modes: OAuth 2.1 (recommended for production), API Key, and Authless. API Key is used here because Elastic Kibana's MCP endpoint uses API key authentication. The key is stored securely as a Connection & Credential Alias — it is not stored in plaintext.
@@ -117,7 +117,7 @@ To add an Elastic MCP tool to an AI Agent (to be added in section 06 - Resolutio
 | ------------------- | ----------------------------------------------------------------------------------- |
 | MCP server name     | `elasticMCPconn`                                                                    |
 | Authentication type | API Key                                                                             |
-| MCP server URL      | `https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
+| MCP server URL      | `https://b221c428a7b54a0ab8e12a6469693ba1.us-central1.gcp.cloud.es.io/api/agent_builder/mcp` |
 | API key             | _(your Elastic API key)_                                                            |
 | Connection Alias    | `x_snc_apacaienable.elasticMCPconn_1775179359877` (auto-generated)                  |
 | Application scope   | x\_nava\_agentic\_lab                                                               |
