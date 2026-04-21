@@ -29,8 +29,8 @@ Before registering the MCP server in ServiceNow, verify the Elastic endpoint is 
 
 ```bash
 curl -X POST \
-  "https://fb689ac9039a42bfb2458d8b4715423b.us-central1.gcp.cloud.es.io/api/agent_builder/mcp" \
-  -H "Authorization: <key>" \
+  "https://b221c428a7b54a0ab8e12a6469693ba1.us-central1.gcp.cloud.es.io/api/agent_builder/mcp" \
+  -H "Authorization: <ApiKey>" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -d '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"test-client","version":"1.0.0"},"capabilities":{},"protocolVersion":"2024-11-05"},"jsonrpc":"2.0"}'
